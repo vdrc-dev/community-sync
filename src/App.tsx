@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CommandPalette } from "@/components/command/CommandPalette";
-import { EasterEggManager } from "@/components/easter-eggs/EasterEggManager";
 import { QuickNoteButton } from "@/components/quick-notes/QuickNoteButton";
 
 // Pages
@@ -38,7 +37,6 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <CommandPalette />
-          <EasterEggManager />
           <QuickNoteButton />
           <Routes>
             <Route path="/" element={<Home />} />

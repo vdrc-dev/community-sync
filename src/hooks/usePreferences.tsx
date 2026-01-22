@@ -65,31 +65,6 @@ export function usePreferences() {
     },
   });
 
-  const discoverEasterEgg = useMutation({
-    mutationFn: async (eggId: string) => {
-      if (!user || !preferences) throw new Error('Not ready');
-      
-      if (preferences.discovered_easter_eggs?.includes(eggId)) {
-        return false; // Already discovered
-      }
-      
-      const newEggs = [...(preferences.discovered_easter_eggs || []), eggId];
-      
-      const { error } = await supabase
-        .from('user_preferences')
-        .update({ discovered_easter_eggs: newEggs })
-        .eq('user_id', user.id);
-      
-      if (error) throw error;
-      return true;
-    },
-    onSuccess: (isNew) => {
-      if (isNew) {
-        queryClient.invalidateQueries({ queryKey: ['user-preferences'] });
-      }
-    },
-  });
-
   // Ambient sound control
   useEffect(() => {
     if (!preferences) return;
@@ -155,8 +130,6 @@ export function usePreferences() {
     preferences,
     isLoading,
     updatePreferences: updatePreferences.mutate,
-    discoverEasterEgg: discoverEasterEgg.mutate,
     playSound,
-    hasDiscovered: (eggId: string) => preferences?.discovered_easter_eggs?.includes(eggId) || false,
   };
 }
