@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAutomations, AutomationInsert } from '@/hooks/useAutomations';
-import { Calculator, Clock, DollarSign, TrendingUp, Zap, Trash2, Plus } from 'lucide-react';
+import { ROITemplates, type AutomationTemplate } from './ROITemplates';
+import { ROISavingsChart } from './ROISavingsChart';
+import { ROIAchievements } from './ROIAchievements';
+import { Calculator, Clock, DollarSign, TrendingUp, Zap, Trash2, Plus, Sparkles } from 'lucide-react';
 
 const categories = [
   { value: 'email', label: '📧 Email y comunicación' },
@@ -19,43 +22,54 @@ const categories = [
   { value: 'other', label: '🔧 Otros' },
 ];
 
+const defaultForm: AutomationInsert = {
+  task_name: '',
+  category: '',
+  time_before_minutes: 30,
+  time_after_minutes: 5,
+  frequency_per_week: 5,
+  hourly_rate: 25,
+  tool_used: '',
+};
+
 export function ROICalculator() {
   const { automations, roiSummary, addAutomation, deleteAutomation, calculateROI, isLoading } = useAutomations();
   const [showForm, setShowForm] = useState(false);
   const [preview, setPreview] = useState<ReturnType<typeof calculateROI> | null>(null);
-  
-  const [form, setForm] = useState<AutomationInsert>({
-    task_name: '',
-    category: '',
-    time_before_minutes: 30,
-    time_after_minutes: 5,
-    frequency_per_week: 5,
-    hourly_rate: 25,
-    tool_used: '',
-  });
+  const [form, setForm] = useState<AutomationInsert>(defaultForm);
 
-  const handleInputChange = (field: keyof AutomationInsert, value: string | number) => {
-    const newForm = { ...form, [field]: value };
+  const handleInputChange = useCallback((field: keyof AutomationInsert, value: string | number) => {
+    setForm(prev => {
+      const newForm = { ...prev, [field]: value };
+      
+      // Update preview
+      if (newForm.time_before_minutes > 0 && newForm.frequency_per_week > 0) {
+        setPreview(calculateROI(newForm));
+      }
+      
+      return newForm;
+    });
+  }, [calculateROI]);
+
+  const handleSelectTemplate = useCallback((template: AutomationTemplate) => {
+    const newForm: AutomationInsert = {
+      task_name: template.name,
+      category: template.category,
+      time_before_minutes: template.time_before,
+      time_after_minutes: template.time_after,
+      frequency_per_week: template.frequency,
+      hourly_rate: 25,
+      tool_used: template.tool,
+    };
     setForm(newForm);
-    
-    // Update preview
-    if (newForm.time_before_minutes > 0 && newForm.frequency_per_week > 0) {
-      setPreview(calculateROI(newForm));
-    }
-  };
+    setPreview(calculateROI(newForm));
+    setShowForm(true);
+  }, [calculateROI]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await addAutomation.mutateAsync(form);
-    setForm({
-      task_name: '',
-      category: '',
-      time_before_minutes: 30,
-      time_after_minutes: 5,
-      frequency_per_week: 5,
-      hourly_rate: 25,
-      tool_used: '',
-    });
+    setForm(defaultForm);
     setShowForm(false);
     setPreview(null);
   };
@@ -142,12 +156,29 @@ export function ROICalculator() {
         </Card>
       </div>
 
+      {/* Charts - Only show when there are automations */}
+      {(automations?.length ?? 0) > 0 && (
+        <ROISavingsChart automations={automations || []} calculateROI={calculateROI} />
+      )}
+
+      {/* Achievements */}
+      <ROIAchievements roiSummary={roiSummary} totalAutomations={automations?.length || 0} />
+
+      {/* Templates */}
+      <ROITemplates onSelectTemplate={handleSelectTemplate} />
+
       {/* Add Button */}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Mis Automatizaciones</h3>
         <Button onClick={() => setShowForm(!showForm)} size="sm">
-          <Plus className="w-4 h-4 mr-2" />
-          Agregar
+          {showForm ? (
+            <>Cancelar</>
+          ) : (
+            <>
+              <Plus className="w-4 h-4 mr-2" />
+              Agregar Manual
+            </>
+          )}
         </Button>
       </div>
 
