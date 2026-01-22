@@ -100,7 +100,8 @@
   .glow-primary {
     box-shadow: 
       0 0 20px hsl(142 76% 50% / 0.3),
-      0 0 40px hsl(142 76% 50% / 0.1);
+      0 0 40px hsl(142 76% 50% / 0.1),
+      inset 0 1px 0 hsl(142 76% 50% / 0.1);
   }
 
   .glow-accent {
@@ -110,14 +111,22 @@
   }
 
   .glow-text {
-    text-shadow: 0 0 20px hsl(142 76% 50% / 0.5);
+    text-shadow: 
+      0 0 20px hsl(142 76% 50% / 0.5),
+      0 0 40px hsl(142 76% 50% / 0.3);
   }
 
-  /* Glass morphism */
+  /* Glass morphism - enhanced */
   .glass {
     background: hsl(var(--card) / 0.6);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .glass-strong {
+    background: hsl(var(--card) / 0.85);
+    backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid hsl(var(--border) / 0.6);
   }
 
   /* Gradient borders */
@@ -132,11 +141,26 @@
   .cursor-blink::after {
     content: '▊';
     animation: blink 1s step-end infinite;
+    color: hsl(var(--primary));
   }
 
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
+  }
+
+  /* Pulse glow animation */
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsl(142 76% 50% / 0.2);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsl(142 76% 50% / 0.4);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
   }
 
   /* Scan line effect */
@@ -156,12 +180,14 @@
 
   /* Smooth hover transitions */
   .hover-lift {
-    @apply transition-all duration-300;
+    @apply transition-all duration-300 ease-out;
   }
 
   .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px hsl(142 76% 50% / 0.15);
+    transform: translateY(-4px);
+    box-shadow: 
+      0 20px 40px hsl(142 76% 50% / 0.1),
+      0 0 0 1px hsl(var(--primary) / 0.1);
   }
 
   /* Circuit pattern */
@@ -175,6 +201,45 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Radial gradient background */
+  .bg-gradient-radial {
+    background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+
+  /* Shimmer effect */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+
+  /* Floating animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 }
 
