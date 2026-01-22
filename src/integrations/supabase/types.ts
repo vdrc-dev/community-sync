@@ -482,6 +482,41 @@ export type Database = {
         }
         Relationships: []
       }
+      user_challenge_progress: {
+        Row: {
+          challenge_id: string
+          completed_at: string | null
+          created_at: string
+          current_count: number
+          id: string
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          completed_at?: string | null
+          created_at?: string
+          current_count?: number
+          id?: string
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          completed_at?: string | null
+          created_at?: string
+          current_count?: number
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_challenge_progress_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "weekly_challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_favorites: {
         Row: {
           created_at: string
@@ -533,6 +568,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          ambient_sound: string | null
+          created_at: string
+          dashboard_layout: Json | null
+          discovered_easter_eggs: string[] | null
+          id: string
+          sound_enabled: boolean | null
+          theme: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ambient_sound?: string | null
+          created_at?: string
+          dashboard_layout?: Json | null
+          discovered_easter_eggs?: string[] | null
+          id?: string
+          sound_enabled?: boolean | null
+          theme?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ambient_sound?: string | null
+          created_at?: string
+          dashboard_layout?: Json | null
+          discovered_easter_eggs?: string[] | null
+          id?: string
+          sound_enabled?: boolean | null
+          theme?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           class_id: string
@@ -572,6 +643,87 @@ export type Database = {
         }
         Relationships: []
       }
+      user_streaks: {
+        Row: {
+          created_at: string
+          current_streak: number
+          id: string
+          last_activity_date: string
+          longest_streak: number
+          multiplier: number
+          streak_freezes: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_activity_date?: string
+          longest_streak?: number
+          multiplier?: number
+          streak_freezes?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_activity_date?: string
+          longest_streak?: number
+          multiplier?: number
+          streak_freezes?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      weekly_challenges: {
+        Row: {
+          badge_reward: string | null
+          challenge_type: string
+          created_at: string
+          description: string | null
+          end_date: string
+          icon_emoji: string | null
+          id: string
+          is_active: boolean | null
+          points_reward: number
+          start_date: string
+          target_count: number
+          title: string
+        }
+        Insert: {
+          badge_reward?: string | null
+          challenge_type: string
+          created_at?: string
+          description?: string | null
+          end_date: string
+          icon_emoji?: string | null
+          id?: string
+          is_active?: boolean | null
+          points_reward?: number
+          start_date: string
+          target_count?: number
+          title: string
+        }
+        Update: {
+          badge_reward?: string | null
+          challenge_type?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          icon_emoji?: string | null
+          id?: string
+          is_active?: boolean | null
+          points_reward?: number
+          start_date?: string
+          target_count?: number
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -608,6 +760,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_challenge_progress: {
+        Args: { _challenge_type: string; _user_id: string }
+        Returns: Json
+      }
+      update_user_streak: { Args: { _user_id: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "participant"
