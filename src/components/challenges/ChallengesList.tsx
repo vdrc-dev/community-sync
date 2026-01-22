@@ -7,9 +7,10 @@ import { useAuth } from '@/hooks/useAuth';
 
 interface ChallengesListProps {
   compact?: boolean;
+  maxChallenges?: number;
 }
 
-export function ChallengesList({ compact = false }: ChallengesListProps) {
+export function ChallengesList({ compact = false, maxChallenges }: ChallengesListProps) {
   const { challenges, isLoading, getTimeRemaining, completedCount, totalCount } = useChallenges();
   const { user } = useAuth();
 
@@ -84,7 +85,7 @@ export function ChallengesList({ compact = false }: ChallengesListProps) {
           initial="hidden"
           animate="visible"
         >
-          {challenges.map((challenge) => (
+          {(maxChallenges ? challenges.slice(0, maxChallenges) : challenges).map((challenge) => (
             <ChallengeCard
               key={challenge.id}
               challenge={challenge}

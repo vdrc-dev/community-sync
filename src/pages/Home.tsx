@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { ContinueLearning } from '@/components/resume/ContinueLearning';
+import { ChallengesList } from '@/components/challenges/ChallengesList';
 import { 
   BookOpen, 
   Users, 
@@ -131,6 +133,21 @@ export default function Home() {
           <div className="w-px h-8 bg-gradient-to-b from-muted-foreground/50 to-transparent" />
         </div>
       </section>
+
+      {/* Continue Learning + Challenges (for logged in users) */}
+      {user && (
+        <section className="py-12 relative">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {/* Continue Learning */}
+              <ContinueLearning />
+              
+              {/* Active Challenges */}
+              <ChallengesList compact maxChallenges={2} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="py-24 relative">
