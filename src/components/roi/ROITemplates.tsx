@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, ChevronDown, ChevronUp, Zap } from 'lucide-react';
+import { allTemplates } from './ROISmartSuggestions';
 
 export interface AutomationTemplate {
   id: string;
@@ -18,104 +19,8 @@ export interface AutomationTemplate {
   difficulty: 'easy' | 'medium' | 'advanced';
 }
 
-const templates: AutomationTemplate[] = [
-  {
-    id: 'email-drafts',
-    name: 'Redactar emails de seguimiento',
-    category: 'email',
-    emoji: '📧',
-    time_before: 15,
-    time_after: 3,
-    frequency: 10,
-    tool: 'ChatGPT',
-    description: 'Usa IA para generar borradores de emails basados en contexto y tono.',
-    difficulty: 'easy',
-  },
-  {
-    id: 'meeting-notes',
-    name: 'Resumir notas de reuniones',
-    category: 'admin',
-    emoji: '📝',
-    time_before: 20,
-    time_after: 5,
-    frequency: 5,
-    tool: 'Claude',
-    description: 'Transcribe y resume automáticamente grabaciones de reuniones.',
-    difficulty: 'easy',
-  },
-  {
-    id: 'research-summary',
-    name: 'Investigación y síntesis',
-    category: 'research',
-    emoji: '🔍',
-    time_before: 60,
-    time_after: 15,
-    frequency: 3,
-    tool: 'Perplexity',
-    description: 'Investiga temas complejos y genera resúmenes estructurados.',
-    difficulty: 'medium',
-  },
-  {
-    id: 'code-review',
-    name: 'Revisión de código',
-    category: 'coding',
-    emoji: '💻',
-    time_before: 30,
-    time_after: 10,
-    frequency: 8,
-    tool: 'GitHub Copilot',
-    description: 'Analiza código en busca de bugs, mejoras y documentación.',
-    difficulty: 'medium',
-  },
-  {
-    id: 'data-analysis',
-    name: 'Análisis de datos en Excel',
-    category: 'data',
-    emoji: '📊',
-    time_before: 45,
-    time_after: 10,
-    frequency: 4,
-    tool: 'ChatGPT + Code Interpreter',
-    description: 'Genera fórmulas, scripts y visualizaciones automáticamente.',
-    difficulty: 'advanced',
-  },
-  {
-    id: 'social-content',
-    name: 'Crear contenido para redes',
-    category: 'writing',
-    emoji: '✍️',
-    time_before: 30,
-    time_after: 8,
-    frequency: 7,
-    tool: 'Claude',
-    description: 'Genera posts, captions y threads adaptados a cada plataforma.',
-    difficulty: 'easy',
-  },
-  {
-    id: 'image-editing',
-    name: 'Edición de imágenes',
-    category: 'creative',
-    emoji: '🎨',
-    time_before: 25,
-    time_after: 5,
-    frequency: 5,
-    tool: 'Midjourney / DALL-E',
-    description: 'Genera y edita imágenes para presentaciones y marketing.',
-    difficulty: 'medium',
-  },
-  {
-    id: 'documentation',
-    name: 'Escribir documentación técnica',
-    category: 'coding',
-    emoji: '📄',
-    time_before: 45,
-    time_after: 15,
-    frequency: 3,
-    tool: 'Claude',
-    description: 'Genera READMEs, guías de usuario y documentación de API.',
-    difficulty: 'medium',
-  },
-];
+// Use shared templates from ROISmartSuggestions
+const templates = allTemplates;
 
 const difficultyColors = {
   easy: 'bg-green-500/10 text-green-500 border-green-500/30',
