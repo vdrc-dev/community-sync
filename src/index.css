@@ -262,8 +262,23 @@
   background: hsl(var(--primary) / 0.5);
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Selection styling */
 ::selection {
   background: hsl(var(--primary) / 0.3);
   color: hsl(var(--foreground));
+}
+
+/* Focus ring improvements */
+.focus-ring {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
