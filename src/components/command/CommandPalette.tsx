@@ -26,6 +26,7 @@ import {
   PenLine,
   Calculator,
   Settings,
+  FlaskConical,
 } from 'lucide-react';
 
 export function CommandPalette() {
@@ -138,6 +139,10 @@ export function CommandPalette() {
           <CommandItem onSelect={() => runCommand(() => navigate('/my-tools'))}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Mi Stack de Herramientas</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/playground'))}>
+            <FlaskConical className="mr-2 h-4 w-4" />
+            <span>Laboratorio de IA</span>
           </CommandItem>
         </CommandGroup>
 

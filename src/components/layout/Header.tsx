@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine, Calculator, Wrench } from 'lucide-react';
+import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine, Calculator, Wrench, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
@@ -30,9 +30,9 @@ export function Header() {
     { href: '/generations', label: 'Generaciones' },
     { href: '/tools', label: 'Herramientas' },
     { href: '/prompts', label: 'Prompts' },
+    { href: '/playground', label: 'Lab IA' },
     { href: '/forum', label: 'Comunidad' },
     { href: '/calendar', label: 'Calendario' },
-    { href: '/leaderboard', label: 'Ranking' },
   ];
 
   return (
@@ -147,6 +147,11 @@ export function Header() {
                     <DropdownMenuItem asChild>
                       <Link to="/my-tools" className="flex items-center gap-2">
                         <Wrench className="w-4 h-4" /> Mi Stack de IA
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/playground" className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" /> Lab de IA
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
