@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Search, ExternalLink, Star, Loader2, Filter } from 'lucide-react';
+import { Search, ExternalLink, Star, Loader2 } from 'lucide-react';
+import { ToolTracker } from '@/components/tools/ToolTracker';
 
 const categories = [
   { value: 'all', label: 'Todas' },
@@ -165,6 +166,11 @@ export default function Tools() {
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
+                  </div>
+
+                  {/* Tool Tracker */}
+                  <div className="mt-3 pt-3 border-t border-border/50">
+                    <ToolTracker toolId={tool.id} toolName={tool.name} compact />
                   </div>
                 </CardContent>
               </Card>

@@ -21,6 +21,8 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import Prompts from "./pages/Prompts";
 import Bookmarks from "./pages/Bookmarks";
 import QuickNotes from "./pages/QuickNotes";
+import ROICalculatorPage from "./pages/ROICalculator";
+import MyToolsPage from "./pages/MyTools";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/prompts" element={<Prompts />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/quick-notes" element={<QuickNotes />} />
+            <Route path="/roi-calculator" element={<ROICalculatorPage />} />
+            <Route path="/my-tools" element={<MyToolsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
