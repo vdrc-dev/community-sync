@@ -9,6 +9,7 @@ import { useAutomations, AutomationInsert } from '@/hooks/useAutomations';
 import { ROITemplates, type AutomationTemplate } from './ROITemplates';
 import { ROISavingsChart } from './ROISavingsChart';
 import { ROIAchievements } from './ROIAchievements';
+import { ROISmartSuggestions } from './ROISmartSuggestions';
 import { Calculator, Clock, DollarSign, TrendingUp, Zap, Trash2, Plus, Sparkles } from 'lucide-react';
 
 const categories = [
@@ -160,6 +161,12 @@ export function ROICalculator() {
       {(automations?.length ?? 0) > 0 && (
         <ROISavingsChart automations={automations || []} calculateROI={calculateROI} />
       )}
+
+      {/* Smart Suggestions - only show when user has automations */}
+      <ROISmartSuggestions 
+        automations={automations} 
+        onSelectTemplate={handleSelectTemplate} 
+      />
 
       {/* Achievements */}
       <ROIAchievements roiSummary={roiSummary} totalAutomations={automations?.length || 0} />
