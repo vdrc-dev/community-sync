@@ -250,6 +250,7 @@ export default function WorkflowDetail() {
                 completedSteps={completedSteps}
                 onToggleStep={handleToggleStep}
                 isLoading={toggleStep.isPending}
+                workflowId={workflow.id}
               />
             </motion.div>
           </div>

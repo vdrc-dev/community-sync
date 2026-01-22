@@ -1165,6 +1165,56 @@ export type Database = {
         }
         Relationships: []
       }
+      workflow_executions: {
+        Row: {
+          ai_response: string
+          created_at: string | null
+          execution_time_ms: number | null
+          id: string
+          model_used: string
+          prompt_used: string
+          step_number: number
+          tokens_used: number | null
+          user_id: string
+          variables: Json | null
+          workflow_id: string
+        }
+        Insert: {
+          ai_response: string
+          created_at?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          model_used?: string
+          prompt_used: string
+          step_number: number
+          tokens_used?: number | null
+          user_id: string
+          variables?: Json | null
+          workflow_id: string
+        }
+        Update: {
+          ai_response?: string
+          created_at?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          model_used?: string
+          prompt_used?: string
+          step_number?: number
+          tokens_used?: number | null
+          user_id?: string
+          variables?: Json | null
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_executions_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "automation_workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
