@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Workflow, UserWorkflowProgress } from '@/hooks/useWorkflows';
-import { Clock, Zap, ChevronRight, CheckCircle2, Star } from 'lucide-react';
+import { 
+  Clock, 
+  Zap, 
+  ChevronRight, 
+  CheckCircle2, 
+  Star, 
+  Play,
+  RotateCcw,
+  Sparkles
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface WorkflowCardProps {
@@ -13,21 +22,26 @@ interface WorkflowCardProps {
   onStart?: () => void;
 }
 
-const difficultyColors = {
-  beginner: 'bg-green-500/10 text-green-500 border-green-500/30',
-  intermediate: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30',
-  advanced: 'bg-red-500/10 text-red-500 border-red-500/30',
-};
-
-const difficultyLabels = {
-  beginner: 'Principiante',
-  intermediate: 'Intermedio',
-  advanced: 'Avanzado',
+const difficultyConfig = {
+  beginner: { 
+    label: 'Principiante', 
+    color: 'bg-green-500/10 text-green-400 border-green-500/30',
+    dot: 'bg-green-500'
+  },
+  intermediate: { 
+    label: 'Intermedio', 
+    color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30',
+    dot: 'bg-yellow-500'
+  },
+  advanced: { 
+    label: 'Avanzado', 
+    color: 'bg-red-500/10 text-red-400 border-red-500/30',
+    dot: 'bg-red-500'
+  },
 };
 
 export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps) {
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
 
   const completedSteps = progress?.completed_steps?.length || 0;
   const totalSteps = workflow.steps.length;
@@ -35,107 +49,153 @@ export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps)
   const isCompleted = progress?.completed_at !== null && progress?.completed_at !== undefined;
   const isStarted = progress && completedSteps > 0;
 
-  const weeklyTimeSaved = workflow.time_saved_per_use_minutes * 5; // Assuming 5 uses per week
+  const weeklyTimeSaved = workflow.time_saved_per_use_minutes * 5;
+  const difficulty = difficultyConfig[workflow.difficulty];
 
   return (
-    <Card
-      className={`group cursor-pointer transition-all duration-300 hover:border-primary/50 ${
-        isCompleted ? 'border-green-500/30 bg-green-500/5' : ''
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={() => navigate(`/workflows/${workflow.id}`)}
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
     >
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <div className="text-3xl">{workflow.icon_emoji}</div>
-            <div>
-              <CardTitle className="text-lg flex items-center gap-2">
-                {workflow.title}
-                {workflow.is_featured && (
-                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                )}
-              </CardTitle>
-              {workflow.category && (
-                <span className="text-sm text-muted-foreground">{workflow.category}</span>
-              )}
-            </div>
-          </div>
-          {isCompleted && (
-            <CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" />
-          )}
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {workflow.description}
-        </p>
-
-        {/* Stats */}
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-1 text-muted-foreground">
-            <Clock className="h-4 w-4" />
-            <span>{workflow.time_to_setup_minutes} min setup</span>
-          </div>
-          <div className="flex items-center gap-1 text-green-500">
-            <Zap className="h-4 w-4" />
-            <span>Ahorra {weeklyTimeSaved} min/semana</span>
-          </div>
-        </div>
-
-        {/* Badges */}
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline" className={difficultyColors[workflow.difficulty]}>
-            {difficultyLabels[workflow.difficulty]}
-          </Badge>
-          <Badge variant="outline" className="text-muted-foreground">
-            {totalSteps} pasos
-          </Badge>
-        </div>
-
-        {/* Progress */}
+      <Card
+        className={`
+          group cursor-pointer h-full
+          glass border-border/50 hover:border-primary/50 
+          transition-all duration-300 overflow-hidden
+          ${isCompleted ? 'border-green-500/30' : ''}
+        `}
+        onClick={() => navigate(`/workflows/${workflow.id}`)}
+      >
+        {/* Progress indicator bar */}
         {isStarted && !isCompleted && (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Progreso</span>
-              <span className="font-medium">{completedSteps}/{totalSteps} pasos</span>
-            </div>
-            <Progress value={progressPercent} className="h-2" />
+          <div className="h-1 bg-muted">
+            <motion.div 
+              className="h-full bg-primary"
+              initial={{ width: 0 }}
+              animate={{ width: `${progressPercent}%` }}
+              transition={{ duration: 0.5 }}
+            />
           </div>
         )}
+        {isCompleted && (
+          <div className="h-1 bg-green-500" />
+        )}
 
-        {/* Tools */}
-        {workflow.tools_used.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {workflow.tools_used.slice(0, 4).map((tool, i) => (
-              <Badge key={i} variant="secondary" className="text-xs">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                {workflow.icon_emoji}
+              </div>
+              <div className="min-w-0">
+                <CardTitle className="text-base font-semibold flex items-center gap-2 group-hover:text-primary transition-colors">
+                  <span className="truncate">{workflow.title}</span>
+                  {workflow.is_featured && (
+                    <Star className="h-4 w-4 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                  )}
+                </CardTitle>
+                {workflow.category && (
+                  <span className="text-xs text-muted-foreground">{workflow.category}</span>
+                )}
+              </div>
+            </div>
+            
+            {isCompleted && (
+              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="h-5 w-5 text-green-400" />
+              </div>
+            )}
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">
+            {workflow.description}
+          </p>
+
+          {/* Stats row */}
+          <div className="flex items-center gap-3 text-sm">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Clock className="h-3.5 w-3.5" />
+              <span>{workflow.time_to_setup_minutes}m</span>
+            </div>
+            <div className="w-px h-4 bg-border" />
+            <div className="flex items-center gap-1.5 text-green-400">
+              <Zap className="h-3.5 w-3.5" />
+              <span>-{weeklyTimeSaved}m/sem</span>
+            </div>
+            <div className="w-px h-4 bg-border" />
+            <div className="flex items-center gap-1.5">
+              <div className={`w-2 h-2 rounded-full ${difficulty.dot}`} />
+              <span className="text-xs text-muted-foreground">{difficulty.label}</span>
+            </div>
+          </div>
+
+          {/* Badges row */}
+          <div className="flex flex-wrap gap-1.5">
+            <Badge variant="outline" className="text-xs bg-muted/50">
+              {totalSteps} pasos
+            </Badge>
+            {workflow.tools_used.slice(0, 2).map((tool, i) => (
+              <Badge key={i} variant="outline" className="text-xs bg-primary/5 border-primary/20 text-primary">
                 {tool}
               </Badge>
             ))}
-            {workflow.tools_used.length > 4 && (
-              <Badge variant="secondary" className="text-xs">
-                +{workflow.tools_used.length - 4}
+            {workflow.tools_used.length > 2 && (
+              <Badge variant="outline" className="text-xs">
+                +{workflow.tools_used.length - 2}
               </Badge>
             )}
           </div>
-        )}
 
-        {/* Action */}
-        <div className="pt-2">
+          {/* Progress (if in progress) */}
+          {isStarted && !isCompleted && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">Progreso</span>
+                <span className="font-medium text-primary">{completedSteps}/{totalSteps}</span>
+              </div>
+              <Progress value={progressPercent} className="h-1.5" />
+            </div>
+          )}
+
+          {/* Action button */}
           <Button
-            variant={isCompleted ? 'outline' : isStarted ? 'default' : 'outline'}
-            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+            variant="outline"
+            className={`
+              w-full mt-2 transition-all duration-300
+              ${isCompleted 
+                ? 'border-green-500/30 hover:bg-green-500/10 hover:border-green-500/50' 
+                : isStarted 
+                  ? 'bg-primary/10 border-primary/30 hover:bg-primary hover:text-primary-foreground' 
+                  : 'hover:bg-primary hover:text-primary-foreground hover:border-primary'
+              }
+            `}
             onClick={(e) => {
               e.stopPropagation();
               navigate(`/workflows/${workflow.id}`);
             }}
           >
-            {isCompleted ? 'Ver de nuevo' : isStarted ? 'Continuar' : 'Comenzar'}
-            <ChevronRight className="ml-2 h-4 w-4" />
+            {isCompleted ? (
+              <>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Repetir
+              </>
+            ) : isStarted ? (
+              <>
+                <Play className="w-4 h-4 mr-2" />
+                Continuar
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Comenzar
+              </>
+            )}
+            <ChevronRight className="w-4 h-4 ml-auto" />
           </Button>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
