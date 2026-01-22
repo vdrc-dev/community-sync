@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CommandPalette } from "@/components/command/CommandPalette";
 import { EasterEggManager } from "@/components/easter-eggs/EasterEggManager";
+import { QuickNoteButton } from "@/components/quick-notes/QuickNoteButton";
 
 // Pages
 import Home from "./pages/Home";
@@ -17,6 +18,9 @@ import Forum from "./pages/Forum";
 import CalendarPage from "./pages/CalendarPage";
 import Profile from "./pages/Profile";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import Prompts from "./pages/Prompts";
+import Bookmarks from "./pages/Bookmarks";
+import QuickNotes from "./pages/QuickNotes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +34,7 @@ const App = () => (
         <BrowserRouter>
           <CommandPalette />
           <EasterEggManager />
+          <QuickNoteButton />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
@@ -40,6 +45,9 @@ const App = () => (
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/prompts" element={<Prompts />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/quick-notes" element={<QuickNotes />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
