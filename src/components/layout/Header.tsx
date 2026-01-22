@@ -9,8 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Shield, Menu, X } from 'lucide-react';
+import { LogOut, User, Shield, Menu, X, Trophy, Command } from 'lucide-react';
 import { useState } from 'react';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
+import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 
 export function Header() {
   const { user, signOut, isAdmin } = useAuth();
@@ -27,6 +29,7 @@ export function Header() {
     { href: '/tools', label: 'Herramientas' },
     { href: '/forum', label: 'Comunidad' },
     { href: '/calendar', label: 'Calendario' },
+    { href: '/leaderboard', label: 'Ranking' },
   ];
 
   return (
@@ -58,41 +61,68 @@ export function Header() {
           </nav>
 
           {/* User Menu / Auth Buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* CMD+K hint */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground border-border"
+              onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+            >
+              <Command className="w-3 h-3" />
+              <span className="text-xs">Buscar</span>
+              <kbd className="ml-2 px-1.5 py-0.5 text-[10px] font-mono bg-muted rounded">⌘K</kbd>
+            </Button>
+
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-border hover:border-primary/50 transition-all">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={user.user_metadata?.avatar_url} />
-                      <AvatarFallback className="bg-primary/10 text-primary font-mono text-sm">
-                        {user.email?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 glass">
-                  <div className="px-3 py-2">
-                    <p className="text-sm font-medium">{user.user_metadata?.full_name || 'Participante'}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                    {isAdmin && (
-                      <span className="inline-flex items-center gap-1 mt-1 text-xs text-primary">
-                        <Shield className="w-3 h-3" /> Admin
-                      </span>
-                    )}
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to="/profile" className="flex items-center gap-2">
-                      <User className="w-4 h-4" /> Mi Perfil
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
-                    <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                {/* Points display (compact) */}
+                <div className="hidden sm:block">
+                  <PointsDisplay compact />
+                </div>
+
+                {/* Notifications */}
+                <NotificationBell />
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-border hover:border-primary/50 transition-all">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.user_metadata?.avatar_url} />
+                        <AvatarFallback className="bg-primary/10 text-primary font-mono text-sm">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 glass">
+                    <div className="px-3 py-2">
+                      <p className="text-sm font-medium">{user.user_metadata?.full_name || 'Participante'}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      {isAdmin && (
+                        <span className="inline-flex items-center gap-1 mt-1 text-xs text-primary">
+                          <Shield className="w-3 h-3" /> Admin
+                        </span>
+                      )}
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="flex items-center gap-2">
+                        <User className="w-4 h-4" /> Mi Perfil
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/leaderboard" className="flex items-center gap-2">
+                        <Trophy className="w-4 h-4" /> Leaderboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                      <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground">
