@@ -27,6 +27,7 @@ import {
   Calculator,
   Settings,
   FlaskConical,
+  Zap,
 } from 'lucide-react';
 
 export function CommandPalette() {
@@ -143,6 +144,10 @@ export function CommandPalette() {
           <CommandItem onSelect={() => runCommand(() => navigate('/playground'))}>
             <FlaskConical className="mr-2 h-4 w-4" />
             <span>Laboratorio de IA</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/workflows'))}>
+            <Zap className="mr-2 h-4 w-4" />
+            <span>Workflows de Automatización</span>
           </CommandItem>
         </CommandGroup>
 

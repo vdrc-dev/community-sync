@@ -29,10 +29,9 @@ export function Header() {
   const navLinks = [
     { href: '/generations', label: 'Generaciones' },
     { href: '/tools', label: 'Herramientas' },
-    { href: '/prompts', label: 'Prompts' },
+    { href: '/workflows', label: 'Workflows' },
     { href: '/playground', label: 'Lab IA' },
     { href: '/forum', label: 'Comunidad' },
-    { href: '/calendar', label: 'Calendario' },
   ];
 
   return (

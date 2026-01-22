@@ -44,6 +44,66 @@ export type Database = {
         }
         Relationships: []
       }
+      automation_workflows: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          difficulty: string | null
+          icon_emoji: string | null
+          id: string
+          is_featured: boolean | null
+          is_published: boolean | null
+          mermaid_diagram: string | null
+          steps: Json
+          tags: string[] | null
+          time_saved_per_use_minutes: number | null
+          time_to_setup_minutes: number | null
+          title: string
+          tools_used: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          icon_emoji?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          mermaid_diagram?: string | null
+          steps?: Json
+          tags?: string[] | null
+          time_saved_per_use_minutes?: number | null
+          time_to_setup_minutes?: number | null
+          title: string
+          tools_used?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          icon_emoji?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          mermaid_diagram?: string | null
+          steps?: Json
+          tags?: string[] | null
+          time_saved_per_use_minutes?: number | null
+          time_to_setup_minutes?: number | null
+          title?: string
+          tools_used?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       calendar_events: {
         Row: {
           created_at: string
@@ -1018,6 +1078,44 @@ export type Database = {
             columns: ["tool_id"]
             isOneToOne: false
             referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_workflow_progress: {
+        Row: {
+          completed_at: string | null
+          completed_steps: number[] | null
+          id: string
+          notes: string | null
+          started_at: string | null
+          user_id: string
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_steps?: number[] | null
+          id?: string
+          notes?: string | null
+          started_at?: string | null
+          user_id: string
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_steps?: number[] | null
+          id?: string
+          notes?: string | null
+          started_at?: string | null
+          user_id?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_workflow_progress_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "automation_workflows"
             referencedColumns: ["id"]
           },
         ]
