@@ -23,6 +23,7 @@ import Bookmarks from "./pages/Bookmarks";
 import QuickNotes from "./pages/QuickNotes";
 import ROICalculatorPage from "./pages/ROICalculator";
 import MyToolsPage from "./pages/MyTools";
+import Playground from "./pages/Playground";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/quick-notes" element={<QuickNotes />} />
             <Route path="/roi-calculator" element={<ROICalculatorPage />} />
             <Route path="/my-tools" element={<MyToolsPage />} />
+            <Route path="/playground" element={<Playground />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
