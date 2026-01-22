@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.generate-prompt]
 verify_jwt = false
+
+[functions.execute-workflow-prompt]
+verify_jwt = false

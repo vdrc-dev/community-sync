@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { WorkflowStep } from '@/hooks/useWorkflows';
-import { Copy, ChevronDown, ChevronUp, CheckCircle2, Circle, Lightbulb } from 'lucide-react';
+import { WorkflowPromptExecutor } from './WorkflowPromptExecutor';
+import { Copy, ChevronDown, ChevronUp, CheckCircle2, Lightbulb, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -16,9 +16,10 @@ interface WorkflowStepsProps {
   completedSteps: number[];
   onToggleStep: (stepNumber: number) => void;
   isLoading?: boolean;
+  workflowId: string;
 }
 
-export function WorkflowSteps({ steps, completedSteps, onToggleStep, isLoading }: WorkflowStepsProps) {
+export function WorkflowSteps({ steps, completedSteps, onToggleStep, isLoading, workflowId }: WorkflowStepsProps) {
   const [expandedSteps, setExpandedSteps] = useState<number[]>([1]); // First step expanded by default
 
   const toggleExpand = (stepNumber: number) => {
@@ -108,27 +109,16 @@ export function WorkflowSteps({ steps, completedSteps, onToggleStep, isLoading }
                     <p className="text-muted-foreground">{step.description}</p>
 
                     {step.prompt && (
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium flex items-center gap-2">
-                            <Lightbulb className="h-4 w-4 text-yellow-500" />
-                            Prompt sugerido
-                          </span>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => copyPrompt(step.prompt!)}
-                          >
-                            <Copy className="h-4 w-4 mr-2" />
-                            Copiar
-                          </Button>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <Zap className="h-4 w-4 text-primary" />
+                          <span className="text-sm font-medium">Prompt interactivo</span>
                         </div>
-                        <pre className="p-4 bg-muted/50 rounded-lg text-sm whitespace-pre-wrap font-mono overflow-x-auto">
-                          {step.prompt}
-                        </pre>
-                        <p className="text-xs text-muted-foreground">
-                          💡 Reemplaza las variables <code className="bg-muted px-1 rounded">{`{{VARIABLE}}`}</code> con tu información
-                        </p>
+                        <WorkflowPromptExecutor
+                          prompt={step.prompt}
+                          workflowId={workflowId}
+                          stepNumber={step.step}
+                        />
                       </div>
                     )}
 
