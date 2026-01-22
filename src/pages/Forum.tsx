@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { 
@@ -21,11 +20,83 @@ import {
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useDebouncedValue, useIntersectionObserver } from '@/hooks/usePerformance';
+
+const PAGE_SIZE = 20;
+
+interface ForumPost {
+  id: string;
+  title: string;
+  content: string;
+  author_id: string;
+  category_id: string;
+  is_pinned: boolean | null;
+  is_locked: boolean | null;
+  views_count: number | null;
+  created_at: string;
+  category: {
+    id: string;
+    name: string;
+    icon_emoji: string | null;
+  } | null;
+}
+
+// Memoized post card for performance
+const PostCard = ({ post }: { post: ForumPost }) => (
+  <Card className="glass border-border/50 hover:border-primary/30 transition-all cursor-pointer">
+    <CardContent className="p-4">
+      <div className="flex items-start gap-4">
+        <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-mono text-primary text-sm flex-shrink-0">
+          ?
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            {post.is_pinned && (
+              <Pin className="w-3 h-3 text-primary" />
+            )}
+            <h3 className="font-semibold hover:text-primary transition-colors truncate">
+              {post.title}
+            </h3>
+            {post.is_locked && (
+              <Lock className="w-3 h-3 text-muted-foreground" />
+            )}
+          </div>
+
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <Badge variant="outline" className="border-border">
+              {post.category?.icon_emoji} {post.category?.name}
+            </Badge>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {formatDistanceToNow(new Date(post.created_at), { 
+                addSuffix: true, 
+                locale: es 
+              })}
+            </span>
+            <span className="flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              {post.views_count || 0}
+            </span>
+          </div>
+
+          <p className="text-sm text-muted-foreground mt-2 line-clamp-1">
+            {post.content}
+          </p>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export default function Forum() {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  
+  // Debounced search for performance
+  const debouncedSearch = useDebouncedValue(searchQuery, 300);
 
   const { data: categories } = useQuery({
     queryKey: ['forum-categories'],
@@ -38,35 +109,79 @@ export default function Forum() {
       if (error) throw error;
       return data;
     },
+    staleTime: 1000 * 60 * 30, // 30 minutes - categories rarely change
   });
 
-  const { data: posts, isLoading } = useQuery({
-    queryKey: ['forum-posts', activeCategory],
-    queryFn: async () => {
+  // Infinite query with cursor-based pagination
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['forum-posts-infinite', activeCategory],
+    queryFn: async ({ pageParam }) => {
       let query = supabase
         .from('forum_posts')
         .select(`
           *,
-          category:forum_categories(*)
+          category:forum_categories(id, name, icon_emoji)
         `)
         .order('is_pinned', { ascending: false })
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(PAGE_SIZE);
       
       if (activeCategory !== 'all') {
         query = query.eq('category_id', activeCategory);
       }
       
+      // Cursor-based pagination using created_at
+      if (pageParam) {
+        query = query.lt('created_at', pageParam);
+      }
+      
       const { data, error } = await query;
       if (error) throw error;
-      return data;
+      return data as ForumPost[];
+    },
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < PAGE_SIZE) return undefined;
+      return lastPage[lastPage.length - 1]?.created_at;
     },
     enabled: !!user,
+    staleTime: 1000 * 60 * 2, // 2 minutes
   });
 
-  const filteredPosts = posts?.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Flatten pages for rendering
+  const allPosts = useMemo(() => {
+    return data?.pages.flat() ?? [];
+  }, [data]);
+
+  // Filter posts by search query (client-side for instant feedback)
+  const filteredPosts = useMemo(() => {
+    if (!debouncedSearch) return allPosts;
+    
+    const searchLower = debouncedSearch.toLowerCase();
+    return allPosts.filter((post) =>
+      post.title.toLowerCase().includes(searchLower) ||
+      post.content.toLowerCase().includes(searchLower)
+    );
+  }, [allPosts, debouncedSearch]);
+
+  // Intersection observer for infinite scroll
+  const isIntersecting = useIntersectionObserver(loadMoreRef, {
+    threshold: 0.1,
+    rootMargin: '100px',
+  });
+
+  // Load more when scrolling to bottom
+  useEffect(() => {
+    if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (!user) {
     return (
@@ -149,12 +264,12 @@ export default function Forum() {
           </div>
         </div>
 
-        {/* Posts */}
+        {/* Posts with Infinite Scroll */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
-        ) : filteredPosts?.length === 0 ? (
+        ) : filteredPosts.length === 0 ? (
           <Card className="glass border-border/50">
             <CardContent className="py-16 text-center">
               <MessageSquare className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
@@ -169,58 +284,28 @@ export default function Forum() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-3">
-            {filteredPosts?.map((post) => (
-              <Card 
-                key={post.id} 
-                className="glass border-border/50 hover:border-primary/30 transition-all cursor-pointer"
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-4">
-                    {/* Author avatar */}
-                    <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-mono text-primary text-sm flex-shrink-0">
-                      ?
-                    </div>
+          <>
+            <div className="space-y-3">
+              {filteredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        {post.is_pinned && (
-                          <Pin className="w-3 h-3 text-primary" />
-                        )}
-                        <h3 className="font-semibold hover:text-primary transition-colors truncate">
-                          {post.title}
-                        </h3>
-                        {post.is_locked && (
-                          <Lock className="w-3 h-3 text-muted-foreground" />
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                        <Badge variant="outline" className="border-border">
-                          {post.category?.icon_emoji} {post.category?.name}
-                        </Badge>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {formatDistanceToNow(new Date(post.created_at), { 
-                            addSuffix: true, 
-                            locale: es 
-                          })}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Eye className="w-3 h-3" />
-                          {post.views_count}
-                        </span>
-                      </div>
-
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-1">
-                        {post.content}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            {/* Infinite scroll trigger */}
+            <div ref={loadMoreRef} className="py-8 flex justify-center">
+              {isFetchingNextPage ? (
+                <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              ) : hasNextPage ? (
+                <span className="text-sm text-muted-foreground">
+                  Cargando más...
+                </span>
+              ) : filteredPosts.length > 0 ? (
+                <span className="text-sm text-muted-foreground">
+                  No hay más publicaciones
+                </span>
+              ) : null}
+            </div>
+          </>
         )}
       </div>
     </Layout>
