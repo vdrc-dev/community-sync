@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { ClassProgressCheckbox } from '@/components/progress/ClassProgressCheckbox';
+import { GenerationProgressBar } from '@/components/progress/GenerationProgressBar';
 import { 
   ArrowLeft, 
   Play, 
@@ -153,10 +155,17 @@ export default function GenerationDetail() {
           </Card>
         ) : (
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-6 bg-muted/50">
-              <TabsTrigger value="classes">Clases</TabsTrigger>
-              <TabsTrigger value="tools">Herramientas</TabsTrigger>
-            </TabsList>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <TabsList className="bg-muted/50">
+                <TabsTrigger value="classes">Clases</TabsTrigger>
+                <TabsTrigger value="tools">Herramientas</TabsTrigger>
+              </TabsList>
+              {classes && classes.length > 0 && (
+                <div className="w-full sm:w-64">
+                  <GenerationProgressBar classes={classes} />
+                </div>
+              )}
+            </div>
 
             <TabsContent value="classes">
               {loadingClasses ? (
@@ -172,10 +181,11 @@ export default function GenerationDetail() {
               ) : (
                 <div className="space-y-4">
                   {classes?.map((cls) => (
-                    <Card key={cls.id} className="glass border-border/50 hover:border-primary/30 transition-all">
+                    <Card key={cls.id} className="glass border-border/50 hover:border-primary/30 transition-all group">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
+                            <ClassProgressCheckbox classId={cls.id} />
                             <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-mono font-bold text-primary">
                               {cls.class_number}
                             </div>
