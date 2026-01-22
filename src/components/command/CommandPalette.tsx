@@ -23,6 +23,9 @@ import {
   Search,
   Trophy,
   Settings,
+  Sparkles,
+  Bookmark,
+  PenLine,
 } from 'lucide-react';
 
 export function CommandPalette() {
@@ -104,6 +107,10 @@ export function CommandPalette() {
             <Wrench className="mr-2 h-4 w-4" />
             <span>Herramientas IA</span>
           </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/prompts'))}>
+            <Sparkles className="mr-2 h-4 w-4" />
+            <span>Biblioteca de Prompts</span>
+          </CommandItem>
           <CommandItem onSelect={() => runCommand(() => navigate('/forum'))}>
             <Users className="mr-2 h-4 w-4" />
             <span>Comunidad</span>
@@ -115,6 +122,14 @@ export function CommandPalette() {
           <CommandItem onSelect={() => runCommand(() => navigate('/leaderboard'))}>
             <Trophy className="mr-2 h-4 w-4" />
             <span>Leaderboard</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/bookmarks'))}>
+            <Bookmark className="mr-2 h-4 w-4" />
+            <span>Mis Favoritos</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/quick-notes'))}>
+            <PenLine className="mr-2 h-4 w-4" />
+            <span>Notas Rápidas</span>
           </CommandItem>
         </CommandGroup>
 

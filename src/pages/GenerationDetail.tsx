@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { ClassProgressCheckbox } from '@/components/progress/ClassProgressCheckbox';
 import { GenerationProgressBar } from '@/components/progress/GenerationProgressBar';
+import { ClassNotes } from '@/components/notes/ClassNotes';
+import { BookmarkButton } from '@/components/bookmarks/BookmarkButton';
+import { useActivityResume } from '@/hooks/useActivityResume';
 import { 
   ArrowLeft, 
   Play, 
@@ -27,6 +30,7 @@ export default function GenerationDetail() {
   const { code } = useParams<{ code: string }>();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('classes');
+  const { trackActivity } = useActivityResume();
 
   const { data: generation, isLoading: loadingGen } = useQuery({
     queryKey: ['generation', code],
@@ -62,6 +66,18 @@ export default function GenerationDetail() {
     },
     enabled: !!generation?.id,
   });
+
+  // Track activity when viewing generation
+  useEffect(() => {
+    if (generation && user) {
+      trackActivity({
+        resourceType: 'generation',
+        resourceId: generation.id,
+        resourceTitle: generation.name,
+        resourceMeta: { code: generation.code },
+      });
+    }
+  }, [generation?.id, user?.id]);
 
   if (loadingGen) {
     return (
@@ -183,30 +199,36 @@ export default function GenerationDetail() {
                   {classes?.map((cls) => (
                     <Card key={cls.id} className="glass border-border/50 hover:border-primary/30 transition-all group">
                       <CardHeader className="pb-3">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex items-center gap-4">
-                            <ClassProgressCheckbox classId={cls.id} />
-                            <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-mono font-bold text-primary">
-                              {cls.class_number}
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex items-center gap-4">
+                              <ClassProgressCheckbox classId={cls.id} />
+                              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-mono font-bold text-primary">
+                                {cls.class_number}
+                              </div>
+                              <div>
+                                <CardTitle className="text-lg">{cls.title}</CardTitle>
+                                {cls.class_date && (
+                                  <p className="text-sm text-muted-foreground">
+                                    {new Date(cls.class_date).toLocaleDateString('es-CL', {
+                                      weekday: 'long',
+                                      day: 'numeric',
+                                      month: 'long',
+                                      year: 'numeric'
+                                    })}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                            <div>
-                              <CardTitle className="text-lg">{cls.title}</CardTitle>
-                              {cls.class_date && (
-                                <p className="text-sm text-muted-foreground">
-                                  {new Date(cls.class_date).toLocaleDateString('es-CL', {
-                                    weekday: 'long',
-                                    day: 'numeric',
-                                    month: 'long',
-                                    year: 'numeric'
-                                  })}
-                                </p>
-                              )}
-                            </div>
+                            {/* Bookmark button */}
+                            <BookmarkButton 
+                              resourceType="class" 
+                              resourceId={cls.id}
+                              showLabel
+                            />
                           </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        {cls.description && (
+                        </CardHeader>
+                        <CardContent>
+                          {cls.description && (
                           <p className="text-sm text-muted-foreground mb-4">
                             {cls.description}
                           </p>
@@ -261,6 +283,9 @@ export default function GenerationDetail() {
                             </Button>
                           )}
                         </div>
+
+                        {/* Personal Notes */}
+                        <ClassNotes classId={cls.id} classTitle={cls.title} className="mt-4" />
 
                         {/* Tools mentioned */}
                         {cls.class_tools && cls.class_tools.length > 0 && (

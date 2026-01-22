@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Shield, Menu, X, Trophy, Command } from 'lucide-react';
+import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine } from 'lucide-react';
 import { useState } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
@@ -29,6 +29,7 @@ export function Header() {
   const navLinks = [
     { href: '/generations', label: 'Generaciones' },
     { href: '/tools', label: 'Herramientas' },
+    { href: '/prompts', label: 'Prompts' },
     { href: '/forum', label: 'Comunidad' },
     { href: '/calendar', label: 'Calendario' },
     { href: '/leaderboard', label: 'Ranking' },
@@ -126,6 +127,16 @@ export function Header() {
                     <DropdownMenuItem asChild>
                       <Link to="/leaderboard" className="flex items-center gap-2">
                         <Trophy className="w-4 h-4" /> Leaderboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/bookmarks" className="flex items-center gap-2">
+                        <Bookmark className="w-4 h-4" /> Mis Favoritos
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/quick-notes" className="flex items-center gap-2">
+                        <PenLine className="w-4 h-4" /> Notas Rápidas
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
