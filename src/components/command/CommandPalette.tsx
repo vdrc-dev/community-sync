@@ -20,12 +20,12 @@ import {
   Calendar,
   User,
   LogOut,
-  Search,
   Trophy,
-  Settings,
   Sparkles,
   Bookmark,
   PenLine,
+  Calculator,
+  Settings,
 } from 'lucide-react';
 
 export function CommandPalette() {
@@ -130,6 +130,14 @@ export function CommandPalette() {
           <CommandItem onSelect={() => runCommand(() => navigate('/quick-notes'))}>
             <PenLine className="mr-2 h-4 w-4" />
             <span>Notas Rápidas</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/roi-calculator'))}>
+            <Calculator className="mr-2 h-4 w-4" />
+            <span>Calculadora de ROI</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/my-tools'))}>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Mi Stack de Herramientas</span>
           </CommandItem>
         </CommandGroup>
 

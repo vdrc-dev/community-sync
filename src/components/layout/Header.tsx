@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine } from 'lucide-react';
+import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine, Calculator, Wrench } from 'lucide-react';
 import { useState } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
@@ -137,6 +137,16 @@ export function Header() {
                     <DropdownMenuItem asChild>
                       <Link to="/quick-notes" className="flex items-center gap-2">
                         <PenLine className="w-4 h-4" /> Notas Rápidas
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/roi-calculator" className="flex items-center gap-2">
+                        <Calculator className="w-4 h-4" /> Calculadora ROI
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/my-tools" className="flex items-center gap-2">
+                        <Wrench className="w-4 h-4" /> Mi Stack de IA
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

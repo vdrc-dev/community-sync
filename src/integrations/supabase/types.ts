@@ -517,9 +517,43 @@ export type Database = {
         }
         Relationships: []
       }
+      tool_votes: {
+        Row: {
+          created_at: string | null
+          id: string
+          tool_id: string | null
+          use_case: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          tool_id?: string | null
+          use_case: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          tool_id?: string | null
+          use_case?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_votes_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tools: {
         Row: {
+          best_for: string | null
           category: string | null
+          cons: string[] | null
           created_at: string
           description: string | null
           icon_emoji: string | null
@@ -527,10 +561,14 @@ export type Database = {
           is_featured: boolean | null
           name: string
           pricing: string | null
+          pros: string[] | null
           url: string | null
+          use_cases: string[] | null
         }
         Insert: {
+          best_for?: string | null
           category?: string | null
+          cons?: string[] | null
           created_at?: string
           description?: string | null
           icon_emoji?: string | null
@@ -538,10 +576,14 @@ export type Database = {
           is_featured?: boolean | null
           name: string
           pricing?: string | null
+          pros?: string[] | null
           url?: string | null
+          use_cases?: string[] | null
         }
         Update: {
+          best_for?: string | null
           category?: string | null
+          cons?: string[] | null
           created_at?: string
           description?: string | null
           icon_emoji?: string | null
@@ -549,7 +591,9 @@ export type Database = {
           is_featured?: boolean | null
           name?: string
           pricing?: string | null
+          pros?: string[] | null
           url?: string | null
+          use_cases?: string[] | null
         }
         Relationships: []
       }
@@ -579,6 +623,48 @@ export type Database = {
           resource_meta?: Json | null
           resource_title?: string | null
           resource_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_automations: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          frequency_per_week: number
+          hourly_rate: number | null
+          id: string
+          task_name: string
+          time_after_minutes: number
+          time_before_minutes: number
+          tool_used: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          frequency_per_week: number
+          hourly_rate?: number | null
+          id?: string
+          task_name: string
+          time_after_minutes: number
+          time_before_minutes: number
+          tool_used?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          frequency_per_week?: number
+          hourly_rate?: number | null
+          id?: string
+          task_name?: string
+          time_after_minutes?: number
+          time_before_minutes?: number
+          tool_used?: string | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -895,6 +981,47 @@ export type Database = {
         }
         Relationships: []
       }
+      user_tool_logs: {
+        Row: {
+          first_tried_at: string | null
+          id: string
+          notes: string | null
+          rating: number | null
+          status: string
+          tool_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          first_tried_at?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          status: string
+          tool_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          first_tried_at?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          status?: string
+          tool_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_tool_logs_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       weekly_challenges: {
         Row: {
           badge_reward: string | null
@@ -959,6 +1086,7 @@ export type Database = {
         Args: { _badge_type: string; _user_id: string }
         Returns: boolean
       }
+      calculate_user_roi: { Args: { _user_id: string }; Returns: Json }
       create_notification: {
         Args: {
           _link?: string
