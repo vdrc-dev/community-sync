@@ -10,21 +10,53 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, User, Shield, Menu, X, Trophy, Command, Bookmark, PenLine, Calculator, Wrench, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { StreakDisplay } from '@/components/streaks/StreakDisplay';
 import { OnlineUsers } from '@/components/presence/OnlineUsers';
+import { useLinkPrefetch } from '@/hooks/usePrefetcher';
+
+// Optimized NavLink with prefetch on hover
+function PrefetchLink({ 
+  to, 
+  children, 
+  className,
+  onClick 
+}: { 
+  to: string; 
+  children: React.ReactNode; 
+  className?: string;
+  onClick?: () => void;
+}) {
+  const { onMouseEnter, onFocus } = useLinkPrefetch(to);
+  
+  return (
+    <Link
+      to={to}
+      className={className}
+      onMouseEnter={onMouseEnter}
+      onFocus={onFocus}
+      onClick={onClick}
+    >
+      {children}
+    </Link>
+  );
+}
 
 export function Header() {
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     await signOut();
     navigate('/');
-  };
+  }, [signOut, navigate]);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
 
   const navLinks = [
     { href: '/generations', label: 'Generaciones' },
@@ -49,16 +81,16 @@ export function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation with Prefetch */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
+              <PrefetchLink
                 key={link.href}
                 to={link.href}
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all"
               >
                 {link.label}
-              </Link>
+              </PrefetchLink>
             ))}
           </nav>
 
@@ -119,39 +151,39 @@ export function Header() {
                     </div>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link to="/profile" className="flex items-center gap-2">
+                      <PrefetchLink to="/profile" className="flex items-center gap-2 w-full">
                         <User className="w-4 h-4" /> Mi Perfil
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/leaderboard" className="flex items-center gap-2">
+                      <PrefetchLink to="/leaderboard" className="flex items-center gap-2 w-full">
                         <Trophy className="w-4 h-4" /> Leaderboard
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/bookmarks" className="flex items-center gap-2">
+                      <PrefetchLink to="/bookmarks" className="flex items-center gap-2 w-full">
                         <Bookmark className="w-4 h-4" /> Mis Favoritos
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/quick-notes" className="flex items-center gap-2">
+                      <PrefetchLink to="/quick-notes" className="flex items-center gap-2 w-full">
                         <PenLine className="w-4 h-4" /> Notas Rápidas
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/roi-calculator" className="flex items-center gap-2">
+                      <PrefetchLink to="/roi-calculator" className="flex items-center gap-2 w-full">
                         <Calculator className="w-4 h-4" /> Calculadora ROI
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/my-tools" className="flex items-center gap-2">
+                      <PrefetchLink to="/my-tools" className="flex items-center gap-2 w-full">
                         <Wrench className="w-4 h-4" /> Mi Stack de IA
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/playground" className="flex items-center gap-2">
+                      <PrefetchLink to="/playground" className="flex items-center gap-2 w-full">
                         <Sparkles className="w-4 h-4" /> Lab de IA
-                      </Link>
+                      </PrefetchLink>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
@@ -183,19 +215,19 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation with Prefetch */}
         {mobileMenuOpen && (
           <nav className="md:hidden py-4 border-t border-border/50">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
+                <PrefetchLink
                   key={link.href}
                   to={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={closeMobileMenu}
                   className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all"
                 >
                   {link.label}
-                </Link>
+                </PrefetchLink>
               ))}
             </div>
           </nav>
