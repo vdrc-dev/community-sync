@@ -13,6 +13,8 @@ import { LogOut, User, Shield, Menu, X, Trophy, Command } from 'lucide-react';
 import { useState } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
+import { StreakDisplay } from '@/components/streaks/StreakDisplay';
+import { OnlineUsers } from '@/components/presence/OnlineUsers';
 
 export function Header() {
   const { user, signOut, isAdmin } = useAuth();
@@ -76,9 +78,19 @@ export function Header() {
 
             {user ? (
               <>
+                {/* Streak display */}
+                <div className="hidden sm:block">
+                  <StreakDisplay size="sm" showMultiplier={false} />
+                </div>
+
                 {/* Points display (compact) */}
                 <div className="hidden sm:block">
                   <PointsDisplay compact />
+                </div>
+
+                {/* Online users */}
+                <div className="hidden lg:block">
+                  <OnlineUsers showCount={false} maxAvatars={3} />
                 </div>
 
                 {/* Notifications */}
