@@ -151,6 +151,62 @@ export type Database = {
           },
         ]
       }
+      class_presentations: {
+        Row: {
+          assigned_to: string | null
+          class_id: string
+          created_at: string | null
+          created_by: string | null
+          duration_estimate: number | null
+          id: string
+          key_points: string[] | null
+          outline: string | null
+          resources_needed: string[] | null
+          review_notes: string | null
+          status: string
+          talking_points: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          class_id: string
+          created_at?: string | null
+          created_by?: string | null
+          duration_estimate?: number | null
+          id?: string
+          key_points?: string[] | null
+          outline?: string | null
+          resources_needed?: string[] | null
+          review_notes?: string | null
+          status?: string
+          talking_points?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          class_id?: string
+          created_at?: string | null
+          created_by?: string | null
+          duration_estimate?: number | null
+          id?: string
+          key_points?: string[] | null
+          outline?: string | null
+          resources_needed?: string[] | null
+          review_notes?: string | null
+          status?: string
+          talking_points?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_presentations_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: true
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_tools: {
         Row: {
           class_id: string
