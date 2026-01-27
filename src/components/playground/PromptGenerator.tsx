@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { usePromptGenerator } from '@/hooks/usePromptPlayground';
-import { Wand2, Copy, Bookmark, Loader2, Lightbulb, CheckCircle2 } from 'lucide-react';
+import { Wand2, Copy, Bookmark, Loader2, Lightbulb, CheckCircle2, Play, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -48,6 +49,7 @@ interface GeneratedPrompt {
 }
 
 export function PromptGenerator() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { generatePrompt, isLoading, error } = usePromptGenerator();
   
@@ -104,6 +106,15 @@ export function PromptGenerator() {
       toast.success('Prompt guardado en tu biblioteca');
     } catch {
       toast.error('Error al guardar el prompt');
+    }
+  };
+
+  const handleUseInPlayground = () => {
+    if (result?.prompt) {
+      // Store prompt in sessionStorage to pass to playground
+      sessionStorage.setItem('playground_prompt', result.prompt);
+      navigate('/playground');
+      toast.success('Prompt cargado en el Playground');
     }
   };
 
@@ -232,7 +243,12 @@ export function PromptGenerator() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={handleUseInPlayground} size="sm" className="bg-gradient-to-r from-primary to-primary/80">
+                  <Play className="mr-2 h-4 w-4" />
+                  Usar en Playground
+                  <ArrowRight className="ml-1 h-3 w-3" />
+                </Button>
                 <Button onClick={handleCopy} variant="outline" size="sm">
                   <Copy className="mr-2 h-4 w-4" />
                   Copiar

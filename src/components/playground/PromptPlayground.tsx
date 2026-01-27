@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePromptPlayground, AVAILABLE_MODELS, PROMPT_TEMPLATES } from '@/hooks/usePromptPlayground';
+import { TokenCounter } from './TokenCounter';
 import { Play, Square, Copy, Trash2, Bookmark, Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
@@ -33,11 +34,21 @@ export function PromptPlayground() {
   
   const responseRef = useRef<HTMLDivElement>(null);
 
+  // Scroll response into view
   useEffect(() => {
     if (responseRef.current) {
       responseRef.current.scrollTop = responseRef.current.scrollHeight;
     }
   }, [currentResponse]);
+
+  // Load prompt from generator if passed via sessionStorage
+  useEffect(() => {
+    const storedPrompt = sessionStorage.getItem('playground_prompt');
+    if (storedPrompt) {
+      setPrompt(storedPrompt);
+      sessionStorage.removeItem('playground_prompt');
+    }
+  }, []);
 
   const handleExecute = async () => {
     if (!prompt.trim()) {
@@ -159,9 +170,12 @@ export function PromptPlayground() {
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">
-                    Tu Prompt
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-medium">
+                      Tu Prompt
+                    </label>
+                    <TokenCounter text={prompt} systemPrompt={systemPrompt} />
+                  </div>
                   <Textarea
                     placeholder="Escribe tu prompt aquí... Usa {{VARIABLE}} para variables personalizables"
                     value={prompt}
