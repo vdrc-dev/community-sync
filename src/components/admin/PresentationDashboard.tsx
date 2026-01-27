@@ -9,7 +9,8 @@ import {
   ChevronRight,
   Plus,
   LayoutGrid,
-  List
+  List,
+  Settings
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,9 @@ import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PresentationStatusBadge } from './PresentationStatusBadge';
+import { GenerationManager } from './GenerationManager';
 import { usePresentations, type PresentationStatus, type PresentationWithClass } from '@/hooks/usePresentations';
+import { useGenerations } from '@/hooks/useGenerations';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { cn } from '@/lib/utils';
 
@@ -32,13 +35,15 @@ export function PresentationDashboard({
   onCreatePresentation 
 }: PresentationDashboardProps) {
   const { presentations, isLoading } = usePresentations();
+  const { generations: generationsData, isLoading: isLoadingGenerations } = useGenerations();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<PresentationStatus | 'all'>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showGenerationManager, setShowGenerationManager] = useState(false);
 
-  // Get unique generations
-  const generations = useMemo(() => {
+  // Get unique generations for filter dropdown
+  const generationOptions = useMemo(() => {
     if (!presentations) return [];
     const genMap = new Map<string, { id: string; name: string; code: string }>();
     presentations.forEach((p) => {
@@ -97,7 +102,7 @@ export function PresentationDashboard({
     ? Math.round(((stats.approved + stats.published) / stats.total) * 100) 
     : 0;
 
-  if (isLoading) {
+  if (isLoading || isLoadingGenerations) {
     return (
       <div className="flex items-center justify-center h-64">
         <LoadingSpinner />
@@ -105,8 +110,40 @@ export function PresentationDashboard({
     );
   }
 
+  // Show GenerationManager if no generations exist OR if user toggled to it
+  const hasNoGenerations = !generationsData || generationsData.length === 0;
+  if (hasNoGenerations || showGenerationManager) {
+    return (
+      <div className="space-y-6">
+        {!hasNoGenerations && (
+          <div className="flex justify-end">
+            <Button variant="outline" onClick={() => setShowGenerationManager(false)}>
+              Volver al Dashboard
+            </Button>
+          </div>
+        )}
+        <GenerationManager
+          onCreatePresentation={onCreatePresentation}
+          onSelectPresentation={(presentationId) => {
+            // Find the presentation and select it
+            const pres = presentations?.find(p => p.id === presentationId);
+            if (pres) onSelectPresentation(pres);
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Action Bar */}
+      <div className="flex justify-end">
+        <Button variant="outline" onClick={() => setShowGenerationManager(true)}>
+          <Settings className="mr-2 h-4 w-4" />
+          Gestionar Generaciones
+        </Button>
+      </div>
+
       {/* Stats Header */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card className="glass-card">
@@ -171,7 +208,7 @@ export function PresentationDashboard({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todas las generaciones</SelectItem>
-            {generations.map((gen) => (
+            {generationOptions.map((gen) => (
               <SelectItem key={gen.id} value={gen.id}>
                 {gen.code} - {gen.name}
               </SelectItem>
