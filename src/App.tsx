@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CommandPalette } from "@/components/command/CommandPalette";
 import { QuickNoteButton } from "@/components/quick-notes/QuickNoteButton";
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 // Lazy loaded pages for optimal code splitting
@@ -56,6 +57,7 @@ const App = () => (
         <BrowserRouter>
           <CommandPalette />
           <QuickNoteButton />
+          <OnboardingTour />
           <Suspense fallback={<LoadingSpinner fullScreen />}>
             <Routes>
               <Route path="/" element={<Home />} />

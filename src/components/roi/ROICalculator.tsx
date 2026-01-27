@@ -10,6 +10,7 @@ import { ROITemplates, type AutomationTemplate } from './ROITemplates';
 import { ROISavingsChart } from './ROISavingsChart';
 import { ROIAchievements } from './ROIAchievements';
 import { ROISmartSuggestions } from './ROISmartSuggestions';
+import { QuickAddAutomation } from './QuickAddAutomation';
 import { Calculator, Clock, DollarSign, TrendingUp, Zap, Trash2, Plus, Sparkles } from 'lucide-react';
 
 const categories = [
@@ -175,18 +176,21 @@ export function ROICalculator() {
       <ROITemplates onSelectTemplate={handleSelectTemplate} />
 
       {/* Add Button */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center gap-3">
         <h3 className="text-lg font-semibold">Mis Automatizaciones</h3>
-        <Button onClick={() => setShowForm(!showForm)} size="sm">
-          {showForm ? (
-            <>Cancelar</>
-          ) : (
-            <>
-              <Plus className="w-4 h-4 mr-2" />
-              Agregar Manual
-            </>
-          )}
-        </Button>
+        <div className="flex items-center gap-2">
+          <QuickAddAutomation />
+          <Button onClick={() => setShowForm(!showForm)} size="sm" variant="outline">
+            {showForm ? (
+              <>Cancelar</>
+            ) : (
+              <>
+                <Plus className="w-4 h-4 mr-2" />
+                Formulario Completo
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Add Form */}
