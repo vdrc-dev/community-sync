@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -27,7 +27,6 @@ import {
   Wrench, 
   Sparkles,
   ChevronDown,
-  Zap,
   BookOpen,
   Users,
   Calendar,
@@ -68,7 +67,7 @@ function PrefetchLink({
   );
 }
 
-// Navigation item with active indicator
+// Navigation item with active indicator and hover effects
 function NavItem({ 
   to, 
   label, 
@@ -83,30 +82,62 @@ function NavItem({
   const { onMouseEnter, onFocus } = useLinkPrefetch(to);
   
   return (
-    <Link
-      to={to}
-      onMouseEnter={onMouseEnter}
-      onFocus={onFocus}
-      className={`
-        relative px-4 py-2 text-sm font-medium rounded-lg transition-all
-        ${isActive 
-          ? 'text-primary' 
-          : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-        }
-      `}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
-      <span className="flex items-center gap-2">
-        {Icon && <Icon className="w-4 h-4" />}
-        {label}
-      </span>
-      {isActive && (
+      <Link
+        to={to}
+        onMouseEnter={onMouseEnter}
+        onFocus={onFocus}
+        className={`
+          relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 group
+          ${isActive 
+            ? 'text-primary bg-primary/10' 
+            : 'text-muted-foreground hover:text-foreground'
+          }
+        `}
+      >
+        {/* Hover background highlight */}
         <motion.div
-          layoutId="nav-indicator"
-          className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          layoutId={`nav-bg-${to}`}
         />
-      )}
-    </Link>
+        
+        {/* Hover glow effect */}
+        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 blur-sm -z-10" />
+        
+        <span className="relative flex items-center gap-2">
+          {Icon && (
+            <Icon className={`w-4 h-4 transition-all duration-300 ${isActive ? 'text-primary' : 'group-hover:text-primary'}`} />
+          )}
+          <span className="relative">
+            {label}
+            {/* Underline animation */}
+            <motion.span
+              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-primary to-accent rounded-full"
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ 
+                scaleX: isActive ? 1 : 0, 
+                opacity: isActive ? 1 : 0 
+              }}
+              whileHover={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              style={{ originX: 0 }}
+            />
+          </span>
+        </span>
+        
+        {/* Active indicator dot */}
+        {isActive && (
+          <motion.div
+            layoutId="nav-active-dot"
+            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-lg shadow-primary/50"
+            transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+          />
+        )}
+      </Link>
+    </motion.div>
   );
 }
 
@@ -115,6 +146,12 @@ export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Scroll-based blur effect
+  const { scrollY } = useScroll();
+  const headerBg = useTransform(scrollY, [0, 100], ['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)']);
+  const headerBlur = useTransform(scrollY, [0, 100], [8, 24]);
+  const headerBorder = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0.05)', 'rgba(34,197,94,0.2)']);
 
   const handleSignOut = useCallback(async () => {
     await signOut();
@@ -144,30 +181,46 @@ export function Header() {
   ], []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-strong border-b border-border/30">
+    <motion.header 
+      className="fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300"
+      style={{
+        backgroundColor: headerBg,
+        backdropFilter: `blur(${headerBlur}px) saturate(180%)`,
+        borderColor: headerBorder,
+      }}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/30 flex items-center justify-center group-hover:glow-primary transition-all"
+              whileHover={{ scale: 1.08, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent p-[1px] group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
             >
-              <span className="font-mono font-bold text-primary text-lg">VD</span>
+              <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
+                <span className="font-mono font-bold text-primary text-lg">VD</span>
+              </div>
             </motion.div>
             <div className="hidden sm:block">
-              <span className="font-mono font-bold text-foreground">VDRC</span>
+              <motion.span 
+                className="font-mono font-bold text-foreground"
+                whileHover={{ color: 'hsl(var(--primary))' }}
+              >
+                VDRC
+              </motion.span>
               <span className="text-muted-foreground text-sm ml-2 hidden lg:inline">Workshop Portal</span>
             </div>
           </Link>
 
           {/* Desktop Navigation with Active Indicator */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 p-1 rounded-xl bg-muted/30 border border-border/30">
             {navLinks.map((link) => (
               <NavItem
                 key={link.href}
                 to={link.href}
                 label={link.label}
+                icon={link.icon}
                 isActive={location.pathname.startsWith(link.href)}
               />
             ))}
@@ -176,16 +229,21 @@ export function Header() {
           {/* User Menu / Auth Buttons */}
           <div className="flex items-center gap-2">
             {/* CMD+K hint */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="hidden lg:flex items-center gap-2 text-muted-foreground hover:text-foreground border-border/50 bg-muted/30"
-              onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
-              <Command className="w-3 h-3" />
-              <span className="text-xs">Buscar</span>
-              <kbd className="ml-2 px-1.5 py-0.5 text-[10px] font-mono bg-background/50 rounded border border-border/50">⌘K</kbd>
-            </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden lg:flex items-center gap-2 text-muted-foreground hover:text-foreground border-border/50 bg-muted/30 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+              >
+                <Command className="w-3 h-3" />
+                <span className="text-xs">Buscar</span>
+                <kbd className="ml-2 px-1.5 py-0.5 text-[10px] font-mono bg-background/50 rounded border border-border/50">⌘K</kbd>
+              </Button>
+            </motion.div>
 
             {user ? (
               <>
@@ -210,15 +268,20 @@ export function Header() {
                 {/* User Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-9 px-2 gap-2 rounded-xl border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all">
-                      <Avatar className="h-7 w-7">
-                        <AvatarImage src={user.user_metadata?.avatar_url} />
-                        <AvatarFallback className="bg-primary/10 text-primary font-mono text-xs">
-                          {user.email?.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <ChevronDown className="w-3 h-3 text-muted-foreground hidden sm:block" />
-                    </Button>
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      <Button variant="ghost" className="relative h-9 px-2 gap-2 rounded-xl border border-border/50 hover:border-primary/50 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
+                        <Avatar className="h-7 w-7 ring-2 ring-transparent hover:ring-primary/30 transition-all">
+                          <AvatarImage src={user.user_metadata?.avatar_url} />
+                          <AvatarFallback className="bg-primary/10 text-primary font-mono text-xs">
+                            {user.email?.charAt(0).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <ChevronDown className="w-3 h-3 text-muted-foreground hidden sm:block" />
+                      </Button>
+                    </motion.div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-64 glass-strong p-2">
                     {/* User Info Header */}
@@ -250,7 +313,7 @@ export function Header() {
                       </DropdownMenuLabel>
                       <div className="grid grid-cols-2 gap-1 mb-2">
                         {quickLinks.slice(0, 4).map((link) => (
-                          <DropdownMenuItem key={link.href} asChild className="rounded-lg">
+                          <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/10 transition-colors">
                             <PrefetchLink to={link.href} className="flex items-center gap-2 w-full px-2 py-2">
                               <link.icon className="w-4 h-4 text-muted-foreground" />
                               <span className="text-xs">{link.label}</span>
@@ -264,7 +327,7 @@ export function Header() {
 
                     <DropdownMenuGroup>
                       {quickLinks.slice(4).map((link) => (
-                        <DropdownMenuItem key={link.href} asChild className="rounded-lg">
+                        <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/10 transition-colors">
                           <PrefetchLink to={link.href} className="flex items-center gap-2 w-full">
                             <link.icon className="w-4 h-4 text-muted-foreground" />
                             <span className="text-sm">{link.label}</span>
@@ -282,7 +345,7 @@ export function Header() {
                             <Shield className="w-3 h-3" />
                             Administración
                           </DropdownMenuLabel>
-                          <DropdownMenuItem asChild className="rounded-lg">
+                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/10 transition-colors">
                             <PrefetchLink to="/admin/presentations" className="flex items-center gap-2 w-full">
                               <Presentation className="w-4 h-4 text-yellow-500" />
                               <span className="text-sm">Diseño Presentaciones</span>
@@ -296,7 +359,7 @@ export function Header() {
                     
                     <DropdownMenuItem 
                       onClick={handleSignOut} 
-                      className="text-destructive focus:text-destructive rounded-lg"
+                      className="text-destructive focus:text-destructive rounded-lg hover:bg-destructive/10 transition-colors"
                     >
                       <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión
                     </DropdownMenuItem>
@@ -305,24 +368,36 @@ export function Header() {
               </>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground">
-                  <Link to="/auth">Iniciar sesión</Link>
-                </Button>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground glow-primary">
-                  <Link to="/auth?mode=signup">Registrarse</Link>
-                </Button>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300">
+                    <Link to="/auth">Iniciar sesión</Link>
+                  </Button>
+                </motion.div>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }} 
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
+                    <Link to="/auth?mode=signup">Registrarse</Link>
+                  </Button>
+                </motion.div>
               </div>
             )}
 
             {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </Button>
+            </motion.div>
           </div>
         </div>
 
@@ -336,28 +411,40 @@ export function Header() {
               className="md:hidden py-4 border-t border-border/30 overflow-hidden"
             >
               <div className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <PrefetchLink
+                {navLinks.map((link, index) => (
+                  <motion.div
                     key={link.href}
-                    to={link.href}
-                    onClick={closeMobileMenu}
-                    className={`
-                      flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all
-                      ${location.pathname.startsWith(link.href)
-                        ? 'text-primary bg-primary/10'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                      }
-                    `}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
                   >
-                    <link.icon className="w-5 h-5" />
-                    {link.label}
-                  </PrefetchLink>
+                    <PrefetchLink
+                      to={link.href}
+                      onClick={closeMobileMenu}
+                      className={`
+                        flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300
+                        ${location.pathname.startsWith(link.href)
+                          ? 'text-primary bg-primary/10 shadow-lg shadow-primary/10'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                        }
+                      `}
+                    >
+                      <link.icon className={`w-5 h-5 ${location.pathname.startsWith(link.href) ? 'text-primary' : ''}`} />
+                      {link.label}
+                      {location.pathname.startsWith(link.href) && (
+                        <motion.div
+                          layoutId="mobile-active"
+                          className="ml-auto w-2 h-2 rounded-full bg-primary shadow-lg shadow-primary/50"
+                        />
+                      )}
+                    </PrefetchLink>
+                  </motion.div>
                 ))}
               </div>
             </motion.nav>
           )}
         </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   );
 }
