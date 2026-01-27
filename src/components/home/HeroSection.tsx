@@ -99,7 +99,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             <Badge 
               variant="outline" 
-              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm"
+              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary hover:bg-primary/20 hover:shadow-lg hover:shadow-primary/20 cursor-default"
             >
               <Sparkles className="w-4 h-4 mr-2 text-primary animate-pulse" />
               <span className="text-sm font-medium text-foreground">Taller Productividad Digital con IA</span>
@@ -165,18 +165,21 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 <Button 
                   asChild 
                   size="lg" 
-                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground glow-primary font-semibold group"
+                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 animate-[pulse-glow_2s_ease-in-out_infinite]"
                 >
                   <Link to="/workflows">
-                    Explorar Workflows
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <span className="relative z-10 flex items-center">
+                      Explorar Workflows
+                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </Link>
                 </Button>
                 <Button 
                   asChild 
                   variant="outline" 
                   size="lg"
-                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary/50 hover:bg-primary/10 text-foreground"
+                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 text-foreground transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110"
                 >
                   <Link to="/generations">
                     Ver Recursos
@@ -188,18 +191,21 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 <Button 
                   asChild 
                   size="lg" 
-                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground glow-primary font-semibold group"
+                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 animate-[pulse-glow_2s_ease-in-out_infinite]"
                 >
                   <Link to="/auth?mode=signup">
-                    Comenzar Ahora
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <span className="relative z-10 flex items-center">
+                      Comenzar Ahora
+                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </Link>
                 </Button>
                 <Button 
                   asChild 
                   variant="outline" 
                   size="lg"
-                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary/50 hover:bg-primary/10 text-foreground"
+                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 text-foreground transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110"
                 >
                   <Link to="/auth">
                     Iniciar Sesión
@@ -217,7 +223,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-12 max-w-xl mx-auto"
         >
-          <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30">
+          <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30 transition-all duration-500 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
               <div className="w-3 h-3 rounded-full bg-red-500/80" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
