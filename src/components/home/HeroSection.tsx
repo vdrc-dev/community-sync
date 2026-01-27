@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
 
 interface HeroSectionProps {
   isAuthenticated: boolean;
@@ -15,7 +16,72 @@ const floatingIcons = [
   { icon: Terminal, delay: 1.5, x: '15%', y: '70%' },
 ];
 
+// Generate random particles
+const generateParticles = (count: number) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 10 + 15,
+    delay: Math.random() * 5,
+    opacity: Math.random() * 0.5 + 0.2,
+  }));
+};
+
+// Typing effect component
+function TypingLine({ 
+  text, 
+  delay, 
+  isCommand = false,
+  prefix = '',
+  className = ''
+}: { 
+  text: string; 
+  delay: number; 
+  isCommand?: boolean;
+  prefix?: string;
+  className?: string;
+}) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [showCursor, setShowCursor] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => {
+      setShowCursor(true);
+      let currentIndex = 0;
+      
+      const typeInterval = setInterval(() => {
+        if (currentIndex <= text.length) {
+          setDisplayedText(text.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(typeInterval);
+          setShowCursor(false);
+          setIsComplete(true);
+        }
+      }, isCommand ? 80 : 30);
+
+      return () => clearInterval(typeInterval);
+    }, delay);
+
+    return () => clearTimeout(startTimer);
+  }, [text, delay, isCommand]);
+
+  return (
+    <p className={className}>
+      {prefix && <span className="text-primary">{prefix}</span>}
+      {displayedText}
+      {showCursor && <span className="animate-pulse">▊</span>}
+      {isComplete && !isCommand && <span className="opacity-0">.</span>}
+    </p>
+  );
+}
+
 export function HeroSection({ isAuthenticated }: HeroSectionProps) {
+  const particles = useMemo(() => generateParticles(50), []);
+
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
       {/* Animated gradient background */}
@@ -38,6 +104,36 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
 
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: particle.size,
+              height: particle.size,
+              background: `radial-gradient(circle, hsl(142, 76%, 50%) 0%, hsl(180, 100%, 45%) 50%, transparent 100%)`,
+              boxShadow: `0 0 ${particle.size * 2}px hsl(142, 76%, 50% / 0.5)`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, Math.random() * 20 - 10, 0],
+              opacity: [particle.opacity, particle.opacity * 1.5, particle.opacity],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: particle.duration,
+              delay: particle.delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        ))}
+      </div>
 
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden">
@@ -216,7 +312,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           </motion.div>
         </motion.div>
 
-        {/* Terminal-style typing effect */}
+        {/* Terminal with realistic typing effect */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -225,21 +321,55 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         >
           <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30 transition-all duration-500 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              <motion.div 
+                className="w-3 h-3 rounded-full bg-red-500/80"
+                whileHover={{ scale: 1.2 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              />
+              <motion.div 
+                className="w-3 h-3 rounded-full bg-yellow-500/80"
+                whileHover={{ scale: 1.2 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              />
+              <motion.div 
+                className="w-3 h-3 rounded-full bg-green-500/80"
+                whileHover={{ scale: 1.2 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              />
               <span className="text-muted-foreground text-xs ml-2">terminal</span>
+              <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
             </div>
-            <div className="space-y-1">
-              <p className="text-muted-foreground">
-                <span className="text-primary">$</span> productividad --init
-              </p>
-              <p className="text-green-400">✓ Workflows cargados</p>
-              <p className="text-green-400">✓ Herramientas IA listas</p>
-              <p className="text-green-400">✓ Comunidad conectada</p>
-              <p className="text-muted-foreground">
+            <div className="space-y-1 min-h-[120px]">
+              <TypingLine 
+                text=" productividad --init" 
+                prefix="$ " 
+                delay={2000} 
+                isCommand 
+                className="text-muted-foreground"
+              />
+              <TypingLine 
+                text="✓ Workflows cargados" 
+                delay={3500} 
+                className="text-green-400"
+              />
+              <TypingLine 
+                text="✓ Herramientas IA listas" 
+                delay={4200} 
+                className="text-green-400"
+              />
+              <TypingLine 
+                text="✓ Comunidad conectada" 
+                delay={5000} 
+                className="text-green-400"
+              />
+              <motion.p 
+                className="text-muted-foreground"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 6 }}
+              >
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
-              </p>
+              </motion.p>
             </div>
           </div>
         </motion.div>
