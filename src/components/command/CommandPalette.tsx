@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CommandDialog,
@@ -28,7 +28,31 @@ import {
   Settings,
   FlaskConical,
   Zap,
+  GraduationCap,
+  PlayCircle,
+  MessageSquare,
+  Target,
+  Clock,
 } from 'lucide-react';
+import { isToday, isBefore, parseISO, isAfter } from 'date-fns';
+
+interface Generation {
+  id: string;
+  code: string;
+  name: string;
+  is_active: boolean | null;
+  start_date: string | null;
+  end_date: string | null;
+}
+
+interface ClassData {
+  id: string;
+  title: string;
+  class_number: number;
+  class_date: string | null;
+  recording_url: string | null;
+  generation_id: string;
+}
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -52,8 +76,8 @@ export function CommandPalette() {
   const { data: generations } = useQuery({
     queryKey: ['cmd-generations'],
     queryFn: async () => {
-      const { data } = await supabase.from('generations').select('code, name').limit(10);
-      return data || [];
+      const { data } = await supabase.from('generations').select('*').order('start_date', { ascending: false }).limit(10);
+      return (data || []) as Generation[];
     },
     enabled: open,
   });
@@ -67,17 +91,97 @@ export function CommandPalette() {
     enabled: open,
   });
 
-  const { data: classes } = useQuery({
-    queryKey: ['cmd-classes'],
+  // Fetch classes for active generation
+  const activeGeneration = useMemo(() => {
+    if (!generations?.length) return null;
+    const now = new Date();
+    return generations.find(g => 
+      g.is_active || 
+      (g.start_date && g.end_date && 
+        isAfter(now, parseISO(g.start_date)) && 
+        isBefore(now, parseISO(g.end_date)))
+    ) || generations[0];
+  }, [generations]);
+
+  const { data: activeClasses } = useQuery({
+    queryKey: ['cmd-active-classes', activeGeneration?.id],
     queryFn: async () => {
+      if (!activeGeneration) return [];
       const { data } = await supabase
         .from('classes')
-        .select('id, title, generation_id')
-        .limit(20);
-      return data || [];
+        .select('id, title, class_number, class_date, recording_url, generation_id')
+        .eq('generation_id', activeGeneration.id)
+        .order('class_number', { ascending: true });
+      return (data || []) as ClassData[];
     },
-    enabled: open,
+    enabled: open && !!activeGeneration,
   });
+
+  // Calculate contextual actions
+  const contextualActions = useMemo(() => {
+    const actions: Array<{
+      id: string;
+      label: string;
+      description?: string;
+      icon: React.ReactNode;
+      action: () => void;
+    }> = [];
+
+    if (!activeClasses?.length || !activeGeneration) return actions;
+
+    const now = new Date();
+    
+    // Find today's class
+    const todayClass = activeClasses.find(c => c.class_date && isToday(parseISO(c.class_date)));
+    if (todayClass) {
+      actions.push({
+        id: 'today-class',
+        label: `Clase de hoy: ${todayClass.title}`,
+        description: `Clase ${todayClass.class_number} de ${activeGeneration.code}`,
+        icon: <Clock className="mr-2 h-4 w-4 text-primary" />,
+        action: () => navigate(`/generations/${activeGeneration.code}`),
+      });
+    }
+
+    // Find next class
+    const nextClass = activeClasses.find(c => 
+      c.class_date && isAfter(parseISO(c.class_date), now) && !isToday(parseISO(c.class_date))
+    );
+    if (nextClass) {
+      actions.push({
+        id: 'next-class',
+        label: `Próxima clase: ${nextClass.title}`,
+        description: `Clase ${nextClass.class_number}`,
+        icon: <Target className="mr-2 h-4 w-4 text-muted-foreground" />,
+        action: () => navigate(`/generations/${activeGeneration.code}`),
+      });
+    }
+
+    // Find last recording
+    const lastRecording = [...activeClasses]
+      .filter(c => c.recording_url && c.class_date && isBefore(parseISO(c.class_date), now))
+      .pop();
+    if (lastRecording?.recording_url) {
+      actions.push({
+        id: 'last-recording',
+        label: 'Ver última grabación',
+        description: `${lastRecording.title}`,
+        icon: <PlayCircle className="mr-2 h-4 w-4 text-primary" />,
+        action: () => window.open(lastRecording.recording_url!, '_blank'),
+      });
+    }
+
+    // Current generation shortcut
+    actions.push({
+      id: 'current-gen',
+      label: `Ir a ${activeGeneration.name}`,
+      description: activeGeneration.code,
+      icon: <GraduationCap className="mr-2 h-4 w-4 text-primary" />,
+      action: () => navigate(`/generations/${activeGeneration.code}`),
+    });
+
+    return actions;
+  }, [activeClasses, activeGeneration, navigate]);
 
   const runCommand = useCallback((command: () => void) => {
     setOpen(false);
@@ -94,6 +198,26 @@ export function CommandPalette() {
       <CommandInput placeholder="Buscar páginas, herramientas, clases..." />
       <CommandList>
         <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+
+        {/* Contextual Actions (when logged in) */}
+        {user && contextualActions.length > 0 && (
+          <>
+            <CommandGroup heading="Acceso Rápido">
+              {contextualActions.map((action) => (
+                <CommandItem key={action.id} onSelect={() => runCommand(action.action)}>
+                  {action.icon}
+                  <div className="flex flex-col">
+                    <span>{action.label}</span>
+                    {action.description && (
+                      <span className="text-xs text-muted-foreground">{action.description}</span>
+                    )}
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+            <CommandSeparator />
+          </>
+        )}
 
         {/* Navigation */}
         <CommandGroup heading="Navegación">
@@ -156,14 +280,19 @@ export function CommandPalette() {
         {/* Generations */}
         {generations && generations.length > 0 && (
           <CommandGroup heading="Generaciones">
-            {generations.map((gen) => (
+            {generations.slice(0, 5).map((gen) => (
               <CommandItem
                 key={gen.code}
                 onSelect={() => runCommand(() => navigate(`/generations/${gen.code}`))}
               >
-                <BookOpen className="mr-2 h-4 w-4 text-primary" />
+                <GraduationCap className="mr-2 h-4 w-4 text-primary" />
                 <span>{gen.name}</span>
                 <span className="ml-2 text-xs text-muted-foreground font-mono">{gen.code}</span>
+                {gen.is_active && (
+                  <span className="ml-auto text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded">
+                    Activa
+                  </span>
+                )}
               </CommandItem>
             ))}
           </CommandGroup>
