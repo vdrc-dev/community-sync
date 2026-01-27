@@ -18,25 +18,46 @@ const floatingIcons = [
 export function HeroSection({ isAuthenticated }: HeroSectionProps) {
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
+      {/* Animated gradient background */}
+      <motion.div
+        className="absolute inset-0 -z-10"
+        style={{
+          background: 'linear-gradient(135deg, hsl(142, 76%, 36%) 0%, hsl(180, 100%, 35%) 25%, hsl(270, 70%, 45%) 50%, hsl(180, 100%, 35%) 75%, hsl(142, 76%, 36%) 100%)',
+          backgroundSize: '400% 400%',
+        }}
+        animate={{
+          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          repeatType: 'loop',
+          ease: 'linear',
+        }}
+      />
+
+      {/* Dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
+
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[120px]"
+          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px]"
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[100px]"
         />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 0.5 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/5 via-transparent to-transparent rounded-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent rounded-full"
         />
       </div>
 
@@ -45,7 +66,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         <motion.div
           key={i}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.15, y: 0 }}
+          animate={{ opacity: 0.2, y: 0 }}
           transition={{ duration: 1, delay }}
           className="absolute hidden md:block"
           style={{ left: x, top: y }}
@@ -54,41 +75,68 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Icon className="w-12 h-12 text-primary/30" />
+            <Icon className="w-12 h-12 text-primary/40" />
           </motion.div>
         </motion.div>
       ))}
 
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.05)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+        {/* Glassmorphism container */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-background/40 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5"
+        >
           {/* Animated badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             <Badge 
               variant="outline" 
-              className="px-4 py-2 mb-8 border-primary/50 bg-primary/5 backdrop-blur-sm"
+              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm"
             >
               <Sparkles className="w-4 h-4 mr-2 text-primary animate-pulse" />
-              <span className="text-sm font-medium">Taller Productividad Digital con IA</span>
+              <span className="text-sm font-medium text-foreground">Taller Productividad Digital con IA</span>
             </Badge>
           </motion.div>
 
           {/* Main heading with stagger animation */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
           >
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold mb-6 leading-[0.9] tracking-tight">
-              <span className="block text-foreground">Domina la</span>
-              <span className="block text-gradient glow-text mt-2">Productividad</span>
-              <span className="block text-foreground/80 text-4xl sm:text-5xl md:text-6xl mt-4">con IA</span>
+              <motion.span 
+                className="block text-foreground drop-shadow-lg"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                Domina la
+              </motion.span>
+              <motion.span 
+                className="block text-gradient glow-text mt-2"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.8, ease: 'easeOut' }}
+              >
+                Productividad
+              </motion.span>
+              <motion.span 
+                className="block text-foreground/90 text-4xl sm:text-5xl md:text-6xl mt-4 drop-shadow-md"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+              >
+                con IA
+              </motion.span>
             </h1>
           </motion.div>
 
@@ -96,12 +144,12 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
           >
             Tu hub exclusivo con 
-            <span className="text-primary font-semibold"> workflows interactivos</span>, 
-            <span className="text-accent font-semibold"> herramientas IA </span>
+            <span className="text-primary font-bold"> workflows interactivos</span>, 
+            <span className="text-accent font-bold"> herramientas IA </span>
             y una comunidad de productividad digital.
           </motion.p>
 
@@ -109,7 +157,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 1.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             {isAuthenticated ? (
@@ -128,7 +176,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                   asChild 
                   variant="outline" 
                   size="lg"
-                  className="h-14 px-8 text-lg border-border hover:border-primary/50 hover:bg-primary/5"
+                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary/50 hover:bg-primary/10 text-foreground"
                 >
                   <Link to="/generations">
                     Ver Recursos
@@ -151,7 +199,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                   asChild 
                   variant="outline" 
                   size="lg"
-                  className="h-14 px-8 text-lg border-border hover:border-primary/50 hover:bg-primary/5"
+                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary/50 hover:bg-primary/10 text-foreground"
                 >
                   <Link to="/auth">
                     Iniciar Sesión
@@ -160,42 +208,42 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               </>
             )}
           </motion.div>
+        </motion.div>
 
-          {/* Terminal-style typing effect */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="mt-16 max-w-xl mx-auto"
-          >
-            <div className="glass rounded-lg p-4 font-mono text-sm text-left border-primary/20">
-              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
-                <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <div className="w-3 h-3 rounded-full bg-green-500/70" />
-                <span className="text-muted-foreground text-xs ml-2">terminal</span>
-              </div>
-              <div className="space-y-1">
-                <p className="text-muted-foreground">
-                  <span className="text-primary">$</span> productividad --init
-                </p>
-                <p className="text-green-400">✓ Workflows cargados</p>
-                <p className="text-green-400">✓ Herramientas IA listas</p>
-                <p className="text-green-400">✓ Comunidad conectada</p>
-                <p className="text-muted-foreground">
-                  <span className="text-primary">$</span> <span className="cursor-blink">_</span>
-                </p>
-              </div>
+        {/* Terminal-style typing effect */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+          className="mt-12 max-w-xl mx-auto"
+        >
+          <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30">
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
+              <div className="w-3 h-3 rounded-full bg-red-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              <span className="text-muted-foreground text-xs ml-2">terminal</span>
             </div>
-          </motion.div>
-        </div>
+            <div className="space-y-1">
+              <p className="text-muted-foreground">
+                <span className="text-primary">$</span> productividad --init
+              </p>
+              <p className="text-green-400">✓ Workflows cargados</p>
+              <p className="text-green-400">✓ Herramientas IA listas</p>
+              <p className="text-green-400">✓ Comunidad conectada</p>
+              <p className="text-muted-foreground">
+                <span className="text-primary">$</span> <span className="cursor-blink">_</span>
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
@@ -203,7 +251,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs font-mono text-muted-foreground/50">scroll</span>
+          <span className="text-xs font-mono text-foreground/50">scroll</span>
           <div className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent" />
         </motion.div>
       </motion.div>
