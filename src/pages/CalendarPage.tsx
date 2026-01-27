@@ -7,6 +7,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { CalendarExport } from '@/components/calendar/CalendarExport';
 import { 
   CalendarIcon, 
   Clock, 
@@ -14,10 +15,13 @@ import {
   Video, 
   ExternalLink, 
   Loader2,
-  ChevronRight
+  ChevronRight,
+  Download,
+  Bell
 } from 'lucide-react';
-import { format, isSameDay, isAfter, addDays } from 'date-fns';
+import { format, isSameDay, isAfter, addDays, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { toast } from '@/hooks/use-toast';
 
 export default function CalendarPage() {
   const { user } = useAuth();
@@ -56,17 +60,75 @@ export default function CalendarPage() {
   // Dates that have events for highlighting in calendar
   const eventDates = events?.map((event) => new Date(event.event_date)) || [];
 
+  // Export all upcoming events as ICS
+  const exportAllEvents = () => {
+    if (!upcomingEvents?.length) return;
+
+    const formatDateForICS = (date: Date): string => {
+      return format(date, "yyyyMMdd'T'HHmmss");
+    };
+
+    const icsEvents = upcomingEvents.map((event) => {
+      const eventDate = parseISO(event.event_date);
+      const endDate = new Date(eventDate.getTime() + (event.duration_minutes || 90) * 60000);
+
+      return `BEGIN:VEVENT
+DTSTART:${formatDateForICS(eventDate)}
+DTEND:${formatDateForICS(endDate)}
+SUMMARY:${event.title}
+DESCRIPTION:${event.description || ''}${event.meeting_url ? `\\n\\nEnlace: ${event.meeting_url}` : ''}
+LOCATION:${event.location || event.meeting_url || 'Online'}
+STATUS:CONFIRMED
+END:VEVENT`;
+    }).join('\n');
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//VDRC//Taller IA//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+${icsEvents}
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'vdrc_eventos.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+
+    toast({
+      title: 'Calendario exportado',
+      description: `${upcomingEvents.length} eventos descargados`,
+    });
+  };
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-3xl sm:text-4xl font-mono font-bold mb-4">
-            <span className="text-gradient">Calendario</span>
-          </h1>
-          <p className="text-muted-foreground max-w-xl">
-            Próximas sesiones y eventos del taller
-          </p>
+        <div className="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-mono font-bold mb-4">
+              <span className="text-gradient">Calendario</span>
+            </h1>
+            <p className="text-muted-foreground max-w-xl">
+              Próximas sesiones y eventos del taller
+            </p>
+          </div>
+          
+          {upcomingEvents && upcomingEvents.length > 0 && (
+            <Button 
+              variant="outline" 
+              onClick={exportAllEvents}
+              className="gap-2 self-start sm:self-auto"
+            >
+              <Download className="h-4 w-4" />
+              Exportar todos
+            </Button>
+          )}
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -83,7 +145,7 @@ export default function CalendarPage() {
                 }}
                 modifiersStyles={{
                   hasEvent: {
-                    backgroundColor: 'hsl(142 76% 50% / 0.2)',
+                    backgroundColor: 'hsl(var(--primary) / 0.2)',
                     borderRadius: '50%',
                   },
                 }}
@@ -121,7 +183,7 @@ export default function CalendarPage() {
                       className="p-4 rounded-lg bg-muted/30 border border-border/50 hover:border-primary/30 transition-colors"
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <div>
+                        <div className="flex-1">
                           <h4 className="font-semibold mb-1">{event.title}</h4>
                           {event.description && (
                             <p className="text-sm text-muted-foreground mb-3">
@@ -149,19 +211,21 @@ export default function CalendarPage() {
                             )}
                           </div>
                         </div>
-                        {event.meeting_url && (
-                          <a
-                            href={event.meeting_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-shrink-0"
-                          >
-                            <Button size="sm" className="bg-primary hover:bg-primary/90">
-                              <Video className="w-4 h-4 mr-1" />
-                              Unirse
-                            </Button>
-                          </a>
-                        )}
+                        <div className="flex flex-col gap-2 shrink-0">
+                          {event.meeting_url && (
+                            <a
+                              href={event.meeting_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Button size="sm" className="bg-primary hover:bg-primary/90 w-full">
+                                <Video className="w-4 h-4 mr-1" />
+                                Unirse
+                              </Button>
+                            </a>
+                          )}
+                          <CalendarExport event={event} size="sm" />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -213,22 +277,27 @@ export default function CalendarPage() {
                       </p>
                     )}
 
-                    <div className="flex items-center justify-between">
-                      {event.generation && (
-                        <Badge variant="outline" className="border-border">
-                          {event.generation.code}
-                        </Badge>
-                      )}
-                      {event.meeting_url && (
-                        <a
-                          href={event.meeting_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-primary hover:underline flex items-center gap-1"
-                        >
-                          Unirse <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        {event.generation && (
+                          <Badge variant="outline" className="border-border">
+                            {event.generation.code}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <CalendarExport event={event} variant="ghost" size="icon" />
+                        {event.meeting_url && (
+                          <a
+                            href={event.meeting_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-primary hover:underline flex items-center gap-1"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
