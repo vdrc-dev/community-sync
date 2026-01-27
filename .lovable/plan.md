@@ -1,206 +1,174 @@
 
-# Plan: Sistema de Diseño de Presentaciones por Clase (Admin)
+# Plan de Mejora de Practicidad, Utilidad e Intuitividad
 
-## Resumen
-Crear una sección interna exclusiva para administradores donde el equipo pueda diseñar, planificar y colaborar en las presentaciones de cada clase. Esta herramienta servirá como "backstage" para preparar el contenido antes de publicarlo a los estudiantes.
-
----
-
-## Estructura de la Funcionalidad
-
-### 1. Nueva Tabla en Base de Datos: `class_presentations`
-
-Almacenará el contenido de diseño de cada presentación:
-
-| Campo | Tipo | Descripcion |
-|-------|------|-------------|
-| id | uuid | Identificador unico |
-| class_id | uuid (FK) | Referencia a la clase |
-| status | enum | `draft`, `review`, `approved`, `published` |
-| outline | text | Estructura/esquema de la presentacion (Markdown) |
-| key_points | text[] | Puntos clave a cubrir |
-| talking_points | jsonb | Notas del presentador por seccion |
-| resources_needed | text[] | Recursos/demos/herramientas necesarias |
-| duration_estimate | integer | Duracion estimada en minutos |
-| assigned_to | text | Quien prepara esta presentacion |
-| review_notes | text | Comentarios de revision del equipo |
-| created_at | timestamp | Fecha de creacion |
-| updated_at | timestamp | Ultima actualizacion |
-| created_by | uuid | Usuario que creo el draft |
-
-**RLS:** Solo usuarios con rol `admin` pueden leer/escribir.
+## Resumen Ejecutivo
+Este plan optimiza la experiencia de usuario en las funciones principales del portal, enfocándose en reducir fricción, aumentar la claridad, y hacer las herramientas más actionables e intuitivas.
 
 ---
 
-### 2. Nueva Pagina: `/admin/presentations`
+## 1. Laboratorio de IA (Playground)
 
-**Ruta protegida** que solo muestra contenido a usuarios admin. Incluira:
+### Mejoras al Prompt Playground
 
-**Vista Principal (Dashboard):**
-- Grid de todas las clases agrupadas por generacion
-- Indicadores visuales de estado (draft/review/approved/published)
-- Filtros por generacion y estado
-- Barra de progreso global (ej: "12/18 clases listas")
+**Estado actual:** El playground requiere escribir prompts manualmente y los templates no muestran preview de resultados.
 
-**Vista de Clase Individual:**
-- Editor de outline con soporte Markdown
-- Seccion de "Puntos Clave" (lista editable con drag-and-drop)
-- Seccion de "Talking Points" por cada slide/seccion
-- Checklist de recursos necesarios
-- Campo de duracion estimada
-- Asignacion de responsable
-- Area de comentarios/revision del equipo
-- Historial de cambios
+**Mejoras propuestas:**
 
----
+- **Auto-completado inteligente de variables:** Cuando el usuario carga un template con `{{VARIABLE}}`, mostrar inputs flotantes directamente en el textarea con highlight visual
+- **Comparador de modelos side-by-side:** Añadir opción para ejecutar el mismo prompt en 2 modelos simultáneamente y comparar respuestas
+- **Botón "Mejorar mi prompt":** Un solo clic para enviar el prompt actual al generador y recibir una versión optimizada
+- **Favoritos de prompts ejecutados:** Marcar respuestas específicas como favoritas desde el historial
+- **Indicador de tokens estimados:** Mostrar contador de tokens antes de ejecutar
 
-### 3. Componentes a Crear
+### Mejoras al Generador de Prompts
 
-```text
-src/
-  pages/
-    AdminPresentations.tsx          -- Pagina principal admin
-  components/
-    admin/
-      PresentationDashboard.tsx     -- Vista general de todas las clases
-      PresentationEditor.tsx        -- Editor completo de presentacion
-      PresentationStatusBadge.tsx   -- Indicador visual de estado
-      PresentationOutlineEditor.tsx -- Editor Markdown para outline
-      TalkingPointsEditor.tsx       -- Editor de notas del presentador
-      ResourceChecklist.tsx         -- Checklist de recursos
-      ReviewCommentsSection.tsx     -- Seccion de comentarios del equipo
-  hooks/
-    usePresentations.tsx            -- CRUD y logica de presentaciones
-```
+- **Wizard paso a paso:** Convertir el formulario en un wizard guiado de 3 pasos con progreso visual
+- **Ejemplos dinámicos:** Mostrar mini-ejemplos del tipo de prompt que se generará según las opciones seleccionadas
+- **"Usar en Playground":** Botón directo para enviar el prompt generado al Playground y probarlo inmediatamente
+- **Historial de prompts generados:** Persistir los últimos 10 prompts generados para el usuario
 
 ---
 
-### 4. Flujo de Trabajo del Equipo
+## 2. Calculadora ROI
 
-```text
-  +----------+      +--------+      +----------+      +-----------+
-  |  DRAFT   | ---> | REVIEW | ---> | APPROVED | ---> | PUBLISHED |
-  +----------+      +--------+      +----------+      +-----------+
-       |                |                |
-       v                v                v
-   Creacion        Feedback         Listo para
-   inicial         del equipo       la clase
-```
+**Estado actual:** Requiere llenar múltiples campos manualmente para cada automatización.
 
-- **Draft:** Borrador inicial, solo visible para el creador
-- **Review:** Listo para revision, visible para todo el equipo admin
-- **Approved:** Aprobado, listo para usar en clase
-- **Published:** Ya se uso/presento (archivo historico)
+**Mejoras propuestas:**
+
+- **Quick-add simplificado:** Añadir botón "Agregar rápido" con solo 3 campos esenciales (nombre, tiempo ahorrado, frecuencia)
+- **Presets de industria:** Templates predefinidos por rol (Marketer, Developer, Manager, etc.)
+- **Meta mensual de ahorro:** Permitir al usuario definir una meta y mostrar progreso visual hacia ella
+- **Exportar resumen:** Botón para descargar PDF o copiar resumen en texto para compartir logros
+- **Comparación mes a mes:** Gráfico que muestre evolución del ahorro vs mes anterior
 
 ---
 
-### 5. Integracion con Clases Existentes
+## 3. Workflows Interactivos
 
-La nueva seccion se vinculara con la tabla `classes` existente:
-- Desde `GenerationDetail.tsx`, los admins veran un boton "Disenar Presentacion" en cada clase
-- Desde el dashboard de presentaciones, podran navegar directamente a la clase relacionada
+**Estado actual:** Los pasos se ejecutan individualmente sin contexto entre ellos.
 
----
+**Mejoras propuestas:**
 
-## Detalles Tecnicos
-
-### Migracion SQL
-
-```sql
--- Crear tabla de presentaciones
-CREATE TABLE public.class_presentations (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  class_id UUID NOT NULL REFERENCES public.classes(id) ON DELETE CASCADE,
-  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'review', 'approved', 'published')),
-  outline TEXT DEFAULT '',
-  key_points TEXT[] DEFAULT '{}',
-  talking_points JSONB DEFAULT '[]',
-  resources_needed TEXT[] DEFAULT '{}',
-  duration_estimate INTEGER DEFAULT 60,
-  assigned_to TEXT,
-  review_notes TEXT DEFAULT '',
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW(),
-  created_by UUID,
-  UNIQUE(class_id) -- Una presentacion por clase
-);
-
--- RLS: Solo admins
-ALTER TABLE public.class_presentations ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Admins can manage presentations"
-  ON public.class_presentations
-  FOR ALL
-  TO authenticated
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.user_roles
-      WHERE user_roles.user_id = auth.uid()
-      AND user_roles.role = 'admin'
-    )
-  );
-
--- Trigger para updated_at
-CREATE TRIGGER update_class_presentations_updated_at
-  BEFORE UPDATE ON public.class_presentations
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
-```
-
-### Hook `usePresentations.tsx`
-
-```typescript
-// Operaciones principales:
-- fetchAllPresentations()     // Lista todas las presentaciones
-- fetchPresentation(classId)  // Obtiene presentacion de una clase
-- createPresentation(classId) // Crea draft inicial
-- updatePresentation(id, data) // Actualiza campos
-- updateStatus(id, status)    // Cambia estado
-- deletePresentation(id)      // Elimina (soft delete opcional)
-```
-
-### Pagina `AdminPresentations.tsx`
-
-- Verificacion de `isAdmin` al inicio
-- Redirect a `/` si no es admin
-- Layout con sidebar de generaciones
-- Area principal con grid de clases y sus estados
-
-### Editor de Presentacion
-
-- Textarea con preview Markdown para el outline
-- Inputs dinamicos para key points (agregar/eliminar/reordenar)
-- Editor JSON visual para talking points
-- Checkboxes para recursos
-- Select para asignar responsable (lista de admins)
-- Textarea para review notes
+- **Flujo continuo:** Opción para que el output de un paso se use como input del siguiente automáticamente
+- **Variables globales del workflow:** Definir variables una vez al inicio que se propaguen a todos los pasos
+- **Modo "ejecutar todo":** Botón para ejecutar todos los pasos en secuencia
+- **Indicador de progreso persistente:** Guardar en qué paso quedó el usuario y permitir continuar después
+- **Sugerencias de siguiente workflow:** Al completar, recomendar workflows relacionados
 
 ---
 
-## Archivos a Crear/Modificar
+## 4. Catálogo de Herramientas
 
-| Archivo | Accion |
-|---------|--------|
-| `supabase/migrations/xxx_class_presentations.sql` | Crear |
-| `src/pages/AdminPresentations.tsx` | Crear |
-| `src/components/admin/PresentationDashboard.tsx` | Crear |
-| `src/components/admin/PresentationEditor.tsx` | Crear |
-| `src/components/admin/PresentationStatusBadge.tsx` | Crear |
-| `src/hooks/usePresentations.tsx` | Crear |
-| `src/App.tsx` | Modificar (agregar ruta) |
-| `src/components/layout/Header.tsx` | Modificar (link admin) |
-| `src/pages/GenerationDetail.tsx` | Modificar (boton para admins) |
+**Estado actual:** El tracking es básico y no hay guía sobre cuándo usar cada herramienta.
+
+**Mejoras propuestas:**
+
+- **Comparador de herramientas:** Seleccionar 2-3 herramientas y ver tabla comparativa (pricing, features, casos de uso)
+- **"Para qué es mejor":** Tags de casos de uso específicos (mejor para: emails, código, investigación)
+- **Filtro por mi stack:** Mostrar solo herramientas que complementen las que ya uso
+- **Notas y tips de la comunidad:** Sección de tips rápidos de otros usuarios sobre cada herramienta
+- **Integración con ROI:** Sugerir herramientas basadas en las automatizaciones del usuario
 
 ---
 
-## UI/UX
+## 5. Sistema de Bookmarks
 
-- Estilo consistente con el resto del portal (glassmorphism, animaciones framer-motion)
-- Indicadores de estado con colores distintivos:
-  - Draft: gris
-  - Review: amarillo/naranja
-  - Approved: verde
-  - Published: azul
-- Auto-guardado cada 3 segundos mientras se edita
-- Toast de confirmacion al cambiar estados
-- Vista previa del outline en Markdown renderizado
+**Estado actual:** Permite guardar con tags pero no hay organización visual.
+
+**Mejoras propuestas:**
+
+- **Colecciones/Carpetas:** Agrupar bookmarks en colecciones temáticas (ej: "Prompts de Marketing", "Tools de Código")
+- **Vista Kanban:** Opción de ver bookmarks como board con columnas personalizables
+- **Recordatorios:** "Revisar este recurso en 7 días"
+- **Estadísticas de uso:** Mostrar cuántas veces se ha accedido a cada bookmark
+- **Quick search global:** Buscar en todos los bookmarks desde CMD+K
+
+---
+
+## 6. Perfil y Gamificación
+
+**Estado actual:** El perfil muestra stats básicos sin contexto motivacional.
+
+**Mejoras propuestas:**
+
+- **Dashboard personalizado:** Resumen visual de actividad semanal, racha, y próximos desafíos
+- **Badges con progreso:** Mostrar badges bloqueados con % de progreso hacia desbloquearlos
+- **Metas semanales personalizables:** El usuario define sus propios objetivos (ej: "Probar 3 workflows")
+- **Sharing de logros:** Botón para compartir badges y stats en redes sociales
+- **Historial de actividad:** Timeline de las últimas acciones del usuario
+
+---
+
+## 7. Mejoras Transversales de UX
+
+### Onboarding Inteligente
+
+- **Tour guiado para nuevos usuarios:** Highlight interactivo de las funciones principales
+- **Checklist de inicio:** "Completa estas 5 acciones para desbloquear tu primera badge"
+- **Tooltips contextuales:** Tips que aparecen la primera vez que se usa cada función
+
+### Atajos y Navegación
+
+- **Mejoras al CMD+K:** Añadir acciones rápidas como "Ejecutar último prompt", "Ir a mi workflow en progreso"
+- **Breadcrumbs en páginas profundas:** Mejor orientación en workflows y generaciones
+- **Historial de navegación reciente:** Quick access a los últimos 5 recursos visitados
+
+### Feedback Visual
+
+- **Loading states consistentes:** Skeletons animados en lugar de spinners genéricos
+- **Confirmaciones con undo:** "Bookmark eliminado" con opción de deshacer por 5 segundos
+- **Micro-celebraciones:** Confetti sutil al completar workflows o alcanzar metas
+
+---
+
+## Implementación Técnica
+
+### Archivos a Crear
+- `src/components/playground/ModelComparator.tsx` - Comparador de modelos side-by-side
+- `src/components/playground/PromptEnhancer.tsx` - Botón de mejora automática
+- `src/components/roi/QuickAddAutomation.tsx` - Modal de agregado rápido
+- `src/components/roi/SavingsGoal.tsx` - Meta de ahorro mensual
+- `src/components/tools/ToolComparator.tsx` - Comparador de herramientas (ya existe, mejorar)
+- `src/components/bookmarks/BookmarkCollections.tsx` - Sistema de colecciones
+- `src/components/onboarding/OnboardingTour.tsx` - Tour guiado inicial
+- `src/components/common/UndoToast.tsx` - Toast con opción de deshacer
+
+### Archivos a Modificar
+- `src/components/playground/PromptPlayground.tsx` - Añadir token counter, favoritos, mejora automática
+- `src/components/playground/PromptGenerator.tsx` - Wizard steps, historial, botón "Usar en Playground"
+- `src/components/roi/ROICalculator.tsx` - Quick-add, presets, metas, export
+- `src/components/workflows/WorkflowPromptExecutor.tsx` - Flujo continuo, variables globales
+- `src/pages/Workflows.tsx` - Modo "ejecutar todo", sugerencias
+- `src/pages/Tools.tsx` - Comparador, filtros inteligentes
+- `src/pages/Bookmarks.tsx` - Colecciones, vista Kanban
+- `src/pages/Profile.tsx` - Dashboard, badges con progreso, metas
+- `src/components/command/CommandPalette.tsx` - Nuevas acciones rápidas
+- `src/hooks/usePromptPlayground.tsx` - Historial persistido, favoritos
+
+### Nuevas Tablas de Base de Datos
+- `prompt_favorites` - Respuestas favoritas del playground
+- `bookmark_collections` - Colecciones de bookmarks
+- `user_goals` - Metas personalizadas del usuario
+- `prompt_generation_history` - Historial de prompts generados
+
+---
+
+## Priorización Recomendada
+
+### Fase 1 (Alto Impacto, Baja Complejidad)
+1. Quick-add en ROI Calculator
+2. Botón "Usar en Playground" en generador
+3. Token counter en Playground
+4. Tour de onboarding básico
+
+### Fase 2 (Alto Impacto, Media Complejidad)
+5. Comparador de modelos side-by-side
+6. Colecciones de bookmarks
+7. Variables globales en workflows
+8. Dashboard de perfil mejorado
+
+### Fase 3 (Diferenciadores)
+9. Comparador de herramientas
+10. Flujo continuo en workflows
+11. Metas personalizables
+12. Sistema de sharing de logros
