@@ -1,261 +1,258 @@
 
-# Plan de Mejora de Practicidad Contextualizada al Modelo VDRC
+# Plan: Flujo Completo de Creación de Generaciones, Clases y Presentaciones
 
-## Contexto del Negocio
+## Problema Identificado
 
-El taller VDRC opera con un modelo iterativo:
-- **4 Módulos Fijos**: Higiene Digital, IA & Productividad, Comunicación, Desarrollo
-- **10 Generaciones** hasta la fecha (116+ profesionales transformados)
-- **Mejora Continua**: Cada generación perfecciona el contenido de la anterior
-- **Fechas GEN 10**: Martes 3, 10, 17, 24 de Febrero 2026
+El sistema de presentaciones tiene la lógica de backend pero **no hay interfaz para crear datos iniciales**:
+1. La tabla `generations` está vacía
+2. Sin generaciones, no hay clases
+3. Sin clases, no se pueden crear presentaciones
+4. El dashboard muestra "No hay presentaciones" sin opción de crear
 
----
+## Solución Propuesta
 
-## 1. Sistema de Módulos Base (Session Templates)
-
-### Problema Actual
-Cada generación requiere crear las 4 clases desde cero en la base de datos, duplicando trabajo y perdiendo la trazabilidad de mejoras.
-
-### Solución Propuesta
-Crear un sistema de "Módulos Base" (session_templates) que define la estructura canónica de las 4 sesiones, permitiendo:
-- Heredar contenido base al crear una nueva generación
-- Trackear mejoras entre generaciones
-- Comparar cómo evolucionó cada módulo
-
-### Cambios en Base de Datos
-
-```text
-Nueva tabla: session_templates
-----------------------------------------
-| id          | UUID (PK)               |
-| module_num  | INTEGER (1-4)           |
-| title       | TEXT                    |
-| description | TEXT                    |
-| tools_stack | TEXT[] (herramientas)   |
-| base_outline| TEXT (markdown)         |
-| updated_at  | TIMESTAMP               |
-----------------------------------------
-
-Nueva columna en classes:
-+ session_template_id (FK -> session_templates)
-+ improvements_notes (TEXT) - qué mejoró vs versión anterior
-```
-
-### UI: Panel de Módulos Base
-Nuevo componente `SessionTemplatesManager.tsx` accesible desde admin que permite:
-- Ver/editar los 4 módulos base
-- Ver historial de cómo evolucionó cada módulo por generación
-- "Crear Nueva Generación" con un clic (genera las 4 clases automáticamente)
+Implementar un flujo de administración completo que permita:
+1. **Crear nuevas generaciones** (GEN 09, GEN 10)
+2. **Auto-generar las 4 clases** del taller con un clic
+3. **Crear presentaciones** directamente desde el dashboard
 
 ---
 
-## 2. Dashboard de Generación Activa
+## Componentes a Crear
 
-### Problema Actual
-No hay una vista rápida del estado actual del taller en curso.
+### 1. GenerationManager.tsx
+Panel de administración de generaciones con:
+- Lista de generaciones existentes
+- Botón "Nueva Generación" que abre modal
+- Formulario: código (GEN-10), nombre, fechas inicio/fin, descripción
+- Botón "Generar 4 clases" que crea automáticamente las sesiones del taller
 
-### Solución Propuesta
-Widget prominente en el Home que muestra:
-- **Generación activa** (GEN 09) con cuenta regresiva a próxima clase
-- **Próxima generación** (GEN 10) con cuenta regresiva al inicio
-- **Módulo actual** (ej: "Clase 4: Desarrollo - HOY 19:30")
-- **Acceso rápido** a la grabación de la última clase
+### 2. CreateGenerationModal.tsx
+Modal para crear nueva generación:
+- Input: Código (ej: GEN-10)
+- Input: Nombre (ej: "Febrero 2026")
+- Date picker: Fecha inicio (3 Feb 2026)
+- Checkbox: Marcar como activa
+- Toggle: "Auto-crear las 4 clases" con fechas automáticas (cada martes)
 
-### Componentes Nuevos
-
-```text
-src/components/dashboard/
-├── ActiveGenerationWidget.tsx    # Widget hero para Home
-├── NextClassCountdown.tsx        # Cuenta regresiva a próxima sesión
-├── GenerationTimeline.tsx        # Timeline visual de las 4 semanas
-└── QuickAccessPanel.tsx          # Links rápidos a recursos recientes
-```
-
----
-
-## 3. Comparador de Evolución entre Generaciones
-
-### Problema Actual
-No hay forma de ver cómo mejoró un módulo específico entre generaciones.
-
-### Solución Propuesta
-Vista de comparación side-by-side que muestra:
-- Módulo X en GEN 08 vs GEN 09
-- Diferencias en outline, herramientas, duración
-- Notas de mejora documentadas
-- Feedback agregado de participantes
-
-### UI: Evolution Tracker
-Nuevo componente `ModuleEvolutionTracker.tsx`:
-- Selector de módulo (1-4)
-- Vista diff entre generaciones seleccionadas
-- Gráfico de línea de tiempo de cambios
+### 3. ClassCreatorWizard.tsx
+Wizard para crear las 4 clases de una generación:
+- Muestra los 4 módulos predefinidos:
+  1. Higiene Digital
+  2. IA & Productividad  
+  3. Comunicación Digital
+  4. Desarrollo Personal
+- Permite editar títulos/descripciones
+- Calcula fechas automáticamente (martes consecutivos)
 
 ---
 
-## 4. Sistema de Feedback Post-Clase Simplificado
+## Modificaciones al Dashboard de Presentaciones
 
-### Problema Actual
-No hay un mecanismo para capturar feedback de participantes que alimente mejoras.
+### PresentationDashboard.tsx - Mejorar
+Añadir:
+- **Botón "Gestionar Generaciones"** que abre el panel
+- **Lista de clases sin presentación** con botón (+) para crear
+- **Indicador visual** de clases pendientes por generación
 
-### Solución Propuesta
-Modal de feedback que aparece:
-- 24 horas después de cada clase (basado en `class_date`)
-- 3 preguntas simples con rating 1-5 + comentario opcional
-- Resultados agregados visibles en admin para informar mejoras
-
-### Cambios en Base de Datos
-
-```text
-Nueva tabla: class_feedback
-----------------------------------------
-| id           | UUID (PK)              |
-| class_id     | UUID (FK -> classes)   |
-| user_id      | UUID                   |
-| clarity_rating | INTEGER (1-5)        |
-| usefulness_rating | INTEGER (1-5)     |
-| pace_rating  | INTEGER (1-5)          |
-| comment      | TEXT (nullable)        |
-| created_at   | TIMESTAMP              |
-----------------------------------------
-```
-
-### Componentes
-- `ClassFeedbackModal.tsx` - Modal de 3 preguntas
-- `FeedbackReminder.tsx` - Banner sutil que recuerda dar feedback
-- `FeedbackSummary.tsx` - Vista admin con ratings agregados
+### AdminPresentations.tsx - Mejorar
+Añadir:
+- Vista alternativa cuando no hay datos: "Primero crea una generación"
+- Integración con GenerationManager
 
 ---
 
-## 5. Calendario Inteligente con Recordatorios
+## Hook Nuevo: useGenerations.tsx
 
-### Problema Actual
-El calendario existe pero no tiene integración con recordatorios ni contexto de generación.
-
-### Solución Propuesta
-Mejorar `CalendarPage.tsx` para mostrar:
-- Vista mes con las 4 clases de GEN 10 marcadas
-- "Agregar a mi calendario" (Google Calendar / iCal)
-- Recordatorios automáticos 1 día antes y 1 hora antes
-- Estado de la clase (próxima, completada, perdida)
-
-### Mejoras al Componente
-- Integración con notifications table para recordatorios
-- Botón "Exportar a Google Calendar" con formato ICS
-- Indicadores visuales de progreso personal
-
----
-
-## 6. Onboarding Contextualizado por Generación
-
-### Problema Actual
-El onboarding es genérico, no considera si el usuario es de GEN 09, GEN 10 o veterano.
-
-### Solución Propuesta
-Flujo de onboarding adaptativo:
-- **Nuevos (GEN 10)**: Tour completo + checklist "Prepárate para el taller"
-- **En curso (GEN 09)**: Highlight de nuevas features + "Continúa donde quedaste"
-- **Alumni (GEN 01-08)**: "Bienvenido de vuelta" + acceso rápido a recursos
-
-### Cambios en Base de Datos
-
-```text
-Nueva columna en profiles:
-+ primary_generation_id (FK -> generations) - generación principal del usuario
-+ onboarding_completed_at (TIMESTAMP)
-```
-
-### Lógica de Detección
-- Al registrarse, preguntar "¿De qué generación eres?"
-- O inferir automáticamente si se registra durante GEN 10
-
----
-
-## 7. Quick Actions Mejoradas para Flujo Diario
-
-### Problema Actual
-CMD+K tiene acciones limitadas, no hay atajos contextuales.
-
-### Solución Propuesta
-Expandir CommandPalette con:
-- "Ir a mi clase actual" - navega a la clase en curso de la generación activa
-- "Ver grabación de hoy" - abre la grabación más reciente
-- "Dar feedback de última clase" - abre modal de feedback
-- "Ver mi progreso" - muestra % de completitud
-- "Descargar recursos de la semana" - exporta links de Drive
-
-### Modificaciones
-Actualizar `CommandPalette.tsx` con nuevos comandos contextuales basados en:
-- Generación del usuario
-- Clase actual según fecha
-- Estado de completitud
-
----
-
-## 8. Panel de Preparación de Clase (Admin)
-
-### Problema Actual
-El sistema de presentaciones existe pero no tiene checklist de preparación.
-
-### Solución Propuesta
-Añadir a `PresentationEditor.tsx`:
-- Checklist de "Listo para clase" (enlaces verificados, demos probadas, etc.)
-- Timer de práctica (ensayo de la presentación)
-- Vista de "Lo que cambió desde la última vez" (diff con generación anterior)
-
-### Nuevos Campos
-
-```text
-Nueva columna en class_presentations:
-+ preparation_checklist (JSONB) - items de checklist marcados
-+ last_rehearsed_at (TIMESTAMP) - cuándo se ensayó por última vez
-+ previous_version_id (UUID, FK) - referencia a presentación de gen anterior
+```typescript
+// Funciones:
+- fetchGenerations() - lista todas
+- createGeneration(data) - crea nueva
+- updateGeneration(id, data) - actualiza
+- deleteGeneration(id) - elimina
+- createClassesForGeneration(generationId, dates[]) - crea las 4 clases
+- getClassesWithoutPresentation(generationId) - clases sin presentación
 ```
 
 ---
 
-## Implementación por Fases
+## Datos Predefinidos (4 Módulos del Taller)
 
-### Fase 1 (Esta semana - Antes de GEN 10)
-1. Dashboard de Generación Activa con countdown
-2. Calendario mejorado con "Agregar a Google Calendar"
-3. Quick Actions en CMD+K contextuales
-
-### Fase 2 (Durante GEN 10 - Semanas 1-2)
-4. Sistema de Feedback Post-Clase
-5. Onboarding contextualizado por generación
-6. Panel de Preparación de Clase
-
-### Fase 3 (Post GEN 10)
-7. Sistema de Módulos Base (session_templates)
-8. Comparador de Evolución entre Generaciones
+```typescript
+const WORKSHOP_MODULES = [
+  {
+    number: 1,
+    title: "Higiene Digital",
+    description: "Fundamentos de productividad y organización digital"
+  },
+  {
+    number: 2,
+    title: "IA & Productividad",
+    description: "Herramientas de inteligencia artificial para el trabajo"
+  },
+  {
+    number: 3,
+    title: "Comunicación Digital",
+    description: "Escritura efectiva y comunicación profesional"
+  },
+  {
+    number: 4,
+    title: "Desarrollo Personal",
+    description: "Crecimiento profesional y planificación de carrera"
+  }
+];
+```
 
 ---
 
-## Resumen de Archivos
+## Flujo de Usuario (Admin)
 
-### Archivos a Crear
-- `src/components/dashboard/ActiveGenerationWidget.tsx`
-- `src/components/dashboard/NextClassCountdown.tsx`
-- `src/components/dashboard/GenerationTimeline.tsx`
-- `src/components/feedback/ClassFeedbackModal.tsx`
-- `src/components/feedback/FeedbackReminder.tsx`
-- `src/components/admin/SessionTemplatesManager.tsx`
-- `src/components/admin/ModuleEvolutionTracker.tsx`
-- `src/components/calendar/CalendarExport.tsx`
+```text
+1. Admin navega a /admin/presentations
+   ↓
+2. Ve mensaje "No hay generaciones creadas"
+   ↓
+3. Clic en "Crear Primera Generación"
+   ↓
+4. Modal: Ingresa "GEN-10", "Febrero 2026", fecha 3 Feb
+   ↓
+5. Marca "Auto-crear 4 clases" → calcula 3, 10, 17, 24 Feb
+   ↓
+6. Confirma → Se crean: 1 generación + 4 clases
+   ↓
+7. Dashboard muestra 4 clases SIN presentación
+   ↓
+8. Clic en (+) en clase → Crea presentación → Abre editor
+   ↓
+9. Admin diseña la presentación
+```
 
-### Archivos a Modificar
-- `src/pages/Index.tsx` - Agregar ActiveGenerationWidget
-- `src/pages/CalendarPage.tsx` - Integrar exportación y recordatorios
-- `src/components/command/CommandPalette.tsx` - Nuevos comandos contextuales
-- `src/components/admin/PresentationEditor.tsx` - Checklist de preparación
-- `src/components/onboarding/OnboardingTour.tsx` - Flujo adaptativo
+---
 
-### Nuevas Tablas de Base de Datos
-- `session_templates` - Módulos base del taller
-- `class_feedback` - Feedback de participantes
+## Archivos a Crear
 
-### Modificaciones a Tablas Existentes
-- `classes`: + session_template_id, + improvements_notes
-- `class_presentations`: + preparation_checklist, + last_rehearsed_at
-- `profiles`: + primary_generation_id, + onboarding_completed_at
+```text
+src/components/admin/GenerationManager.tsx      # Panel principal
+src/components/admin/CreateGenerationModal.tsx  # Modal de creación
+src/components/admin/ClassCreatorWizard.tsx     # Wizard para clases
+src/components/admin/ClassWithoutPresentation.tsx # Lista de clases sin pres.
+src/hooks/useGenerations.tsx                    # Hook de datos
+```
+
+## Archivos a Modificar
+
+```text
+src/pages/AdminPresentations.tsx     # Integrar GenerationManager
+src/components/admin/PresentationDashboard.tsx  # Añadir botón crear
+```
+
+---
+
+## Detalle Técnico: CreateGenerationModal
+
+```tsx
+// Al marcar "Auto-crear clases":
+const calculateClassDates = (startDate: Date) => {
+  // Encuentra el próximo martes si no es martes
+  const firstTuesday = getNextTuesday(startDate);
+  return [
+    firstTuesday,                    // Clase 1
+    addDays(firstTuesday, 7),        // Clase 2
+    addDays(firstTuesday, 14),       // Clase 3
+    addDays(firstTuesday, 21),       // Clase 4
+  ];
+};
+
+// Crear generación + clases en una transacción:
+const createWithClasses = async () => {
+  // 1. Crear generación
+  const gen = await supabase.from('generations').insert({...}).select().single();
+  
+  // 2. Crear las 4 clases
+  const classesData = WORKSHOP_MODULES.map((mod, i) => ({
+    generation_id: gen.id,
+    class_number: mod.number,
+    title: mod.title,
+    description: mod.description,
+    class_date: classDates[i],
+  }));
+  
+  await supabase.from('classes').insert(classesData);
+};
+```
+
+---
+
+## Detalle Técnico: ClassWithoutPresentation
+
+```tsx
+// Query para obtener clases sin presentación:
+const { data: classesWithoutPres } = useQuery({
+  queryKey: ['classes-without-presentation', generationId],
+  queryFn: async () => {
+    // Obtener todas las clases de la generación
+    const { data: classes } = await supabase
+      .from('classes')
+      .select('*, class_presentations(*)')
+      .eq('generation_id', generationId);
+    
+    // Filtrar las que NO tienen presentación
+    return classes?.filter(c => !c.class_presentations) || [];
+  }
+});
+
+// UI: Lista con botón (+)
+{classesWithoutPres.map(cls => (
+  <div key={cls.id} className="flex items-center gap-2">
+    <span>Clase {cls.class_number}: {cls.title}</span>
+    <Button onClick={() => createPresentation(cls.id)}>
+      <Plus /> Crear Presentación
+    </Button>
+  </div>
+))}
+```
+
+---
+
+## Vista Final del Dashboard
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ 📊 Diseño de Presentaciones                      [Admin]   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [Gestionar Generaciones]                                    │
+│                                                             │
+│ ┌─ GEN-10 (Febrero 2026) ─────────────────────────────────┐│
+│ │                                                          ││
+│ │  ⚠️ 4 clases sin presentación                           ││
+│ │                                                          ││
+│ │  [1] Higiene Digital - 3 Feb      [+ Crear]             ││
+│ │  [2] IA & Productividad - 10 Feb  [+ Crear]             ││
+│ │  [3] Comunicación - 17 Feb        [+ Crear]             ││
+│ │  [4] Desarrollo - 24 Feb          [+ Crear]             ││
+│ │                                                          ││
+│ └──────────────────────────────────────────────────────────┘│
+│                                                             │
+│ ┌─ GEN-09 (Enero 2026) ───────────────────────────────────┐│
+│ │  ✅ 4/4 presentaciones creadas                          ││
+│ │  [Clase 1] ██████ Publicado                             ││
+│ │  [Clase 2] ██████ Publicado                             ││
+│ │  [Clase 3] ██████ Aprobado                              ││
+│ │  [Clase 4] ████░░ En Revisión  ← HOY                    ││
+│ └──────────────────────────────────────────────────────────┘│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Resumen de Implementación
+
+| Prioridad | Componente | Descripción |
+|-----------|------------|-------------|
+| 1 | useGenerations.tsx | Hook con CRUD de generaciones y clases |
+| 2 | CreateGenerationModal.tsx | Modal para crear gen + auto-clases |
+| 3 | GenerationManager.tsx | Panel de gestión integrado |
+| 4 | PresentationDashboard.tsx | Mostrar clases sin presentación |
+| 5 | AdminPresentations.tsx | Estado vacío mejorado |
