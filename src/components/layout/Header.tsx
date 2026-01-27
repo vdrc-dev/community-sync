@@ -31,7 +31,8 @@ import {
   BookOpen,
   Users,
   Calendar,
-  Workflow
+  Workflow,
+  Presentation
 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
@@ -271,6 +272,25 @@ export function Header() {
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuGroup>
+
+                    {/* Admin Link */}
+                    {isAdmin && (
+                      <>
+                        <DropdownMenuSeparator className="my-2" />
+                        <DropdownMenuGroup>
+                          <DropdownMenuLabel className="text-xs text-yellow-500 px-2 flex items-center gap-1">
+                            <Shield className="w-3 h-3" />
+                            Administración
+                          </DropdownMenuLabel>
+                          <DropdownMenuItem asChild className="rounded-lg">
+                            <PrefetchLink to="/admin/presentations" className="flex items-center gap-2 w-full">
+                              <Presentation className="w-4 h-4 text-yellow-500" />
+                              <span className="text-sm">Diseño Presentaciones</span>
+                            </PrefetchLink>
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                      </>
+                    )}
 
                     <DropdownMenuSeparator className="my-2" />
                     

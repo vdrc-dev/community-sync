@@ -23,14 +23,18 @@ import {
   Calendar,
   ExternalLink,
   Loader2,
-  Lock
+  Lock,
+  Presentation,
+  Shield
 } from 'lucide-react';
+import { usePresentations } from '@/hooks/usePresentations';
 
 export default function GenerationDetail() {
   const { code } = useParams<{ code: string }>();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState('classes');
   const { trackActivity } = useActivityResume();
+  const { presentations, createPresentation, isCreating } = usePresentations();
 
   const { data: generation, isLoading: loadingGen } = useQuery({
     queryKey: ['generation', code],
@@ -196,7 +200,10 @@ export default function GenerationDetail() {
                 </Card>
               ) : (
                 <div className="space-y-4">
-                  {classes?.map((cls) => (
+                  {classes?.map((cls) => {
+                    const classPresentation = presentations?.find(p => p.class_id === cls.id);
+                    
+                    return (
                     <Card key={cls.id} className="glass border-border/50 hover:border-primary/30 transition-all group">
                       <CardHeader className="pb-3">
                           <div className="flex items-start justify-between gap-4">
@@ -219,12 +226,37 @@ export default function GenerationDetail() {
                                 )}
                               </div>
                             </div>
-                            {/* Bookmark button */}
-                            <BookmarkButton 
-                              resourceType="class" 
-                              resourceId={cls.id}
-                              showLabel
-                            />
+                            <div className="flex items-center gap-2">
+                              {/* Admin: Design Presentation Button */}
+                              {isAdmin && (
+                                classPresentation ? (
+                                  <Link
+                                    to="/admin/presentations"
+                                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs hover:bg-yellow-500/20 transition-colors"
+                                  >
+                                    <Presentation className="w-3 h-3" />
+                                    <span className="hidden sm:inline">Ver Presentación</span>
+                                  </Link>
+                                ) : (
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => createPresentation(cls.id)}
+                                    disabled={isCreating}
+                                    className="gap-1 text-xs border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10"
+                                  >
+                                    <Presentation className="w-3 h-3" />
+                                    <span className="hidden sm:inline">Diseñar</span>
+                                  </Button>
+                                )
+                              )}
+                              {/* Bookmark button */}
+                              <BookmarkButton 
+                                resourceType="class" 
+                                resourceId={cls.id}
+                                showLabel
+                              />
+                            </div>
                           </div>
                         </CardHeader>
                         <CardContent>
@@ -309,7 +341,8 @@ export default function GenerationDetail() {
                         )}
                       </CardContent>
                     </Card>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </TabsContent>
