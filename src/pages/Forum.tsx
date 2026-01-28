@@ -1,10 +1,12 @@
-import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -16,7 +18,8 @@ import {
   Pin, 
   Loader2,
   Lock,
-  Clock
+  Clock,
+  Users
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -206,22 +209,20 @@ export default function Forum() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-mono font-bold mb-2">
-              <span className="text-gradient">Comunidad</span>
-            </h1>
-            <p className="text-muted-foreground">
-              Conecta con otros participantes del taller
-            </p>
-          </div>
-          <Button className="bg-primary hover:bg-primary/90 glow-primary">
-            <Plus className="w-4 h-4 mr-2" />
-            Nueva publicación
-          </Button>
-        </div>
+      <div className="page-container section-py">
+        {/* Page Header */}
+        <PageHeader
+          title="Comunidad"
+          description="Conecta con otros participantes del taller"
+          badge={{ label: 'Foro', icon: <Users className="w-3 h-3 mr-1" /> }}
+          actions={
+            <Button className="bg-primary hover:bg-primary/90 glow-primary">
+              <Plus className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Nueva publicación</span>
+              <span className="sm:hidden">Nuevo</span>
+            </Button>
+          }
+        />
 
         {/* Search & Categories */}
         <div className="flex flex-col lg:flex-row gap-6 mb-8">
@@ -270,18 +271,16 @@ export default function Forum() {
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : filteredPosts.length === 0 ? (
-          <Card className="glass border-border/50">
-            <CardContent className="py-16 text-center">
-              <MessageSquare className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No hay publicaciones aún</h3>
-              <p className="text-muted-foreground mb-6">
-                ¡Sé el primero en iniciar una conversación!
-              </p>
-              <Button className="bg-primary hover:bg-primary/90">
-                <Plus className="w-4 h-4 mr-2" />
-                Crear publicación
-              </Button>
-            </CardContent>
+          <Card className="card-static">
+            <EmptyState
+              icon={MessageSquare}
+              title="No hay publicaciones aún"
+              description="¡Sé el primero en iniciar una conversación!"
+              action={{
+                label: 'Crear publicación',
+                onClick: () => {}
+              }}
+            />
           </Card>
         ) : (
           <>

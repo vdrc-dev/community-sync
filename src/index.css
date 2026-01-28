@@ -238,6 +238,28 @@
     50% { transform: translateY(-10px); }
   }
 
+  /* Standardized layout utilities */
+  .section-py {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
+  .page-container {
+    @apply container mx-auto px-4 sm:px-6;
+  }
+
+  .card-interactive {
+    @apply glass border-border/50 hover:border-primary/30 transition-all cursor-pointer;
+  }
+
+  .card-static {
+    @apply glass border-border/50;
+  }
+
+  /* Safe area for bottom navigation */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }

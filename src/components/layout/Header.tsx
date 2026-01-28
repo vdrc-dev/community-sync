@@ -172,12 +172,9 @@ export function Header() {
 
   const quickLinks = useMemo(() => [
     { href: '/profile', label: 'Mi Perfil', icon: User },
-    { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
     { href: '/bookmarks', label: 'Favoritos', icon: Bookmark },
-    { href: '/quick-notes', label: 'Notas Rápidas', icon: PenLine },
-    { href: '/roi-calculator', label: 'Calculadora ROI', icon: Calculator },
     { href: '/my-tools', label: 'Mi Stack IA', icon: Wrench },
-    { href: '/calendar', label: 'Calendario', icon: Calendar },
+    { href: '/quick-notes', label: 'Notas Rápidas', icon: PenLine },
   ], []);
 
   return (
@@ -309,24 +306,9 @@ export function Header() {
 
                     <DropdownMenuGroup>
                       <DropdownMenuLabel className="text-xs text-muted-foreground px-2">
-                        Accesos rápidos
+                        Herramientas personales
                       </DropdownMenuLabel>
-                      <div className="grid grid-cols-2 gap-1 mb-2">
-                        {quickLinks.slice(0, 4).map((link) => (
-                          <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/10 transition-colors">
-                            <PrefetchLink to={link.href} className="flex items-center gap-2 w-full px-2 py-2">
-                              <link.icon className="w-4 h-4 text-muted-foreground" />
-                              <span className="text-xs">{link.label}</span>
-                            </PrefetchLink>
-                          </DropdownMenuItem>
-                        ))}
-                      </div>
-                    </DropdownMenuGroup>
-
-                    <DropdownMenuSeparator className="my-2" />
-
-                    <DropdownMenuGroup>
-                      {quickLinks.slice(4).map((link) => (
+                      {quickLinks.map((link) => (
                         <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/10 transition-colors">
                           <PrefetchLink to={link.href} className="flex items-center gap-2 w-full">
                             <link.icon className="w-4 h-4 text-muted-foreground" />

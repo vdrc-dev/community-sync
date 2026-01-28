@@ -208,7 +208,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-bold mb-6 leading-[0.9] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-bold mb-6 leading-[0.9] tracking-tight">
               <motion.span 
                 className="block text-foreground drop-shadow-lg"
                 initial={{ opacity: 0, x: -30 }}
@@ -226,7 +226,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 Productividad
               </motion.span>
               <motion.span 
-                className="block text-foreground/90 text-4xl sm:text-5xl md:text-6xl mt-4 drop-shadow-md"
+                className="block text-foreground/90 text-3xl sm:text-4xl md:text-5xl mt-4 drop-shadow-md"
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1 }}
@@ -254,7 +254,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             {isAuthenticated ? (
               <>
@@ -312,12 +312,12 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           </motion.div>
         </motion.div>
 
-        {/* Terminal with realistic typing effect */}
+        {/* Terminal with realistic typing effect - hidden on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.6 }}
-          className="mt-12 max-w-xl mx-auto"
+          className="mt-12 max-w-xl mx-auto hidden sm:block"
         >
           <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30 transition-all duration-500 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">

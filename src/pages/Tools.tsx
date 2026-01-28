@@ -1,11 +1,20 @@
 import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { EmptyState } from '@/components/ui/empty-state';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -188,6 +197,7 @@ const ToolCard = ({ tool, viewMode }: { tool: Tool; viewMode: 'grid' | 'list' })
 
 export default function Tools() {
   const { user } = useAuth();
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPricing, setSelectedPricing] = useState('all');
@@ -255,37 +265,21 @@ export default function Tools() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        {/* Hero Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-            <div>
-              <Badge variant="outline" className="mb-3 border-primary/50 bg-primary/5">
-                <Sparkles className="w-3 h-3 mr-1" />
-                {tools?.length || 0} herramientas
-              </Badge>
-              <h1 className="text-4xl sm:text-5xl font-mono font-bold mb-2">
-                Catálogo <span className="text-gradient">IA</span>
-              </h1>
-              <p className="text-muted-foreground max-w-xl text-lg">
-                Explora, trackea y domina las mejores herramientas de inteligencia artificial
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <Link to="/my-tools">
-                <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
-                  <Star className="w-4 h-4 mr-2" />
-                  Mi Stack
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </motion.div>
+      <div className="page-container section-py">
+        {/* Page Header */}
+        <PageHeader
+          title={<>Catálogo <span className="text-gradient">IA</span></>}
+          description="Explora, trackea y domina las mejores herramientas de inteligencia artificial"
+          badge={{ label: `${tools?.length || 0} herramientas`, icon: <Sparkles className="w-3 h-3 mr-1" /> }}
+          actions={
+            <Link to="/my-tools">
+              <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
+                <Star className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Mi Stack</span>
+              </Button>
+            </Link>
+          }
+        />
 
         {/* Personal Stats (logged in users) */}
         {user && <ToolsHeroStats />}
