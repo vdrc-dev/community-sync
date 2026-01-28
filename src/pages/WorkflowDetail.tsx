@@ -1,77 +1,105 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { WorkflowSteps } from '@/components/workflows/WorkflowSteps';
+import { MermaidDiagram } from '@/components/workflows/MermaidDiagram';
+import { useWorkflows } from '@/hooks/useWorkflows';
+import { useAuth } from '@/hooks/useAuth';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
-import { Separator } from '@/components/ui/separator';
-import { useWorkflows } from '@/hooks/useWorkflows';
-import { MermaidDiagram } from '@/components/workflows/MermaidDiagram';
-import { WorkflowSteps } from '@/components/workflows/WorkflowSteps';
-import { useAuth } from '@/hooks/useAuth';
-import { 
-  ArrowLeft, Clock, Zap, CheckCircle2, RotateCcw, 
-  Star, Share2, Bookmark, ExternalLink 
-} from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Clock, 
+  Zap, 
+  RotateCcw, 
+  CheckCircle2, 
+  Star,
+  Loader2,
+  FileText,
+  GitBranch,
+  StickyNote,
+  Info,
+  Save
+} from 'lucide-react';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
-const difficultyColors = {
-  beginner: 'bg-green-500/10 text-green-500 border-green-500/30',
-  intermediate: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30',
-  advanced: 'bg-red-500/10 text-red-500 border-red-500/30',
-};
-
-const difficultyLabels = {
-  beginner: 'Principiante',
-  intermediate: 'Intermedio',
-  advanced: 'Avanzado',
+const difficultyConfig = {
+  beginner: { label: 'Principiante', color: 'bg-green-500/20 text-green-400 border-green-500/30' },
+  intermediate: { label: 'Intermedio', color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
+  advanced: { label: 'Avanzado', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
 };
 
 export default function WorkflowDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { 
-    workflows, 
-    getWorkflowProgress, 
-    toggleStep, 
-    updateNotes, 
-    resetProgress,
-    isLoading 
-  } = useWorkflows();
-
-  const [notes, setNotes] = useState('');
-  const [showConfetti, setShowConfetti] = useState(false);
+  const { workflows, isLoading, getWorkflowProgress, toggleStep, updateNotes, resetProgress } = useWorkflows();
 
   const workflow = workflows?.find(w => w.id === id);
-  const progress = id ? getWorkflowProgress(id) : undefined;
+  const progress = workflow ? getWorkflowProgress(workflow.id) : undefined;
 
-  const completedSteps = progress?.completed_steps || [];
-  const totalSteps = workflow?.steps.length || 0;
-  const progressPercent = totalSteps > 0 ? (completedSteps.length / totalSteps) * 100 : 0;
-  const isCompleted = progress?.completed_at !== null && progress?.completed_at !== undefined;
+  const [notes, setNotes] = useState('');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    if (progress?.notes) {
-      setNotes(progress.notes);
+    if (progress?.notes !== undefined) {
+      setNotes(progress.notes || '');
     }
   }, [progress?.notes]);
+
+  // Autosave notes
+  useEffect(() => {
+    if (!id || !user || notes === (progress?.notes || '')) return;
+
+    setSaveStatus('saving');
+    const timeout = setTimeout(() => {
+      updateNotes.mutate(
+        { workflowId: id, notes },
+        {
+          onSuccess: () => setSaveStatus('saved'),
+          onError: () => setSaveStatus('idle'),
+        }
+      );
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [notes, id, user]);
+
+  useEffect(() => {
+    if (saveStatus === 'saved') {
+      const timeout = setTimeout(() => setSaveStatus('idle'), 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [saveStatus]);
+
+  const isCompleted = progress?.completed_at !== null && progress?.completed_at !== undefined;
 
   useEffect(() => {
     if (isCompleted && !showConfetti) {
       setShowConfetti(true);
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
     }
   }, [isCompleted]);
+
+  const completedSteps = progress?.completed_steps || [];
+  const progressPercent = workflow ? (completedSteps.length / workflow.steps.length) * 100 : 0;
+
+  const stats = useMemo(() => {
+    if (!workflow) return null;
+    return {
+      setupTime: workflow.time_to_setup_minutes,
+      weeklySaved: workflow.time_saved_per_use_minutes * 5,
+      remainingSteps: workflow.steps.length - completedSteps.length,
+      remainingTime: (workflow.steps.length - completedSteps.length) * 5,
+    };
+  }, [workflow, completedSteps]);
 
   const handleToggleStep = (stepNumber: number) => {
     if (!id || !user) {
@@ -81,36 +109,19 @@ export default function WorkflowDetail() {
     toggleStep.mutate({ workflowId: id, stepNumber });
   };
 
-  const handleSaveNotes = () => {
-    if (!id || !user) return;
-    updateNotes.mutate({ workflowId: id, notes });
-    toast.success('Notas guardadas');
-  };
-
-  const handleReset = () => {
-    if (!id) return;
-    if (confirm('¿Estás seguro de reiniciar tu progreso en este workflow?')) {
-      resetProgress.mutate(id);
-    }
-  };
-
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast.success('Link copiado al portapapeles');
-  };
-
   if (isLoading) {
     return (
       <Layout>
-        <div className="container mx-auto px-4 py-8">
-          <Skeleton className="h-8 w-32 mb-8" />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="page-container section-py">
+          <Skeleton className="h-8 w-32 mb-4" />
+          <Skeleton className="h-12 w-96 mb-8" />
+          <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <Skeleton className="h-48" />
               <Skeleton className="h-96" />
             </div>
             <div className="space-y-6">
-              <Skeleton className="h-64" />
+              <Skeleton className="h-32" />
               <Skeleton className="h-48" />
             </div>
           </div>
@@ -122,129 +133,191 @@ export default function WorkflowDetail() {
   if (!workflow) {
     return (
       <Layout>
-        <div className="container mx-auto px-4 py-8">
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-muted-foreground mb-4">Workflow no encontrado</p>
-              <Button onClick={() => navigate('/workflows')}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver a Workflows
-              </Button>
-            </CardContent>
-          </Card>
+        <div className="page-container section-py text-center">
+          <h1 className="text-2xl font-bold mb-4">Workflow no encontrado</h1>
+          <Button onClick={() => navigate('/workflows')}>Volver a Workflows</Button>
         </div>
       </Layout>
     );
   }
 
+  const difficulty = difficultyConfig[workflow.difficulty];
+
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        {/* Back button */}
-        <Button
-          variant="ghost"
-          className="mb-6"
-          onClick={() => navigate('/workflows')}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Todos los Workflows
-        </Button>
+      <div className="page-container section-py">
+        <PageHeader
+          title={
+            <span className="flex items-center gap-3 flex-wrap">
+              <span className="text-3xl">{workflow.icon_emoji}</span>
+              <span>{workflow.title}</span>
+              {workflow.is_featured && (
+                <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+              )}
+            </span>
+          }
+          description={workflow.description || undefined}
+          breadcrumbs={[
+            { label: 'Workflows', href: '/workflows' },
+            { label: workflow.title }
+          ]}
+          actions={
+            <div className="flex items-center gap-2">
+              {isCompleted && (
+                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  Completado
+                </Badge>
+              )}
+              {progress && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => resetProgress.mutate(workflow.id)}
+                  disabled={resetProgress.isPending}
+                >
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Reiniciar</span>
+                </Button>
+              )}
+            </div>
+          }
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className={isCompleted ? 'border-green-500/30 bg-green-500/5' : ''}>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="text-5xl">{workflow.icon_emoji}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <CardTitle className="text-2xl">{workflow.title}</CardTitle>
-                        {workflow.is_featured && (
-                          <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                        )}
-                        {isCompleted && (
-                          <CheckCircle2 className="h-6 w-6 text-green-500" />
-                        )}
-                      </div>
-                      <CardDescription className="text-base">
-                        {workflow.description}
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Stats */}
-                  <div className="flex flex-wrap items-center gap-4">
-                    <Badge variant="outline" className={difficultyColors[workflow.difficulty]}>
-                      {difficultyLabels[workflow.difficulty]}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>{workflow.time_to_setup_minutes} min setup</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-green-500">
-                      <Zap className="h-4 w-4" />
-                      <span>Ahorra {workflow.time_saved_per_use_minutes * 5} min/semana</span>
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Tu progreso</span>
-                      <span className="font-medium">{completedSteps.length}/{totalSteps} pasos</span>
-                    </div>
-                    <Progress value={progressPercent} className="h-3" />
-                  </div>
-
-                  {/* Tools */}
-                  {workflow.tools_used.length > 0 && (
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-2">Herramientas utilizadas:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {workflow.tools_used.map((tool, i) => (
-                          <Badge key={i} variant="secondary">{tool}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Mermaid Diagram */}
-            {workflow.mermaid_diagram && (
+        {user && (
+          <motion.div 
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            className="mb-8"
+          >
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="text-muted-foreground">
+                Progreso: {completedSteps.length}/{workflow.steps.length} pasos
+              </span>
+              <span className="font-mono text-primary">{Math.round(progressPercent)}%</span>
+            </div>
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <Card>
+                className="h-full progress-gradient"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercent}%` }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              />
+            </div>
+          </motion.div>
+        )}
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+          <div className="stat-card">
+            <div className="flex items-center gap-2 text-muted-foreground mb-1">
+              <Clock className="w-4 h-4" />
+              <span className="text-xs">Configuración</span>
+            </div>
+            <p className="text-xl font-bold font-mono">{stats?.setupTime}min</p>
+          </div>
+          <div className="stat-card">
+            <div className="flex items-center gap-2 text-green-400 mb-1">
+              <Zap className="w-4 h-4" />
+              <span className="text-xs">Ahorro semanal</span>
+            </div>
+            <p className="text-xl font-bold font-mono text-green-400">{stats?.weeklySaved}min</p>
+          </div>
+          <div className="stat-card">
+            <Badge className={`${difficulty.color} mb-2`}>{difficulty.label}</Badge>
+            <p className="text-xs text-muted-foreground">{workflow.steps.length} pasos</p>
+          </div>
+          {stats && stats.remainingSteps > 0 && (
+            <div className="stat-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <Info className="w-4 h-4" />
+                <span className="text-xs">Tiempo restante</span>
+              </div>
+              <p className="text-xl font-bold font-mono">~{stats.remainingTime}min</p>
+            </div>
+          )}
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <Tabs defaultValue="steps" className="lg:hidden">
+              <TabsList className="w-full">
+                <TabsTrigger value="steps" className="flex-1 gap-2">
+                  <FileText className="w-4 h-4" />
+                  Pasos
+                </TabsTrigger>
+                {workflow.mermaid_diagram && (
+                  <TabsTrigger value="diagram" className="flex-1 gap-2">
+                    <GitBranch className="w-4 h-4" />
+                    Diagrama
+                  </TabsTrigger>
+                )}
+                <TabsTrigger value="notes" className="flex-1 gap-2">
+                  <StickyNote className="w-4 h-4" />
+                  Notas
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="steps" className="mt-4">
+                <WorkflowSteps
+                  steps={workflow.steps}
+                  completedSteps={completedSteps}
+                  onToggleStep={handleToggleStep}
+                  isLoading={toggleStep.isPending}
+                  workflowId={workflow.id}
+                />
+              </TabsContent>
+
+              {workflow.mermaid_diagram && (
+                <TabsContent value="diagram" className="mt-4">
+                  <Card className="glass">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <GitBranch className="w-5 h-5 text-primary" />
+                        Diagrama del Flujo
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <MermaidDiagram chart={workflow.mermaid_diagram} />
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              )}
+
+              <TabsContent value="notes" className="mt-4">
+                <Card className="glass">
                   <CardHeader>
-                    <CardTitle className="text-lg">Flujo del Proceso</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <StickyNote className="w-5 h-5 text-primary" />
+                        Mis Notas
+                      </CardTitle>
+                      <span className="text-xs text-muted-foreground">
+                        {saveStatus === 'saving' && (
+                          <span className="flex items-center gap-1">
+                            <Loader2 className="w-3 h-3 animate-spin" /> Guardando...
+                          </span>
+                        )}
+                        {saveStatus === 'saved' && (
+                          <span className="flex items-center gap-1 text-green-500">
+                            <Save className="w-3 h-3" /> Guardado
+                          </span>
+                        )}
+                      </span>
+                    </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="p-4 bg-muted/30 rounded-lg">
-                      <MermaidDiagram chart={workflow.mermaid_diagram} />
-                    </div>
+                    <Textarea
+                      placeholder="Escribe tus notas personales sobre este workflow..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="min-h-[150px] bg-muted/50"
+                    />
                   </CardContent>
                 </Card>
-              </motion.div>
-            )}
+              </TabsContent>
+            </Tabs>
 
-            {/* Steps */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <h2 className="text-xl font-bold mb-4">Pasos del Workflow</h2>
+            <div className="hidden lg:block">
               <WorkflowSteps
                 steps={workflow.steps}
                 completedSteps={completedSteps}
@@ -252,95 +325,107 @@ export default function WorkflowDetail() {
                 isLoading={toggleStep.isPending}
                 workflowId={workflow.id}
               />
-            </motion.div>
+            </div>
+
+            {workflow.mermaid_diagram && (
+              <Card className="glass hidden lg:block">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <GitBranch className="w-5 h-5 text-primary" />
+                    Diagrama del Flujo
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <MermaidDiagram chart={workflow.mermaid_diagram} />
+                </CardContent>
+              </Card>
+            )}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Acciones</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={handleShare}
-                >
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Compartir workflow
-                </Button>
-                {progress && (
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-destructive hover:text-destructive"
-                    onClick={handleReset}
-                  >
-                    <RotateCcw className="mr-2 h-4 w-4" />
-                    Reiniciar progreso
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Notes */}
-            {user && (
-              <Card>
+          <div className="hidden lg:block space-y-6">
+            <div className="sticky top-24 space-y-6">
+              <Card className="glass">
                 <CardHeader>
-                  <CardTitle className="text-lg">Mis Notas</CardTitle>
-                  <CardDescription>
-                    Guarda observaciones personales sobre este workflow
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Textarea
-                    placeholder="Escribe tus notas aquí..."
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    className="min-h-[120px]"
-                  />
-                  <Button
-                    onClick={handleSaveNotes}
-                    disabled={updateNotes.isPending}
-                    className="w-full"
-                  >
-                    Guardar notas
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Completion celebration */}
-            {isCompleted && (
-              <Card className="border-green-500/30 bg-green-500/5">
-                <CardContent className="pt-6 text-center">
-                  <div className="text-4xl mb-3">🎉</div>
-                  <h3 className="font-bold text-lg text-green-500 mb-2">
-                    ¡Workflow Completado!
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Ahora puedes ahorrar {workflow.time_saved_per_use_minutes * 5} minutos cada semana con esta automatización.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Tags */}
-            {workflow.tags.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Etiquetas</CardTitle>
+                  <CardTitle className="text-base">Herramientas Utilizadas</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
-                    {workflow.tags.map((tag, i) => (
-                      <Badge key={i} variant="outline">#{tag}</Badge>
+                    {workflow.tools_used.map((tool, i) => (
+                      <Badge key={i} variant="outline" className="bg-primary/5 border-primary/20">
+                        {tool}
+                      </Badge>
                     ))}
                   </div>
                 </CardContent>
               </Card>
-            )}
+
+              {workflow.tags && workflow.tags.length > 0 && (
+                <Card className="glass">
+                  <CardHeader>
+                    <CardTitle className="text-base">Etiquetas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {workflow.tags.map((tag, i) => (
+                        <Badge key={i} variant="secondary" className="text-xs">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {user && (
+                <Card className="glass">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <StickyNote className="w-4 h-4 text-primary" />
+                        Mis Notas
+                      </CardTitle>
+                      <span className="text-xs text-muted-foreground">
+                        {saveStatus === 'saving' && (
+                          <span className="flex items-center gap-1">
+                            <Loader2 className="w-3 h-3 animate-spin" /> Guardando...
+                          </span>
+                        )}
+                        {saveStatus === 'saved' && (
+                          <span className="flex items-center gap-1 text-green-500">
+                            <Save className="w-3 h-3" /> Guardado
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Textarea
+                      placeholder="Escribe tus notas personales..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="min-h-[120px] bg-muted/50 text-sm"
+                    />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Las notas se guardan automáticamente
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {isCompleted && (
+                <Card className="glass border-green-500/30 bg-green-500/5">
+                  <CardContent className="pt-6 text-center">
+                    <div className="text-4xl mb-3">🎉</div>
+                    <h3 className="font-bold text-lg text-green-500 mb-2">
+                      ¡Workflow Completado!
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Ahora puedes ahorrar {workflow.time_saved_per_use_minutes * 5} minutos cada semana.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
           </div>
         </div>
       </div>

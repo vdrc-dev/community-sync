@@ -1,17 +1,30 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bookmark, Search, Tag, BookOpen, Wrench, MessageSquare, Sparkles, Trash2 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { useBookmarks, ResourceType } from '@/hooks/useBookmarks';
 import { useAuth } from '@/hooks/useAuth';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { EmptyState } from '@/components/ui/empty-state';
+import { 
+  Bookmark, 
+  Trash2, 
+  Search,
+  MessageSquare,
+  Wrench,
+  BookOpen,
+  Sparkles,
+  Tag,
+  Heart,
+  Loader2
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { cn } from '@/lib/utils';
 
 const resourceIcons: Record<ResourceType, React.ReactNode> = {
   class: <BookOpen className="h-4 w-4" />,
@@ -43,18 +56,13 @@ export default function Bookmarks() {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  // Filter bookmarks
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
     
     return bookmarks.filter((b) => {
-      // Type filter
       if (selectedType !== 'all' && b.resource_type !== selectedType) return false;
-      
-      // Tag filter
       if (selectedTag && !b.tags.includes(selectedTag)) return false;
       
-      // Search filter (in notes and tags)
       if (search) {
         const searchLower = search.toLowerCase();
         const matchesNote = b.note?.toLowerCase().includes(searchLower);
@@ -66,18 +74,27 @@ export default function Bookmarks() {
     });
   }, [bookmarks, selectedType, selectedTag, search]);
 
+  const typeCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    bookmarks?.forEach(b => {
+      counts[b.resource_type] = (counts[b.resource_type] || 0) + 1;
+    });
+    return counts;
+  }, [bookmarks]);
+
   if (!user) {
     return (
       <Layout>
-        <div className="container max-w-4xl mx-auto px-4 py-16 text-center">
-          <Bookmark className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-          <h2 className="text-2xl font-bold mb-2">Inicia sesión para ver tus favoritos</h2>
-          <p className="text-muted-foreground mb-4">
-            Guarda clases, herramientas y posts para acceder rápidamente
-          </p>
-          <Button onClick={() => navigate('/auth')}>
-            Iniciar sesión
-          </Button>
+        <div className="page-container section-py">
+          <EmptyState
+            icon={Heart}
+            title="Inicia sesión"
+            description="Necesitas iniciar sesión para ver tus favoritos"
+            action={{
+              label: 'Iniciar sesión',
+              onClick: () => navigate('/auth')
+            }}
+          />
         </div>
       </Layout>
     );
@@ -85,55 +102,32 @@ export default function Bookmarks() {
 
   return (
     <Layout>
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Bookmark className="h-5 w-5 text-primary" />
-            </div>
-            <h1 className="text-3xl font-bold">Mis Favoritos</h1>
-          </div>
-          <p className="text-muted-foreground">
-            Tu colección personal de recursos guardados
-          </p>
-        </motion.div>
+      <div className="page-container section-py">
+        <PageHeader
+          title={<>Mis <span className="text-gradient">Favoritos</span></>}
+          description="Tu colección personal de recursos guardados"
+          badge={{ 
+            label: `${bookmarks?.length || 0} guardados`, 
+            icon: <Bookmark className="w-3 h-3" /> 
+          }}
+          breadcrumbs={[{ label: 'Favoritos' }]}
+        />
 
-        {/* Search and Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
+        {/* Search */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-6 space-y-4"
+          className="space-y-4 mb-6"
         >
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
+              placeholder="Buscar en favoritos..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar en favoritos..."
-              className="pl-10"
+              className="pl-10 bg-muted/50"
             />
-          </div>
-
-          {/* Type filters */}
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
-            {FILTERS.map((filter) => (
-              <Button
-                key={filter.value}
-                variant={selectedType === filter.value ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedType(filter.value)}
-                className="shrink-0"
-              >
-                {filter.label}
-              </Button>
-            ))}
           </div>
 
           {/* Tag filters */}
@@ -154,97 +148,121 @@ export default function Bookmarks() {
           )}
         </motion.div>
 
-        {/* Bookmarks list */}
-        {isLoading ? (
-          <div className="space-y-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
-            ))}
-          </div>
-        ) : filteredBookmarks.length > 0 ? (
-          <motion.div layout className="space-y-3">
-            <AnimatePresence mode="popLayout">
-              {filteredBookmarks.map((bookmark) => (
-                <motion.div
-                  key={bookmark.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                >
-                  <Card className="group hover:border-primary/50 transition-colors">
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-4">
-                        {/* Icon */}
-                        <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                          {resourceIcons[bookmark.resource_type as ResourceType]}
-                        </div>
+        {/* Tabs by Type */}
+        <Tabs value={selectedType} onValueChange={setSelectedType} className="mb-6">
+          <TabsList className="bg-muted/50 p-1 flex-wrap h-auto">
+            {FILTERS.map((filter) => {
+              const count = filter.value === 'all' 
+                ? bookmarks?.length || 0 
+                : typeCounts[filter.value] || 0;
+              
+              if (filter.value !== 'all' && count === 0) return null;
+              
+              return (
+                <TabsTrigger key={filter.value} value={filter.value} className="gap-2">
+                  {filter.label}
+                  <Badge variant="secondary" className="ml-1 bg-background/50 text-xs">
+                    {count}
+                  </Badge>
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
 
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="outline" className="text-xs">
-                              {resourceLabels[bookmark.resource_type as ResourceType]}
-                            </Badge>
-                            <span className="text-xs text-muted-foreground">
-                              {formatDistanceToNow(new Date(bookmark.created_at), {
-                                addSuffix: true,
-                                locale: es,
-                              })}
-                            </span>
-                          </div>
-                          
-                          {bookmark.note && (
-                            <p className="text-sm text-foreground mb-2 line-clamp-2">
-                              {bookmark.note}
-                            </p>
-                          )}
-
-                          {/* Tags */}
-                          {bookmark.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1">
-                              {bookmark.tags.map((tag) => (
-                                <Badge key={tag} variant="secondary" className="text-xs">
-                                  {tag}
-                                </Badge>
-                              ))}
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filteredBookmarks.length === 0 ? (
+            <div className="py-12">
+              <EmptyState
+                icon={Bookmark}
+                title={bookmarks?.length === 0 ? 'Sin favoritos todavía' : 'No hay resultados'}
+                description={
+                  bookmarks?.length === 0 
+                    ? 'Guarda clases, herramientas y posts usando el ícono de bookmark'
+                    : 'Intenta con otros filtros'
+                }
+                action={search || selectedTag ? {
+                  label: 'Limpiar filtros',
+                  onClick: () => {
+                    setSearch('');
+                    setSelectedTag(null);
+                  }
+                } : undefined}
+              />
+            </div>
+          ) : (
+            <TabsContent value={selectedType} className="mt-6">
+              <motion.div layout className="space-y-3">
+                <AnimatePresence mode="popLayout">
+                  {filteredBookmarks.map((bookmark, index) => (
+                    <motion.div
+                      key={bookmark.id}
+                      layout
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ delay: 0.05 * Math.min(index, 8) }}
+                    >
+                      <Card className="card-premium glow-hover group">
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-4">
+                            <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                              {resourceIcons[bookmark.resource_type as ResourceType]}
                             </div>
-                          )}
-                        </div>
 
-                        {/* Delete button */}
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
-                          onClick={() => toggleBookmark({ 
-                            type: bookmark.resource_type as ResourceType, 
-                            resourceId: bookmark.resource_id 
-                          })}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        ) : (
-          <div className="text-center py-12">
-            <Bookmark className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-medium mb-2">
-              {bookmarks?.length === 0 ? 'Sin favoritos todavía' : 'No hay resultados'}
-            </h3>
-            <p className="text-muted-foreground">
-              {bookmarks?.length === 0 
-                ? 'Guarda clases, herramientas y posts usando el ícono de bookmark'
-                : 'Intenta con otros filtros'
-              }
-            </p>
-          </div>
-        )}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <Badge variant="outline" className="text-xs">
+                                  {resourceLabels[bookmark.resource_type as ResourceType]}
+                                </Badge>
+                                <span className="text-xs text-muted-foreground">
+                                  {formatDistanceToNow(new Date(bookmark.created_at), {
+                                    addSuffix: true,
+                                    locale: es,
+                                  })}
+                                </span>
+                              </div>
+                              
+                              {bookmark.note && (
+                                <p className="text-sm text-foreground mb-2 line-clamp-2">
+                                  {bookmark.note}
+                                </p>
+                              )}
+
+                              {bookmark.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1">
+                                  {bookmark.tags.map((tag) => (
+                                    <Badge key={tag} variant="secondary" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
+                              onClick={() => toggleBookmark({ 
+                                type: bookmark.resource_type as ResourceType, 
+                                resourceId: bookmark.resource_id 
+                              })}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            </TabsContent>
+          )}
+        </Tabs>
       </div>
     </Layout>
   );
