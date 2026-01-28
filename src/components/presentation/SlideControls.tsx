@@ -26,7 +26,7 @@ interface SlideControlsProps {
   onToggleGrid: () => void;
   onToggleSpeaker: () => void;
   onToggleFullscreen: () => void;
-  onExportPDF?: () => void;
+  onExport?: () => void;
   onExit?: () => void;
   className?: string;
 }
@@ -44,7 +44,7 @@ export function SlideControls({
   onToggleGrid,
   onToggleSpeaker,
   onToggleFullscreen,
-  onExportPDF,
+  onExport,
   onExit,
   className,
 }: SlideControlsProps) {
@@ -147,18 +147,18 @@ export function SlideControls({
           <TooltipContent>Pantalla completa (F)</TooltipContent>
         </Tooltip>
 
-        {onExportPDF && (
+        {onExport && (
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
                 variant="ghost" 
                 size="icon"
-                onClick={onExportPDF}
+                onClick={onExport}
               >
                 <Download className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Exportar PDF</TooltipContent>
+            <TooltipContent>Exportar (PPTX/PDF)</TooltipContent>
           </Tooltip>
         )}
 
