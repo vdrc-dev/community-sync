@@ -1,130 +1,122 @@
 
-# Plan: Flujo Completo de Creación de Generaciones, Clases y Presentaciones
+# Plan: Integración del Visor Interactivo de Presentaciones
 
-## Problema Identificado
+## Objetivo
 
-El sistema de presentaciones tiene la lógica de backend pero **no hay interfaz para crear datos iniciales**:
-1. La tabla `generations` está vacía
-2. Sin generaciones, no hay clases
-3. Sin clases, no se pueden crear presentaciones
-4. El dashboard muestra "No hay presentaciones" sin opción de crear
-
-## Solución Propuesta
-
-Implementar un flujo de administración completo que permita:
-1. **Crear nuevas generaciones** (GEN 09, GEN 10)
-2. **Auto-generar las 4 clases** del taller con un clic
-3. **Crear presentaciones** directamente desde el dashboard
+Integrar un visor de presentaciones interactivo al portal VDRC, permitiendo que los administradores puedan crear presentaciones en el editor actual y luego visualizarlas/presentarlas en modo slides con todas las funcionalidades del proyecto referenciado.
 
 ---
 
-## Componentes a Crear
+## Funcionalidades a Implementar
 
-### 1. GenerationManager.tsx
-Panel de administración de generaciones con:
-- Lista de generaciones existentes
-- Botón "Nueva Generación" que abre modal
-- Formulario: código (GEN-10), nombre, fechas inicio/fin, descripción
-- Botón "Generar 4 clases" que crea automáticamente las sesiones del taller
+Del visor compartido, se integrarán:
 
-### 2. CreateGenerationModal.tsx
-Modal para crear nueva generación:
-- Input: Código (ej: GEN-10)
-- Input: Nombre (ej: "Febrero 2026")
-- Date picker: Fecha inicio (3 Feb 2026)
-- Checkbox: Marcar como activa
-- Toggle: "Auto-crear las 4 clases" con fechas automáticas (cada martes)
-
-### 3. ClassCreatorWizard.tsx
-Wizard para crear las 4 clases de una generación:
-- Muestra los 4 módulos predefinidos:
-  1. Higiene Digital
-  2. IA & Productividad  
-  3. Comunicación Digital
-  4. Desarrollo Personal
-- Permite editar títulos/descripciones
-- Calcula fechas automáticamente (martes consecutivos)
+1. **Navegacion de Slides**: Flechas, teclado, swipe tactil
+2. **Contador**: "Slide 3 de 17"
+3. **Vista Cuadricula**: Ver todas las slides en miniatura
+4. **Pantalla Completa**: Tecla F, modo inmersivo
+5. **Exportar PDF**: Descarga de la presentacion completa
+6. **Barra de Progreso**: Indicadores visuales del avance
+7. **Modo Presentador**: Vista dual con notas y siguiente slide
 
 ---
 
-## Modificaciones al Dashboard de Presentaciones
+## Arquitectura de la Solucion
 
-### PresentationDashboard.tsx - Mejorar
-Añadir:
-- **Botón "Gestionar Generaciones"** que abre el panel
-- **Lista de clases sin presentación** con botón (+) para crear
-- **Indicador visual** de clases pendientes por generación
+### Modelo de Datos
 
-### AdminPresentations.tsx - Mejorar
-Añadir:
-- Vista alternativa cuando no hay datos: "Primero crea una generación"
-- Integración con GenerationManager
+El esquema actual de `class_presentations` ya tiene campos utiles:
+- `outline` (texto Markdown) - estructura de la presentacion
+- `key_points[]` - puntos clave por seccion
+- `talking_points` (JSON) - notas del presentador
 
----
-
-## Hook Nuevo: useGenerations.tsx
+**Nueva estructura para slides (JSON en campo `slides`):**
 
 ```typescript
-// Funciones:
-- fetchGenerations() - lista todas
-- createGeneration(data) - crea nueva
-- updateGeneration(id, data) - actualiza
-- deleteGeneration(id) - elimina
-- createClassesForGeneration(generationId, dates[]) - crea las 4 clases
-- getClassesWithoutPresentation(generationId) - clases sin presentación
-```
+interface Slide {
+  id: string;
+  type: 'title' | 'content' | 'split' | 'image' | 'code' | 'bullets';
+  title?: string;
+  subtitle?: string;
+  content?: string;
+  bullets?: string[];
+  image?: string;
+  speakerNotes?: string;
+  tags?: string[];
+}
 
----
-
-## Datos Predefinidos (4 Módulos del Taller)
-
-```typescript
-const WORKSHOP_MODULES = [
-  {
-    number: 1,
-    title: "Higiene Digital",
-    description: "Fundamentos de productividad y organización digital"
-  },
-  {
-    number: 2,
-    title: "IA & Productividad",
-    description: "Herramientas de inteligencia artificial para el trabajo"
-  },
-  {
-    number: 3,
-    title: "Comunicación Digital",
-    description: "Escritura efectiva y comunicación profesional"
-  },
-  {
-    number: 4,
-    title: "Desarrollo Personal",
-    description: "Crecimiento profesional y planificación de carrera"
-  }
+// Ejemplo de presentacion
+const slides: Slide[] = [
+  { id: '1', type: 'title', title: 'Vibe Coding 2026', subtitle: 'De la Idea a la Aplicacion', tags: ['IA Generativa', 'Deploy instantaneo'] },
+  { id: '2', type: 'bullets', title: 'Agenda', bullets: ['Intro', 'Demo', 'Practica', 'Q&A'] },
+  { id: '3', type: 'content', title: 'Capitulo 1', content: 'Fundamentos de IA...' },
 ];
 ```
 
 ---
 
-## Flujo de Usuario (Admin)
+## Componentes a Crear
+
+### 1. PresentationViewer.tsx (Pagina Principal)
+Ruta: `/presentations/:id` o `/presentations/:id/view`
 
 ```text
-1. Admin navega a /admin/presentations
-   ↓
-2. Ve mensaje "No hay generaciones creadas"
-   ↓
-3. Clic en "Crear Primera Generación"
-   ↓
-4. Modal: Ingresa "GEN-10", "Febrero 2026", fecha 3 Feb
-   ↓
-5. Marca "Auto-crear 4 clases" → calcula 3, 10, 17, 24 Feb
-   ↓
-6. Confirma → Se crean: 1 generación + 4 clases
-   ↓
-7. Dashboard muestra 4 clases SIN presentación
-   ↓
-8. Clic en (+) en clase → Crea presentación → Abre editor
-   ↓
-9. Admin diseña la presentación
++--------------------------------------------------+
+|  1/17  [<] [>] [Grid] [Speaker] [Fullscreen] [PDF]|
++--------------------------------------------------+
+|                                                   |
+|            [CONTENIDO DE LA SLIDE]                |
+|                                                   |
+|                                                   |
++--------------------------------------------------+
+|  [o][o][o][o][o][o][o][o][o][o][o][o][o][o][o][o]|
++--------------------------------------------------+
+```
+
+### 2. SlideRenderer.tsx
+Renderiza cada tipo de slide:
+- `TitleSlide`: Titulo grande, subtitulo, tags/badges
+- `ContentSlide`: Titulo + contenido markdown
+- `BulletsSlide`: Titulo + lista animada
+- `SplitSlide`: Dos columnas (texto/imagen)
+- `ImageSlide`: Imagen fullscreen
+- `CodeSlide`: Bloque de codigo con syntax highlighting
+
+### 3. SlideControls.tsx
+Controles de navegacion:
+- Botones prev/next
+- Contador de slides
+- Shortcuts de teclado
+- Indicadores de progreso
+
+### 4. SlideGridView.tsx
+Vista de cuadricula:
+- Miniaturas de todas las slides
+- Click para navegar
+- Indicador de posicion actual
+
+### 5. SpeakerView.tsx
+Modo presentador:
+- Slide actual (grande)
+- Siguiente slide (pequena)
+- Notas del presentador
+- Timer/reloj
+
+### 6. SlideEditor.tsx (Extension del editor actual)
+Agregar al PresentationEditor:
+- Editor visual de slides (drag-and-drop)
+- Previsualizacion en tiempo real
+- Convertir outline a slides automaticamente
+
+---
+
+## Migracion de Base de Datos
+
+Agregar campo `slides` a la tabla `class_presentations`:
+
+```sql
+ALTER TABLE class_presentations 
+ADD COLUMN slides jsonb DEFAULT '[]'::jsonb;
 ```
 
 ---
@@ -132,127 +124,142 @@ const WORKSHOP_MODULES = [
 ## Archivos a Crear
 
 ```text
-src/components/admin/GenerationManager.tsx      # Panel principal
-src/components/admin/CreateGenerationModal.tsx  # Modal de creación
-src/components/admin/ClassCreatorWizard.tsx     # Wizard para clases
-src/components/admin/ClassWithoutPresentation.tsx # Lista de clases sin pres.
-src/hooks/useGenerations.tsx                    # Hook de datos
+src/pages/PresentationView.tsx              # Pagina del visor
+src/components/presentation/
+  PresentationViewer.tsx                    # Componente principal
+  SlideRenderer.tsx                         # Renderiza cada slide
+  slides/
+    TitleSlide.tsx                          # Slide de titulo
+    ContentSlide.tsx                        # Slide de contenido
+    BulletsSlide.tsx                        # Slide con bullets
+    SplitSlide.tsx                          # Slide dividida
+  SlideControls.tsx                         # Navegacion
+  SlideGridView.tsx                         # Vista cuadricula
+  SlideProgress.tsx                         # Barra de progreso
+  SpeakerView.tsx                           # Vista presentador
+  SlideEditor.tsx                           # Editor de slides
+  SlideParticles.tsx                        # Fondo animado
+  usePresentationKeyboard.tsx               # Hook teclado
+  usePresentationState.tsx                  # Hook estado
 ```
 
 ## Archivos a Modificar
 
 ```text
-src/pages/AdminPresentations.tsx     # Integrar GenerationManager
-src/components/admin/PresentationDashboard.tsx  # Añadir botón crear
+src/App.tsx                                 # Nueva ruta
+src/components/admin/PresentationEditor.tsx # Agregar editor slides
+src/components/admin/PresentationDashboard.tsx # Boton "Presentar"
 ```
 
 ---
 
-## Detalle Técnico: CreateGenerationModal
+## Flujo de Usuario
 
-```tsx
-// Al marcar "Auto-crear clases":
-const calculateClassDates = (startDate: Date) => {
-  // Encuentra el próximo martes si no es martes
-  const firstTuesday = getNextTuesday(startDate);
-  return [
-    firstTuesday,                    // Clase 1
-    addDays(firstTuesday, 7),        // Clase 2
-    addDays(firstTuesday, 14),       // Clase 3
-    addDays(firstTuesday, 21),       // Clase 4
-  ];
-};
-
-// Crear generación + clases en una transacción:
-const createWithClasses = async () => {
-  // 1. Crear generación
-  const gen = await supabase.from('generations').insert({...}).select().single();
-  
-  // 2. Crear las 4 clases
-  const classesData = WORKSHOP_MODULES.map((mod, i) => ({
-    generation_id: gen.id,
-    class_number: mod.number,
-    title: mod.title,
-    description: mod.description,
-    class_date: classDates[i],
-  }));
-  
-  await supabase.from('classes').insert(classesData);
-};
-```
-
----
-
-## Detalle Técnico: ClassWithoutPresentation
-
-```tsx
-// Query para obtener clases sin presentación:
-const { data: classesWithoutPres } = useQuery({
-  queryKey: ['classes-without-presentation', generationId],
-  queryFn: async () => {
-    // Obtener todas las clases de la generación
-    const { data: classes } = await supabase
-      .from('classes')
-      .select('*, class_presentations(*)')
-      .eq('generation_id', generationId);
-    
-    // Filtrar las que NO tienen presentación
-    return classes?.filter(c => !c.class_presentations) || [];
-  }
-});
-
-// UI: Lista con botón (+)
-{classesWithoutPres.map(cls => (
-  <div key={cls.id} className="flex items-center gap-2">
-    <span>Clase {cls.class_number}: {cls.title}</span>
-    <Button onClick={() => createPresentation(cls.id)}>
-      <Plus /> Crear Presentación
-    </Button>
-  </div>
-))}
-```
-
----
-
-## Vista Final del Dashboard
-
+### Admin creando presentacion:
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ 📊 Diseño de Presentaciones                      [Admin]   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Gestionar Generaciones]                                    │
-│                                                             │
-│ ┌─ GEN-10 (Febrero 2026) ─────────────────────────────────┐│
-│ │                                                          ││
-│ │  ⚠️ 4 clases sin presentación                           ││
-│ │                                                          ││
-│ │  [1] Higiene Digital - 3 Feb      [+ Crear]             ││
-│ │  [2] IA & Productividad - 10 Feb  [+ Crear]             ││
-│ │  [3] Comunicación - 17 Feb        [+ Crear]             ││
-│ │  [4] Desarrollo - 24 Feb          [+ Crear]             ││
-│ │                                                          ││
-│ └──────────────────────────────────────────────────────────┘│
-│                                                             │
-│ ┌─ GEN-09 (Enero 2026) ───────────────────────────────────┐│
-│ │  ✅ 4/4 presentaciones creadas                          ││
-│ │  [Clase 1] ██████ Publicado                             ││
-│ │  [Clase 2] ██████ Publicado                             ││
-│ │  [Clase 3] ██████ Aprobado                              ││
-│ │  [Clase 4] ████░░ En Revisión  ← HOY                    ││
-│ └──────────────────────────────────────────────────────────┘│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+1. Navega a /admin/presentations
+   ↓
+2. Selecciona clase → Abre editor
+   ↓
+3. Escribe outline en Markdown
+   ↓
+4. Click "Generar Slides" → Convierte outline a slides
+   ↓
+5. Ajusta slides individualmente (reordenar, editar)
+   ↓
+6. Click "Previsualizar" → Abre visor en nueva pestaña
+   ↓
+7. Presenta con [F] fullscreen + notas de presentador
+```
+
+### Participante viendo presentacion publicada:
+```text
+1. Navega a /generations/GEN-10
+   ↓
+2. Click en "Ver Presentacion" de una clase
+   ↓
+3. Ve slides en modo inmersivo
+   ↓
+4. Navega con ← → o touch
+   ↓
+5. Descarga PDF si lo necesita
 ```
 
 ---
 
-## Resumen de Implementación
+## Seccion Tecnica
 
-| Prioridad | Componente | Descripción |
+### Conversion de Outline a Slides (IA asistida)
+
+```typescript
+// Usar edge function con modelo de IA
+const convertOutlineToSlides = async (outline: string): Promise<Slide[]> => {
+  // Parsear Markdown
+  // Identificar secciones (## = nueva slide)
+  // Identificar tipo por contenido:
+  //   - Primera seccion con # = TitleSlide
+  //   - Listas con - = BulletsSlide
+  //   - Parrafos = ContentSlide
+  // Retornar array de slides
+};
+```
+
+### Keyboard Shortcuts
+
+```typescript
+const SHORTCUTS = {
+  ArrowRight: 'next',
+  ArrowLeft: 'prev',
+  'f': 'fullscreen',
+  'g': 'grid',
+  's': 'speaker',
+  'Escape': 'exit',
+  Home: 'first',
+  End: 'last',
+};
+```
+
+### Exportar PDF
+
+Usar `html2canvas` + `jsPDF` para generar documento:
+```typescript
+const exportToPDF = async (slides: Slide[]) => {
+  // Renderizar cada slide como imagen
+  // Compilar en PDF
+  // Descargar
+};
+```
+
+---
+
+## Diseno Visual
+
+Mantener consistencia con el visor compartido:
+- Fondo oscuro con gradientes (igual que el portal actual)
+- Particulas animadas sutiles
+- Tipografia grande y legible
+- Badges/tags con colores vibrantes
+- Animaciones suaves de transicion (framer-motion)
+
+---
+
+## Resumen de Implementacion
+
+| Prioridad | Componente | Descripcion |
 |-----------|------------|-------------|
-| 1 | useGenerations.tsx | Hook con CRUD de generaciones y clases |
-| 2 | CreateGenerationModal.tsx | Modal para crear gen + auto-clases |
-| 3 | GenerationManager.tsx | Panel de gestión integrado |
-| 4 | PresentationDashboard.tsx | Mostrar clases sin presentación |
-| 5 | AdminPresentations.tsx | Estado vacío mejorado |
+| 1 | DB: slides jsonb | Campo para almacenar estructura de slides |
+| 2 | PresentationViewer | Pagina principal del visor |
+| 3 | SlideRenderer | Componentes para cada tipo de slide |
+| 4 | SlideControls | Navegacion y shortcuts |
+| 5 | SlideEditor | Extension del editor admin |
+| 6 | SpeakerView | Vista dual para presentador |
+| 7 | PDF Export | Descarga de presentaciones |
+
+---
+
+## Beneficios
+
+- **Admin**: Crea presentaciones visualmente atractivas sin salir del portal
+- **Presentador**: Usa el visor directamente, con notas y timer
+- **Participantes**: Acceden a slides interactivas (cuando estan publicadas)
+- **Escalabilidad**: Estructura JSON permite futuras mejoras (animaciones, embeds, etc.)
