@@ -9,6 +9,7 @@ import {
   X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +19,8 @@ interface SlideControlsProps {
   isFullscreen: boolean;
   isGridView: boolean;
   isSpeakerView: boolean;
+  title?: string;
+  generationCode?: string;
   onPrev: () => void;
   onNext: () => void;
   onToggleGrid: () => void;
@@ -34,6 +37,8 @@ export function SlideControls({
   isFullscreen,
   isGridView,
   isSpeakerView,
+  title,
+  generationCode,
   onPrev,
   onNext,
   onToggleGrid,
@@ -48,7 +53,21 @@ export function SlideControls({
       "flex items-center justify-between px-4 py-2 bg-background/80 backdrop-blur-sm border-b border-border/50",
       className
     )}>
-      {/* Left: Navigation */}
+      {/* Left: Generation Badge & Title */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        {generationCode && (
+          <Badge variant="outline" className="text-primary border-primary shrink-0">
+            {generationCode}
+          </Badge>
+        )}
+        {title && (
+          <span className="text-sm font-medium text-muted-foreground truncate max-w-[200px] hidden sm:block">
+            {title}
+          </span>
+        )}
+      </div>
+
+      {/* Center: Navigation */}
       <div className="flex items-center gap-2">
         <Tooltip>
           <TooltipTrigger asChild>

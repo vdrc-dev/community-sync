@@ -85,10 +85,16 @@ function AnimatedButton() {
   },
 ];
 
+interface PresentationMetadata {
+  title: string;
+  generationCode: string;
+}
+
 export default function PresentationView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [slides, setSlides] = useState<Slide[]>([]);
+  const [metadata, setMetadata] = useState<PresentationMetadata | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -97,6 +103,7 @@ export default function PresentationView() {
       if (!id) {
         // No ID - use demo slides
         setSlides(DEMO_SLIDES);
+        setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO' });
         setIsLoading(false);
         return;
       }
@@ -104,11 +111,44 @@ export default function PresentationView() {
       try {
         const { data, error } = await supabase
           .from('class_presentations')
-          .select('slides, outline, key_points')
+          .select(`
+            slides, 
+            outline, 
+            key_points,
+            status,
+            classes (
+              id,
+              title,
+              class_number,
+              generations (
+                id,
+                name,
+                code
+              )
+            )
+          `)
           .eq('id', id)
-          .single();
+          .maybeSingle();
 
         if (error) throw error;
+
+        if (!data) {
+          setError('Presentación no encontrada');
+          setSlides(DEMO_SLIDES);
+          setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO' });
+          setIsLoading(false);
+          return;
+        }
+
+        // Build metadata from class/generation info
+        const classInfo = data.classes as any;
+        if (classInfo) {
+          const generationInfo = classInfo.generations as any;
+          setMetadata({
+            title: `Clase ${classInfo.class_number}: ${classInfo.title}`,
+            generationCode: generationInfo?.code || '',
+          });
+        }
 
         // Use slides if available, otherwise generate from outline
         if (data?.slides && Array.isArray(data.slides) && data.slides.length > 0) {
@@ -153,6 +193,8 @@ export default function PresentationView() {
   return (
     <PresentationViewer
       slides={slides}
+      title={metadata?.title}
+      generationCode={metadata?.generationCode}
       onExit={handleExit}
       onExportPDF={handleExportPDF}
     />

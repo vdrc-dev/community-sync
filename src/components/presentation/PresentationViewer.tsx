@@ -13,6 +13,7 @@ import { SlideParticles } from './SlideParticles';
 interface PresentationViewerProps {
   slides: Slide[];
   title?: string;
+  generationCode?: string;
   onExit?: () => void;
   onExportPDF?: () => void;
   showParticles?: boolean;
@@ -21,6 +22,7 @@ interface PresentationViewerProps {
 export function PresentationViewer({ 
   slides, 
   title,
+  generationCode,
   onExit, 
   onExportPDF,
   showParticles = true,
@@ -107,6 +109,8 @@ export function PresentationViewer({
         isFullscreen={isFullscreen}
         isGridView={isGridView}
         isSpeakerView={isSpeakerView}
+        title={title}
+        generationCode={generationCode}
         onPrev={handlePrev}
         onNext={handleNext}
         onToggleGrid={toggleGridView}
