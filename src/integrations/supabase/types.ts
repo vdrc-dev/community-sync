@@ -163,6 +163,7 @@ export type Database = {
           outline: string | null
           resources_needed: string[] | null
           review_notes: string | null
+          slides: Json | null
           status: string
           talking_points: Json | null
           updated_at: string | null
@@ -178,6 +179,7 @@ export type Database = {
           outline?: string | null
           resources_needed?: string[] | null
           review_notes?: string | null
+          slides?: Json | null
           status?: string
           talking_points?: Json | null
           updated_at?: string | null
@@ -193,6 +195,7 @@ export type Database = {
           outline?: string | null
           resources_needed?: string[] | null
           review_notes?: string | null
+          slides?: Json | null
           status?: string
           talking_points?: Json | null
           updated_at?: string | null

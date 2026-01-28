@@ -13,7 +13,9 @@ import {
   MessageSquare,
   Package,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Play,
+  ExternalLink
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,10 +25,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PresentationStatusBadge } from './PresentationStatusBadge';
+import { SlideEditor } from '@/components/presentation/SlideEditor';
 import { usePresentations, type Presentation, type PresentationStatus, type PresentationWithClass } from '@/hooks/usePresentations';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import type { Slide } from '@/types/presentation';
 
 interface PresentationEditorProps {
   presentation: PresentationWithClass;
@@ -46,6 +51,9 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
   const [durationEstimate, setDurationEstimate] = useState(presentation.duration_estimate || 60);
   const [assignedTo, setAssignedTo] = useState(presentation.assigned_to || '');
   const [reviewNotes, setReviewNotes] = useState(presentation.review_notes || '');
+  const [slides, setSlides] = useState<Slide[]>(
+    (presentation as any).slides || []
+  );
   
   const [newKeyPoint, setNewKeyPoint] = useState('');
   const [newResource, setNewResource] = useState('');
@@ -63,12 +71,13 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
       JSON.stringify(keyPoints) !== JSON.stringify(presentation.key_points || []) ||
       JSON.stringify(talkingPoints) !== JSON.stringify(presentation.talking_points || []) ||
       JSON.stringify(resourcesNeeded) !== JSON.stringify(presentation.resources_needed || []) ||
+      JSON.stringify(slides) !== JSON.stringify((presentation as any).slides || []) ||
       durationEstimate !== (presentation.duration_estimate || 60) ||
       assignedTo !== (presentation.assigned_to || '') ||
       reviewNotes !== (presentation.review_notes || '');
     
     setHasChanges(changed);
-  }, [outline, keyPoints, talkingPoints, resourcesNeeded, durationEstimate, assignedTo, reviewNotes, presentation]);
+  }, [outline, keyPoints, talkingPoints, resourcesNeeded, slides, durationEstimate, assignedTo, reviewNotes, presentation]);
 
   // Auto-save
   useEffect(() => {
@@ -81,7 +90,7 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
     return () => {
       if (autoSaveTimeout.current) clearTimeout(autoSaveTimeout.current);
     };
-  }, [hasChanges, outline, keyPoints, talkingPoints, resourcesNeeded, durationEstimate, assignedTo, reviewNotes]);
+  }, [hasChanges, outline, keyPoints, talkingPoints, resourcesNeeded, slides, durationEstimate, assignedTo, reviewNotes]);
 
   const handleSave = async (isAutoSave = false) => {
     if (isSaving) return;
@@ -98,6 +107,7 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
           duration_estimate: durationEstimate,
           assigned_to: assignedTo || null,
           review_notes: reviewNotes,
+          slides: slides as any,
         },
       });
       
@@ -192,6 +202,16 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
             </span>
           )}
           <PresentationStatusBadge status={presentation.status as PresentationStatus} />
+          {slides.length > 0 && (
+            <Button 
+              variant="outline"
+              onClick={() => window.open(`/presentations/${presentation.id}`, '_blank')}
+              className="gap-2"
+            >
+              <Play className="h-4 w-4" />
+              Presentar
+            </Button>
+          )}
           <Button 
             onClick={() => handleSave(false)} 
             disabled={!hasChanges || isSaving}
@@ -231,9 +251,16 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
         </CardContent>
       </Card>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Left Column */}
-        <div className="space-y-6">
+      <Tabs defaultValue="content" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="content">Contenido</TabsTrigger>
+          <TabsTrigger value="slides">Slides ({slides.length})</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="content">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-6">
           {/* Outline */}
           <Card className="glass-card">
             <CardHeader>
@@ -423,6 +450,16 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
           </Card>
         </div>
       </div>
+        </TabsContent>
+
+        <TabsContent value="slides">
+          <SlideEditor
+            slides={slides}
+            onChange={setSlides}
+            onPreview={() => window.open(`/presentations/${presentation.id}`, '_blank')}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

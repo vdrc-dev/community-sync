@@ -10,7 +10,8 @@ import {
   Plus,
   LayoutGrid,
   List,
-  Settings
+  Settings,
+  Play
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -413,6 +414,18 @@ function PresentationCard({ presentation, viewMode, index, onClick }: Presentati
                 </div>
               )}
             </div>
+            {(presentation as any).slides?.length > 0 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(`/presentations/${presentation.id}`, '_blank');
+                }}
+                className="flex items-center gap-1 text-xs text-primary hover:underline"
+              >
+                <Play className="h-3 w-3" />
+                Ver presentación
+              </button>
+            )}
           </div>
         </CardContent>
       </Card>

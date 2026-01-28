@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/hooks/use-toast';
+import type { Slide } from '@/types/presentation';
+import type { Json } from '@/integrations/supabase/types';
 
 export type PresentationStatus = 'draft' | 'review' | 'approved' | 'published';
 
@@ -17,6 +19,7 @@ export interface Presentation {
   duration_estimate: number;
   assigned_to: string | null;
   review_notes: string;
+  slides: Slide[];
   created_at: string;
   updated_at: string;
   created_by: string | null;
@@ -79,7 +82,7 @@ export function usePresentations() {
       .maybeSingle();
 
     if (error) throw error;
-    return data as Presentation | null;
+    return data as unknown as Presentation | null;
   }, []);
 
   // Create presentation
@@ -96,7 +99,7 @@ export function usePresentations() {
         .single();
 
       if (error) throw error;
-      return data as Presentation;
+      return data as unknown as Presentation;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['presentations'] });
@@ -117,15 +120,21 @@ export function usePresentations() {
   // Update presentation
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<Presentation> }) => {
+      // Convert slides to Json type for Supabase
+      const updateData = { ...data } as Record<string, any>;
+      if (data.slides) {
+        updateData.slides = data.slides as unknown as Json;
+      }
+      
       const { data: updated, error } = await supabase
         .from('class_presentations')
-        .update(data)
+        .update(updateData)
         .eq('id', id)
         .select()
         .single();
 
       if (error) throw error;
-      return updated as Presentation;
+      return updated as unknown as Presentation;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['presentations'] });
@@ -150,7 +159,7 @@ export function usePresentations() {
         .single();
 
       if (error) throw error;
-      return data as Presentation;
+      return data as unknown as Presentation;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['presentations'] });

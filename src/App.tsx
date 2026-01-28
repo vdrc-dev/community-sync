@@ -29,6 +29,7 @@ const Playground = lazy(() => import("./pages/Playground"));
 const Workflows = lazy(() => import("./pages/Workflows"));
 const WorkflowDetail = lazy(() => import("./pages/WorkflowDetail"));
 const AdminPresentations = lazy(() => import("./pages/AdminPresentations"));
+const PresentationView = lazy(() => import("./pages/PresentationView"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Optimized QueryClient with aggressive caching
@@ -78,6 +79,7 @@ const App = () => (
               <Route path="/workflows" element={<Workflows />} />
               <Route path="/workflows/:id" element={<WorkflowDetail />} />
               <Route path="/admin/presentations" element={<AdminPresentations />} />
+              <Route path="/presentations/:id?" element={<PresentationView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
