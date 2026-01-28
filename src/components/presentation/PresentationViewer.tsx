@@ -9,26 +9,35 @@ import { SlideProgress, SlideProgressBar } from './SlideProgress';
 import { SlideGridView } from './SlideGridView';
 import { SpeakerView } from './SpeakerView';
 import { SlideParticles } from './SlideParticles';
+import { ExportModal } from './ExportModal';
+import type { ExportMetadata } from '@/lib/exportPresentation';
 
 interface PresentationViewerProps {
   slides: Slide[];
   title?: string;
   generationCode?: string;
+  classNumber?: number;
   onExit?: () => void;
-  onExportPDF?: () => void;
   showParticles?: boolean;
 }
 
 export function PresentationViewer({ 
   slides, 
-  title,
-  generationCode,
+  title = '',
+  generationCode = '',
+  classNumber = 1,
   onExit, 
-  onExportPDF,
   showParticles = true,
 }: PresentationViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [direction, setDirection] = useState(1);
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  const exportMetadata: ExportMetadata = {
+    title: title || 'Presentación',
+    generationCode: generationCode || 'GEN-000',
+    classNumber: classNumber,
+  };
 
   const {
     currentIndex,
@@ -116,7 +125,7 @@ export function PresentationViewer({
         onToggleGrid={toggleGridView}
         onToggleSpeaker={toggleSpeakerView}
         onToggleFullscreen={toggleFullscreen}
-        onExportPDF={onExportPDF}
+        onExport={() => setShowExportModal(true)}
         onExit={onExit}
       />
 
@@ -198,6 +207,15 @@ export function PresentationViewer({
           />
         </>
       )}
+
+      {/* Export Modal */}
+      <ExportModal
+        open={showExportModal}
+        onOpenChange={setShowExportModal}
+        slides={slides}
+        metadata={exportMetadata}
+        containerRef={containerRef}
+      />
     </div>
   );
 }

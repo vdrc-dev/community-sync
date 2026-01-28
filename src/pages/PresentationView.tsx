@@ -88,6 +88,7 @@ function AnimatedButton() {
 interface PresentationMetadata {
   title: string;
   generationCode: string;
+  classNumber: number;
 }
 
 export default function PresentationView() {
@@ -103,7 +104,7 @@ export default function PresentationView() {
       if (!id) {
         // No ID - use demo slides
         setSlides(DEMO_SLIDES);
-        setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO' });
+        setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO', classNumber: 1 });
         setIsLoading(false);
         return;
       }
@@ -135,7 +136,7 @@ export default function PresentationView() {
         if (!data) {
           setError('Presentación no encontrada');
           setSlides(DEMO_SLIDES);
-          setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO' });
+          setMetadata({ title: 'Demo Presentation', generationCode: 'DEMO', classNumber: 1 });
           setIsLoading(false);
           return;
         }
@@ -147,6 +148,7 @@ export default function PresentationView() {
           setMetadata({
             title: `Clase ${classInfo.class_number}: ${classInfo.title}`,
             generationCode: generationInfo?.code || '',
+            classNumber: classInfo.class_number || 1,
           });
         }
 
@@ -177,11 +179,6 @@ export default function PresentationView() {
     navigate(-1);
   };
 
-  const handleExportPDF = async () => {
-    // TODO: Implement PDF export
-    console.log('PDF export not yet implemented');
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
@@ -195,8 +192,8 @@ export default function PresentationView() {
       slides={slides}
       title={metadata?.title}
       generationCode={metadata?.generationCode}
+      classNumber={metadata?.classNumber}
       onExit={handleExit}
-      onExportPDF={handleExportPDF}
     />
   );
 }
