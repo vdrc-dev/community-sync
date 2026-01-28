@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,19 +14,18 @@ import { GenerationProgressBar } from '@/components/progress/GenerationProgressB
 import { ClassNotes } from '@/components/notes/ClassNotes';
 import { BookmarkButton } from '@/components/bookmarks/BookmarkButton';
 import { useActivityResume } from '@/hooks/useActivityResume';
+import { EmptyState } from '@/components/ui/empty-state';
 import { 
-  ArrowLeft, 
   Play, 
   Folder, 
   FileText, 
   BookOpen, 
   Wrench,
-  Calendar,
   ExternalLink,
   Loader2,
   Lock,
   Presentation,
-  Shield
+  Sparkles
 } from 'lucide-react';
 import { usePresentations } from '@/hooks/usePresentations';
 
@@ -110,54 +110,17 @@ export default function GenerationDetail() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        {/* Back link */}
-        <Link 
-          to="/generations" 
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Todas las generaciones</span>
-        </Link>
-
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-start gap-4 mb-4">
-            <div className="w-16 h-16 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center glow-primary">
-              <span className="font-mono font-bold text-primary text-xl">
-                {generation.code.replace('GEN-', '')}
-              </span>
-            </div>
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl font-mono font-bold">{generation.name}</h1>
-                {generation.is_active && (
-                  <Badge className="bg-primary/20 text-primary border-primary/30">
-                    Activo
-                  </Badge>
-                )}
-              </div>
-              {generation.description && (
-                <p className="text-muted-foreground">{generation.description}</p>
-              )}
-              {generation.start_date && (
-                <p className="text-sm text-muted-foreground mt-2 flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  {new Date(generation.start_date).toLocaleDateString('es-CL', { 
-                    month: 'long', 
-                    year: 'numeric' 
-                  })}
-                  {generation.end_date && (
-                    <> - {new Date(generation.end_date).toLocaleDateString('es-CL', { 
-                      month: 'long', 
-                      year: 'numeric' 
-                    })}</>
-                  )}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+      <div className="page-container section-py">
+        {/* Page Header with breadcrumbs */}
+        <PageHeader
+          title={generation.name}
+          description={generation.description || undefined}
+          badge={generation.is_active ? { label: 'Activo', icon: <Sparkles className="w-3 h-3 mr-1" /> } : undefined}
+          breadcrumbs={[
+            { label: 'Generaciones', href: '/generations' },
+            { label: generation.code }
+          ]}
+        />
 
         {/* Content */}
         {!user ? (
@@ -193,10 +156,12 @@ export default function GenerationDetail() {
                   <Loader2 className="w-6 h-6 animate-spin text-primary" />
                 </div>
               ) : classes?.length === 0 ? (
-                <Card className="glass border-border/50">
-                  <CardContent className="py-12 text-center">
-                    <p className="text-muted-foreground">No hay clases registradas aún</p>
-                  </CardContent>
+                <Card className="card-static">
+                  <EmptyState
+                    icon={BookOpen}
+                    title="Sin clases aún"
+                    description="Las clases de esta generación aparecerán aquí cuando estén disponibles"
+                  />
                 </Card>
               ) : (
                 <div className="space-y-4">
@@ -204,7 +169,7 @@ export default function GenerationDetail() {
                     const classPresentation = presentations?.find(p => p.class_id === cls.id);
                     
                     return (
-                    <Card key={cls.id} className="glass border-border/50 hover:border-primary/30 transition-all group">
+                    <Card key={cls.id} className="card-interactive group">
                       <CardHeader className="pb-3">
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex items-center gap-4">
@@ -358,16 +323,17 @@ export default function GenerationDetail() {
             </TabsContent>
 
             <TabsContent value="tools">
-              <Card className="glass border-border/50">
-                <CardContent className="py-8 text-center">
-                  <Wrench className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">
-                    Las herramientas de esta generación aparecerán aquí
-                  </p>
-                  <Button asChild variant="link" className="text-primary mt-2">
-                    <Link to="/tools">Ver catálogo completo de herramientas</Link>
-                  </Button>
-                </CardContent>
+              <Card className="card-static">
+                <EmptyState
+                  icon={Wrench}
+                  title="Herramientas de la generación"
+                  description="Las herramientas mencionadas en esta generación aparecerán aquí"
+                  action={{
+                    label: 'Ver catálogo completo',
+                    onClick: () => window.location.href = '/tools',
+                    variant: 'outline'
+                  }}
+                />
               </Card>
             </TabsContent>
           </Tabs>
