@@ -1,265 +1,207 @@
 
-# Plan: Integración del Visor Interactivo de Presentaciones
+# Plan: Identificar Presentaciones con su Generación
 
-## Objetivo
+## Problema Actual
 
-Integrar un visor de presentaciones interactivo al portal VDRC, permitiendo que los administradores puedan crear presentaciones en el editor actual y luego visualizarlas/presentarlas en modo slides con todas las funcionalidades del proyecto referenciado.
+Actualmente el visor de presentaciones (`/presentations/:id`) muestra los slides pero **no indica a qué generación ni clase pertenece**. Esto genera confusión cuando hay múltiples generaciones con presentaciones similares.
 
----
+## Solución
 
-## Funcionalidades a Implementar
-
-Del visor compartido, se integrarán:
-
-1. **Navegacion de Slides**: Flechas, teclado, swipe tactil
-2. **Contador**: "Slide 3 de 17"
-3. **Vista Cuadricula**: Ver todas las slides en miniatura
-4. **Pantalla Completa**: Tecla F, modo inmersivo
-5. **Exportar PDF**: Descarga de la presentacion completa
-6. **Barra de Progreso**: Indicadores visuales del avance
-7. **Modo Presentador**: Vista dual con notas y siguiente slide
+Añadir contexto de generación en múltiples puntos del sistema:
 
 ---
 
-## Arquitectura de la Solucion
+## 1. Mostrar Información de Generación en el Visor
 
-### Modelo de Datos
+### Modificar PresentationView.tsx
 
-El esquema actual de `class_presentations` ya tiene campos utiles:
-- `outline` (texto Markdown) - estructura de la presentacion
-- `key_points[]` - puntos clave por seccion
-- `talking_points` (JSON) - notas del presentador
-
-**Nueva estructura para slides (JSON en campo `slides`):**
+Cargar información completa de la presentación incluyendo la clase y generación:
 
 ```typescript
-interface Slide {
-  id: string;
-  type: 'title' | 'content' | 'split' | 'image' | 'code' | 'bullets';
-  title?: string;
-  subtitle?: string;
-  content?: string;
-  bullets?: string[];
-  image?: string;
-  speakerNotes?: string;
-  tags?: string[];
-}
+// Antes: solo carga slides
+.select('slides, outline, key_points')
 
-// Ejemplo de presentacion
-const slides: Slide[] = [
-  { id: '1', type: 'title', title: 'Vibe Coding 2026', subtitle: 'De la Idea a la Aplicacion', tags: ['IA Generativa', 'Deploy instantaneo'] },
-  { id: '2', type: 'bullets', title: 'Agenda', bullets: ['Intro', 'Demo', 'Practica', 'Q&A'] },
-  { id: '3', type: 'content', title: 'Capitulo 1', content: 'Fundamentos de IA...' },
-];
+// Después: carga relación completa
+.select(`
+  slides, outline, key_points,
+  classes (
+    id, title, class_number,
+    generations (id, name, code)
+  )
+`)
 ```
 
----
+### Modificar PresentationViewer.tsx
 
-## Componentes a Crear
+Añadir props para mostrar título con contexto:
+- `title`: "Clase 1: Higiene Digital"
+- `subtitle`: "GEN-10 • Febrero 2026"
 
-### 1. PresentationViewer.tsx (Pagina Principal)
-Ruta: `/presentations/:id` o `/presentations/:id/view`
+Mostrar un header informativo en la barra de controles:
 
 ```text
-+--------------------------------------------------+
-|  1/17  [<] [>] [Grid] [Speaker] [Fullscreen] [PDF]|
-+--------------------------------------------------+
-|                                                   |
-|            [CONTENIDO DE LA SLIDE]                |
-|                                                   |
-|                                                   |
-+--------------------------------------------------+
-|  [o][o][o][o][o][o][o][o][o][o][o][o][o][o][o][o]|
-+--------------------------------------------------+
-```
-
-### 2. SlideRenderer.tsx
-Renderiza cada tipo de slide:
-- `TitleSlide`: Titulo grande, subtitulo, tags/badges
-- `ContentSlide`: Titulo + contenido markdown
-- `BulletsSlide`: Titulo + lista animada
-- `SplitSlide`: Dos columnas (texto/imagen)
-- `ImageSlide`: Imagen fullscreen
-- `CodeSlide`: Bloque de codigo con syntax highlighting
-
-### 3. SlideControls.tsx
-Controles de navegacion:
-- Botones prev/next
-- Contador de slides
-- Shortcuts de teclado
-- Indicadores de progreso
-
-### 4. SlideGridView.tsx
-Vista de cuadricula:
-- Miniaturas de todas las slides
-- Click para navegar
-- Indicador de posicion actual
-
-### 5. SpeakerView.tsx
-Modo presentador:
-- Slide actual (grande)
-- Siguiente slide (pequena)
-- Notas del presentador
-- Timer/reloj
-
-### 6. SlideEditor.tsx (Extension del editor actual)
-Agregar al PresentationEditor:
-- Editor visual de slides (drag-and-drop)
-- Previsualizacion en tiempo real
-- Convertir outline a slides automaticamente
-
----
-
-## Migracion de Base de Datos
-
-Agregar campo `slides` a la tabla `class_presentations`:
-
-```sql
-ALTER TABLE class_presentations 
-ADD COLUMN slides jsonb DEFAULT '[]'::jsonb;
+┌────────────────────────────────────────────────────────────┐
+│ [GEN-10] Clase 1: Higiene Digital     1/17  [<] [>] [G][S] │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Archivos a Crear
+## 2. Mostrar Badge de Generación en el Dashboard
 
+### Modificar GenerationManager.tsx
+
+Añadir visual claro de qué generación está seleccionada con código de colores:
+- GEN-09: Un color
+- GEN-10: Otro color
+
+Cada tarjeta de clase/presentación mostrará:
 ```text
-src/pages/PresentationView.tsx              # Pagina del visor
-src/components/presentation/
-  PresentationViewer.tsx                    # Componente principal
-  SlideRenderer.tsx                         # Renderiza cada slide
-  slides/
-    TitleSlide.tsx                          # Slide de titulo
-    ContentSlide.tsx                        # Slide de contenido
-    BulletsSlide.tsx                        # Slide con bullets
-    SplitSlide.tsx                          # Slide dividida
-  SlideControls.tsx                         # Navegacion
-  SlideGridView.tsx                         # Vista cuadricula
-  SlideProgress.tsx                         # Barra de progreso
-  SpeakerView.tsx                           # Vista presentador
-  SlideEditor.tsx                           # Editor de slides
-  SlideParticles.tsx                        # Fondo animado
-  usePresentationKeyboard.tsx               # Hook teclado
-  usePresentationState.tsx                  # Hook estado
+┌─────────────────────────────────────┐
+│ [GEN-10]  Clase 1: Higiene Digital  │
+│ ████████░░ En revisión              │
+│ Fecha: 3 Feb 2026                   │
+└─────────────────────────────────────┘
 ```
+
+---
+
+## 3. Acceso Público a Presentaciones Publicadas
+
+### Añadir a GenerationDetail.tsx
+
+Cuando una presentación está en estado "published", los participantes (no solo admins) pueden verla:
+
+```typescript
+{/* Para participantes: ver presentación publicada */}
+{classPresentation?.status === 'published' && (
+  <Link to={`/presentations/${classPresentation.id}`}>
+    <Button variant="outline">
+      <Play /> Ver Presentación
+    </Button>
+  </Link>
+)}
+```
+
+---
+
+## 4. Nueva Ruta con Contexto de Generación
+
+Añadir rutas alternativas más descriptivas:
+
+```typescript
+// Rutas adicionales (opcionales, más SEO-friendly)
+/generations/:code/presentations/:classNumber
+// Ejemplo: /generations/GEN-10/presentations/1
+```
+
+Esto permite acceder directamente a "la presentación de la clase 1 de GEN-10".
+
+---
 
 ## Archivos a Modificar
 
-```text
-src/App.tsx                                 # Nueva ruta
-src/components/admin/PresentationEditor.tsx # Agregar editor slides
-src/components/admin/PresentationDashboard.tsx # Boton "Presentar"
-```
+| Archivo | Cambio |
+|---------|--------|
+| `PresentationView.tsx` | Cargar info de clase/generación, pasar a Viewer |
+| `PresentationViewer.tsx` | Aceptar `title`, `generationCode` como props |
+| `SlideControls.tsx` | Mostrar título de presentación junto a controles |
+| `GenerationDetail.tsx` | Botón "Ver Presentación" para participantes |
+| `App.tsx` | (Opcional) Nueva ruta con código de generación |
 
 ---
 
-## Flujo de Usuario
-
-### Admin creando presentacion:
-```text
-1. Navega a /admin/presentations
-   ↓
-2. Selecciona clase → Abre editor
-   ↓
-3. Escribe outline en Markdown
-   ↓
-4. Click "Generar Slides" → Convierte outline a slides
-   ↓
-5. Ajusta slides individualmente (reordenar, editar)
-   ↓
-6. Click "Previsualizar" → Abre visor en nueva pestaña
-   ↓
-7. Presenta con [F] fullscreen + notas de presentador
-```
-
-### Participante viendo presentacion publicada:
-```text
-1. Navega a /generations/GEN-10
-   ↓
-2. Click en "Ver Presentacion" de una clase
-   ↓
-3. Ve slides en modo inmersivo
-   ↓
-4. Navega con ← → o touch
-   ↓
-5. Descarga PDF si lo necesita
-```
-
----
-
-## Seccion Tecnica
-
-### Conversion de Outline a Slides (IA asistida)
+## Detalle Técnico: PresentationView.tsx Mejorado
 
 ```typescript
-// Usar edge function con modelo de IA
-const convertOutlineToSlides = async (outline: string): Promise<Slide[]> => {
-  // Parsear Markdown
-  // Identificar secciones (## = nueva slide)
-  // Identificar tipo por contenido:
-  //   - Primera seccion con # = TitleSlide
-  //   - Listas con - = BulletsSlide
-  //   - Parrafos = ContentSlide
-  // Retornar array de slides
+const fetchPresentation = async () => {
+  const { data, error } = await supabase
+    .from('class_presentations')
+    .select(`
+      slides, 
+      outline, 
+      key_points,
+      status,
+      classes (
+        id, 
+        title, 
+        class_number,
+        generations (
+          id, 
+          name, 
+          code
+        )
+      )
+    `)
+    .eq('id', id)
+    .single();
+
+  // Construir título descriptivo
+  const title = `Clase ${data.classes.class_number}: ${data.classes.title}`;
+  const subtitle = `${data.classes.generations.code} • ${data.classes.generations.name}`;
+  
+  setMetadata({ title, subtitle, generationCode: data.classes.generations.code });
+  setSlides(data.slides);
 };
-```
 
-### Keyboard Shortcuts
-
-```typescript
-const SHORTCUTS = {
-  ArrowRight: 'next',
-  ArrowLeft: 'prev',
-  'f': 'fullscreen',
-  'g': 'grid',
-  's': 'speaker',
-  'Escape': 'exit',
-  Home: 'first',
-  End: 'last',
-};
-```
-
-### Exportar PDF
-
-Usar `html2canvas` + `jsPDF` para generar documento:
-```typescript
-const exportToPDF = async (slides: Slide[]) => {
-  // Renderizar cada slide como imagen
-  // Compilar en PDF
-  // Descargar
-};
+return (
+  <PresentationViewer
+    slides={slides}
+    title={metadata.title}
+    subtitle={metadata.subtitle}
+    onExit={handleExit}
+  />
+);
 ```
 
 ---
 
-## Diseno Visual
+## Detalle Técnico: SlideControls.tsx con Título
 
-Mantener consistencia con el visor compartido:
-- Fondo oscuro con gradientes (igual que el portal actual)
-- Particulas animadas sutiles
-- Tipografia grande y legible
-- Badges/tags con colores vibrantes
-- Animaciones suaves de transicion (framer-motion)
+```typescript
+interface SlideControlsProps {
+  // ... props existentes
+  title?: string;
+  generationCode?: string;
+}
+
+// En el JSX, añadir sección izquierda:
+<div className="flex items-center gap-3">
+  {generationCode && (
+    <Badge variant="outline" className="text-primary border-primary">
+      {generationCode}
+    </Badge>
+  )}
+  {title && (
+    <span className="text-sm font-medium text-muted-foreground truncate max-w-[200px]">
+      {title}
+    </span>
+  )}
+</div>
+```
 
 ---
 
-## Resumen de Implementacion
+## Vista Final del Visor
 
-| Prioridad | Componente | Descripcion |
-|-----------|------------|-------------|
-| 1 | DB: slides jsonb | Campo para almacenar estructura de slides |
-| 2 | PresentationViewer | Pagina principal del visor |
-| 3 | SlideRenderer | Componentes para cada tipo de slide |
-| 4 | SlideControls | Navegacion y shortcuts |
-| 5 | SlideEditor | Extension del editor admin |
-| 6 | SpeakerView | Vista dual para presentador |
-| 7 | PDF Export | Descarga de presentaciones |
+```text
+┌────────────────────────────────────────────────────────────────┐
+│ [GEN-10] Clase 1: Higiene Digital   1/17  [<][>] [G][S][F][X] │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│                    [CONTENIDO DEL SLIDE]                        │
+│                                                                 │
+│                                                                 │
+├────────────────────────────────────────────────────────────────┤
+│                    [●][○][○][○][○][○][○]                       │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Beneficios
 
-- **Admin**: Crea presentaciones visualmente atractivas sin salir del portal
-- **Presentador**: Usa el visor directamente, con notas y timer
-- **Participantes**: Acceden a slides interactivas (cuando estan publicadas)
-- **Escalabilidad**: Estructura JSON permite futuras mejoras (animaciones, embeds, etc.)
+1. **Claridad**: Siempre se sabe qué presentación se está viendo
+2. **Navegación**: Los participantes pueden acceder a presentaciones publicadas desde su generación
+3. **Contexto**: El presentador ve claramente qué clase está presentando
+4. **Organización**: El dashboard muestra agrupación clara por generación
