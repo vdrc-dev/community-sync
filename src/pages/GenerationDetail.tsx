@@ -227,6 +227,16 @@ export default function GenerationDetail() {
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
+                              {/* Published presentation: anyone can view */}
+                              {classPresentation?.status === 'published' && (
+                                <Link
+                                  to={`/presentations/${classPresentation.id}`}
+                                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-500/10 text-green-500 border border-green-500/20 text-xs hover:bg-green-500/20 transition-colors"
+                                >
+                                  <Play className="w-3 h-3" />
+                                  <span className="hidden sm:inline">Ver Presentación</span>
+                                </Link>
+                              )}
                               {/* Admin: Design Presentation Button */}
                               {isAdmin && (
                                 classPresentation ? (
@@ -235,7 +245,7 @@ export default function GenerationDetail() {
                                     className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs hover:bg-yellow-500/20 transition-colors"
                                   >
                                     <Presentation className="w-3 h-3" />
-                                    <span className="hidden sm:inline">Ver Presentación</span>
+                                    <span className="hidden sm:inline">Editar</span>
                                   </Link>
                                 ) : (
                                   <Button
