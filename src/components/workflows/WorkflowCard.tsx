@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { Workflow, UserWorkflowProgress } from '@/hooks/useWorkflows';
 import { 
   Clock, 
@@ -12,7 +11,8 @@ import {
   Star, 
   Play,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  Timer
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,51 +51,63 @@ export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps)
 
   const weeklyTimeSaved = workflow.time_saved_per_use_minutes * 5;
   const difficulty = difficultyConfig[workflow.difficulty];
+  
+  // Estimate time to complete remaining steps (5 min per step average)
+  const remainingTime = (totalSteps - completedSteps) * 5;
 
   return (
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
+      className="h-full"
     >
       <Card
         className={`
-          group cursor-pointer h-full
-          glass border-border/50 hover:border-primary/50 
-          transition-all duration-300 overflow-hidden
+          group cursor-pointer h-full card-premium glow-hover
           ${isCompleted ? 'border-green-500/30' : ''}
         `}
         onClick={() => navigate(`/workflows/${workflow.id}`)}
       >
         {/* Progress indicator bar */}
         {isStarted && !isCompleted && (
-          <div className="h-1 bg-muted">
+          <div className="h-1 bg-muted overflow-hidden">
             <motion.div 
-              className="h-full bg-primary"
+              className="h-full progress-gradient"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
             />
           </div>
         )}
         {isCompleted && (
-          <div className="h-1 bg-green-500" />
+          <div className="h-1 bg-gradient-to-r from-green-500 to-emerald-400" />
         )}
 
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                {workflow.icon_emoji}
+              {/* Icon with glow effect */}
+              <div className="icon-glow">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                  {workflow.icon_emoji}
+                </div>
               </div>
               <div className="min-w-0">
                 <CardTitle className="text-base font-semibold flex items-center gap-2 group-hover:text-primary transition-colors">
                   <span className="truncate">{workflow.title}</span>
                   {workflow.is_featured && (
-                    <Star className="h-4 w-4 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <Star className="h-4 w-4 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                    </motion.div>
                   )}
                 </CardTitle>
                 {workflow.category && (
-                  <span className="text-xs text-muted-foreground">{workflow.category}</span>
+                  <Badge variant="outline" className="text-xs mt-1 bg-background/50 border-border/50">
+                    {workflow.category}
+                  </Badge>
                 )}
               </div>
             </div>
@@ -148,14 +160,24 @@ export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps)
             )}
           </div>
 
-          {/* Progress (if in progress) */}
+          {/* Progress section */}
           {isStarted && !isCompleted && (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Progreso</span>
+                <span className="text-muted-foreground flex items-center gap-1">
+                  <Timer className="w-3 h-3" />
+                  ~{remainingTime}m restantes
+                </span>
                 <span className="font-medium text-primary">{completedSteps}/{totalSteps}</span>
               </div>
-              <Progress value={progressPercent} className="h-1.5" />
+              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                <motion.div 
+                  className="h-full progress-gradient rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercent}%` }}
+                  transition={{ duration: 0.5 }}
+                />
+              </div>
             </div>
           )}
 
@@ -163,7 +185,7 @@ export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps)
           <Button
             variant="outline"
             className={`
-              w-full mt-2 transition-all duration-300
+              w-full mt-2 transition-all duration-300 touch-target
               ${isCompleted 
                 ? 'border-green-500/30 hover:bg-green-500/10 hover:border-green-500/50' 
                 : isStarted 
