@@ -1,0 +1,163 @@
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Grid3X3, 
+  Maximize, 
+  Minimize, 
+  Monitor, 
+  Download,
+  X
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+
+interface SlideControlsProps {
+  currentIndex: number;
+  totalSlides: number;
+  isFullscreen: boolean;
+  isGridView: boolean;
+  isSpeakerView: boolean;
+  onPrev: () => void;
+  onNext: () => void;
+  onToggleGrid: () => void;
+  onToggleSpeaker: () => void;
+  onToggleFullscreen: () => void;
+  onExportPDF?: () => void;
+  onExit?: () => void;
+  className?: string;
+}
+
+export function SlideControls({
+  currentIndex,
+  totalSlides,
+  isFullscreen,
+  isGridView,
+  isSpeakerView,
+  onPrev,
+  onNext,
+  onToggleGrid,
+  onToggleSpeaker,
+  onToggleFullscreen,
+  onExportPDF,
+  onExit,
+  className,
+}: SlideControlsProps) {
+  return (
+    <div className={cn(
+      "flex items-center justify-between px-4 py-2 bg-background/80 backdrop-blur-sm border-b border-border/50",
+      className
+    )}>
+      {/* Left: Navigation */}
+      <div className="flex items-center gap-2">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={onPrev}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Anterior (←)</TooltipContent>
+        </Tooltip>
+
+        <span className="text-sm font-medium min-w-[80px] text-center">
+          {currentIndex + 1} / {totalSlides}
+        </span>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={onNext}
+              disabled={currentIndex === totalSlides - 1}
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Siguiente (→)</TooltipContent>
+        </Tooltip>
+      </div>
+
+      {/* Right: Actions */}
+      <div className="flex items-center gap-1">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant={isGridView ? "secondary" : "ghost"} 
+              size="icon"
+              onClick={onToggleGrid}
+            >
+              <Grid3X3 className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Vista cuadrícula (G)</TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant={isSpeakerView ? "secondary" : "ghost"} 
+              size="icon"
+              onClick={onToggleSpeaker}
+            >
+              <Monitor className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Modo presentador (S)</TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={onToggleFullscreen}
+            >
+              {isFullscreen ? (
+                <Minimize className="h-4 w-4" />
+              ) : (
+                <Maximize className="h-4 w-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Pantalla completa (F)</TooltipContent>
+        </Tooltip>
+
+        {onExportPDF && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={onExportPDF}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Exportar PDF</TooltipContent>
+          </Tooltip>
+        )}
+
+        {onExit && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={onExit}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Salir (Esc)</TooltipContent>
+          </Tooltip>
+        )}
+      </div>
+    </div>
+  );
+}
