@@ -1,309 +1,360 @@
 
+# Plan: Mejoras x1000 de Organizacion, UX y Diseño Premium
 
-# Plan: Mejoras de Organización, Intuitividad y Responsividad del Portal VDRC
+## Analisis del Estado Actual
 
-## Problemas Identificados
+### Problemas Identificados en /workflows y Otras Paginas
 
-Tras revisar el código, identifico las siguientes áreas de mejora:
+**Workflows.tsx:**
+- Header muy largo y denso en movil
+- Las stats cards no son lo suficientemente visuales
+- Los tabs no tienen indicador de estado vacio
+- La card de recomendacion en desktop ocupa mucho espacio vertical
+- Filtros sin icono en los selects
+- Grid de cards podria tener mejor espaciado
 
-### 1. Problemas de Responsividad
-- **Header**: En móvil, los elementos como StreakDisplay, PointsDisplay y OnlineUsers se ocultan completamente (`hidden sm:block`) en lugar de mostrarse de forma condensada
-- **GenerationDetail**: Las tarjetas de clase tienen botones que colapsan mal en móvil (texto oculto con `hidden sm:inline`)
-- **Tools**: El grid de filtros se apila verticalmente pero sin espaciado óptimo
-- **Home**: El hero tiene tamaños de fuente muy grandes que pueden desbordar en pantallas pequeñas
-- **Visor de Presentaciones**: Los controles ocupan mucho espacio horizontal en móvil
+**WorkflowDetail.tsx:**
+- No usa el nuevo PageHeader estandarizado
+- El boton "Volver" es muy simple
+- La sidebar en movil queda debajo del contenido principal (no es ideal)
+- Las notas no tienen autoguardado
 
-### 2. Problemas de Organización/Navegación
-- **Demasiadas opciones en el dropdown del usuario**: 7+ quick links más opciones adicionales saturan el menú
-- **Navegación principal limitada**: Solo 5 items principales, pero falta acceso rápido a páginas importantes como Prompts, Leaderboard
-- **Falta de breadcrumbs**: En páginas profundas como GenerationDetail no hay contexto de navegación claro
-- **Admin**: El acceso a presentaciones está muy escondido en el dropdown
+**WorkflowCard.tsx:**
+- Podria tener mejor jerarquia visual
+- El hover effect podria ser mas premium
 
-### 3. Problemas de Intuitividad/UX
-- **Inconsistencia visual**: Algunas cards usan `glass`, otras `glass-card`, otras `glass-strong`
-- **Estados vacíos poco informativos**: Mensajes genéricos sin acciones claras
-- **Falta de feedback en acciones**: Botones sin loading states en algunos casos
-- **Espaciado inconsistente**: Diferentes páginas usan `py-12`, `py-8`, sin patrón claro
-
----
-
-## Solución Propuesta
-
-### Fase 1: Mejoras de Responsividad
-
-#### 1.1 Header Móvil Mejorado
-```text
-Cambios en Header.tsx:
-- Crear barra inferior fija en móvil con iconos de navegación principal
-- Mover PointsDisplay y StreakDisplay a un "mini-dashboard" colapsable
-- Reducir el tamaño del logo en móvil
-- Menú hamburguesa con mejor organización por secciones
-```
-
-#### 1.2 Cards y Grids Responsivos
-```text
-Cambios en GenerationDetail.tsx:
-- Reorganizar botones de acción en grid de 2 columnas en móvil
-- Usar iconos sin texto en pantallas pequeñas
-- Añadir Drawer en móvil para notas de clase en lugar de inline
-
-Cambios en Tools.tsx:
-- Filtros en un Sheet/Drawer en móvil en lugar de expandible
-- Cards de herramientas más compactas en móvil (1 columna)
-```
-
-#### 1.3 Tipografía y Espaciado Responsivo
-```text
-Cambios en HeroSection.tsx:
-- Reducir tamaños de fuente en móvil: 5xl -> 3xl, 7xl -> 4xl
-- Terminal oculta en móvil pequeño
-- Botones CTA apilados con ancho completo
-
-Cambios globales (index.css o tailwind.config.ts):
-- Definir utilidades de espaciado consistentes: section-padding, container-padding
-```
-
-### Fase 2: Mejor Organización de Navegación
-
-#### 2.1 Navegación Principal Reestructurada
-```text
-Nuevo layout de navegación:
-
-Desktop:
-┌─────────────────────────────────────────────────────────────────┐
-│ [Logo] │ Generaciones │ Herramientas │ Workflows │ Comunidad   │
-│        │              │              │           │             │
-├────────┴──────────────┴──────────────┴───────────┴─────────────┤
-│                    [Barra de contexto (breadcrumbs)]            │
-└─────────────────────────────────────────────────────────────────┘
-
-Móvil:
-┌────────────────────────────────┐
-│ [Logo] ........... [Avatar] [≡]│
-└────────────────────────────────┘
-              ↓ (scroll down)
-┌────────────────────────────────┐
-│ 🏠  📚  🔧  🔄  👥  ▪▪▪        │ ← Bottom navigation bar
-└────────────────────────────────┘
-```
-
-#### 2.2 Dropdown de Usuario Simplificado
-```text
-Reorganizar en 3 grupos claros:
-1. Perfil y Stats (avatar, nombre, puntos, streak)
-2. Herramientas personales (Mi Stack, Favoritos, Notas)
-3. Acciones (Admin panel, Cerrar sesión)
-
-Mover "Calendario", "ROI Calculator" a navegación secundaria
-```
-
-#### 2.3 Breadcrumbs Component
-```text
-Nuevo componente: src/components/ui/breadcrumbs.tsx
-
-Ejemplo de uso:
-<Breadcrumbs items={[
-  { label: 'Generaciones', href: '/generations' },
-  { label: 'GEN-010', href: '/generations/GEN-010' },
-  { label: 'Clase 1', current: true }
-]} />
-```
-
-### Fase 3: Mejoras de Intuitividad/UX
-
-#### 3.1 Sistema de Clases CSS Unificado
-```text
-Estandarizar en index.css:
-
-.card-interactive: Tarjetas clickeables con hover effects
-.card-static: Tarjetas de información sin interacción
-.section-container: Contenedor de sección con padding consistente
-.page-header: Título + descripción de página
-```
-
-#### 3.2 Estados Vacíos Mejorados
-```text
-Nuevo componente: src/components/ui/empty-state.tsx
-
-Props:
-- icon: LucideIcon
-- title: string
-- description: string
-- action?: { label: string; onClick: () => void }
-- variant: 'default' | 'minimal' | 'featured'
-
-Aplicar en:
-- Forum (sin posts)
-- Generations (sin clases)
-- Bookmarks (sin favoritos)
-- Tools (sin resultados de búsqueda)
-```
-
-#### 3.3 Loading States Consistentes
-```text
-Revisar y añadir estados de carga a:
-- Botones de acción (createPresentation, exportToPDF)
-- Filtros que disparan queries
-- Navegación entre secciones
-```
+**Otras Paginas (Prompts, Generations, Bookmarks, Profile):**
+- No usan PageHeader estandarizado
+- Inconsistencia en espaciados
+- Falta de integracion con el sistema de breadcrumbs
+- Profile no muestra estadisticas reales
 
 ---
 
-## Archivos a Crear
+## Mejoras Propuestas
 
-| Archivo | Descripción |
-|---------|-------------|
-| `src/components/ui/breadcrumbs.tsx` | Componente de navegación jerárquica |
-| `src/components/ui/empty-state.tsx` | Estados vacíos reutilizables |
-| `src/components/layout/BottomNavigation.tsx` | Barra de navegación inferior móvil |
-| `src/components/layout/PageHeader.tsx` | Header de página estandarizado |
+### Fase 1: Refactorizar Paginas con PageHeader
+
+| Pagina | Cambio |
+|--------|--------|
+| Workflows.tsx | Usar PageHeader con badge y acciones |
+| WorkflowDetail.tsx | PageHeader con breadcrumbs |
+| Prompts.tsx | PageHeader estandarizado |
+| Generations.tsx | PageHeader con contador |
+| Bookmarks.tsx | PageHeader con filtro activo |
+| Profile.tsx | PageHeader con avatar inline |
+
+### Fase 2: Mejorar Componente Workflows
+
+**2.1 Hero Section Compacto:**
+```text
+┌────────────────────────────────────────────────────────────────┐
+│ Home > Workflows                                                │
+│                                                                 │
+│ ⚡ 12 workflows disponibles                                    │
+│ Workflows Interactivos                [🎯 Recomendado: ...]    │
+│ Automatiza tareas complejas paso a paso.                       │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**2.2 Stats Cards Mejorados:**
+```text
+┌──────────────┬──────────────┬──────────────┬──────────────┐
+│   ⚡ 12      │   ▶ 3       │   ✓ 5        │   ⏱ 180     │
+│  Workflows   │ En Progreso  │ Completados  │ Min Ahorr.   │
+│              │    +2 esta    │   🔥 Nuevo   │  /semana     │
+│              │    semana     │              │              │
+└──────────────┴──────────────┴──────────────┴──────────────┘
+```
+
+**2.3 Filtros con Drawer en Movil:**
+- En pantallas pequeñas, mostrar un boton "Filtros" que abre un Sheet
+- Evita scroll horizontal de los selects
+
+**2.4 WorkflowCard Premium:**
+- Añadir efecto glow sutil al hover
+- Mejorar la barra de progreso con gradiente
+- Mostrar tiempo estimado de completar
+- Animacion de entrada escalonada
+
+### Fase 3: Mejorar WorkflowDetail
+
+**3.1 Layout Responsivo Mejorado:**
+- En movil, la sidebar se convierte en tabs o acordeones en la parte superior
+- Mejor uso del espacio vertical
+
+**3.2 Sticky Sidebar:**
+- En desktop, el panel de acciones y notas sigue el scroll
+
+**3.3 Indicador de Progreso Visual:**
+```text
+┌────────────────────────────────────────────────────────────────┐
+│  Paso 1  ──●──  Paso 2  ──○──  Paso 3  ──○──  Paso 4  ──○──   │
+│    ✓            ▶             ○              ○                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**3.4 Autoguardado de Notas:**
+- Debounce de 1 segundo despues de escribir
+- Indicador "Guardando..." / "Guardado"
+
+### Fase 4: Estandarizar Otras Paginas
+
+**Prompts.tsx:**
+- Usar PageHeader
+- Añadir contador de prompts filtrados
+- Mejorar empty states
+
+**Generations.tsx:**
+- PageHeader con breadcrumbs
+- Cards con mejor hover effect
+- Indicador de progreso por generacion
+
+**Bookmarks.tsx:**
+- PageHeader con contador de favoritos
+- Acciones rapidas por tipo
+- Vista en grid ademas de lista
+
+**Profile.tsx:**
+- PageHeader con avatar grande
+- Tabs para diferentes secciones (Perfil, Stats, Ajustes)
+- Estadisticas reales conectadas a datos
+
+### Fase 5: Mejoras Globales de CSS
+
+**5.1 Nuevas Utilidades:**
+```css
+/* Efecto glow premium */
+.glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+.glow-hover:hover {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+}
+
+/* Card interactiva premium */
+.card-premium {
+  background: linear-gradient(145deg, rgba(10,15,28,0.8), rgba(10,15,28,0.95));
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.card-premium:hover {
+  border-color: rgba(74, 222, 128, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Barra de progreso con gradiente */
+.progress-gradient {
+  background: linear-gradient(90deg, #4ade80, #22d3ee);
+}
+```
+
+**5.2 Animaciones Consistentes:**
+```css
+/* Transicion de entrada */
+.fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Skeleton con shimmer */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  animation: shimmer 1.5s infinite;
+}
+```
+
+---
 
 ## Archivos a Modificar
 
 | Archivo | Cambios |
 |---------|---------|
-| `src/components/layout/Header.tsx` | Simplificar dropdown, añadir bottom nav trigger |
-| `src/components/layout/Layout.tsx` | Integrar BottomNavigation para móvil |
-| `src/pages/Home.tsx` | Ajustar tipografía responsiva |
-| `src/pages/GenerationDetail.tsx` | Añadir breadcrumbs, mejorar cards móvil |
-| `src/pages/Tools.tsx` | Filtros en Sheet móvil, cards compactas |
-| `src/pages/Forum.tsx` | Empty state mejorado |
-| `src/index.css` | Añadir utilidades CSS estandarizadas |
-| `tailwind.config.ts` | Añadir custom utilities |
+| `src/pages/Workflows.tsx` | Refactorizar con PageHeader, mejorar stats, filtros en Sheet movil |
+| `src/pages/WorkflowDetail.tsx` | PageHeader + breadcrumbs, sticky sidebar, autoguardado notas |
+| `src/components/workflows/WorkflowCard.tsx` | Efectos premium, mejor jerarquia visual |
+| `src/pages/Prompts.tsx` | Usar PageHeader estandarizado |
+| `src/pages/Generations.tsx` | PageHeader con stats |
+| `src/pages/Bookmarks.tsx` | PageHeader, mejor empty state |
+| `src/pages/Profile.tsx` | PageHeader, tabs, stats reales |
+| `src/index.css` | Nuevas utilidades CSS (glow, premium cards) |
+| `src/components/layout/PageHeader.tsx` | Añadir variante con stats inline |
 
 ---
 
-## Implementación Detallada
+## Detalle Tecnico: Workflows.tsx Mejorado
 
-### 1. BottomNavigation.tsx (Nuevo)
 ```typescript
-// Barra de navegación fija en la parte inferior para móvil
-// Solo visible en pantallas < md
-// 5 iconos: Home, Generaciones, Herramientas, Workflows, Más (abre drawer)
+// Estructura mejorada
+<Layout>
+  <div className="page-container section-py">
+    {/* PageHeader con recomendacion inline */}
+    <PageHeader
+      title={<>Workflows <span className="text-gradient">Interactivos</span></>}
+      description="Automatiza tareas complejas paso a paso"
+      badge={{ label: `${workflows?.length || 0} workflows`, icon: <Workflow className="w-3 h-3" /> }}
+      breadcrumbs={[{ label: 'Workflows' }]}
+      actions={
+        featuredWorkflow && (
+          <Link to={`/workflows/${featuredWorkflow.id}`}>
+            <Button variant="outline" className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              <span className="hidden sm:inline">Recomendado:</span> {featuredWorkflow.title}
+            </Button>
+          </Link>
+        )
+      }
+    />
 
-const navItems = [
-  { icon: Home, label: 'Inicio', href: '/' },
-  { icon: BookOpen, label: 'Recursos', href: '/generations' },
-  { icon: Wrench, label: 'Tools', href: '/tools' },
-  { icon: Workflow, label: 'Flows', href: '/workflows' },
-  { icon: MoreHorizontal, label: 'Más', action: 'openDrawer' },
-];
+    {/* Stats Grid - mas compacto */}
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      {/* Stats mejorados con subtitulos */}
+    </div>
+
+    {/* Filtros - con Sheet en movil */}
+    <div className="flex items-center gap-4 mb-6">
+      <div className="relative flex-1">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2" />
+        <Input placeholder="Buscar..." className="pl-11" />
+      </div>
+      
+      {/* Desktop: Selects inline */}
+      <div className="hidden sm:flex gap-2">
+        <Select>...</Select>
+        <Select>...</Select>
+      </div>
+      
+      {/* Mobile: Filter button + Sheet */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" className="sm:hidden">
+            <Filter className="w-4 h-4" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent>
+          {/* Filtros en vertical */}
+        </SheetContent>
+      </Sheet>
+    </div>
+
+    {/* Tabs con indicadores */}
+    <Tabs>
+      <TabsList>
+        <TabsTrigger value="all">
+          Todos <Badge>{filteredWorkflows?.length}</Badge>
+        </TabsTrigger>
+        {/* ... */}
+      </TabsList>
+    </Tabs>
+  </div>
+</Layout>
 ```
 
-### 2. Breadcrumbs.tsx (Nuevo)
+---
+
+## Detalle Tecnico: WorkflowCard Premium
+
 ```typescript
-// Navegación de migas de pan
-// Colapsa en móvil mostrando solo último nivel + back button
+// Mejoras visuales
+<Card className="card-premium glow-hover h-full group">
+  {/* Indicador de progreso en top con gradiente */}
+  {isStarted && !isCompleted && (
+    <div className="h-1 bg-muted overflow-hidden">
+      <motion.div 
+        className="h-full progress-gradient"
+        initial={{ width: 0 }}
+        animate={{ width: `${progressPercent}%` }}
+      />
+    </div>
+  )}
+  {isCompleted && (
+    <div className="h-1 bg-gradient-to-r from-green-500 to-emerald-400" />
+  )}
 
-interface BreadcrumbItem {
-  label: string;
-  href?: string;
-  current?: boolean;
-}
+  <CardHeader>
+    <div className="flex items-start gap-3">
+      {/* Emoji con fondo animado */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-primary/20 rounded-xl blur-md group-hover:blur-lg transition-all" />
+        <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 flex items-center justify-center text-2xl">
+          {workflow.icon_emoji}
+        </div>
+      </div>
+      
+      <div className="flex-1 min-w-0">
+        <CardTitle className="text-base flex items-center gap-2">
+          <span className="truncate group-hover:text-primary transition-colors">
+            {workflow.title}
+          </span>
+          {workflow.is_featured && (
+            <motion.div
+              animate={{ rotate: [0, 15, -15, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+            </motion.div>
+          )}
+        </CardTitle>
+        {workflow.category && (
+          <Badge variant="outline" className="text-xs mt-1 bg-background/50">
+            {workflow.category}
+          </Badge>
+        )}
+      </div>
+    </div>
+  </CardHeader>
 
-// Mobile: ← Volver a GEN-010
-// Desktop: Home > Generaciones > GEN-010 > Clase 1
+  <CardContent>
+    {/* ... contenido mejorado ... */}
+    
+    {/* Tiempo estimado para completar */}
+    {!isCompleted && (
+      <div className="text-xs text-muted-foreground mt-2">
+        ~{Math.ceil((totalSteps - completedSteps) * 5)} min para completar
+      </div>
+    )}
+  </CardContent>
+</Card>
 ```
 
-### 3. EmptyState.tsx (Nuevo)
+---
+
+## Detalle Tecnico: WorkflowDetail con Autoguardado
+
 ```typescript
-// Componente reutilizable para estados vacíos
+// Hook de autoguardado
+const [notes, setNotes] = useState('');
+const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
-interface EmptyStateProps {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  action?: {
-    label: string;
-    onClick: () => void;
-    variant?: 'default' | 'outline';
-  };
-}
-
-// Ejemplo de uso:
-<EmptyState
-  icon={MessageSquare}
-  title="Sin publicaciones"
-  description="Sé el primero en iniciar una conversación"
-  action={{ label: "Crear publicación", onClick: () => {} }}
-/>
-```
-
-### 4. Header.tsx (Modificaciones)
-```typescript
-// Cambios principales:
-// 1. Dropdown simplificado con 3 secciones
-// 2. Quitar quick links redundantes
-// 3. Añadir indicador de móvil para bottom nav
-// 4. Admin section más prominente para admins
-
-// Nueva estructura de dropdown:
-<DropdownMenuContent>
-  {/* Sección 1: Perfil */}
-  <UserProfileSection />
+// Debounce para autoguardado
+useEffect(() => {
+  if (!notes || notes === progress?.notes) return;
   
-  {/* Sección 2: Herramientas personales */}
-  <PersonalToolsSection items={['Mi Perfil', 'Favoritos', 'Notas']} />
+  setSaveStatus('saving');
+  const timeout = setTimeout(() => {
+    updateNotes.mutate({ workflowId: id!, notes }, {
+      onSuccess: () => setSaveStatus('saved'),
+      onError: () => setSaveStatus('idle'),
+    });
+  }, 1000);
   
-  {/* Sección 3: Admin (si aplica) */}
-  {isAdmin && <AdminSection />}
-  
-  {/* Cerrar sesión */}
-  <SignOutButton />
-</DropdownMenuContent>
-```
+  return () => clearTimeout(timeout);
+}, [notes]);
 
-### 5. Layout.tsx (Modificaciones)
-```typescript
-// Añadir BottomNavigation para móvil
-// Ajustar padding inferior para no solapar con bottom nav
-
-<div className="min-h-screen circuit-bg">
-  <Header />
-  <main className="pt-16 pb-20 md:pb-0">
-    {children}
-  </main>
-  <BottomNavigation className="md:hidden" />
+// En el UI
+<div className="flex items-center justify-between mb-2">
+  <CardTitle className="text-lg">Mis Notas</CardTitle>
+  <span className="text-xs text-muted-foreground">
+    {saveStatus === 'saving' && (
+      <span className="flex items-center gap-1">
+        <Loader2 className="w-3 h-3 animate-spin" /> Guardando...
+      </span>
+    )}
+    {saveStatus === 'saved' && (
+      <span className="flex items-center gap-1 text-green-500">
+        <CheckCircle2 className="w-3 h-3" /> Guardado
+      </span>
+    )}
+  </span>
 </div>
-```
-
-### 6. GenerationDetail.tsx (Modificaciones)
-```typescript
-// Añadir breadcrumbs
-<Breadcrumbs items={[
-  { label: 'Generaciones', href: '/generations' },
-  { label: generation.code },
-]} />
-
-// Mejorar cards de clase para móvil:
-// - Botones en grid 2x2 en móvil
-// - Iconos sin texto en pantallas pequeñas
-// - ClassNotes en Drawer en móvil
-```
-
-### 7. index.css (Modificaciones)
-```css
-/* Utilidades estandarizadas */
-.section-py {
-  @apply py-8 md:py-12 lg:py-16;
-}
-
-.page-container {
-  @apply container mx-auto px-4 sm:px-6;
-}
-
-.card-interactive {
-  @apply glass border-border/50 hover:border-primary/30 transition-all cursor-pointer;
-}
-
-.card-static {
-  @apply glass border-border/50;
-}
-
-/* Safe area para bottom navigation */
-.safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-}
 ```
 
 ---
@@ -312,22 +363,25 @@ interface EmptyStateProps {
 
 | Mejora | Impacto |
 |--------|---------|
-| **Bottom Navigation móvil** | Navegación más accesible con el pulgar |
-| **Breadcrumbs** | Mejor orientación en páginas profundas |
-| **Dropdown simplificado** | Menos sobrecarga cognitiva |
-| **Empty States** | Usuarios saben qué hacer cuando no hay contenido |
-| **CSS estandarizado** | Consistencia visual y mantenibilidad |
-| **Cards responsivas** | Mejor uso del espacio en móvil |
-| **Tipografía adaptativa** | Legibilidad en todas las pantallas |
+| **PageHeader estandarizado** | Consistencia visual en todas las paginas |
+| **Filtros en Sheet movil** | Mejor UX en pantallas pequenas |
+| **Cards premium con glow** | Look mas sofisticado y profesional |
+| **Autoguardado de notas** | Menos friccion para el usuario |
+| **Breadcrumbs en todas las paginas** | Mejor navegacion y contexto |
+| **Stats cards mejorados** | Informacion mas clara y visual |
+| **Animaciones escalonadas** | Experiencia mas fluida |
+| **Progress bar con gradiente** | Visual mas atractivo |
 
 ---
 
-## Secuencia de Implementación
+## Secuencia de Implementacion
 
-1. **Crear componentes base**: Breadcrumbs, EmptyState, BottomNavigation
-2. **Actualizar Layout.tsx**: Integrar BottomNavigation
-3. **Actualizar Header.tsx**: Simplificar dropdown
-4. **Actualizar index.css**: Añadir utilidades
-5. **Actualizar páginas principales**: Home, GenerationDetail, Tools, Forum
-6. **Testing en múltiples viewports**: 320px, 375px, 768px, 1024px, 1440px
-
+1. **Actualizar index.css** con nuevas utilidades (glow, premium, gradients)
+2. **Refactorizar Workflows.tsx** con PageHeader y filtros mejorados
+3. **Mejorar WorkflowCard.tsx** con efectos premium
+4. **Actualizar WorkflowDetail.tsx** con breadcrumbs y autoguardado
+5. **Refactorizar Prompts.tsx** con PageHeader
+6. **Refactorizar Generations.tsx** con PageHeader y cards mejoradas
+7. **Actualizar Bookmarks.tsx** con PageHeader
+8. **Mejorar Profile.tsx** con tabs y stats reales
+9. **Testing en multiples viewports**
