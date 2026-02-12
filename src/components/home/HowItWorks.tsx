@@ -141,10 +141,10 @@ export function HowItWorks() {
           className="text-center mt-16"
         >
           <Button asChild size="lg" className="h-14 px-8 text-lg glow-primary">
-            <Link to="/workflows">
-              Explorar workflows
+            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
+              Reservar cupo
               <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
+            </a>
           </Button>
         </motion.div>
       </div>
