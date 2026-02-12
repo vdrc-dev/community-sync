@@ -22,7 +22,8 @@ import {
   Sparkles,
   Filter,
   TrendingUp,
-  Loader2
+  Clock,
+  Target
 } from 'lucide-react';
 
 export default function Workflows() {
@@ -34,7 +35,6 @@ export default function Workflows() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [activeTab, setActiveTab] = useState('all');
 
-  // Get unique categories
   const categories = useMemo(() => {
     const cats = new Set<string>();
     workflows?.forEach(w => {
@@ -43,7 +43,6 @@ export default function Workflows() {
     return Array.from(cats);
   }, [workflows]);
 
-  // Filter workflows
   const filteredWorkflows = useMemo(() => {
     let result = workflows || [];
 
@@ -145,10 +144,10 @@ export default function Workflows() {
           <Skeleton className="h-12 w-64 mb-4" />
           <Skeleton className="h-6 w-96 mb-8" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-            {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-24" />)}
+            {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-28 rounded-xl" />)}
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} className="h-64" />)}
+            {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} className="h-64 rounded-xl" />)}
           </div>
         </div>
       </Layout>
@@ -179,6 +178,7 @@ export default function Workflows() {
           }
         />
 
+        {/* Premium Stats Cards */}
         {user && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -186,56 +186,42 @@ export default function Workflows() {
             transition={{ delay: 0.1 }}
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8"
           >
-            <div className="stat-card">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Workflow className="w-5 h-5 text-primary" />
+            {[
+              { icon: Workflow, value: stats.total, label: 'Disponibles', sub: 'workflows', color: 'from-primary/20 to-primary/5', iconColor: 'text-primary', borderColor: 'border-primary/20' },
+              { icon: Play, value: stats.inProgress, label: 'En progreso', sub: stats.inProgress > 0 ? 'activos ahora' : '', color: 'from-blue-500/20 to-blue-500/5', iconColor: 'text-blue-400', borderColor: 'border-blue-500/20' },
+              { icon: CheckCircle2, value: stats.completed, label: 'Completados', sub: stats.completed > 0 ? '🔥 ¡Sigue así!' : '', color: 'from-green-500/20 to-green-500/5', iconColor: 'text-green-400', borderColor: 'border-green-500/20' },
+              { icon: TrendingUp, value: totalTimeSaved, label: 'Min ahorrados', sub: '/mes estimado', color: 'from-yellow-500/20 to-yellow-500/5', iconColor: 'text-yellow-400', borderColor: 'border-yellow-500/20' },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+                className={`relative group rounded-xl bg-gradient-to-br ${stat.color} border ${stat.borderColor} p-4 overflow-hidden hover:scale-[1.02] transition-transform`}
+              >
+                {/* Shine effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '200%' }}
+                  transition={{ duration: 0.6 }}
+                />
+                <div className="relative flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-lg bg-background/50 flex items-center justify-center ${stat.iconColor}`}>
+                    <stat.icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold font-mono">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    {stat.sub && <p className="text-[10px] text-muted-foreground/60 mt-0.5">{stat.sub}</p>}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold font-mono">{stats.total}</p>
-                  <p className="text-xs text-muted-foreground">Disponibles</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                  <Play className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold font-mono">{stats.inProgress}</p>
-                  <p className="text-xs text-muted-foreground">En progreso</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold font-mono">{stats.completed}</p>
-                  <p className="text-xs text-muted-foreground">Completados</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-yellow-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold font-mono">{totalTimeSaved}</p>
-                  <p className="text-xs text-muted-foreground">Min ahorrados/mes</p>
-                </div>
-              </div>
-            </div>
+              </motion.div>
+            ))}
           </motion.div>
         )}
 
+        {/* Search & Filters */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -248,7 +234,7 @@ export default function Workflows() {
               placeholder="Buscar workflows..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-muted/50"
+              className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50"
             />
           </div>
 
@@ -276,15 +262,18 @@ export default function Workflows() {
           </Sheet>
         </motion.div>
 
+        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-          <TabsList className="bg-muted/50 p-1">
-            <TabsTrigger value="all" className="gap-2">
+          <TabsList className="bg-muted/50 p-1 border border-border/30">
+            <TabsTrigger value="all" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+              <Target className="w-3 h-3" />
               Todos
               <Badge variant="secondary" className="ml-1 bg-background/50 text-xs">
                 {workflows?.length || 0}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="in-progress" className="gap-2">
+            <TabsTrigger value="in-progress" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-400">
+              <Play className="w-3 h-3" />
               <span className="hidden sm:inline">En progreso</span>
               <span className="sm:hidden">Activos</span>
               {stats.inProgress > 0 && (
@@ -293,7 +282,8 @@ export default function Workflows() {
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="completed" className="gap-2">
+            <TabsTrigger value="completed" className="gap-2 data-[state=active]:bg-green-500/10 data-[state=active]:text-green-400">
+              <CheckCircle2 className="w-3 h-3" />
               <span className="hidden sm:inline">Completados</span>
               <span className="sm:hidden">✓</span>
               {stats.completed > 0 && (
@@ -302,7 +292,8 @@ export default function Workflows() {
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="not-started" className="hidden sm:flex">
+            <TabsTrigger value="not-started" className="hidden sm:flex gap-2 data-[state=active]:bg-muted">
+              <Clock className="w-3 h-3" />
               Sin empezar
             </TabsTrigger>
           </TabsList>
