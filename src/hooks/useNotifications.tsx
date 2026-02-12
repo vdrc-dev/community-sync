@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import { toast } from 'sonner';
 
 export interface Notification {
   id: string;
@@ -32,8 +34,48 @@ export function useNotifications() {
       return data as Notification[];
     },
     enabled: !!user,
-    refetchInterval: 30000, // Refetch every 30 seconds
   });
+
+  // Realtime subscription for notifications
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel(`notifications-${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const newNotif = payload.new as Notification;
+          
+          // Update cache instantly
+          queryClient.setQueryData(
+            ['notifications', user.id],
+            (old: Notification[] | undefined) =>
+              old ? [newNotif, ...old] : [newNotif]
+          );
+
+          // Show toast
+          const icon = getNotificationIcon(newNotif.type);
+          toast(`${icon} ${newNotif.title}`, {
+            description: newNotif.message || undefined,
+            action: newNotif.link
+              ? { label: 'Ver', onClick: () => window.location.href = newNotif.link! }
+              : undefined,
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, queryClient]);
 
   const unreadCount = notifications?.filter(n => !n.is_read).length || 0;
 
@@ -43,7 +85,6 @@ export function useNotifications() {
         .from('notifications')
         .update({ is_read: true })
         .eq('id', notificationId);
-      
       if (error) throw error;
     },
     onSuccess: () => {
@@ -59,25 +100,12 @@ export function useNotifications() {
         .update({ is_read: true })
         .eq('user_id', user.id)
         .eq('is_read', false);
-      
       if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
-
-  const getNotificationIcon = (type: string) => {
-    switch (type) {
-      case 'badge': return '🏆';
-      case 'level_up': return '⬆️';
-      case 'comment': return '💬';
-      case 'like': return '❤️';
-      case 'event': return '📅';
-      case 'class': return '🎬';
-      default: return '🔔';
-    }
-  };
 
   return {
     notifications,
@@ -87,4 +115,19 @@ export function useNotifications() {
     markAllAsRead: markAllAsRead.mutate,
     getNotificationIcon,
   };
+}
+
+function getNotificationIcon(type: string) {
+  switch (type) {
+    case 'badge': return '🏆';
+    case 'level_up': return '⬆️';
+    case 'comment': return '💬';
+    case 'like': return '❤️';
+    case 'event': return '📅';
+    case 'class': return '🎬';
+    case 'chat': return '💬';
+    case 'mention': return '📣';
+    case 'post': return '📝';
+    default: return '🔔';
+  }
 }

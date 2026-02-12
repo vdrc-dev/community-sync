@@ -8,6 +8,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { CommandPalette } from "@/components/command/CommandPalette";
 import { QuickNoteButton } from "@/components/quick-notes/QuickNoteButton";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
+import { GlobalNotificationListener } from "@/components/notifications/GlobalNotificationListener";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 // Lazy loaded pages for optimal code splitting
@@ -62,6 +63,7 @@ const App = () => (
           <CommandPalette />
           <QuickNoteButton />
           <OnboardingTour />
+          <GlobalNotificationListener />
           <Suspense fallback={<LoadingSpinner fullScreen />}>
             <Routes>
               <Route path="/" element={<Home />} />
