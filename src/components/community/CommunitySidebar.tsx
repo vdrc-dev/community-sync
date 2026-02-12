@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { 
   Hash, Lock, Plus, Users, BookOpen, Wrench, 
   Workflow, Sparkles, Trophy, Calendar, Calculator,
-  MessageSquare, ChevronDown, ChevronRight
+  MessageSquare, ChevronDown, ChevronRight, MessageCircle
 } from 'lucide-react';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -34,6 +34,7 @@ const platformSections: NavSection[] = [
   {
     title: 'Comunidad',
     items: [
+      { href: '/chat', label: 'Chat', icon: MessageCircle, badge: 'NEW' },
       { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
       { href: '/calendar', label: 'Calendario', icon: Calendar },
       { href: '/roi-calculator', label: 'ROI Calculator', icon: Calculator },
