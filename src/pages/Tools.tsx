@@ -27,7 +27,8 @@ import {
   SlidersHorizontal,
   Sparkles,
   TrendingUp,
-  Zap
+  Zap,
+  ArrowUpRight
 } from 'lucide-react';
 import { ToolTracker } from '@/components/tools/ToolTracker';
 import { ToolsHeroStats, FeaturedToolsCarousel } from '@/components/tools/ToolsHeroStats';
@@ -64,8 +65,8 @@ interface Tool {
   is_featured: boolean | null;
 }
 
-// Enhanced tool card component
-const ToolCard = ({ tool, viewMode }: { tool: Tool; viewMode: 'grid' | 'list' }) => {
+// Premium tool card component
+const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' | 'list'; index?: number }) => {
   const pricingColor = useMemo(() => {
     switch (tool.pricing) {
       case 'Free': return 'bg-green-500/10 text-green-400 border-green-500/20';
@@ -75,18 +76,32 @@ const ToolCard = ({ tool, viewMode }: { tool: Tool; viewMode: 'grid' | 'list' })
     }
   }, [tool.pricing]);
 
+  const categoryGradient = useMemo(() => {
+    switch (tool.category) {
+      case 'Chat': return 'from-emerald-500/20 to-cyan-500/10';
+      case 'Code': return 'from-violet-500/20 to-blue-500/10';
+      case 'Search': return 'from-amber-500/20 to-orange-500/10';
+      case 'Video': return 'from-pink-500/20 to-rose-500/10';
+      case 'Productivity': return 'from-sky-500/20 to-indigo-500/10';
+      default: return 'from-primary/20 to-accent/10';
+    }
+  }, [tool.category]);
+
   if (viewMode === 'list') {
     return (
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 20 }}
+        transition={{ delay: index * 0.03 }}
         className="group"
       >
-        <Card className="glass border-border/50 hover:border-primary/30 transition-all">
+        <Card className="glass border-border/30 hover:border-primary/40 transition-all duration-300 overflow-hidden">
+          {/* Top glow line on hover */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/60 transition-all duration-500" />
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-muted/50 border border-border flex items-center justify-center text-2xl group-hover:border-primary/30 transition-colors flex-shrink-0">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${categoryGradient} border border-border/50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-300 flex-shrink-0`}>
                 {tool.icon_emoji || '🔧'}
               </div>
               
@@ -129,47 +144,60 @@ const ToolCard = ({ tool, viewMode }: { tool: Tool; viewMode: 'grid' | 'list' })
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.2 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
     >
-      <Card className="group glass border-border/50 hover:border-primary/30 transition-all overflow-hidden h-full">
-        <CardContent className="p-5 flex flex-col h-full">
-          <div className="flex items-start gap-3 mb-3">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-muted to-muted/50 border border-border flex items-center justify-center text-3xl group-hover:border-primary/30 group-hover:scale-110 transition-all flex-shrink-0">
+      <Card className="group relative glass border-border/30 hover:border-primary/40 transition-all duration-500 overflow-hidden h-full">
+        {/* Animated gradient border glow */}
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: 'linear-gradient(135deg, hsl(142 76% 50% / 0.08), transparent 40%, hsl(180 100% 45% / 0.05))',
+          }}
+        />
+        {/* Top glow accent line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/70 transition-all duration-500" />
+        
+        <CardContent className="p-5 flex flex-col h-full relative">
+          {/* Icon + Title */}
+          <div className="flex items-start gap-4 mb-4">
+            <motion.div 
+              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${categoryGradient} border border-border/50 flex items-center justify-center text-3xl flex-shrink-0 shadow-lg`}
+              whileHover={{ scale: 1.1, rotate: 3 }}
+              transition={{ type: 'spring', stiffness: 400 }}
+            >
               {tool.icon_emoji || '🔧'}
-            </div>
+            </motion.div>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
+                <h3 className="font-semibold truncate group-hover:text-primary transition-colors text-base">
                   {tool.name}
                 </h3>
                 {tool.is_featured && (
-                  <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                  <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 flex-shrink-0 animate-pulse" />
                 )}
               </div>
               
-              <div className="flex items-center gap-2">
-                {tool.category && (
-                  <span className="text-xs text-muted-foreground">
-                    {tool.category}
-                  </span>
-                )}
-              </div>
+              {tool.category && (
+                <span className="text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">
+                  {tool.category}
+                </span>
+              )}
             </div>
           </div>
 
+          {/* Description */}
           {tool.description && (
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-grow">
+            <p className="text-sm text-muted-foreground/80 mb-5 line-clamp-2 flex-grow leading-relaxed">
               {tool.description}
             </p>
           )}
 
+          {/* Footer */}
           <div className="flex items-center justify-between">
-            <Badge variant="outline" className={pricingColor}>
+            <Badge variant="outline" className={`${pricingColor} text-xs`}>
               {tool.pricing || 'N/A'}
             </Badge>
 
@@ -178,15 +206,16 @@ const ToolCard = ({ tool, viewMode }: { tool: Tool; viewMode: 'grid' | 'list' })
                 href={tool.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm text-primary hover:underline opacity-0 group-hover:opacity-100 transition-opacity"
+                className="inline-flex items-center gap-1.5 text-sm text-primary/70 hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0"
               >
-                Visitar
-                <ExternalLink className="w-3 h-3" />
+                Explorar
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             )}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-border/50">
+          {/* Tool Tracker */}
+          <div className="mt-4 pt-4 border-t border-border/30">
             <ToolTracker toolId={tool.id} toolName={tool.name} compact />
           </div>
         </CardContent>
@@ -221,7 +250,6 @@ export default function Tools() {
     staleTime: 1000 * 60 * 10,
   });
 
-  // Category counts
   const categoryCounts = useMemo(() => {
     if (!tools) return {};
     const counts: Record<string, number> = { all: tools.length };
@@ -233,7 +261,6 @@ export default function Tools() {
     return counts;
   }, [tools]);
 
-  // Memoized filtering
   const filteredTools = useMemo(() => {
     if (!tools) return [];
     
@@ -265,7 +292,22 @@ export default function Tools() {
 
   return (
     <Layout>
-      <div className="page-container section-py">
+      <div className="page-container section-py relative">
+        {/* Ambient background effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-accent/3 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Terminal-style section label */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mb-2"
+        >
+          <span className="text-xs font-mono text-muted-foreground/50 tracking-widest">
+            /// CATÁLOGO_HERRAMIENTAS
+          </span>
+        </motion.div>
+
         {/* Page Header */}
         <PageHeader
           title={<>Catálogo <span className="text-gradient">IA</span></>}
@@ -273,7 +315,7 @@ export default function Tools() {
           badge={{ label: `${tools?.length || 0} herramientas`, icon: <Sparkles className="w-3 h-3 mr-1" /> }}
           actions={
             <Link to="/my-tools">
-              <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
+              <Button variant="outline" className="border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all">
                 <Star className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Mi Stack</span>
               </Button>
@@ -289,22 +331,25 @@ export default function Tools() {
           <FeaturedToolsCarousel tools={featuredTools} />
         )}
 
-        {/* Search and Filters Bar */}
+        {/* Premium Search Bar */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass rounded-xl p-4 mb-6"
+          className="relative glass-strong rounded-2xl p-5 mb-8 border-border/30"
         >
+          {/* Subtle glow behind search */}
+          <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-primary/10 via-transparent to-accent/10 opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
+          
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <div className="relative flex-1 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
               <Input
                 placeholder="Buscar herramientas, categorías, funciones..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-11 h-12 bg-muted/50 border-border focus:border-primary text-base"
+                className="pl-12 h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:shadow-[0_0_20px_hsl(142_76%_50%/0.1)] text-base rounded-xl transition-all"
               />
             </div>
             
@@ -313,18 +358,18 @@ export default function Tools() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-12 w-12"
+                className={`h-12 w-12 rounded-xl transition-all ${showFilters ? 'bg-primary/10 border-primary/40 text-primary' : 'border-border/50'}`}
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <SlidersHorizontal className="w-5 h-5" />
               </Button>
               
               <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'list')}>
-                <TabsList className="h-12">
-                  <TabsTrigger value="grid" className="px-4">
+                <TabsList className="h-12 rounded-xl bg-background/50">
+                  <TabsTrigger value="grid" className="px-4 rounded-lg">
                     <Grid3X3 className="w-4 h-4" />
                   </TabsTrigger>
-                  <TabsTrigger value="list" className="px-4">
+                  <TabsTrigger value="list" className="px-4 rounded-lg">
                     <List className="w-4 h-4" />
                   </TabsTrigger>
                 </TabsList>
@@ -341,10 +386,10 @@ export default function Tools() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <div className="pt-4 mt-4 border-t border-border/50 space-y-4">
+                <div className="pt-5 mt-5 border-t border-border/30 space-y-5">
                   {/* Categories */}
                   <div>
-                    <p className="text-sm font-medium mb-2">Categoría</p>
+                    <p className="text-xs font-mono text-muted-foreground/70 mb-3 uppercase tracking-wider">Categoría</p>
                     <div className="flex flex-wrap gap-2">
                       {categories.map((cat) => (
                         <Button
@@ -352,16 +397,16 @@ export default function Tools() {
                           variant={selectedCategory === cat.value ? 'default' : 'outline'}
                           size="sm"
                           onClick={() => setSelectedCategory(cat.value)}
-                          className={selectedCategory === cat.value 
-                            ? 'bg-primary hover:bg-primary/90' 
-                            : 'border-border hover:border-primary/50'
-                          }
+                          className={`rounded-lg transition-all ${selectedCategory === cat.value 
+                            ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20' 
+                            : 'border-border/40 hover:border-primary/50 hover:bg-primary/5'
+                          }`}
                         >
-                          <cat.icon className="w-3 h-3 mr-1" />
+                          <cat.icon className="w-3 h-3 mr-1.5" />
                           {cat.label}
                           {categoryCounts[cat.value] !== undefined && (
-                            <span className="ml-1 text-xs opacity-70">
-                              ({categoryCounts[cat.value]})
+                            <span className="ml-1.5 text-xs opacity-60">
+                              {categoryCounts[cat.value]}
                             </span>
                           )}
                         </Button>
@@ -371,7 +416,7 @@ export default function Tools() {
 
                   {/* Pricing */}
                   <div>
-                    <p className="text-sm font-medium mb-2">Precio</p>
+                    <p className="text-xs font-mono text-muted-foreground/70 mb-3 uppercase tracking-wider">Precio</p>
                     <div className="flex flex-wrap gap-2">
                       {pricingOptions.map((option) => (
                         <Button
@@ -379,10 +424,10 @@ export default function Tools() {
                           variant={selectedPricing === option.value ? 'default' : 'outline'}
                           size="sm"
                           onClick={() => setSelectedPricing(option.value)}
-                          className={selectedPricing === option.value 
-                            ? 'bg-primary hover:bg-primary/90' 
-                            : 'border-border hover:border-primary/50'
-                          }
+                          className={`rounded-lg transition-all ${selectedPricing === option.value 
+                            ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20' 
+                            : 'border-border/40 hover:border-primary/50 hover:bg-primary/5'
+                          }`}
                         >
                           {option.label}
                         </Button>
@@ -395,11 +440,14 @@ export default function Tools() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Results count */}
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-muted-foreground">
-            {filteredTools.length} herramienta{filteredTools.length !== 1 ? 's' : ''} encontrada{filteredTools.length !== 1 ? 's' : ''}
-          </p>
+        {/* Results count with gradient divider */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="h-px w-8 bg-gradient-to-r from-primary/50 to-transparent" />
+            <p className="text-sm font-mono text-muted-foreground/70">
+              {filteredTools.length} resultado{filteredTools.length !== 1 ? 's' : ''}
+            </p>
+          </div>
         </div>
 
         {/* Tools Grid/List */}
@@ -410,11 +458,14 @@ export default function Tools() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex items-center justify-center py-20"
+              className="flex items-center justify-center py-24"
             >
               <div className="text-center">
-                <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
-                <p className="text-muted-foreground">Cargando herramientas...</p>
+                <div className="relative">
+                  <div className="absolute inset-0 w-16 h-16 mx-auto rounded-full bg-primary/20 blur-xl animate-pulse" />
+                  <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4 relative" />
+                </div>
+                <p className="text-muted-foreground font-mono text-sm">Cargando herramientas...</p>
               </div>
             </motion.div>
           ) : filteredTools.length === 0 ? (
@@ -423,16 +474,16 @@ export default function Tools() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-center py-20"
+              className="text-center py-24"
             >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
-                <Search className="w-8 h-8 text-muted-foreground" />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-muted/30 border border-border/30 flex items-center justify-center">
+                <Search className="w-10 h-10 text-muted-foreground/40" />
               </div>
               <p className="text-lg font-medium mb-2">No se encontraron herramientas</p>
-              <p className="text-muted-foreground">Intenta con otros filtros o términos de búsqueda</p>
+              <p className="text-muted-foreground text-sm mb-6">Intenta con otros filtros o términos de búsqueda</p>
               <Button 
                 variant="outline" 
-                className="mt-4"
+                className="rounded-xl border-primary/30 hover:bg-primary/10"
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedCategory('all');
@@ -450,8 +501,8 @@ export default function Tools() {
               exit={{ opacity: 0 }}
               className="space-y-3"
             >
-              {filteredTools.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} viewMode="list" />
+              {filteredTools.map((tool, index) => (
+                <ToolCard key={tool.id} tool={tool} viewMode="list" index={index} />
               ))}
             </motion.div>
           ) : shouldVirtualize ? (
@@ -476,10 +527,10 @@ export default function Tools() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+              className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
             >
-              {filteredTools.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} viewMode="grid" />
+              {filteredTools.map((tool, index) => (
+                <ToolCard key={tool.id} tool={tool} viewMode="grid" index={index} />
               ))}
             </motion.div>
           )}
