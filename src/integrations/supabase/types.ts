@@ -1052,6 +1052,7 @@ export type Database = {
           name: string
           pricing: string | null
           pros: string[] | null
+          source: string | null
           url: string | null
           use_cases: string[] | null
         }
@@ -1067,6 +1068,7 @@ export type Database = {
           name: string
           pricing?: string | null
           pros?: string[] | null
+          source?: string | null
           url?: string | null
           use_cases?: string[] | null
         }
@@ -1082,6 +1084,7 @@ export type Database = {
           name?: string
           pricing?: string | null
           pros?: string[] | null
+          source?: string | null
           url?: string | null
           use_cases?: string[] | null
         }

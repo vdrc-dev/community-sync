@@ -7,14 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { EmptyState } from '@/components/ui/empty-state';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -28,11 +20,12 @@ import {
   Sparkles,
   TrendingUp,
   Zap,
-  ArrowUpRight
+  ArrowUpRight,
+  GraduationCap,
+  Compass
 } from 'lucide-react';
 import { ToolTracker } from '@/components/tools/ToolTracker';
-import { ToolsHeroStats, FeaturedToolsCarousel } from '@/components/tools/ToolsHeroStats';
-import { VirtualizedGrid } from '@/components/virtualized/VirtualizedList';
+import { ToolsHeroStats } from '@/components/tools/ToolsHeroStats';
 import { useDebouncedValue } from '@/hooks/usePerformance';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
@@ -62,9 +55,9 @@ interface Tool {
   url: string | null;
   icon_emoji: string | null;
   is_featured: boolean | null;
+  source: string | null;
 }
 
-// Premium tool card component
 const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' | 'list'; index?: number }) => {
   const pricingColor = useMemo(() => {
     switch (tool.pricing) {
@@ -79,9 +72,9 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
     switch (tool.category) {
       case 'Chat': return 'from-emerald-500/20 to-cyan-500/10';
       case 'Code': return 'from-violet-500/20 to-blue-500/10';
-      case 'Search': return 'from-amber-500/20 to-orange-500/10';
       case 'Video': return 'from-pink-500/20 to-rose-500/10';
       case 'Productivity': return 'from-sky-500/20 to-indigo-500/10';
+      case 'Research': return 'from-amber-500/20 to-orange-500/10';
       default: return 'from-primary/20 to-accent/10';
     }
   }, [tool.category]);
@@ -96,21 +89,19 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
         className="group"
       >
         <Card className="glass border-border/30 hover:border-primary/40 transition-all duration-300 overflow-hidden">
-          {/* Top glow line on hover */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/60 transition-all duration-500" />
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${categoryGradient} border border-border/50 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-300 flex-shrink-0`}>
                 {tool.icon_emoji || '🔧'}
               </div>
-              
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold group-hover:text-primary transition-colors">
                     {tool.name}
                   </h3>
-                  {tool.is_featured && (
-                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                  {tool.source === 'workshop' && (
+                    <GraduationCap className="w-4 h-4 text-yellow-400 flex-shrink-0" />
                   )}
                   <Badge variant="outline" className={`${pricingColor} ml-auto`}>
                     {tool.pricing || 'N/A'}
@@ -120,16 +111,10 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
                   {tool.description}
                 </p>
               </div>
-
               <div className="flex items-center gap-3">
                 <ToolTracker toolId={tool.id} toolName={tool.name} compact />
                 {tool.url && (
-                  <a
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
-                  >
+                  <a href={tool.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors">
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
@@ -149,17 +134,14 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
       transition={{ delay: index * 0.05, duration: 0.4 }}
     >
       <Card className="group relative glass border-border/30 hover:border-primary/40 transition-all duration-500 overflow-hidden h-full">
-        {/* Animated gradient border glow */}
         <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
             background: 'linear-gradient(135deg, hsl(142 76% 50% / 0.08), transparent 40%, hsl(180 100% 45% / 0.05))',
           }}
         />
-        {/* Top glow accent line */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/70 transition-all duration-500" />
         
         <CardContent className="p-5 flex flex-col h-full relative">
-          {/* Icon + Title */}
           <div className="flex items-start gap-4 mb-4">
             <motion.div 
               className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${categoryGradient} border border-border/50 flex items-center justify-center text-3xl flex-shrink-0 shadow-lg`}
@@ -168,17 +150,15 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
             >
               {tool.icon_emoji || '🔧'}
             </motion.div>
-            
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-semibold truncate group-hover:text-primary transition-colors text-base">
                   {tool.name}
                 </h3>
-                {tool.is_featured && (
-                  <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 flex-shrink-0 animate-pulse" />
+                {tool.source === 'workshop' && (
+                  <GraduationCap className="w-4 h-4 text-yellow-400 flex-shrink-0" />
                 )}
               </div>
-              
               {tool.category && (
                 <span className="text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">
                   {tool.category}
@@ -187,33 +167,24 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
             </div>
           </div>
 
-          {/* Description */}
           {tool.description && (
             <p className="text-sm text-muted-foreground/80 mb-5 line-clamp-2 flex-grow leading-relaxed">
               {tool.description}
             </p>
           )}
 
-          {/* Footer */}
           <div className="flex items-center justify-between">
             <Badge variant="outline" className={`${pricingColor} text-xs`}>
               {tool.pricing || 'N/A'}
             </Badge>
-
             {tool.url && (
-              <a
-                href={tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm text-primary/70 hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0"
-              >
+              <a href={tool.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-primary/70 hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                 Explorar
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             )}
           </div>
 
-          {/* Tool Tracker */}
           <div className="mt-4 pt-4 border-t border-border/30">
             <ToolTracker toolId={tool.id} toolName={tool.name} compact />
           </div>
@@ -223,9 +194,36 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
   );
 };
 
+// Section header component
+const SectionHeader = ({ icon: Icon, title, subtitle, badge, gradient }: {
+  icon: React.ElementType;
+  title: string;
+  subtitle: string;
+  badge: string;
+  gradient: string;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="flex items-center justify-between mb-6 mt-12 first:mt-0"
+  >
+    <div className="flex items-center gap-3">
+      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+        <Icon className="w-5 h-5 text-foreground" />
+      </div>
+      <div>
+        <h2 className="text-lg font-bold">{title}</h2>
+        <p className="text-xs text-muted-foreground/60 font-mono uppercase tracking-wider">{subtitle}</p>
+      </div>
+    </div>
+    <Badge variant="outline" className="text-xs border-border/40 text-muted-foreground/70">
+      {badge}
+    </Badge>
+  </motion.div>
+);
+
 export default function Tools() {
   const { user } = useAuth();
-  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPricing, setSelectedPricing] = useState('all');
@@ -278,16 +276,31 @@ export default function Tools() {
     });
   }, [tools, debouncedSearch, selectedCategory, selectedPricing]);
 
-  const featuredTools = useMemo(() => 
-    tools?.filter(t => t.is_featured) || [], 
-    [tools]
-  );
+  const workshopTools = useMemo(() => filteredTools.filter(t => t.source === 'workshop'), [filteredTools]);
+  const communityTools = useMemo(() => filteredTools.filter(t => t.source !== 'workshop'), [filteredTools]);
 
-  const renderTool = useCallback((tool: Tool) => (
-    <ToolCard key={tool.id} tool={tool} viewMode={viewMode} />
-  ), [viewMode]);
+  // Group tools by category within each section
+  const groupByCategory = useCallback((toolsList: Tool[]) => {
+    const groups: Record<string, Tool[]> = {};
+    const categoryOrder = ['Chat', 'Code', 'Video', 'Productivity', 'Research'];
+    
+    toolsList.forEach(tool => {
+      const cat = tool.category || 'Otros';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(tool);
+    });
 
-  const shouldVirtualize = filteredTools.length > 50;
+    return categoryOrder.filter(cat => groups[cat]).map(cat => ({
+      category: cat,
+      label: categories.find(c => c.value === cat)?.label || cat,
+      tools: groups[cat],
+    }));
+  }, []);
+
+  const workshopGroups = useMemo(() => groupByCategory(workshopTools), [groupByCategory, workshopTools]);
+  const communityGroups = useMemo(() => groupByCategory(communityTools), [groupByCategory, communityTools]);
+
+  const isSearchActive = debouncedSearch || selectedCategory !== 'all' || selectedPricing !== 'all';
 
   return (
     <Layout>
@@ -296,21 +309,15 @@ export default function Tools() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-accent/3 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Terminal-style section label */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-2"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-2">
           <span className="text-xs font-mono text-muted-foreground/50 tracking-widest">
             /// CATÁLOGO_HERRAMIENTAS
           </span>
         </motion.div>
 
-        {/* Page Header */}
         <PageHeader
           title={<>Catálogo <span className="text-gradient">IA</span></>}
-          description="Explora, trackea y domina las mejores herramientas de inteligencia artificial"
+          description="Las herramientas que usamos en el taller + más para que sigas explorando"
           badge={{ label: `${tools?.length || 0} herramientas`, icon: <Sparkles className="w-3 h-3 mr-1" /> }}
           actions={
             <Link to="/my-tools">
@@ -322,26 +329,18 @@ export default function Tools() {
           }
         />
 
-        {/* Personal Stats (logged in users) */}
         {user && <ToolsHeroStats />}
 
-        {/* Featured Carousel */}
-        {featuredTools.length > 0 && (
-          <FeaturedToolsCarousel tools={featuredTools} />
-        )}
-
-        {/* Premium Search Bar */}
+        {/* Search & Filters */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="relative glass-strong rounded-2xl p-5 mb-8 border-border/30"
         >
-          {/* Subtle glow behind search */}
           <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-primary/10 via-transparent to-accent/10 opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
           
           <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
             <div className="relative flex-1 group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
               <Input
@@ -352,7 +351,6 @@ export default function Tools() {
               />
             </div>
             
-            {/* View Toggle & Filter Toggle */}
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -376,7 +374,6 @@ export default function Tools() {
             </div>
           </div>
 
-          {/* Expandable Filters */}
           <AnimatePresence>
             {showFilters && (
               <motion.div
@@ -386,7 +383,6 @@ export default function Tools() {
                 className="overflow-hidden"
               >
                 <div className="pt-5 mt-5 border-t border-border/30 space-y-5">
-                  {/* Categories */}
                   <div>
                     <p className="text-xs font-mono text-muted-foreground/70 mb-3 uppercase tracking-wider">Categoría</p>
                     <div className="flex flex-wrap gap-2">
@@ -413,7 +409,6 @@ export default function Tools() {
                     </div>
                   </div>
 
-                  {/* Pricing */}
                   <div>
                     <p className="text-xs font-mono text-muted-foreground/70 mb-3 uppercase tracking-wider">Precio</p>
                     <div className="flex flex-wrap gap-2">
@@ -439,26 +434,23 @@ export default function Tools() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Results count with gradient divider */}
+        {/* Results count */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="h-px w-8 bg-gradient-to-r from-primary/50 to-transparent" />
             <p className="text-sm font-mono text-muted-foreground/70">
               {filteredTools.length} resultado{filteredTools.length !== 1 ? 's' : ''}
+              {workshopTools.length > 0 && communityTools.length > 0 && !isSearchActive && (
+                <span className="text-muted-foreground/50"> · {workshopTools.length} del taller · {communityTools.length} para explorar</span>
+              )}
             </p>
           </div>
         </div>
 
-        {/* Tools Grid/List */}
+        {/* Main Content */}
         <AnimatePresence mode="wait">
           {isLoading ? (
-            <motion.div 
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center justify-center py-24"
-            >
+            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center py-24">
               <div className="text-center">
                 <div className="relative">
                   <div className="absolute inset-0 w-16 h-16 mx-auto rounded-full bg-primary/20 blur-xl animate-pulse" />
@@ -468,13 +460,7 @@ export default function Tools() {
               </div>
             </motion.div>
           ) : filteredTools.length === 0 ? (
-            <motion.div 
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-center py-24"
-            >
+            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-24">
               <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-muted/30 border border-border/30 flex items-center justify-center">
                 <Search className="w-10 h-10 text-muted-foreground/40" />
               </div>
@@ -483,58 +469,99 @@ export default function Tools() {
               <Button 
                 variant="outline" 
                 className="rounded-xl border-primary/30 hover:bg-primary/10"
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                  setSelectedPricing('all');
-                }}
+                onClick={() => { setSearchQuery(''); setSelectedCategory('all'); setSelectedPricing('all'); }}
               >
                 Limpiar filtros
               </Button>
             </motion.div>
-          ) : viewMode === 'list' ? (
-            <motion.div 
-              key="list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-3"
-            >
-              {filteredTools.map((tool, index) => (
-                <ToolCard key={tool.id} tool={tool} viewMode="list" index={index} />
-              ))}
-            </motion.div>
-          ) : shouldVirtualize ? (
-            <motion.div
-              key="virtualized"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <VirtualizedGrid
-                items={filteredTools}
-                renderItem={renderTool}
-                estimateRowHeight={320}
-                columns={4}
-                gap={16}
-                className="min-h-[600px]"
-              />
+          ) : isSearchActive ? (
+            // Flat list when searching/filtering
+            <motion.div key="search-results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <ToolGrid tools={filteredTools} viewMode={viewMode} />
             </motion.div>
           ) : (
-            <motion.div 
-              key="grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-            >
-              {filteredTools.map((tool, index) => (
-                <ToolCard key={tool.id} tool={tool} viewMode="grid" index={index} />
-              ))}
+            // Organized sections when no search is active
+            <motion.div key="organized" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {/* Workshop Section */}
+              {workshopTools.length > 0 && (
+                <div>
+                  <SectionHeader
+                    icon={GraduationCap}
+                    title="Herramientas del Taller"
+                    subtitle="WORKSHOP_TOOLS"
+                    badge={`${workshopTools.length} herramientas`}
+                    gradient="from-yellow-500/20 to-orange-500/10"
+                  />
+                  <p className="text-sm text-muted-foreground/70 mb-6 -mt-3 ml-[52px]">
+                    Estas son las herramientas que revisamos juntos en el taller. Ya las conoces — ¡ahora domínalas!
+                  </p>
+
+                  {workshopGroups.map((group) => (
+                    <div key={group.category} className="mb-8">
+                      <div className="flex items-center gap-2 mb-4 ml-1">
+                        <div className="h-px w-4 bg-primary/30" />
+                        <span className="text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">{group.label}</span>
+                        <span className="text-xs text-muted-foreground/40">({group.tools.length})</span>
+                        <div className="h-px flex-1 bg-border/20" />
+                      </div>
+                      <ToolGrid tools={group.tools} viewMode={viewMode} />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Community / Explore Section */}
+              {communityTools.length > 0 && (
+                <div>
+                  <SectionHeader
+                    icon={Compass}
+                    title="Explora por tu cuenta"
+                    subtitle="EXPLORE_MORE"
+                    badge={`${communityTools.length} herramientas`}
+                    gradient="from-violet-500/20 to-blue-500/10"
+                  />
+                  <p className="text-sm text-muted-foreground/70 mb-6 -mt-3 ml-[52px]">
+                    Herramientas adicionales que complementan lo aprendido. Investiga, prueba y encuentra tus favoritas.
+                  </p>
+
+                  {communityGroups.map((group) => (
+                    <div key={group.category} className="mb-8">
+                      <div className="flex items-center gap-2 mb-4 ml-1">
+                        <div className="h-px w-4 bg-accent/30" />
+                        <span className="text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">{group.label}</span>
+                        <span className="text-xs text-muted-foreground/40">({group.tools.length})</span>
+                        <div className="h-px flex-1 bg-border/20" />
+                      </div>
+                      <ToolGrid tools={group.tools} viewMode={viewMode} />
+                    </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
     </Layout>
+  );
+}
+
+// Extracted grid/list renderer
+function ToolGrid({ tools, viewMode }: { tools: Tool[]; viewMode: 'grid' | 'list' }) {
+  if (viewMode === 'list') {
+    return (
+      <div className="space-y-3">
+        {tools.map((tool, index) => (
+          <ToolCard key={tool.id} tool={tool} viewMode="list" index={index} />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {tools.map((tool, index) => (
+        <ToolCard key={tool.id} tool={tool} viewMode="grid" index={index} />
+      ))}
+    </div>
   );
 }
