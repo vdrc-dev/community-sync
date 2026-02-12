@@ -39,12 +39,11 @@ import { Link } from 'react-router-dom';
 
 const categories = [
   { value: 'all', label: 'Todas', icon: Grid3X3, count: 0 },
-  { value: 'Chat', label: 'Chat IA', icon: Sparkles, count: 0 },
-  { value: 'Search', label: 'Búsqueda', icon: Search, count: 0 },
-  { value: 'Code', label: 'Código', icon: Zap, count: 0 },
-  { value: 'Video', label: 'Video', icon: TrendingUp, count: 0 },
+  { value: 'Chat', label: 'LLMs & Chatbots', icon: Sparkles, count: 0 },
+  { value: 'Code', label: 'Vibe Coding', icon: Zap, count: 0 },
+  { value: 'Video', label: 'Video, Imagen & Audio', icon: TrendingUp, count: 0 },
   { value: 'Productivity', label: 'Productividad', icon: Star, count: 0 },
-  { value: 'Research', label: 'Investigación', icon: TrendingUp, count: 0 },
+  { value: 'Research', label: 'Investigación', icon: Search, count: 0 },
 ];
 
 const pricingOptions = [
