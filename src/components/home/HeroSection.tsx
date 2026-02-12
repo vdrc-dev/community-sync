@@ -241,13 +241,38 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
+            className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed font-medium"
           >
             Tu hub exclusivo con 
             <span className="text-primary font-bold"> workflows interactivos</span>, 
             <span className="text-accent font-bold"> herramientas IA </span>
             y una comunidad de productividad digital.
           </motion.p>
+
+          {/* Social proof badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 1.3 }}
+            className="flex items-center justify-center gap-4 mb-10"
+          >
+            <div className="flex -space-x-2">
+              {['🧑‍💻', '👩‍🔬', '🧑‍🎨', '👨‍💼', '👩‍💻'].map((emoji, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.4 + i * 0.1 }}
+                  className="w-8 h-8 rounded-full bg-card border-2 border-background flex items-center justify-center text-sm"
+                >
+                  {emoji}
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-sm text-foreground/60">
+              <span className="text-primary font-semibold">+200</span> profesionales ya aprenden
+            </div>
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
