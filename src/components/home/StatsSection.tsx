@@ -1,15 +1,8 @@
 import { motion, useInView, useSpring, useTransform } from 'framer-motion';
-import { TrendingUp, Users, BookOpen, Wrench, Workflow, Award } from 'lucide-react';
-import { useMemo, useRef, useEffect, useState } from 'react';
-
-const stats = [
-  { numericValue: 11, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller' },
-  { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas' },
-  { numericValue: 30, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA' },
-  { numericValue: 15, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones' },
-  { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Comunidad activa' },
-  { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Productividad real' },
-];
+import { TrendingUp, Users, BookOpen, Wrench, Workflow, Award, Rocket, ExternalLink } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 function AnimatedCounter({ value, suffix = '', duration = 2, delay = 0 }: { value: number; suffix?: string; duration?: number; delay?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -34,7 +27,60 @@ function AnimatedCounter({ value, suffix = '', duration = 2, delay = 0 }: { valu
   return <span ref={ref}>{displayValue.toLocaleString()}{suffix}</span>;
 }
 
+// Fetch dynamic counts from Supabase
+function useDynamicStats() {
+  const { data: genCount } = useQuery({
+    queryKey: ['stats-gen-count'],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from('generations')
+        .select('*', { count: 'exact', head: true });
+      return count || 11;
+    },
+    staleTime: 1000 * 60 * 30,
+  });
+
+  const { data: toolCount } = useQuery({
+    queryKey: ['stats-tool-count'],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from('tools')
+        .select('*', { count: 'exact', head: true });
+      return count || 30;
+    },
+    staleTime: 1000 * 60 * 30,
+  });
+
+  const { data: workflowCount } = useQuery({
+    queryKey: ['stats-workflow-count'],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from('automation_workflows')
+        .select('*', { count: 'exact', head: true });
+      return count || 15;
+    },
+    staleTime: 1000 * 60 * 30,
+  });
+
+  return {
+    generations: genCount || 11,
+    tools: toolCount || 30,
+    workflows: workflowCount || 15,
+  };
+}
+
 export function StatsSection() {
+  const dynamic = useDynamicStats();
+
+  const stats = [
+    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller' },
+    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas' },
+    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA' },
+    { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones' },
+    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Comunidad activa' },
+    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Productividad real' },
+  ];
+
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Background */}
@@ -53,12 +99,12 @@ export function StatsSection() {
             Impacto <span className="text-gradient glow-text">real</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Números que demuestran el poder de la productividad con IA
+            Numeros que demuestran el poder de la productividad con IA
           </p>
         </motion.div>
 
-        {/* Stats grid - vdrc.cl trayectoria card style */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -90,6 +136,49 @@ export function StatsSection() {
               </div>
             </motion.div>
           ))}
+
+          {/* Gen 11 Special Card */}
+          <motion.a
+            href="https://vdrc.cl/talleres"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: stats.length * 0.1, type: 'spring', stiffness: 80 }}
+            whileHover={{ scale: 1.05, y: -4 }}
+            className="group relative"
+          >
+            {/* Special glow for Gen 11 */}
+            <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-accent/0 to-primary/0 group-hover:from-accent/50 group-hover:to-primary/50 blur-sm transition-all duration-500" />
+            <motion.div
+              className="absolute -inset-1 rounded-xl bg-gradient-to-br from-accent/20 to-primary/20 blur-md"
+              animate={{ opacity: [0.3, 0.6, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+
+            <div className="relative p-6 rounded-xl bg-gradient-to-br from-accent/10 to-primary/5 backdrop-blur-xl border border-accent/30 group-hover:border-accent/60 transition-all duration-500 text-center">
+              {/* Icon */}
+              <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                <Rocket className="w-6 h-6 text-accent" />
+              </div>
+
+              {/* Value */}
+              <div className="text-3xl font-mono font-bold text-accent mb-1">
+                Gen 11
+              </div>
+
+              {/* Label */}
+              <div className="text-[10px] font-mono tracking-widest uppercase text-accent/70">
+                [MARZO 2026]
+              </div>
+
+              {/* Hover hint */}
+              <div className="flex items-center justify-center gap-1 mt-2 text-[9px] text-accent/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                Inscribete <ExternalLink className="w-2.5 h-2.5" />
+              </div>
+            </div>
+          </motion.a>
         </div>
       </div>
     </section>

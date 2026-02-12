@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, Users, Sparkles } from 'lucide-react';
+import { Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, Users, Sparkles, Rocket, ExternalLink, ArrowRight, Clock } from 'lucide-react';
 
 export default function Generations() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -121,6 +121,75 @@ export default function Generations() {
           />
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Gen 11 Coming Soon Card */}
+            {!searchQuery && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="sm:col-span-2 lg:col-span-3"
+              >
+                <a
+                  href="https://vdrc.cl/talleres"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block relative rounded-xl overflow-hidden"
+                >
+                  {/* Animated glow border */}
+                  <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40 opacity-50 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                  
+                  <div className="relative p-6 sm:p-8 rounded-xl bg-card/80 backdrop-blur-xl border border-accent/20 group-hover:border-accent/50 transition-all duration-300 overflow-hidden">
+                    {/* Grid background */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,200,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,200,0.03)_1px,transparent_1px)] bg-[size:30px_30px]" />
+                    
+                    {/* Glow orb */}
+                    <motion.div
+                      className="absolute top-0 right-0 w-48 h-48 bg-accent/10 rounded-full blur-[60px]"
+                      animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    />
+                    
+                    <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                      <div className="flex items-start gap-5">
+                        <motion.div
+                          animate={{ scale: [1, 1.08, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 flex items-center justify-center shrink-0"
+                        >
+                          <Rocket className="w-8 h-8 text-accent" />
+                        </motion.div>
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <Badge className="bg-accent/10 text-accent border-accent/30 font-mono text-xs">
+                              <Clock className="w-3 h-3 mr-1" />
+                              PROXIMAMENTE
+                            </Badge>
+                          </div>
+                          <h3 className="text-2xl font-mono font-bold group-hover:text-accent transition-colors">
+                            Generacion <span className="text-gradient glow-text">11</span>
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-2 max-w-lg">
+                            El Taller de Productividad Digital con IA vuelve en <span className="text-accent font-semibold">marzo 2026</span>.
+                            Nuevos modulos, workflows actualizados y herramientas de ultima generacion.
+                          </p>
+                          <div className="flex flex-wrap gap-2 mt-3">
+                            {['4 Modulos', 'Workflows IA', 'Comunidad', 'Certificado'].map((tag) => (
+                              <span key={tag} className="text-[10px] font-mono px-2 py-1 rounded-md bg-accent/5 border border-accent/15 text-accent/70">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 text-accent font-mono font-semibold group-hover:gap-3 transition-all shrink-0">
+                        INSCRIBETE
+                        <ExternalLink className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </motion.div>
+            )}
+
             {filteredGenerations?.map((gen, index) => (
               <motion.div
                 key={gen.id}

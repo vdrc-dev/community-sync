@@ -14,6 +14,9 @@ import { HowItWorks } from '@/components/home/HowItWorks';
 import { ToolsMarquee } from '@/components/home/ToolsMarquee';
 import { SectionDivider } from '@/components/home/SectionDivider';
 import { ActiveGenerationWidget } from '@/components/dashboard/ActiveGenerationWidget';
+import { Gen11Banner } from '@/components/home/Gen11Banner';
+import { EcosystemSection } from '@/components/home/EcosystemSection';
+import { PresentationsPreview } from '@/components/home/PresentationsPreview';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -23,6 +26,9 @@ export default function Home() {
     <Layout>
       {/* Hero Section */}
       <HeroSection isAuthenticated={!!user} />
+
+      {/* Gen 11 Countdown Banner */}
+      {!user && <Gen11Banner />}
 
       {/* Tools Marquee - Social proof of tools */}
       <ToolsMarquee />
@@ -83,10 +89,20 @@ export default function Home() {
       {/* Workflow Showcase */}
       <WorkflowShowcase />
 
+      <SectionDivider variant="glow" />
+
+      {/* Presentations Preview */}
+      <PresentationsPreview />
+
       <SectionDivider variant="gradient" />
 
       {/* Testimonials */}
       <TestimonialsSection />
+
+      <SectionDivider variant="dots" />
+
+      {/* Ecosystem Section */}
+      <EcosystemSection />
 
       {/* CTA Section */}
       <CTASection isAuthenticated={!!user} />

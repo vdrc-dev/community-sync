@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket, ExternalLink } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket, ExternalLink, Clock } from 'lucide-react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 interface HeroSectionProps {
   isAuthenticated: boolean;
@@ -74,6 +75,37 @@ function TypingLine({
       {showCursor && <span className="animate-pulse">▊</span>}
       {isComplete && !isCommand && <span className="opacity-0">.</span>}
     </p>
+  );
+}
+
+// Rotating text effect for features
+const rotatingWords = ['workflows', 'herramientas IA', 'comunidad', 'presentaciones', 'automatizaciones'];
+
+function RotatingText() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <span className="inline-block relative">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={rotatingWords[index]}
+          initial={{ y: 20, opacity: 0, filter: 'blur(4px)' }}
+          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+          exit={{ y: -20, opacity: 0, filter: 'blur(4px)' }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="text-primary font-bold"
+        >
+          {rotatingWords[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
   );
 }
 
@@ -156,15 +188,27 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </span>
           </motion.div>
 
-          {/* System version badge - vdrc.cl/talleres style */}
+          {/* Gen 11 badge for non-authenticated + System version badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center justify-center gap-2 mb-8"
           >
+            {!isAuthenticated && (
+              <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
+                <Badge
+                  variant="outline"
+                  className="px-4 py-2 border-accent/50 bg-accent/10 backdrop-blur-sm font-mono text-xs tracking-wider hover:bg-accent/20 hover:border-accent/70 transition-all cursor-pointer group"
+                >
+                  <Rocket className="w-3 h-3 mr-2 text-accent group-hover:animate-bounce" />
+                  GEN 11 // MARZO 2026 — INSCRIPCIONES ABIERTAS
+                </Badge>
+              </a>
+            )}
             <Badge 
               variant="outline" 
-              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm font-mono text-xs tracking-wider"
+              className="px-4 py-2 border-primary/50 bg-primary/10 backdrop-blur-sm font-mono text-xs tracking-wider"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse mr-2 inline-block" />
               SYSTEM v2.0 // COMMUNITY EDITION
@@ -187,7 +231,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </h1>
           </motion.div>
 
-          {/* Subheading with green left bar - vdrc.cl style */}
+          {/* Subheading with rotating text */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -196,9 +240,8 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             <div className="w-1 h-16 bg-primary rounded-full shrink-0 md:hidden" />
             <p className="text-lg sm:text-xl text-foreground/80 leading-relaxed">
-              Tu hub exclusivo con{' '}
-              <span className="text-primary font-bold">workflows interactivos</span>,{' '}
-              <span className="text-accent font-bold">herramientas IA</span>{' '}
+              Tu hub exclusivo con <RotatingText />,{' '}
+              <span className="text-accent font-bold">slides interactivas</span>{' '}
               y una comunidad de productividad digital.
             </p>
           </motion.div>
@@ -254,24 +297,41 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40">
                   <Link to="/auth">
                     <span className="relative z-10 flex items-center">
-                      INICIAR SESIÓN
+                      INICIAR SESION
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/15 font-mono transition-all duration-300 hover:scale-105 group">
+                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
+                    <span className="flex items-center">
+                      <Rocket className="w-5 h-5 mr-2 text-accent" />
+                      INSCRIBETE EN GEN 11
+                      <ExternalLink className="w-4 h-4 ml-2 opacity-60 group-hover:opacity-100" />
+                    </span>
+                  </a>
                 </Button>
               </>
             )}
           </motion.div>
 
-          {/* Cross-site link */}
+          {/* Cross-site links - ecosystem */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
-            className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground font-mono"
+            className="mt-6 flex items-center justify-center gap-3 text-xs text-muted-foreground font-mono flex-wrap"
           >
-            <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
+            <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-primary/5">
               vdrc.cl <ExternalLink className="w-3 h-3" />
+            </a>
+            <span className="text-border">|</span>
+            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/5">
+              Talleres <ExternalLink className="w-3 h-3" />
+            </a>
+            <span className="text-border">|</span>
+            <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-purple-500/5">
+              Presentaciones <ExternalLink className="w-3 h-3" />
             </a>
           </motion.div>
         </motion.div>
@@ -291,12 +351,13 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               <span className="text-muted-foreground text-xs ml-2">vdrc://terminal</span>
               <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
             </div>
-            <div className="space-y-1 min-h-[120px]">
-              <TypingLine text=" vdrc --init community" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
-              <TypingLine text="✓ Espacios cargados" delay={3500} className="text-green-400" />
-              <TypingLine text="✓ Workflows activos" delay={4200} className="text-green-400" />
-              <TypingLine text="✓ Comunidad conectada" delay={5000} className="text-green-400" />
-              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 6 }}>
+            <div className="space-y-1 min-h-[140px]">
+              <TypingLine text=" vdrc --status" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
+              <TypingLine text="Gen 11: INSCRIPCIONES ABIERTAS // Marzo 2026" delay={3500} className="text-accent" prefix="> " />
+              <TypingLine text="Portal: ONLINE" delay={4200} className="text-green-400" prefix="> " />
+              <TypingLine text="Comunidad: 122+ activos" delay={4800} className="text-green-400" prefix="> " />
+              <TypingLine text="Ecosistema: vdrc.cl + comunidad + presentaciones" delay={5500} className="text-green-400" prefix="> " />
+              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 7 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
               </motion.p>
             </div>

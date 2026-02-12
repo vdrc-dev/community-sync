@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
-import { X, ArrowRight, ArrowLeft, Sparkles, BookOpen, Calculator, Zap, FlaskConical, CheckCircle } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Sparkles, BookOpen, Calculator, Zap, FlaskConical, CheckCircle, Globe, Presentation, Users } from 'lucide-react';
 
 interface TourStep {
   id: string;
@@ -23,20 +23,38 @@ interface TourStep {
 const TOUR_STEPS: TourStep[] = [
   {
     id: 'welcome',
-    title: '¡Bienvenido al Portal IA! 🎉',
-    description: 'Este tour te guiará por las funciones principales para que puedas aprovechar al máximo la plataforma.',
+    title: 'Bienvenido al Portal VDRC',
+    description: 'Este es tu hub central para el Taller de Productividad Digital con IA — Generacion 11. Te mostramos las funciones principales.',
     icon: <Sparkles className="w-8 h-8 text-primary" />,
+    position: 'center',
+  },
+  {
+    id: 'ecosystem',
+    title: 'Ecosistema VDRC',
+    description: 'El taller tiene 3 plataformas conectadas: vdrc.cl (info e inscripciones), este portal (comunidad y recursos), y vdrc.lovable.app (presentaciones de clase).',
+    icon: <Globe className="w-8 h-8 text-accent" />,
     position: 'center',
   },
   {
     id: 'generations',
     title: 'Explora las Generaciones',
-    description: 'Accede a grabaciones de clases, materiales y recursos organizados por cohorte. Todo el contenido del programa en un solo lugar.',
+    description: 'Accede a grabaciones de clases, materiales, presentaciones y recursos organizados por cohorte. Todo el contenido del programa en un solo lugar.',
     icon: <BookOpen className="w-8 h-8 text-blue-500" />,
     position: 'center',
     action: {
       label: 'Ver Generaciones',
       href: '/generations',
+    },
+  },
+  {
+    id: 'workflows',
+    title: 'Workflows de Automatizacion',
+    description: 'Descubre workflows paso a paso para automatizar tareas comunes. Ejecuta cada paso directamente con IA integrada.',
+    icon: <Zap className="w-8 h-8 text-yellow-500" />,
+    position: 'center',
+    action: {
+      label: 'Ver Workflows',
+      href: '/workflows',
     },
   },
   {
@@ -51,20 +69,20 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    id: 'workflows',
-    title: 'Workflows de Automatización',
-    description: 'Descubre workflows paso a paso para automatizar tareas comunes. Ejecuta cada paso directamente con IA integrada.',
-    icon: <Zap className="w-8 h-8 text-yellow-500" />,
+    id: 'community',
+    title: 'Comunidad',
+    description: 'Conecta con otros participantes del taller en los espacios de discusion. Comparte recursos, haz preguntas y aprende junto a la comunidad.',
+    icon: <Users className="w-8 h-8 text-accent" />,
     position: 'center',
     action: {
-      label: 'Ver Workflows',
-      href: '/workflows',
+      label: 'Ir a Comunidad',
+      href: '/community',
     },
   },
   {
     id: 'roi',
     title: 'Mide tu Productividad',
-    description: 'Registra las tareas que has automatizado y visualiza cuánto tiempo y dinero estás ahorrando cada semana.',
+    description: 'Registra las tareas que has automatizado y visualiza cuanto tiempo y dinero estas ahorrando cada semana.',
     icon: <Calculator className="w-8 h-8 text-green-500" />,
     position: 'center',
     action: {
@@ -74,8 +92,8 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     id: 'complete',
-    title: '¡Listo para comenzar!',
-    description: 'Usa CMD+K (o Ctrl+K) para acceder rápidamente a cualquier sección. ¡Buena suerte en tu viaje con IA!',
+    title: 'Listo para comenzar',
+    description: 'Usa CMD+K (o Ctrl+K) para acceder rapidamente a cualquier seccion. Tambien puedes ver las presentaciones en vdrc.lovable.app. Buena suerte en tu viaje con IA.',
     icon: <CheckCircle className="w-8 h-8 text-green-500" />,
     position: 'center',
   },
@@ -197,6 +215,8 @@ export function OnboardingTour() {
               <button
                 onClick={handleSkip}
                 className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Cerrar tour"
+                title="Cerrar tour"
               >
                 <X className="w-5 h-5" />
               </button>

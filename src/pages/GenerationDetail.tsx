@@ -122,6 +122,29 @@ export default function GenerationDetail() {
           ]}
         />
 
+        {/* Presentations bridge to vdrc.lovable.app */}
+        <Card className="glass border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 mb-6 group">
+          <CardContent className="py-4 px-6">
+            <a
+              href="https://vdrc.lovable.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between gap-4"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                  <Presentation className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Presentaciones del taller</p>
+                  <p className="text-xs text-muted-foreground">Ver slides interactivas en vdrc.lovable.app</p>
+                </div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-purple-400 opacity-60 group-hover:opacity-100 transition-opacity shrink-0" />
+            </a>
+          </CardContent>
+        </Card>
+
         {/* Content */}
         {!user ? (
           <Card className="glass border-border/50">

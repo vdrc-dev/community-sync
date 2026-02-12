@@ -31,7 +31,9 @@ import {
   Users,
   Calendar,
   Workflow,
-  Presentation
+  Presentation,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
@@ -225,6 +227,56 @@ export function Header() {
 
           {/* User Menu / Auth Buttons */}
           <div className="flex items-center gap-2">
+            {/* Ecosystem Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="hidden lg:flex items-center gap-1.5 text-muted-foreground hover:text-foreground border-border/50 bg-muted/30 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 h-8 px-2.5"
+                  >
+                    <Globe className="w-3.5 h-3.5 text-primary" />
+                    <span className="text-[10px] font-mono tracking-wider">VDRC</span>
+                    <ChevronDown className="w-3 h-3" />
+                  </Button>
+                </motion.div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 glass-strong p-2">
+                <DropdownMenuLabel className="text-[10px] font-mono tracking-[0.2em] text-primary/70 uppercase px-2">
+                  Ecosistema VDRC
+                </DropdownMenuLabel>
+                <DropdownMenuItem className="rounded-lg bg-primary/5 border border-primary/20 mb-1">
+                  <Users className="w-4 h-4 text-primary mr-2" />
+                  <div className="flex-1">
+                    <span className="text-sm font-medium">Comunidad</span>
+                    <span className="text-[10px] text-primary ml-2">AQUI</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
+                  <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
+                    <Globe className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm flex-1">vdrc.cl</span>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
+                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
+                    <BookOpen className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm flex-1">Talleres</span>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="rounded-lg hover:bg-purple-500/10 transition-colors">
+                  <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
+                    <Presentation className="w-4 h-4 text-purple-400" />
+                    <span className="text-sm flex-1">Presentaciones</span>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {/* CMD+K hint */}
             <motion.div
               whileHover={{ scale: 1.03 }}
