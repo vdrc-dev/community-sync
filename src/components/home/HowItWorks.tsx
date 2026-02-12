@@ -141,8 +141,8 @@ export function HowItWorks() {
           className="text-center mt-16"
         >
           <Button asChild size="lg" className="h-14 px-8 text-lg glow-primary">
-            <Link to="/auth?mode=signup">
-              Empezar ahora
+            <Link to="/workflows">
+              Explorar workflows
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </Button>

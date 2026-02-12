@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Users, ExternalLink } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Users } from 'lucide-react';
 
 interface CTASectionProps {
   isAuthenticated: boolean;
@@ -62,18 +62,18 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg" className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 font-mono group shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105">
-                  <Link to="/auth?mode=signup">
+                  <Link to="/tools">
                     <span className="flex items-center">
-                      CREAR MI CUENTA
+                      EXPLORAR HERRAMIENTAS
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="h-14 px-8 font-mono border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300">
-                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
-                    VER TALLER
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
+                  <Link to="/auth?mode=signup">
+                    CREAR MI CUENTA
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
               </div>
 
