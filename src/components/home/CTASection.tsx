@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Users, ExternalLink } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Users } from 'lucide-react';
 
 interface CTASectionProps {
   isAuthenticated: boolean;
@@ -36,15 +36,15 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.06)_1px,transparent_1px)] bg-[size:30px_30px]" />
 
             <div className="relative z-10 text-center">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// INSCRIPCIÓN</span>
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// ACCESO</span>
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-4 mb-6">
-                ¿Listo para<br />
-                <span className="text-gradient glow-text">transformar tu productividad?</span>
+                Accede a tu<br />
+                <span className="text-gradient glow-text">portal de productividad</span>
               </h2>
 
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-                Únete a más de 122 profesionales que ya dominan las herramientas de IA.
+                Inicia sesión para acceder a todos los recursos, workflows y la comunidad.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-10 font-mono">
@@ -62,23 +62,17 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg" className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 font-mono group shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105">
-                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
+                  <Link to="/auth">
                     <span className="flex items-center">
-                      RESERVAR CUPO
+                      INICIAR SESIÓN
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
-                  </a>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="h-14 px-8 font-mono border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300">
-                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
-                    VER TALLER
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
+                  </Link>
                 </Button>
               </div>
 
               <p className="text-xs text-foreground/50 mt-4 font-mono">
-                Sin tarjeta de crédito • Acceso inmediato
+                Acceso exclusivo para participantes del taller
               </p>
             </div>
           </div>
