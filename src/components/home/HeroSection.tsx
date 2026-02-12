@@ -2,19 +2,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket } from 'lucide-react';
+import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket, ExternalLink } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 
 interface HeroSectionProps {
   isAuthenticated: boolean;
 }
-
-const floatingIcons = [
-  { icon: Brain, delay: 0, x: '10%', y: '20%' },
-  { icon: Zap, delay: 0.5, x: '85%', y: '15%' },
-  { icon: Rocket, delay: 1, x: '75%', y: '75%' },
-  { icon: Terminal, delay: 1.5, x: '15%', y: '70%' },
-];
 
 // Generate random particles
 const generateParticles = (count: number) => {
@@ -29,20 +22,28 @@ const generateParticles = (count: number) => {
   }));
 };
 
+// Circuit corner decoration (matching vdrc.cl)
+function CircuitCorner({ position }: { position: 'tl' | 'tr' | 'bl' | 'br' }) {
+  const posClass = {
+    tl: 'top-4 left-4',
+    tr: 'top-4 right-4 rotate-90',
+    bl: 'bottom-4 left-4 -rotate-90',
+    br: 'bottom-4 right-4 rotate-180',
+  }[position];
+
+  return (
+    <div className={`absolute ${posClass} w-12 h-12 hidden md:block pointer-events-none`}>
+      <div className="absolute top-0 left-0 w-full h-px bg-primary/30" />
+      <div className="absolute top-0 left-0 w-px h-full bg-primary/30" />
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/60" />
+    </div>
+  );
+}
+
 // Typing effect component
 function TypingLine({ 
-  text, 
-  delay, 
-  isCommand = false,
-  prefix = '',
-  className = ''
-}: { 
-  text: string; 
-  delay: number; 
-  isCommand?: boolean;
-  prefix?: string;
-  className?: string;
-}) {
+  text, delay, isCommand = false, prefix = '', className = ''
+}: { text: string; delay: number; isCommand?: boolean; prefix?: string; className?: string }) {
   const [displayedText, setDisplayedText] = useState('');
   const [showCursor, setShowCursor] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -51,7 +52,6 @@ function TypingLine({
     const startTimer = setTimeout(() => {
       setShowCursor(true);
       let currentIndex = 0;
-      
       const typeInterval = setInterval(() => {
         if (currentIndex <= text.length) {
           setDisplayedText(text.slice(0, currentIndex));
@@ -62,10 +62,8 @@ function TypingLine({
           setIsComplete(true);
         }
       }, isCommand ? 80 : 30);
-
       return () => clearInterval(typeInterval);
     }, delay);
-
     return () => clearTimeout(startTimer);
   }, [text, delay, isCommand]);
 
@@ -91,19 +89,18 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           background: 'linear-gradient(135deg, hsl(142, 76%, 36%) 0%, hsl(180, 100%, 35%) 25%, hsl(270, 70%, 45%) 50%, hsl(180, 100%, 35%) 75%, hsl(142, 76%, 36%) 100%)',
           backgroundSize: '400% 400%',
         }}
-        animate={{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          repeatType: 'loop',
-          ease: 'linear',
-        }}
+        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+        transition={{ duration: 15, repeat: Infinity, repeatType: 'loop', ease: 'linear' }}
       />
 
-      {/* Dark overlay for better contrast */}
-      <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-background/75 backdrop-blur-[2px]" />
+
+      {/* Circuit corners */}
+      <CircuitCorner position="tl" />
+      <CircuitCorner position="tr" />
+      <CircuitCorner position="bl" />
+      <CircuitCorner position="br" />
 
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -123,71 +120,43 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               y: [0, -30, 0],
               x: [0, Math.random() * 20 - 10, 0],
               opacity: [particle.opacity, particle.opacity * 1.5, particle.opacity],
-              scale: [1, 1.2, 1],
             }}
-            transition={{
-              duration: particle.duration,
-              delay: particle.delay,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            transition={{ duration: particle.duration, delay: particle.delay, repeat: Infinity, ease: 'easeInOut' }}
           />
         ))}
       </div>
 
-      {/* Animated background orbs */}
+      {/* Background orbs */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
-        />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[100px]"
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent rounded-full"
-        />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}
+          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]" />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5, delay: 0.3 }}
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[100px]" />
       </div>
 
-      {/* Floating icons */}
-      {floatingIcons.map(({ icon: Icon, delay, x, y }, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.2, y: 0 }}
-          transition={{ duration: 1, delay }}
-          className="absolute hidden md:block"
-          style={{ left: x, top: y }}
-        >
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Icon className="w-12 h-12 text-primary/40" />
-          </motion.div>
-        </motion.div>
-      ))}
-
-      {/* Grid pattern overlay */}
+      {/* Grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.05)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Glassmorphism container */}
         <motion.div 
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-background/40 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5"
+          className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-background/40 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5 relative"
         >
-          {/* Animated badge */}
+          {/* /// TRANSMISSION label - vdrc.cl style */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="absolute top-4 left-6 md:top-6 md:left-8"
+          >
+            <span className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-primary/70">
+              /// PORTAL_COMUNIDAD
+            </span>
+          </motion.div>
+
+          {/* System version badge - vdrc.cl/talleres style */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -195,82 +164,65 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             <Badge 
               variant="outline" 
-              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary hover:bg-primary/20 hover:shadow-lg hover:shadow-primary/20 cursor-default"
+              className="px-4 py-2 mb-8 border-primary/50 bg-primary/10 backdrop-blur-sm font-mono text-xs tracking-wider"
             >
-              <Sparkles className="w-4 h-4 mr-2 text-primary animate-pulse" />
-              <span className="text-sm font-medium text-foreground">Taller Productividad Digital con IA</span>
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse mr-2 inline-block" />
+              SYSTEM v2.0 // COMMUNITY EDITION
             </Badge>
           </motion.div>
 
-          {/* Main heading with stagger animation */}
+          {/* Main heading */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-bold mb-6 leading-[0.9] tracking-tight">
-              <motion.span 
-                className="block text-foreground drop-shadow-lg"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                Domina la
+              <motion.span className="block text-foreground" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.6 }}>
+                ACTUALIZA TU
               </motion.span>
-              <motion.span 
-                className="block text-gradient glow-text mt-2"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.8, ease: 'easeOut' }}
-              >
-                Productividad
-              </motion.span>
-              <motion.span 
-                className="block text-foreground/90 text-3xl sm:text-4xl md:text-5xl mt-4 drop-shadow-md"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-              >
-                con IA
+              <motion.span className="block text-gradient glow-text mt-2" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.8 }}>
+                PRODUCTIVIDAD
               </motion.span>
             </h1>
           </motion.div>
 
-          {/* Subheading */}
-          <motion.p
+          {/* Subheading with green left bar - vdrc.cl style */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed font-medium"
+            className="max-w-3xl mx-auto mb-8 flex items-start gap-4 text-left md:text-center md:block"
           >
-            Tu hub exclusivo con 
-            <span className="text-primary font-bold"> workflows interactivos</span>, 
-            <span className="text-accent font-bold"> herramientas IA </span>
-            y una comunidad de productividad digital.
-          </motion.p>
+            <div className="w-1 h-16 bg-primary rounded-full shrink-0 md:hidden" />
+            <p className="text-lg sm:text-xl text-foreground/80 leading-relaxed">
+              Tu hub exclusivo con{' '}
+              <span className="text-primary font-bold">workflows interactivos</span>,{' '}
+              <span className="text-accent font-bold">herramientas IA</span>{' '}
+              y una comunidad de productividad digital.
+            </p>
+          </motion.div>
 
-          {/* Social proof badge */}
+          {/* Social proof - vdrc.cl/talleres style */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.3 }}
-            className="flex items-center justify-center gap-4 mb-10"
+            className="flex items-center justify-center gap-6 mb-10 font-mono"
           >
-            <div className="flex -space-x-2">
-              {['🧑‍💻', '👩‍🔬', '🧑‍🎨', '👨‍💼', '👩‍💻'].map((emoji, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.4 + i * 0.1 }}
-                  className="w-8 h-8 rounded-full bg-card border-2 border-background flex items-center justify-center text-sm"
-                >
-                  {emoji}
-                </motion.div>
-              ))}
+            <div className="text-center">
+              <div className="text-2xl md:text-3xl font-bold text-primary">+122</div>
+              <div className="text-[10px] tracking-widest uppercase text-muted-foreground">[PROFESIONALES]</div>
             </div>
-            <div className="text-sm text-foreground/60">
-              <span className="text-primary font-semibold">+200</span> profesionales ya aprenden
+            <div className="w-px h-10 bg-primary/30" />
+            <div className="text-center">
+              <div className="text-2xl md:text-3xl font-bold text-primary">11</div>
+              <div className="text-[10px] tracking-widest uppercase text-muted-foreground">[GENERACIONES]</div>
+            </div>
+            <div className="w-px h-10 bg-primary/30" />
+            <div className="text-center">
+              <div className="text-2xl md:text-3xl font-bold text-primary">+50</div>
+              <div className="text-[10px] tracking-widest uppercase text-muted-foreground">[CLASES]</div>
             </div>
           </motion.div>
 
@@ -283,61 +235,58 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             {isAuthenticated ? (
               <>
-                <Button 
-                  asChild 
-                  size="lg" 
-                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 animate-[pulse-glow_2s_ease-in-out_infinite]"
-                >
-                  <Link to="/workflows">
+                <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40">
+                  <Link to="/community">
                     <span className="relative z-10 flex items-center">
-                      Explorar Workflows
-                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                      ENTRAR A COMUNIDAD
+                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </Link>
                 </Button>
-                <Button 
-                  asChild 
-                  variant="outline" 
-                  size="lg"
-                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 text-foreground transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110"
-                >
-                  <Link to="/generations">
-                    Ver Recursos
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 font-mono transition-all duration-300 hover:scale-105">
+                  <Link to="/workflows">
+                    EXPLORAR WORKFLOWS
                   </Link>
                 </Button>
               </>
             ) : (
               <>
-                <Button 
-                  asChild 
-                  size="lg" 
-                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 animate-[pulse-glow_2s_ease-in-out_infinite]"
-                >
+                <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40">
                   <Link to="/auth?mode=signup">
                     <span className="relative z-10 flex items-center">
-                      Comenzar Ahora
-                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                      RESERVAR CUPO
+                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </Link>
                 </Button>
-                <Button 
-                  asChild 
-                  variant="outline" 
-                  size="lg"
-                  className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 text-foreground transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110"
-                >
-                  <Link to="/auth">
-                    Iniciar Sesión
-                  </Link>
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 font-mono transition-all duration-300 hover:scale-105">
+                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
+                    VER TALLER
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </a>
                 </Button>
               </>
             )}
           </motion.div>
+
+          {/* Cross-site link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8 }}
+            className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground font-mono"
+          >
+            <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
+              vdrc.cl <ExternalLink className="w-3 h-3" />
+            </a>
+            <span className="text-primary/30">•</span>
+            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
+              Inscripciones <ExternalLink className="w-3 h-3" />
+            </a>
+          </motion.div>
         </motion.div>
 
-        {/* Terminal with realistic typing effect - hidden on mobile */}
+        {/* Terminal */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -346,53 +295,18 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         >
           <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-primary/30 transition-all duration-500 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
-              <motion.div 
-                className="w-3 h-3 rounded-full bg-red-500/80"
-                whileHover={{ scale: 1.2 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              />
-              <motion.div 
-                className="w-3 h-3 rounded-full bg-yellow-500/80"
-                whileHover={{ scale: 1.2 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              />
-              <motion.div 
-                className="w-3 h-3 rounded-full bg-green-500/80"
-                whileHover={{ scale: 1.2 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              />
-              <span className="text-muted-foreground text-xs ml-2">terminal</span>
+              <div className="w-3 h-3 rounded-full bg-red-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              <span className="text-muted-foreground text-xs ml-2">vdrc://terminal</span>
               <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
             </div>
             <div className="space-y-1 min-h-[120px]">
-              <TypingLine 
-                text=" productividad --init" 
-                prefix="$ " 
-                delay={2000} 
-                isCommand 
-                className="text-muted-foreground"
-              />
-              <TypingLine 
-                text="✓ Workflows cargados" 
-                delay={3500} 
-                className="text-green-400"
-              />
-              <TypingLine 
-                text="✓ Herramientas IA listas" 
-                delay={4200} 
-                className="text-green-400"
-              />
-              <TypingLine 
-                text="✓ Comunidad conectada" 
-                delay={5000} 
-                className="text-green-400"
-              />
-              <motion.p 
-                className="text-muted-foreground"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 6 }}
-              >
+              <TypingLine text=" vdrc --init community" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
+              <TypingLine text="✓ Espacios cargados" delay={3500} className="text-green-400" />
+              <TypingLine text="✓ Workflows activos" delay={4200} className="text-green-400" />
+              <TypingLine text="✓ Comunidad conectada" delay={5000} className="text-green-400" />
+              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 6 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
               </motion.p>
             </div>
@@ -400,19 +314,19 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - vdrc.cl style */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-8 md:left-12"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs font-mono text-foreground/50">scroll</span>
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-primary/70">SCROLL</span>
           <div className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent" />
         </motion.div>
       </motion.div>
