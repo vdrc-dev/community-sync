@@ -636,6 +636,235 @@ export type Database = {
         }
         Relationships: []
       }
+      space_members: {
+        Row: {
+          id: string
+          joined_at: string | null
+          notifications_enabled: boolean | null
+          role: string | null
+          space_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string | null
+          notifications_enabled?: boolean | null
+          role?: string | null
+          space_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string | null
+          notifications_enabled?: boolean | null
+          role?: string | null
+          space_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_members_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      space_post_comments: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string | null
+          id: string
+          likes_count: number | null
+          parent_comment_id: string | null
+          post_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_post_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "space_post_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "space_post_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "space_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      space_post_likes: {
+        Row: {
+          comment_id: string | null
+          created_at: string | null
+          id: string
+          post_id: string | null
+          user_id: string
+        }
+        Insert: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          post_id?: string | null
+          user_id: string
+        }
+        Update: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          post_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_post_likes_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "space_post_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "space_post_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "space_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      space_posts: {
+        Row: {
+          author_id: string
+          comments_count: number | null
+          content: string
+          created_at: string | null
+          id: string
+          is_locked: boolean | null
+          is_pinned: boolean | null
+          likes_count: number | null
+          post_type: string | null
+          space_id: string
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          author_id: string
+          comments_count?: number | null
+          content: string
+          created_at?: string | null
+          id?: string
+          is_locked?: boolean | null
+          is_pinned?: boolean | null
+          likes_count?: number | null
+          post_type?: string | null
+          space_id: string
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string
+          comments_count?: number | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_locked?: boolean | null
+          is_pinned?: boolean | null
+          likes_count?: number | null
+          post_type?: string | null
+          space_id?: string
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_posts_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      spaces: {
+        Row: {
+          cover_image_url: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          icon_emoji: string | null
+          id: string
+          is_default: boolean | null
+          is_private: boolean | null
+          member_count: number | null
+          name: string
+          post_count: number | null
+          slug: string
+          sort_order: number | null
+          space_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          cover_image_url?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          is_default?: boolean | null
+          is_private?: boolean | null
+          member_count?: number | null
+          name: string
+          post_count?: number | null
+          slug: string
+          sort_order?: number | null
+          space_type?: string
+          updated_at?: string | null
+        }
+        Update: {
+          cover_image_url?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          is_default?: boolean | null
+          is_private?: boolean | null
+          member_count?: number | null
+          name?: string
+          post_count?: number | null
+          slug?: string
+          sort_order?: number | null
+          space_type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       tool_votes: {
         Row: {
           created_at: string | null
