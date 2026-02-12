@@ -18,6 +18,7 @@ const showcaseWorkflows = [
     steps: 4,
     timeSaved: '15 min',
     category: 'Comunicación',
+    color: 'from-blue-500/20 to-cyan-500/10',
   },
   {
     title: 'Análisis de Competencia',
@@ -25,6 +26,7 @@ const showcaseWorkflows = [
     steps: 5,
     timeSaved: '45 min',
     category: 'Investigación',
+    color: 'from-purple-500/20 to-pink-500/10',
   },
   {
     title: 'Documentación de Código',
@@ -32,6 +34,7 @@ const showcaseWorkflows = [
     steps: 3,
     timeSaved: '30 min',
     category: 'Desarrollo',
+    color: 'from-primary/20 to-accent/10',
   },
 ];
 
@@ -115,7 +118,7 @@ export function WorkflowShowcase() {
                 className="group p-5 rounded-xl glass border-border/50 hover:border-primary/30 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${workflow.color} border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                     {workflow.emoji}
                   </div>
                   
