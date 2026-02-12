@@ -15,19 +15,22 @@ import {
   Search, 
   MessageSquare, 
   Bookmark,
-  Star,
   Filter,
   Sparkles,
   Plus,
-  BookOpen
+  BookOpen,
+  Code2,
+  BarChart3,
+  Palette,
+  Layers
 } from 'lucide-react';
 
 const CATEGORIES = [
-  { value: 'all', label: 'Todos', icon: Sparkles },
+  { value: 'all', label: 'Todos', icon: Layers },
   { value: 'writing', label: 'Escritura', icon: BookOpen },
-  { value: 'code', label: 'Código', icon: BookOpen },
-  { value: 'analysis', label: 'Análisis', icon: BookOpen },
-  { value: 'creative', label: 'Creatividad', icon: BookOpen },
+  { value: 'code', label: 'Código', icon: Code2 },
+  { value: 'analysis', label: 'Análisis', icon: BarChart3 },
+  { value: 'creative', label: 'Creatividad', icon: Palette },
 ];
 
 export default function Prompts() {
@@ -85,6 +88,14 @@ export default function Prompts() {
             icon: <MessageSquare className="w-3 h-3" /> 
           }}
           breadcrumbs={[{ label: 'Prompts' }]}
+          actions={
+            featuredCount > 0 ? (
+              <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20 gap-1">
+                <Sparkles className="w-3 h-3" />
+                {featuredCount} destacados
+              </Badge>
+            ) : undefined
+          }
         />
 
         {/* Search and Filters */}
@@ -101,7 +112,7 @@ export default function Prompts() {
                 placeholder="Buscar prompts..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-muted/50"
+                className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50"
               />
             </div>
 
@@ -126,7 +137,9 @@ export default function Prompts() {
                         variant={selectedCategory === cat.value ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setSelectedCategory(cat.value)}
+                        className="gap-1.5"
                       >
+                        <cat.icon className="w-3.5 h-3.5" />
                         {cat.label}
                       </Button>
                     ))}
@@ -141,44 +154,49 @@ export default function Prompts() {
             </Sheet>
           </div>
 
-          {/* Desktop Category filters */}
+          {/* Desktop Category pills with enhanced styling */}
           <div className="hidden sm:flex gap-2 overflow-x-auto pb-2">
             {CATEGORIES.map((cat) => (
-              <Button
-                key={cat.value}
-                variant={selectedCategory === cat.value ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(cat.value)}
-                className="shrink-0 gap-1.5"
-              >
-                <cat.icon className="h-3.5 w-3.5" />
-                {cat.label}
-              </Button>
+              <motion.div key={cat.value} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Button
+                  variant={selectedCategory === cat.value ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedCategory(cat.value)}
+                  className={`shrink-0 gap-1.5 transition-all duration-300 ${
+                    selectedCategory === cat.value 
+                      ? 'shadow-lg shadow-primary/20' 
+                      : 'hover:border-primary/30 hover:bg-primary/5'
+                  }`}
+                >
+                  <cat.icon className="h-3.5 w-3.5" />
+                  {cat.label}
+                </Button>
+              </motion.div>
             ))}
           </div>
         </motion.div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-          <TabsList className="bg-muted/50 p-1">
-            <TabsTrigger value="all" className="gap-2">
+          <TabsList className="bg-muted/50 p-1 border border-border/30">
+            <TabsTrigger value="all" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               <Sparkles className="w-3 h-3" />
               Todos
               <Badge variant="secondary" className="ml-1 bg-background/50 text-xs">
                 {filteredPrompts?.length || 0}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="saved" className="gap-2">
+            <TabsTrigger value="saved" className="gap-2 data-[state=active]:bg-yellow-500/10 data-[state=active]:text-yellow-400">
               <Bookmark className="w-3 h-3" />
               <span className="hidden sm:inline">Guardados</span>
               {savedPromptDetails.length > 0 && (
-                <Badge variant="secondary" className="ml-1 bg-primary/20 text-primary text-xs">
+                <Badge variant="secondary" className="ml-1 bg-yellow-500/20 text-yellow-400 text-xs">
                   {savedPromptDetails.length}
                 </Badge>
               )}
             </TabsTrigger>
             {user && (
-              <TabsTrigger value="mine" className="gap-2">
+              <TabsTrigger value="mine" className="gap-2 data-[state=active]:bg-accent/10 data-[state=active]:text-accent">
                 <Plus className="w-3 h-3" />
                 <span className="hidden sm:inline">Mis prompts</span>
                 {myPrompts && myPrompts.length > 0 && (
@@ -193,7 +211,7 @@ export default function Prompts() {
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 mt-6">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-48 rounded-xl bg-muted/50 animate-pulse" />
+                <div key={i} className="h-48 rounded-xl skeleton-shimmer" />
               ))}
             </div>
           ) : (
