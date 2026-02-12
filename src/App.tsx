@@ -28,6 +28,8 @@ const MyToolsPage = lazy(() => import("./pages/MyTools"));
 const Playground = lazy(() => import("./pages/Playground"));
 const Workflows = lazy(() => import("./pages/Workflows"));
 const WorkflowDetail = lazy(() => import("./pages/WorkflowDetail"));
+const Community = lazy(() => import("./pages/Community"));
+const CommunitySpace = lazy(() => import("./pages/CommunitySpace"));
 const AdminPresentations = lazy(() => import("./pages/AdminPresentations"));
 const PresentationView = lazy(() => import("./pages/PresentationView"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -78,6 +80,9 @@ const App = () => (
               <Route path="/playground" element={<Playground />} />
               <Route path="/workflows" element={<Workflows />} />
               <Route path="/workflows/:id" element={<WorkflowDetail />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/community/:slug" element={<CommunitySpace />} />
+              <Route path="/community/:slug/post/:postId" element={<CommunitySpace />} />
               <Route path="/admin/presentations" element={<AdminPresentations />} />
               <Route path="/presentations/:id?" element={<PresentationView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

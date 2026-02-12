@@ -167,7 +167,7 @@ export function Header() {
     { href: '/tools', label: 'Herramientas', icon: Wrench },
     { href: '/workflows', label: 'Workflows', icon: Workflow },
     { href: '/playground', label: 'Lab IA', icon: Sparkles },
-    { href: '/forum', label: 'Comunidad', icon: Users },
+    { href: '/community', label: 'Comunidad', icon: Users },
   ], []);
 
   const quickLinks = useMemo(() => [

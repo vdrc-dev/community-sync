@@ -21,7 +21,7 @@ const navItems = [
 
 const moreLinks = [
   { label: 'Playground IA', href: '/playground' },
-  { label: 'Comunidad', href: '/forum' },
+  { label: 'Comunidad', href: '/community' },
   { label: 'Prompts', href: '/prompts' },
   { label: 'Leaderboard', href: '/leaderboard' },
   { label: 'Calendario', href: '/calendar' },
