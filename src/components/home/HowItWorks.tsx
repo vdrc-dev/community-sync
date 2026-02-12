@@ -7,8 +7,8 @@ const steps = [
   {
     number: '01',
     icon: UserPlus,
-    title: 'Crea tu cuenta',
-    description: 'Regístrate gratis y accede a todos los recursos del taller. Sin tarjeta de crédito.',
+    title: 'Inicia sesión',
+    description: 'Accede con tu cuenta de participante y entra a tu portal personalizado.',
     gradient: 'from-primary to-emerald-400',
     glowColor: 'hsl(142, 76%, 50%)',
   },
@@ -141,10 +141,10 @@ export function HowItWorks() {
           className="text-center mt-16"
         >
           <Button asChild size="lg" className="h-14 px-8 text-lg glow-primary">
-            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
-              Reservar cupo
+            <Link to="/auth">
+              Iniciar sesión
               <ArrowRight className="w-5 h-5 ml-2" />
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

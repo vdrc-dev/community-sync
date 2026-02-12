@@ -252,18 +252,12 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             ) : (
               <>
                 <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/40">
-                  <Link to="/auth?mode=signup">
+                  <Link to="/auth">
                     <span className="relative z-10 flex items-center">
-                      RESERVAR CUPO
+                      INICIAR SESIÓN
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-foreground/20 bg-background/50 hover:border-primary hover:bg-primary/10 font-mono transition-all duration-300 hover:scale-105">
-                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
-                    VER TALLER
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
                 </Button>
               </>
             )}
@@ -278,10 +272,6 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
               vdrc.cl <ExternalLink className="w-3 h-3" />
-            </a>
-            <span className="text-primary/30">•</span>
-            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
-              Inscripciones <ExternalLink className="w-3 h-3" />
             </a>
           </motion.div>
         </motion.div>
