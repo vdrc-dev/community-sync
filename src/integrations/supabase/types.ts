@@ -587,6 +587,39 @@ export type Database = {
           },
         ]
       }
+      module_presentations: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          module_number: number
+          slides: Json
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          module_number: number
+          slides?: Json
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          module_number?: number
+          slides?: Json
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       invitations: {
         Row: {
           accepted_at: string | null

@@ -92,7 +92,7 @@ export function HowItWorks() {
                 className="relative group"
               >
                 {/* Step card */}
-                <div className="relative p-7 rounded-2xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 text-center h-full">
+                <div className="glass glass-specular relative p-7 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 text-center h-full">
                   {/* Hover glow */}
                   <motion.div
                     className={`absolute -inset-[1px] rounded-2xl bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-100 blur-md transition-all duration-500`}

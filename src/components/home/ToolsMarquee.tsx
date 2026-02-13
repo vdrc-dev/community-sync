@@ -47,7 +47,7 @@ export function ToolsMarquee() {
 
   return (
     <section
-      className="py-16 relative overflow-hidden border-y border-border/20"
+      className="py-16 relative overflow-hidden border-y border-white/[0.04]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -80,7 +80,7 @@ export function ToolsMarquee() {
           {doubledTools.map((tool, i) => (
             <div
               key={`${tool.name}-${i}`}
-              className="flex items-center gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl bg-card/50 border border-border/30 backdrop-blur-sm hover:border-primary/30 hover:bg-primary/5 hover:shadow-md hover:shadow-primary/5 transition-all duration-300 shrink-0"
+              className="flex items-center gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all duration-300 shrink-0"
             >
               <span className="text-lg sm:text-xl">{tool.emoji}</span>
               <span className="text-xs sm:text-sm font-medium text-foreground/80">{tool.name}</span>
@@ -105,7 +105,7 @@ export function ToolsMarquee() {
           {[...doubledTools].reverse().map((tool, i) => (
             <div
               key={`rev-${tool.name}-${i}`}
-              className="flex items-center gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl bg-card/50 border border-border/30 backdrop-blur-sm hover:border-accent/30 hover:bg-accent/5 hover:shadow-md hover:shadow-accent/5 transition-all duration-300 shrink-0"
+              className="flex items-center gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl glass-pill hover:border-accent/15 hover:bg-white/[0.06] transition-all duration-300 shrink-0"
             >
               <span className="text-lg sm:text-xl">{tool.emoji}</span>
               <span className="text-xs sm:text-sm font-medium text-foreground/80">{tool.name}</span>

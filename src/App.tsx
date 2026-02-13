@@ -35,6 +35,7 @@ const Chat = lazy(() => import("./pages/Chat"));
 const AdminPresentations = lazy(() => import("./pages/AdminPresentations"));
 const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const PresentationView = lazy(() => import("./pages/PresentationView"));
+const ModulePresentationView = lazy(() => import("./pages/ModulePresentationView"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Optimized QueryClient with aggressive caching
@@ -91,6 +92,7 @@ const App = () => (
               <Route path="/admin/presentations" element={<AdminPresentations />} />
               <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/presentations/:id?" element={<PresentationView />} />
+              <Route path="/presentations/module/:number" element={<ModulePresentationView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

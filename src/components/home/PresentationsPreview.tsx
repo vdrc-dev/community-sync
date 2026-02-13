@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Presentation, ExternalLink, Layers } from 'lucide-react';
+import { Presentation, ArrowRight, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const modules = [
@@ -71,11 +72,8 @@ export function PresentationsPreview() {
         {/* Module cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {modules.map((mod, index) => (
-            <motion.a
+            <motion.div
               key={mod.number}
-              href="https://vdrc.lovable.app"
-              target="_blank"
-              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -83,30 +81,32 @@ export function PresentationsPreview() {
               whileHover={{ scale: 1.03, y: -4 }}
               className="group relative"
             >
-              <div className={`absolute -inset-px rounded-xl bg-gradient-to-br ${mod.color} opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500`} />
+              <Link to={`/presentations/module/${mod.number}`}>
+                <div className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${mod.color} opacity-0 group-hover:opacity-100 blur-md transition-all duration-500`} />
 
-              <div className={`relative h-full p-5 sm:p-6 rounded-xl bg-card/80 backdrop-blur-xl border ${mod.borderColor} transition-all duration-500 overflow-hidden`}>
-                <span className="font-mono text-xs tracking-widest text-muted-foreground/40 mb-3 block">
-                  Módulo {mod.number}
-                </span>
+                <div className={`glass glass-specular relative h-full p-5 sm:p-6 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 overflow-hidden`}>
+                  <span className="font-mono text-xs tracking-widest text-muted-foreground/40 mb-3 block">
+                    Módulo {mod.number}
+                  </span>
 
-                <div className="text-2xl sm:text-3xl mb-3">{mod.icon}</div>
+                  <div className="text-2xl sm:text-3xl mb-3">{mod.icon}</div>
 
-                <h3 className={`font-semibold text-sm sm:text-base mb-2 ${mod.hoverTitle} transition-colors`}>
-                  {mod.title}
-                </h3>
+                  <h3 className={`font-semibold text-sm sm:text-base mb-2 ${mod.hoverTitle} transition-colors`}>
+                    {mod.title}
+                  </h3>
 
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-3">
-                  {mod.description}
-                </p>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-3">
+                    {mod.description}
+                  </p>
 
-                <div className={`flex items-center gap-1.5 text-xs font-medium ${mod.textColor} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}>
-                  <Presentation className="w-3.5 h-3.5" />
-                  <span>Ver slides</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <div className={`flex items-center gap-1.5 text-xs font-medium ${mod.textColor} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}>
+                    <Presentation className="w-3.5 h-3.5" />
+                    <span>Ver slides</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </div>
                 </div>
-              </div>
-            </motion.a>
+              </Link>
+            </motion.div>
           ))}
         </div>
 
@@ -124,11 +124,11 @@ export function PresentationsPreview() {
             variant="outline"
             className="h-12 px-6 border-purple-500/30 hover:border-purple-500/60 hover:bg-purple-500/5 font-mono transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10 group"
           >
-            <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer">
+            <Link to="/presentations">
               <Layers className="w-4 h-4 mr-2 text-purple-400" />
               VER TODAS LAS PRESENTACIONES
-              <ExternalLink className="w-3.5 h-3.5 ml-2 opacity-60 group-hover:opacity-100 transition-opacity" />
-            </a>
+              <ArrowRight className="w-3.5 h-3.5 ml-2 opacity-60 group-hover:opacity-100 transition-opacity" />
+            </Link>
           </Button>
         </motion.div>
       </div>

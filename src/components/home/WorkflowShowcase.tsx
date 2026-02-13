@@ -138,7 +138,7 @@ export function WorkflowShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="group p-5 rounded-xl glass border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer"
+                className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-300 cursor-pointer"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${workflow.color} border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
@@ -170,7 +170,7 @@ export function WorkflowShowcase() {
             
             <Link
               to="/workflows"
-              className="group block p-4 rounded-xl border border-dashed border-primary/20 text-center text-primary/70 hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+              className="group block p-4 rounded-2xl border border-dashed border-white/[0.06] text-center text-primary/70 hover:text-primary hover:border-primary/20 hover:bg-primary/5 transition-all duration-300"
             >
               <span className="text-sm font-mono">Ver todos los workflows del taller</span>
               <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

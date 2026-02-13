@@ -151,7 +151,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-card/60 backdrop-blur-xl border border-border/30 relative"
+          className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl glass glass-specular relative"
         >
           {/* /// TRANSMISSION label */}
           <motion.div
@@ -176,7 +176,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
                 <Badge
                   variant="outline"
-                  className="px-4 py-2 border-border/40 bg-card/50 backdrop-blur-sm font-mono text-xs tracking-wider hover:bg-card/80 hover:border-primary/20 transition-all cursor-pointer group"
+                  className="px-4 py-2 border-white/[0.06] bg-white/[0.04] backdrop-blur-xl font-mono text-xs tracking-wider hover:bg-white/[0.08] hover:border-primary/20 transition-all cursor-pointer group rounded-xl"
                 >
                   <Rocket className="w-3 h-3 mr-2 text-accent group-hover:animate-bounce" />
                   GEN 11 // MARZO 2026 — INSCRIPCIONES ABIERTAS
@@ -185,7 +185,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             )}
             <Badge 
               variant="outline" 
-              className="px-4 py-2 border-border/40 bg-card/50 backdrop-blur-sm font-mono text-xs tracking-wider"
+              className="px-4 py-2 border-white/[0.06] bg-white/[0.04] backdrop-blur-xl font-mono text-xs tracking-wider rounded-xl"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse mr-2 inline-block" />
               10 GENERACIONES // +122 PROFESIONALES
@@ -267,7 +267,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                     </span>
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-border/50 bg-card/50 hover:border-primary/30 hover:bg-primary/5 font-mono transition-all duration-300">
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:border-primary/20 hover:bg-primary/5 font-mono transition-all duration-300 rounded-2xl">
                   <Link to="/workflows">
                     EXPLORAR WORKFLOWS
                   </Link>
@@ -311,9 +311,9 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               Talleres <ExternalLink className="w-3 h-3" />
             </a>
             <span className="text-border">|</span>
-            <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-purple-500/5">
-              Presentaciones <ExternalLink className="w-3 h-3" />
-            </a>
+            <Link to="/presentations" className="hover:text-purple-400 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-purple-500/5">
+              Presentaciones
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -324,8 +324,8 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-12 max-w-xl mx-auto hidden sm:block"
         >
-          <div className="glass-strong rounded-lg p-4 font-mono text-sm text-left border-border/40 transition-all duration-300 hover:border-border/60">
-            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/50">
+          <div className="glass-strong rounded-2xl p-4 font-mono text-sm text-left transition-all duration-300 hover:border-white/[0.1]">
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/[0.06]">
               <div className="w-3 h-3 rounded-full bg-red-500/80" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
               <div className="w-3 h-3 rounded-full bg-green-500/80" />

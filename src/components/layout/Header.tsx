@@ -151,9 +151,10 @@ export function Header() {
   
   // Scroll-based blur effect
   const { scrollY } = useScroll();
-  const headerBg = useTransform(scrollY, [0, 100], ['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)']);
-  const headerBlur = useTransform(scrollY, [0, 100], [8, 24]);
-  const headerBorder = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0.03)', 'rgba(255,255,255,0.08)']);
+  const headerBg = useTransform(scrollY, [0, 80], ['rgba(10,11,16,0)', 'rgba(10,11,16,0.6)']);
+  const headerBlur = useTransform(scrollY, [0, 80], [12, 60]);
+  const headerBorder = useTransform(scrollY, [0, 80], ['rgba(255,255,255,0)', 'rgba(255,255,255,0.07)']);
+  const headerShadow = useTransform(scrollY, [0, 80], ['0 0 0 transparent', '0 8px 32px rgba(0,0,0,0.2)']);
 
   const handleSignOut = useCallback(async () => {
     await signOut();
@@ -181,11 +182,14 @@ export function Header() {
 
   return (
     <motion.header 
-      className="fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      data-liquid-glass
       style={{
         backgroundColor: headerBg,
-        backdropFilter: `blur(${headerBlur}px) saturate(180%)`,
+        backdropFilter: `blur(${headerBlur}px) saturate(200%)`,
+        WebkitBackdropFilter: `blur(${headerBlur}px) saturate(200%)`,
         borderColor: headerBorder,
+        boxShadow: headerShadow,
       }}
     >
       <div className="container mx-auto px-4">
@@ -261,11 +265,10 @@ export function Header() {
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="rounded-lg hover:bg-purple-500/10 transition-colors">
-                  <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
+                  <PrefetchLink to="/presentations" className="flex items-center gap-2 w-full">
                     <Presentation className="w-4 h-4 text-purple-400" />
                     <span className="text-sm flex-1">Presentaciones</span>
-                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                  </a>
+                  </PrefetchLink>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -483,11 +486,10 @@ export function Header() {
                       vdrc.cl
                       <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
                     </a>
-                    <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all">
+                    <Link to="/presentations" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all">
                       <Presentation className="w-4 h-4" />
                       Presentaciones
-                      <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

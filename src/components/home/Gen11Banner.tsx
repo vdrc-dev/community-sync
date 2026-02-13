@@ -192,7 +192,7 @@ export function Gen11Banner() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-flex items-center gap-1 p-4 rounded-xl bg-card/60 backdrop-blur-xl border border-border/30"
+                    className="inline-flex items-center gap-1 p-4 rounded-2xl glass"
                   >
                     <Clock className="w-4 h-4 text-primary mr-2 shrink-0" />
                     {countdown.isLive ? (
@@ -255,8 +255,8 @@ export function Gen11Banner() {
                   transition={{ delay: 0.6, duration: 0.8 }}
                   className="hidden lg:block"
                 >
-                  <div className="glass-strong rounded-xl p-5 border-border/30 hover:border-border/50 transition-all duration-300">
-                    <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border/30">
+                  <div className="glass-strong rounded-2xl p-5 hover:border-white/[0.1] transition-all duration-300">
+                    <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/[0.06]">
                       <div className="w-3 h-3 rounded-full bg-red-500/70" />
                       <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
                       <div className="w-3 h-3 rounded-full bg-green-500/70" />

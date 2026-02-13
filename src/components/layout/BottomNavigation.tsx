@@ -43,7 +43,7 @@ export function BottomNavigation() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-bottom">
-      <div className="glass-strong border-t border-border/50">
+      <div className="glass-strong border-t border-white/[0.06]">
         <div className="flex items-center justify-around h-16 px-2">
           {navItems.map((item) => {
             const active = isActive(item.href);
@@ -77,7 +77,7 @@ export function BottomNavigation() {
                 <span className="text-[10px] mt-1 font-medium">Más</span>
               </button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="glass-strong border-t border-border/50 rounded-t-2xl">
+            <SheetContent side="bottom" className="glass-strong border-t border-white/[0.06] rounded-t-3xl">
               <SheetHeader className="pb-4">
                 <SheetTitle className="font-mono text-lg">Más opciones</SheetTitle>
               </SheetHeader>

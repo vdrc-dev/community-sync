@@ -64,7 +64,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     id: 'complete',
     title: '¡Listo para comenzar!',
-    description: 'Tip: usa ⌘K (o Ctrl+K) para navegar rápidamente a cualquier sección. Las presentaciones están en vdrc.lovable.app.',
+    description: 'Tip: usa ⌘K (o Ctrl+K) para navegar rápidamente a cualquier sección. Las presentaciones de cada módulo están integradas en el portal.',
     icon: <CheckCircle className="w-8 h-8 text-green-500" />,
     position: 'center',
   },

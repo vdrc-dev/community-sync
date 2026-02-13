@@ -76,7 +76,7 @@ export function TestimonialsSection() {
               transition={{ delay: i * 0.1, type: 'spring', stiffness: 80 }}
               className="group relative"
             >
-              <div className="relative h-full p-6 rounded-2xl bg-card/90 border border-border/40 group-hover:border-primary/25 transition-all duration-300">
+              <div className="glass glass-specular relative h-full p-6 rounded-2xl group-hover:border-white/[0.1] transition-all duration-300">
                 {/* Quote icon */}
                 <div className="mb-4">
                   <Sparkles className="w-5 h-5 text-primary/60" />

@@ -117,9 +117,9 @@ export function StatsSection() {
             >
               {/* No neon glow on hover */}
 
-              <div className="relative p-5 rounded-xl bg-card/80 backdrop-blur-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500 text-center">
+              <div className="glass glass-specular relative p-5 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 text-center">
                 {/* Icon */}
-                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-primary/8 border border-primary/12 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
                   <stat.icon className="w-5 h-5 text-primary" />
                 </div>
 
@@ -156,7 +156,7 @@ export function StatsSection() {
             rel="noopener noreferrer"
             className="group block max-w-md mx-auto"
           >
-            <div className="relative p-5 rounded-xl bg-gradient-to-r from-accent/10 via-primary/5 to-accent/10 backdrop-blur-xl border border-accent/30 hover:border-accent/60 transition-all duration-500 text-center">
+            <div className="glass-tinted relative p-5 rounded-2xl hover:border-white/[0.1] transition-all duration-500 text-center">
               <div className="flex items-center justify-center gap-3">
                 <Rocket className="w-5 h-5 text-accent" />
                 <span className="font-mono font-bold text-accent">Gen 11</span>

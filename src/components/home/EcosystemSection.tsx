@@ -34,7 +34,8 @@ const ecosystemNodes = [
     label: 'Presentaciones',
     title: 'Slides Interactivas',
     description: 'Slides interactivas de los 4 módulos: Higiene Digital, IA & Productividad, Presentaciones con IA y Vibe Coding — navegables y exportables.',
-    href: 'https://vdrc.lovable.app',
+    href: '/presentations',
+    isCurrent: true,
     icon: Presentation,
     color: 'purple',
     gradient: 'from-purple-500/20 to-purple-500/5',
@@ -94,7 +95,7 @@ export function EcosystemSection() {
                 whileHover={{ scale: 1.03, y: -6 }}
                 className={`group relative flex flex-col ${node.isCurrent ? 'cursor-default' : ''}`}
               >
-                <div className={`relative flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-card/80 backdrop-blur-xl border ${node.borderColor} transition-all duration-500 overflow-hidden`}>
+                <div className={`glass glass-specular relative flex flex-col h-full p-6 sm:p-8 rounded-2xl transition-all duration-500 overflow-hidden`}>
                   {/* Current indicator */}
                   {node.isCurrent && (
                     <div className="absolute top-3 right-3">
@@ -106,7 +107,7 @@ export function EcosystemSection() {
                   )}
 
                   {/* Icon */}
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${node.gradient} border ${node.borderColor} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${node.gradient} border border-white/[0.06] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
                     <node.icon className={`w-7 h-7 ${node.color === 'primary' ? 'text-primary' : node.color === 'accent' ? 'text-accent' : 'text-purple-400'}`} />
                   </div>
 

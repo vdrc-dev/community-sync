@@ -14,7 +14,7 @@ const footerLinks = {
   ecosistema: [
     { label: 'vdrc.cl', href: 'https://vdrc.cl', external: true },
     { label: 'Talleres', href: 'https://vdrc.cl/talleres', external: true },
-    { label: 'Presentaciones', href: 'https://vdrc.lovable.app', external: true },
+    { label: 'Presentaciones', href: '/presentations' },
     { label: 'Contacto', href: 'mailto:contacto@vdrc.cl', external: true },
   ],
 };
@@ -25,7 +25,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-border/30 overflow-hidden">
+    <footer className="relative border-t border-white/[0.04] overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
 
       <div className="container relative mx-auto px-4 py-16">
@@ -53,14 +53,14 @@ export function Footer() {
 
             {/* Ecosystem quick links */}
             <div className="flex items-center gap-3 pt-2">
-              <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors px-2.5 py-1.5 rounded-md border border-border/30 hover:border-primary/30">
+              <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors px-2.5 py-1.5 rounded-xl glass-pill hover:border-primary/15">
                 <Globe className="w-3 h-3" />
                 vdrc.cl
               </a>
-              <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-purple-400 transition-colors px-2.5 py-1.5 rounded-md border border-border/30 hover:border-purple-500/30">
+              <Link to="/presentations" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-purple-400 transition-colors px-2.5 py-1.5 rounded-xl glass-pill hover:border-purple-500/15">
                 <Presentation className="w-3 h-3" />
                 Presentaciones
-              </a>
+              </Link>
             </div>
           </motion.div>
 

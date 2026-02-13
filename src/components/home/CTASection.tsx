@@ -28,8 +28,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
             viewport={{ once: true }}
             className="relative max-w-3xl mx-auto"
           >
-            <div className="relative p-8 sm:p-10 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/50 overflow-hidden text-center">
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
+            <div className="glass glass-specular relative p-8 sm:p-10 rounded-3xl overflow-hidden text-center">
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px]" />
               <div className="relative z-10">
                 <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// SIGUE AFILANDO</span>
                 <h3 className="text-2xl sm:text-3xl font-mono font-bold mt-3 mb-4">
@@ -51,7 +51,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     >
                       <Link
                         to={item.to}
-                        className="inline-flex items-center gap-2 text-sm font-mono px-4 py-2.5 rounded-lg bg-primary/5 border border-primary/20 hover:border-primary/40 hover:bg-primary/10 transition-all duration-300 text-foreground/70 hover:text-foreground"
+                        className="inline-flex items-center gap-2 text-sm font-mono px-4 py-2.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all duration-300 text-foreground/70 hover:text-foreground"
                       >
                         <item.icon className="w-4 h-4 text-primary" />
                         {item.text}
@@ -59,16 +59,14 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     </motion.div>
                   ))}
                 </div>
-                <a
-                  href="https://vdrc.lovable.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/presentations"
                   className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Sparkles className="w-3 h-3" />
-                  Ver presentaciones en vdrc.lovable.app
+                  Ver presentaciones del taller
                   <ArrowRight className="w-3 h-3" />
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -88,8 +86,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
           viewport={{ once: true }}
           className="relative max-w-4xl mx-auto"
         >
-          <div className="relative p-8 sm:p-12 lg:p-16 rounded-2xl bg-card/80 border border-border/40 overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
+            <div className="glass glass-specular relative p-8 sm:p-12 lg:p-16 rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px]" />
 
             <div className="relative z-10 text-center">
               <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// BIENVENIDO A TUS AÑOS MÁS PRODUCTIVOS</span>
@@ -117,7 +115,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     whileInView="visible"
                     viewport={{ once: true }}
                     variants={badgeVariants}
-                    className="flex items-center gap-2 text-sm text-foreground/70 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20 hover:border-primary/30 hover:bg-primary/10 transition-all duration-300"
+                    className="flex items-center gap-2 text-sm text-foreground/70 px-3 py-2 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all duration-300"
                   >
                     <item.icon className="w-4 h-4 text-primary" />
                     {item.text}
@@ -126,7 +124,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button asChild size="lg" className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 font-mono group transition-all duration-300 hover:scale-[1.02]">
+                <Button asChild size="lg" className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 font-mono group transition-all duration-300 hover:scale-[1.02] rounded-2xl shadow-[0_4px_16px_rgba(34,197,94,0.2)]">
                   <Link to="/auth">
                     <span className="flex items-center">
                       INICIAR SESIÓN
@@ -134,7 +132,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     </span>
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-14 px-8 font-mono border-accent/30 hover:border-accent/50 hover:bg-accent/5 group">
+                <Button asChild size="lg" variant="outline" className="h-14 px-8 font-mono border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:border-accent/20 hover:bg-accent/5 group rounded-2xl">
                   <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
                     <Rocket className="w-4 h-4 mr-2 text-accent" />
                     GEN 11 — MARZO 2026

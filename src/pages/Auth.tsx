@@ -133,7 +133,7 @@ export default function Auth() {
           <span className="text-sm font-mono">Volver al inicio</span>
         </Link>
 
-        <Card className="glass-strong border-primary/10 shadow-2xl shadow-primary/5">
+        <Card className="glass-strong glass-specular rounded-3xl">
           <CardHeader className="text-center pb-2">
             {/* Logo */}
             <motion.div

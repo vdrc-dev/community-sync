@@ -47,11 +47,11 @@ export function FeaturesGrid() {
               className={feature.featured ? 'sm:col-span-2 lg:col-span-2' : ''}
             >
               <Link to={feature.href} className="group relative flex flex-col h-full">
-                {/* Glow border */}
-                <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/40 group-hover:to-accent/40 blur-sm transition-all duration-500" />
+                {/* Glow border on hover */}
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/20 group-hover:to-accent/10 blur-md transition-all duration-500 opacity-0 group-hover:opacity-100" />
 
                 <motion.div
-                  className="relative flex flex-col h-full p-6 rounded-xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 overflow-hidden"
+                  className="glass glass-specular relative flex flex-col h-full p-6 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 overflow-hidden"
                   whileHover={{ scale: 1.02, y: -4 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 >
@@ -60,7 +60,7 @@ export function FeaturesGrid() {
                     {String(index + 1).padStart(2, '0')}
                   </span>
 
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:border-primary/40 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-primary/8 border border-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/12 group-hover:border-primary/25 transition-all duration-300">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
 
