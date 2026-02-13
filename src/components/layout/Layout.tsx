@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen circuit-bg">
+    <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-16 pb-20 md:pb-0">
         {children}

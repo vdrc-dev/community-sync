@@ -70,7 +70,7 @@ export default function Chat() {
 
   if (!user) {
     return (
-      <div className="min-h-screen circuit-bg">
+      <div className="min-h-screen bg-background">
         <Header />
         <div className="flex items-center justify-center min-h-[80vh]">
           <div className="text-center space-y-4">

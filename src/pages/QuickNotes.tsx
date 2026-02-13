@@ -71,22 +71,15 @@ export default function QuickNotes() {
 
   return (
     <Layout>
-      <div className="container max-w-3xl mx-auto px-4 py-8">
+      <div className="page-container section-py max-w-3xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 flex items-center justify-center">
-              <PenLine className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60 block">/// NOTAS</span>
-              <h1 className="text-2xl sm:text-3xl font-mono font-bold">Notas <span className="text-gradient">Rapidas</span></h1>
-            </div>
-          </div>
+          <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60 block mb-1">/// NOTAS</span>
+          <h1 className="text-2xl sm:text-3xl font-mono font-bold mb-1">Notas <span className="text-gradient">Rápidas</span></h1>
           <p className="text-muted-foreground text-sm">
             Tu inbox de ideas capturadas al vuelo — presiona <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-xs font-mono">N</kbd> para capturar
           </p>

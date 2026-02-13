@@ -12,7 +12,6 @@ import { CTASection } from '@/components/home/CTASection';
 import { Footer } from '@/components/home/Footer';
 import { HowItWorks } from '@/components/home/HowItWorks';
 import { ToolsMarquee } from '@/components/home/ToolsMarquee';
-import { SectionDivider } from '@/components/home/SectionDivider';
 import { ActiveGenerationWidget } from '@/components/dashboard/ActiveGenerationWidget';
 import { EcosystemSection } from '@/components/home/EcosystemSection';
 import { PresentationsPreview } from '@/components/home/PresentationsPreview';
@@ -26,104 +25,76 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* ─── 1. HERO — Primera impresión ─── */}
+      {/* ━━━ HERO ━━━ Primera impresión */}
       <HeroSection isAuthenticated={!!user} />
 
-      {/* ─── 2. TOOLS MARQUEE — Prueba social inmediata ─── */}
+      {/* ━━━ TOOLS MARQUEE ━━━ Prueba social */}
       <ToolsMarquee />
 
-      {/* ═══════════════════════════════════════════════════
-          VISITOR FLOW: Explicar valor → mostrar producto → convencer
-          ═══════════════════════════════════════════════════ */}
-
-      {/* ─── 3. CÓMO FUNCIONA — Los 4 módulos (solo visitantes) ─── */}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          VISITANTE: Explicar → Mostrar → Convencer
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {!user && <HowItWorks />}
 
-      {/* ═══════════════════════════════════════════════════
-          AUTHENTICATED FLOW: Dashboard personalizado
-          ═══════════════════════════════════════════════════ */}
-
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          AUTENTICADO: Dashboard personalizado
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {user && (
-        <section className="py-8 relative">
+        <section className="py-8">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-6xl mx-auto"
-            >
-              <ActiveGenerationWidget />
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {user && (
-        <section className="py-8 relative">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-6xl mx-auto"
-            >
-              <div className="mb-6">
+            <div className="max-w-6xl mx-auto space-y-6">
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <ActiveGenerationWidget />
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                 <StreakDisplay />
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                <ContinueLearning />
-                <ChallengesList compact maxChallenges={2} />
-              </div>
-            </motion.div>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <ContinueLearning />
+                  <ChallengesList compact maxChallenges={2} />
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
       )}
 
-      {/* ═══════════════════════════════════════════════════
-          SHARED SECTIONS
-          ═══════════════════════════════════════════════════ */}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          SECCIONES COMPARTIDAS — flujo limpio
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
 
-      {/* ─── 4. GENERACIONES — Las 10 generaciones del taller ─── */}
+      {/* ━━━ GENERACIONES ━━━ Las 10 generaciones */}
       <GenerationsQuickGrid />
 
-      <SectionDivider variant="gradient" />
-
-      {/* ─── 5. PRESENTACIONES — Material de cada módulo ─── */}
+      {/* ━━━ PRESENTACIONES ━━━ Los 4 módulos */}
       <PresentationsPreview />
 
-      <SectionDivider variant="dots" />
-
-      {/* ─── 6. COMUNIDAD — Donde los participantes interactúan ─── */}
+      {/* ━━━ COMUNIDAD ━━━ Interacción entre participantes */}
       <CommunityPreview isAuthenticated={!!user} />
 
-      <SectionDivider variant="glow" />
-
-      {/* ─── 7. FEATURES — Qué ofrece la plataforma ─── */}
+      {/* ━━━ FEATURES ━━━ Qué ofrece la plataforma */}
       <FeaturesGrid />
 
-      <SectionDivider variant="gradient" />
-
-      {/* ─── 8. WORKFLOWS — Mostrar el producto estrella ─── */}
+      {/* ━━━ WORKFLOWS ━━━ Producto estrella */}
       <WorkflowShowcase />
 
-      <SectionDivider variant="dots" />
-
-      {/* ─── 9. FILOSOFÍA — Frases clave del taller ─── */}
+      {/* ━━━ FILOSOFÍA ━━━ Frases del taller */}
       <TestimonialsSection />
 
-      {/* ─── 10. STATS + Gen 11 ─── */}
+      {/* ━━━ STATS ━━━ Impacto en números */}
       <StatsSection />
 
-      {/* ─── 11. GEN 11 BANNER ─── */}
+      {/* ━━━ GEN 11 ━━━ Próxima generación */}
       <Gen11Banner />
 
-      {/* ─── 12. ECOSISTEMA ─── */}
+      {/* ━━━ ECOSISTEMA ━━━ Plataformas conectadas */}
       <EcosystemSection />
 
-      {/* ─── 13. CTA ─── */}
+      {/* ━━━ CTA ━━━ Llamada a la acción */}
       <CTASection isAuthenticated={!!user} />
 
-      {/* ─── 14. FOOTER ─── */}
+      {/* ━━━ FOOTER ━━━ */}
       <Footer />
     </Layout>
   );

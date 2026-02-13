@@ -3,18 +3,25 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Heart, ArrowUpRight, Globe, Presentation, ChevronUp } from 'lucide-react';
 
 const footerLinks = {
-  plataforma: [
+  aprendizaje: [
     { label: 'Generaciones', href: '/generations' },
-    { label: 'Workflows', href: '/workflows' },
+    { label: 'Presentaciones', href: '/presentations' },
     { label: 'Herramientas', href: '/tools' },
-    { label: 'Playground', href: '/playground' },
-    { label: 'Comunidad', href: '/community' },
+    { label: 'Workflows', href: '/workflows' },
+    { label: 'Lab IA', href: '/playground' },
     { label: 'Prompts', href: '/prompts' },
+  ],
+  comunidad: [
+    { label: 'Espacios', href: '/community' },
+    { label: 'Chat', href: '/chat' },
+    { label: 'Foro', href: '/forum' },
+    { label: 'Leaderboard', href: '/leaderboard' },
+    { label: 'Calendario', href: '/calendar' },
   ],
   ecosistema: [
     { label: 'vdrc.cl', href: 'https://vdrc.cl', external: true },
     { label: 'Talleres', href: 'https://vdrc.cl/talleres', external: true },
-    { label: 'Presentaciones', href: '/presentations' },
+    { label: 'Gen 11 — Inscríbete', href: 'https://vdrc.cl/talleres', external: true },
     { label: 'Contacto', href: 'mailto:contacto@vdrc.cl', external: true },
   ],
 };
@@ -35,7 +42,7 @@ export function Footer() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 space-y-4"
+            className="lg:col-span-3 space-y-4"
           >
             <Link to="/" className="inline-flex items-center gap-3 group">
               <div className="w-9 h-9 rounded-lg overflow-hidden">
@@ -48,10 +55,9 @@ export function Footer() {
             </Link>
 
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-              Tu hub central para dominar la productividad digital con IA.
+              10 generaciones. +200 participantes. Tu hub para dominar la productividad digital con IA.
             </p>
 
-            {/* Ecosystem quick links */}
             <div className="flex items-center gap-3 pt-2">
               <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors px-2.5 py-1.5 rounded-xl glass-pill hover:border-primary/15">
                 <Globe className="w-3 h-3" />
@@ -64,14 +70,14 @@ export function Footer() {
             </div>
           </motion.div>
 
-          {/* Links Sections — consolidated to 2 columns */}
+          {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links], sectionIdx) => (
             <motion.div
               key={title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: sectionIdx * 0.1 }}
+              transition={{ delay: sectionIdx * 0.08 }}
               className="lg:col-span-3"
             >
               <h4 className="font-mono font-semibold text-[10px] tracking-[0.2em] uppercase mb-5 text-foreground">
@@ -80,7 +86,7 @@ export function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {links.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.href + link.label}>
                     {'external' in link && link.external ? (
                       <a
                         href={link.href}
