@@ -68,13 +68,7 @@ export default function Community() {
   const { data: recentPosts, isLoading: postsLoading } = useRecentPosts();
   const navigate = useNavigate();
 
-  // Auto-redirect to first space on desktop
-  useEffect(() => {
-    if (spaces && spaces.length > 0 && window.innerWidth >= 1024) {
-      const defaultSpace = spaces.find(s => s.is_default) || spaces[0];
-      navigate(`/community/${defaultSpace.slug}`, { replace: true });
-    }
-  }, [spaces, navigate]);
+  // No auto-redirect — let users see the overview and choose a space
 
   if (spacesLoading) {
     return (
@@ -215,7 +209,7 @@ export default function Community() {
                           <div className="flex-1 min-w-0">
                             {/* Title or content preview */}
                             <p className="font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
-                              {post.title || post.content.slice(0, 80)}
+                              {post.title || post.content.slice(0, 120)}
                             </p>
                             <div className="flex items-center gap-3 mt-1.5 text-xs text-muted-foreground">
                               <span>{post.author?.full_name || 'Anonimo'}</span>

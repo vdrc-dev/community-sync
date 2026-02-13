@@ -47,18 +47,8 @@ const ecosystemNodes = [
 function ConnectionLine({ delay = 0 }: { delay?: number }) {
   return (
     <div className="hidden lg:flex items-center justify-center relative">
-      <div className="w-16 h-px bg-border/30 relative overflow-hidden">
-        <motion.div
-          className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-          animate={{ x: ['-32px', '64px'] }}
-          transition={{ duration: 2, repeat: Infinity, delay, ease: 'linear' }}
-        />
-      </div>
-      <motion.div
-        className="absolute w-2 h-2 rounded-full bg-primary/50"
-        animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.3, 0.8, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity, delay }}
-      />
+      <div className="w-16 h-px bg-border/30" />
+      <div className="absolute w-1.5 h-1.5 rounded-full bg-border/50" />
     </div>
   );
 }
@@ -66,9 +56,8 @@ function ConnectionLine({ delay = 0 }: { delay?: number }) {
 export function EcosystemSection() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,hsl(142_76%_36%/0.06),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_70%,hsl(270_70%_50%/0.04),transparent_50%)]" />
+      {/* Background — clean */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
 
       <div className="container mx-auto px-4 relative">
         {/* Header */}
@@ -83,7 +72,7 @@ export function EcosystemSection() {
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
             Un ecosistema{' '}
-            <span className="text-gradient glow-text">conectado</span>
+            <span className="text-gradient">conectado</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
             Tres plataformas que trabajan juntas para potenciar tu productividad con IA
@@ -91,7 +80,7 @@ export function EcosystemSection() {
         </motion.div>
 
         {/* Ecosystem Grid */}
-        <div className="grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-0 items-stretch max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-0 items-stretch max-w-6xl mx-auto">
           {ecosystemNodes.map((node, index) => (
             <>
               <motion.a
@@ -106,8 +95,7 @@ export function EcosystemSection() {
                 whileHover={{ scale: 1.03, y: -6 }}
                 className={`group relative flex flex-col ${node.isCurrent ? 'cursor-default' : ''}`}
               >
-                {/* Glow on hover */}
-                <div className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${node.gradient} opacity-0 group-hover:opacity-100 blur-lg transition-all duration-500`} />
+                {/* No glow — clean hover is handled via border */}
 
                 <div className={`relative flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-card/80 backdrop-blur-xl border ${node.borderColor} transition-all duration-500 overflow-hidden`}>
                   {/* Current indicator */}

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, BookOpen, Wrench, Workflow, Menu } from 'lucide-react';
+import { Home, BookOpen, Wrench, Users, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import {
@@ -14,14 +14,14 @@ import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
   { icon: Home, label: 'Inicio', href: '/' },
-  { icon: BookOpen, label: 'Recursos', href: '/generations' },
+  { icon: BookOpen, label: 'Clases', href: '/generations' },
   { icon: Wrench, label: 'Tools', href: '/tools' },
-  { icon: Workflow, label: 'Flows', href: '/workflows' },
+  { icon: Users, label: 'Comunidad', href: '/community' },
 ];
 
 const moreLinks = [
+  { label: 'Workflows', href: '/workflows' },
   { label: 'Playground IA', href: '/playground' },
-  { label: 'Comunidad', href: '/community' },
   { label: 'Prompts', href: '/prompts' },
   { label: 'Leaderboard', href: '/leaderboard' },
   { label: 'Calendario', href: '/calendar' },
@@ -59,12 +59,12 @@ export function BottomNavigation() {
                 {active && (
                   <motion.div
                     layoutId="bottom-nav-active"
-                    className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-primary"
+                    className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-primary"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
                 )}
-                <item.icon className={cn('w-5 h-5', active && 'scale-110')} />
-                <span className="text-[10px] mt-1 font-medium">{item.label}</span>
+                <item.icon className={cn('w-5 h-5 transition-transform', active && 'scale-110')} />
+                <span className={cn("text-[10px] mt-1 font-medium", active && "font-semibold")}>{item.label}</span>
               </Link>
             );
           })}

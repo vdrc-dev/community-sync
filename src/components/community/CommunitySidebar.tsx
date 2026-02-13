@@ -96,7 +96,14 @@ export function CommunitySidebar() {
           }
         >
           {spacesLoading ? (
-            <div className="px-3 py-2 text-xs text-muted-foreground">Cargando...</div>
+            <div className="px-3 py-1 space-y-1.5">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="flex items-center gap-2.5 px-3 py-2 mx-2 rounded-lg">
+                  <div className="w-5 h-5 rounded skeleton-shimmer" />
+                  <div className="h-3 flex-1 rounded skeleton-shimmer" />
+                </div>
+              ))}
+            </div>
           ) : (
             spaces?.map(space => (
               <Link
@@ -156,8 +163,8 @@ export function CommunitySidebar() {
       {/* Bottom branding */}
       <div className="p-3 border-t border-sidebar-border">
         <div className="flex items-center gap-2 px-2">
-          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-[10px] font-mono font-bold text-primary-foreground">VD</span>
+          <div className="w-6 h-6 rounded-md overflow-hidden">
+            <img src="/logos/vdrc-icon.png" alt="VDRC" className="w-full h-full object-cover" />
           </div>
           <span className="text-xs text-muted-foreground font-mono">VDRC Community</span>
         </div>

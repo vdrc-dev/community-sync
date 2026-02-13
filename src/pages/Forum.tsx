@@ -46,11 +46,11 @@ interface ForumPost {
 
 // Memoized post card for performance
 const PostCard = ({ post }: { post: ForumPost }) => (
-  <Card className="glass border-border/50 hover:border-primary/30 transition-all cursor-pointer">
+  <Card className="glass border-border/30 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 transition-all duration-300 cursor-pointer group">
     <CardContent className="p-4">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-mono text-primary text-sm flex-shrink-0">
-          ?
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 flex items-center justify-center text-lg flex-shrink-0">
+          {post.category?.icon_emoji || '💬'}
         </div>
 
         <div className="flex-1 min-w-0">
@@ -58,7 +58,7 @@ const PostCard = ({ post }: { post: ForumPost }) => (
             {post.is_pinned && (
               <Pin className="w-3 h-3 text-primary" />
             )}
-            <h3 className="font-semibold hover:text-primary transition-colors truncate">
+            <h3 className="font-semibold group-hover:text-primary transition-colors truncate">
               {post.title}
             </h3>
             {post.is_locked && (
@@ -216,7 +216,7 @@ export default function Forum() {
           description="Conecta con otros participantes del taller"
           badge={{ label: 'Foro', icon: <Users className="w-3 h-3 mr-1" /> }}
           actions={
-            <Button className="bg-primary hover:bg-primary/90 glow-primary">
+            <Button className="bg-primary hover:bg-primary/90">
               <Plus className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Nueva publicación</span>
               <span className="sm:hidden">Nuevo</span>
@@ -232,7 +232,7 @@ export default function Forum() {
               placeholder="Buscar en el foro..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-muted/50 border-border focus:border-primary"
+              className="pl-10 bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-md focus:shadow-primary/5 transition-all"
             />
           </div>
 
@@ -267,8 +267,21 @@ export default function Forum() {
 
         {/* Posts with Infinite Scroll */}
         {isLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <div className="space-y-3">
+            {[1, 2, 3, 4].map(i => (
+              <Card key={i} className="border-border/30 bg-card/40">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl skeleton-shimmer shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 w-3/4 skeleton-shimmer rounded" />
+                      <div className="h-3 w-1/2 skeleton-shimmer rounded" />
+                      <div className="h-3 w-full skeleton-shimmer rounded" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         ) : filteredPosts.length === 0 ? (
           <Card className="card-static">

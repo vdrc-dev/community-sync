@@ -114,7 +114,7 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
               <div className="flex items-center gap-3">
                 <ToolTracker toolId={tool.id} toolName={tool.name} compact />
                 {tool.url && (
-                  <a href={tool.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors">
+                  <a href={tool.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors" title={`Abrir ${tool.name}`} aria-label={`Abrir ${tool.name}`}>
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
@@ -136,7 +136,7 @@ const ToolCard = ({ tool, viewMode, index = 0 }: { tool: Tool; viewMode: 'grid' 
       <Card className="group relative glass border-border/30 hover:border-primary/40 transition-all duration-500 overflow-hidden h-full">
         <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
-            background: 'linear-gradient(135deg, hsl(142 76% 50% / 0.08), transparent 40%, hsl(180 100% 45% / 0.05))',
+            background: 'linear-gradient(135deg, hsl(var(--primary) / 0.04), transparent 40%)',
           }}
         />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/70 transition-all duration-500" />
@@ -347,7 +347,7 @@ export default function Tools() {
                 placeholder="Buscar herramientas, categorías, funciones..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:shadow-[0_0_20px_hsl(142_76%_50%/0.1)] text-base rounded-xl transition-all"
+                className="pl-12 h-12 bg-background/50 border-border/50 focus:border-primary/30 text-base rounded-xl transition-all"
               />
             </div>
             
@@ -355,10 +355,16 @@ export default function Tools() {
               <Button
                 variant="outline"
                 size="icon"
-                className={`h-12 w-12 rounded-xl transition-all ${showFilters ? 'bg-primary/10 border-primary/40 text-primary' : 'border-border/50'}`}
+                className={`h-12 w-12 rounded-xl transition-all relative ${showFilters ? 'bg-primary/10 border-primary/40 text-primary' : 'border-border/50'}`}
                 onClick={() => setShowFilters(!showFilters)}
+                aria-label="Filtros"
               >
                 <SlidersHorizontal className="w-5 h-5" />
+                {(selectedCategory !== 'all' || selectedPricing !== 'all') && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                    {(selectedCategory !== 'all' ? 1 : 0) + (selectedPricing !== 'all' ? 1 : 0)}
+                  </span>
+                )}
               </Button>
               
               <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'list')}>
@@ -383,6 +389,17 @@ export default function Tools() {
                 className="overflow-hidden"
               >
                 <div className="pt-5 mt-5 border-t border-border/30 space-y-5">
+                  {/* Clear all filters */}
+                  {(selectedCategory !== 'all' || selectedPricing !== 'all') && (
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => { setSelectedCategory('all'); setSelectedPricing('all'); }}
+                        className="text-xs text-primary hover:text-primary/80 font-mono transition-colors"
+                      >
+                        Limpiar filtros
+                      </button>
+                    </div>
+                  )}
                   <div>
                     <p className="text-xs font-mono text-muted-foreground/70 mb-3 uppercase tracking-wider">Categoría</p>
                     <div className="flex flex-wrap gap-2">
@@ -393,7 +410,7 @@ export default function Tools() {
                           size="sm"
                           onClick={() => setSelectedCategory(cat.value)}
                           className={`rounded-lg transition-all ${selectedCategory === cat.value 
-                            ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20' 
+                            ? 'bg-primary hover:bg-primary/90' 
                             : 'border-border/40 hover:border-primary/50 hover:bg-primary/5'
                           }`}
                         >
@@ -419,7 +436,7 @@ export default function Tools() {
                           size="sm"
                           onClick={() => setSelectedPricing(option.value)}
                           className={`rounded-lg transition-all ${selectedPricing === option.value 
-                            ? 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20' 
+                            ? 'bg-primary hover:bg-primary/90' 
                             : 'border-border/40 hover:border-primary/50 hover:bg-primary/5'
                           }`}
                         >

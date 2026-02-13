@@ -53,7 +53,7 @@ export function HowItWorks() {
             CÓMO FUNCIONA
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-4">
-            Tres pasos para <span className="text-gradient glow-text">dominar la IA</span>
+            Tres pasos para <span className="text-gradient">dominar la IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Un camino claro desde principiante hasta experto en productividad con IA
@@ -61,12 +61,11 @@ export function HowItWorks() {
         </motion.div>
 
         <div className="max-w-5xl mx-auto relative">
-          {/* Connecting line */}
-          <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent hidden lg:block -translate-y-1/2" />
+          {/* Connecting line — single animated version */}
           <motion.div
             className="absolute top-1/2 left-0 right-0 h-px hidden lg:block -translate-y-1/2"
             style={{
-              background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), hsl(var(--accent) / 0.5), transparent)',
+              background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.3), transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -85,7 +84,7 @@ export function HowItWorks() {
                 className="relative group"
               >
                 {/* Step card */}
-                <div className="relative p-8 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500 text-center">
+                <div className="relative p-8 rounded-2xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 text-center">
                   {/* Hover glow */}
                   <motion.div
                     className={`absolute -inset-[1px] rounded-2xl bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-100 blur-md transition-all duration-500`}
@@ -104,7 +103,7 @@ export function HowItWorks() {
                   </motion.div>
 
                   {/* Number badge */}
-                  <div className="absolute top-4 right-4 font-mono text-5xl font-black text-muted/30 select-none">
+                  <div className="absolute top-3 right-4 font-mono text-xl font-bold text-muted-foreground/15 select-none">
                     {step.number}
                   </div>
 
@@ -140,9 +139,9 @@ export function HowItWorks() {
           transition={{ delay: 0.8 }}
           className="text-center mt-16"
         >
-          <Button asChild size="lg" className="h-14 px-8 text-lg glow-primary">
+          <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-[1.02] transition-all duration-300">
             <Link to="/auth">
-              Iniciar sesión
+              Iniciar sesion
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </Button>

@@ -73,18 +73,18 @@ export function StatsSection() {
   const dynamic = useDynamicStats();
 
   const stats = [
-    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller' },
-    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas' },
-    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA' },
-    { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones' },
-    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Comunidad activa' },
-    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Productividad real' },
+    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller completados' },
+    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas disponibles' },
+    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA catalogadas' },
+    { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones listas' },
+    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Profesionales activos' },
+    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Estimado por la comunidad' },
   ];
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,hsl(142_76%_36%/0.08),transparent_60%)]" />
+      {/* Background — clean */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/10 to-transparent" />
 
       <div className="container mx-auto px-4 relative">
         {/* /// TRAYECTORIA label */}
@@ -96,15 +96,15 @@ export function StatsSection() {
         >
           <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// TRAYECTORIA</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
-            Impacto <span className="text-gradient glow-text">real</span>
+            Impacto <span className="text-gradient">real</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
             Numeros que demuestran el poder de la productividad con IA
           </p>
         </motion.div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+        {/* Stats grid — 6 items in a balanced grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -115,71 +115,58 @@ export function StatsSection() {
               whileHover={{ scale: 1.05, y: -4 }}
               className="group relative"
             >
-              {/* Glow border on hover */}
-              <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/50 group-hover:to-accent/50 blur-sm transition-all duration-500" />
+              {/* No neon glow on hover */}
 
-              <div className="relative p-6 rounded-xl bg-card/80 backdrop-blur-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500 text-center">
+              <div className="relative p-5 rounded-xl bg-card/80 backdrop-blur-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500 text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <stat.icon className="w-6 h-6 text-primary" />
+                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <stat.icon className="w-5 h-5 text-primary" />
                 </div>
 
                 {/* Value */}
-                <div className="text-3xl font-mono font-bold text-primary mb-1">
+                <div className="text-2xl font-mono font-bold text-primary mb-1">
                   <AnimatedCounter value={stat.numericValue} suffix={stat.suffix} duration={2} delay={index * 0.15} />
                 </div>
 
                 {/* Label */}
                 <div className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground">
-                  [{stat.label}]
+                  {stat.label}
+                </div>
+
+                {/* Description tooltip on hover */}
+                <div className="text-[10px] text-muted-foreground/60 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {stat.description}
                 </div>
               </div>
             </motion.div>
           ))}
+        </div>
 
-          {/* Gen 11 Special Card */}
-          <motion.a
+        {/* Gen 11 CTA — separate from stats for visual clarity */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+          className="mt-8"
+        >
+          <a
             href="https://vdrc.cl/talleres"
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: stats.length * 0.1, type: 'spring', stiffness: 80 }}
-            whileHover={{ scale: 1.05, y: -4 }}
-            className="group relative"
+            className="group block max-w-md mx-auto"
           >
-            {/* Special glow for Gen 11 */}
-            <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-accent/0 to-primary/0 group-hover:from-accent/50 group-hover:to-primary/50 blur-sm transition-all duration-500" />
-            <motion.div
-              className="absolute -inset-1 rounded-xl bg-gradient-to-br from-accent/20 to-primary/20 blur-md"
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-
-            <div className="relative p-6 rounded-xl bg-gradient-to-br from-accent/10 to-primary/5 backdrop-blur-xl border border-accent/30 group-hover:border-accent/60 transition-all duration-500 text-center">
-              {/* Icon */}
-              <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                <Rocket className="w-6 h-6 text-accent" />
-              </div>
-
-              {/* Value */}
-              <div className="text-3xl font-mono font-bold text-accent mb-1">
-                Gen 11
-              </div>
-
-              {/* Label */}
-              <div className="text-[10px] font-mono tracking-widest uppercase text-accent/70">
-                [MARZO 2026]
-              </div>
-
-              {/* Hover hint */}
-              <div className="flex items-center justify-center gap-1 mt-2 text-[9px] text-accent/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                Inscribete <ExternalLink className="w-2.5 h-2.5" />
+            <div className="relative p-5 rounded-xl bg-gradient-to-r from-accent/10 via-primary/5 to-accent/10 backdrop-blur-xl border border-accent/30 hover:border-accent/60 transition-all duration-500 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <Rocket className="w-5 h-5 text-accent" />
+                <span className="font-mono font-bold text-accent">Gen 11</span>
+                <span className="text-muted-foreground">—</span>
+                <span className="text-sm text-muted-foreground">Marzo 2026</span>
+                <ExternalLink className="w-3.5 h-3.5 text-accent/50 group-hover:text-accent transition-colors" />
               </div>
             </div>
-          </motion.a>
-        </div>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

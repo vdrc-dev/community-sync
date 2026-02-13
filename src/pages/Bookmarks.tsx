@@ -126,7 +126,7 @@ export default function Bookmarks() {
               placeholder="Buscar en favoritos..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-muted/50"
+              className="pl-10 bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-md focus:shadow-primary/5 transition-all"
             />
           </div>
 
@@ -245,7 +245,7 @@ export default function Bookmarks() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
+                              className="h-8 w-8 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
                               onClick={() => toggleBookmark({ 
                                 type: bookmark.resource_type as ResourceType, 
                                 resourceId: bookmark.resource_id 

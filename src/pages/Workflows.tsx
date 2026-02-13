@@ -264,37 +264,35 @@ export default function Workflows() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-          <TabsList className="bg-muted/50 p-1 border border-border/30">
-            <TabsTrigger value="all" className="gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+          <TabsList className="bg-muted/70 p-1 border border-border/30 w-full sm:w-auto overflow-x-auto">
+            <TabsTrigger value="all" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               <Target className="w-3 h-3" />
-              Todos
+              <span className="hidden sm:inline">Todos</span>
               <Badge variant="secondary" className="ml-1 bg-background/50 text-xs">
                 {workflows?.length || 0}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="in-progress" className="gap-2 data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-400">
+            <TabsTrigger value="in-progress" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               <Play className="w-3 h-3" />
               <span className="hidden sm:inline">En progreso</span>
-              <span className="sm:hidden">Activos</span>
               {stats.inProgress > 0 && (
-                <Badge variant="secondary" className="ml-1 bg-blue-500/20 text-blue-400 text-xs">
+                <Badge variant="secondary" className="ml-1 bg-primary/20 text-primary text-xs">
                   {stats.inProgress}
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="completed" className="gap-2 data-[state=active]:bg-green-500/10 data-[state=active]:text-green-400">
+            <TabsTrigger value="completed" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               <CheckCircle2 className="w-3 h-3" />
               <span className="hidden sm:inline">Completados</span>
-              <span className="sm:hidden">✓</span>
               {stats.completed > 0 && (
-                <Badge variant="secondary" className="ml-1 bg-green-500/20 text-green-400 text-xs">
+                <Badge variant="secondary" className="ml-1 bg-primary/20 text-primary text-xs">
                   {stats.completed}
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="not-started" className="hidden sm:flex gap-2 data-[state=active]:bg-muted">
+            <TabsTrigger value="not-started" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               <Clock className="w-3 h-3" />
-              Sin empezar
+              <span className="hidden sm:inline">Sin empezar</span>
             </TabsTrigger>
           </TabsList>
 

@@ -24,32 +24,25 @@ const TOUR_STEPS: TourStep[] = [
   {
     id: 'welcome',
     title: 'Bienvenido al Portal VDRC',
-    description: 'Este es tu hub central para el Taller de Productividad Digital con IA — Generacion 11. Te mostramos las funciones principales.',
+    description: 'Este es tu hub central para el Taller de Productividad Digital con IA. Te mostramos lo esencial en 5 pasos.',
     icon: <Sparkles className="w-8 h-8 text-primary" />,
     position: 'center',
   },
   {
-    id: 'ecosystem',
-    title: 'Ecosistema VDRC',
-    description: 'El taller tiene 3 plataformas conectadas: vdrc.cl (info e inscripciones), este portal (comunidad y recursos), y vdrc.lovable.app (presentaciones de clase).',
-    icon: <Globe className="w-8 h-8 text-accent" />,
-    position: 'center',
-  },
-  {
     id: 'generations',
-    title: 'Explora las Generaciones',
-    description: 'Accede a grabaciones de clases, materiales, presentaciones y recursos organizados por cohorte. Todo el contenido del programa en un solo lugar.',
+    title: 'Clases y Materiales',
+    description: 'Accede a grabaciones, presentaciones y recursos organizados por generación. Todo el contenido del programa en un solo lugar.',
     icon: <BookOpen className="w-8 h-8 text-blue-500" />,
     position: 'center',
     action: {
-      label: 'Ver Generaciones',
+      label: 'Ver Clases',
       href: '/generations',
     },
   },
   {
     id: 'workflows',
-    title: 'Workflows de Automatizacion',
-    description: 'Descubre workflows paso a paso para automatizar tareas comunes. Ejecuta cada paso directamente con IA integrada.',
+    title: 'Workflows Interactivos',
+    description: 'Automatiza tareas paso a paso con workflows guiados. Personaliza cada paso con tus propios datos y ejecuta con IA.',
     icon: <Zap className="w-8 h-8 text-yellow-500" />,
     position: 'center',
     action: {
@@ -58,20 +51,9 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    id: 'playground',
-    title: 'Laboratorio de IA',
-    description: 'Prueba prompts en tiempo real con diferentes modelos de IA. Compara respuestas y optimiza tus prompts antes de usarlos.',
-    icon: <FlaskConical className="w-8 h-8 text-purple-500" />,
-    position: 'center',
-    action: {
-      label: 'Abrir Laboratorio',
-      href: '/playground',
-    },
-  },
-  {
     id: 'community',
     title: 'Comunidad',
-    description: 'Conecta con otros participantes del taller en los espacios de discusion. Comparte recursos, haz preguntas y aprende junto a la comunidad.',
+    description: 'Conecta con otros participantes, comparte recursos y aprende junto a la comunidad en los espacios de discusión.',
     icon: <Users className="w-8 h-8 text-accent" />,
     position: 'center',
     action: {
@@ -80,20 +62,9 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    id: 'roi',
-    title: 'Mide tu Productividad',
-    description: 'Registra las tareas que has automatizado y visualiza cuanto tiempo y dinero estas ahorrando cada semana.',
-    icon: <Calculator className="w-8 h-8 text-green-500" />,
-    position: 'center',
-    action: {
-      label: 'Calcular ROI',
-      href: '/roi-calculator',
-    },
-  },
-  {
     id: 'complete',
-    title: 'Listo para comenzar',
-    description: 'Usa CMD+K (o Ctrl+K) para acceder rapidamente a cualquier seccion. Tambien puedes ver las presentaciones en vdrc.lovable.app. Buena suerte en tu viaje con IA.',
+    title: '¡Listo para comenzar!',
+    description: 'Tip: usa ⌘K (o Ctrl+K) para navegar rápidamente a cualquier sección. Las presentaciones están en vdrc.lovable.app.',
     icon: <CheckCircle className="w-8 h-8 text-green-500" />,
     position: 'center',
   },
@@ -133,8 +104,8 @@ export function OnboardingTour() {
       if (completedEggs.includes('onboarding_tour')) {
         localStorage.setItem(`${TOUR_COMPLETED_KEY}_${user.id}`, 'true');
       } else {
-        // Show tour for new users after a short delay
-        setTimeout(() => setIsOpen(true), 1500);
+        // Show tour for new users after letting them explore briefly
+        setTimeout(() => setIsOpen(true), 4000);
       }
       
       setHasCheckedStorage(true);
@@ -250,19 +221,18 @@ export function OnboardingTour() {
                 <p className="text-muted-foreground">{step.description}</p>
               </div>
 
-              {/* Action button */}
+              {/* Action button — optional, doesn't close tour */}
               {step.action && (
-                <Button
-                  variant="outline"
-                  className="w-full mb-4"
-                  onClick={() => {
-                    window.location.href = step.action!.href;
-                    handleComplete();
-                  }}
-                >
-                  {step.action.label}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                <a href={step.action.href} className="block mb-4">
+                  <Button
+                    variant="outline"
+                    className="w-full text-muted-foreground hover:text-foreground"
+                    type="button"
+                  >
+                    {step.action.label}
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </a>
               )}
 
               {/* Navigation */}

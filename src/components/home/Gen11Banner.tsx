@@ -10,9 +10,11 @@ function useCountdown(targetDate: Date) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
 
   useEffect(() => {
+    // Update every 30 seconds to reduce visual noise
+    setTimeLeft(calculateTimeLeft(targetDate));
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft(targetDate));
-    }, 1000);
+    }, 30000);
     return () => clearInterval(timer);
   }, [targetDate]);
 
@@ -99,7 +101,7 @@ function TerminalTyping() {
 export function Gen11Banner() {
   const [dismissed, setDismissed] = useState(() => {
     try {
-      return sessionStorage.getItem('gen11-banner-dismissed') === 'true';
+      return localStorage.getItem('gen11-banner-dismissed') === 'true';
     } catch {
       return false;
     }
@@ -109,7 +111,7 @@ export function Gen11Banner() {
   const handleDismiss = () => {
     setDismissed(true);
     try {
-      sessionStorage.setItem('gen11-banner-dismissed', 'true');
+      localStorage.setItem('gen11-banner-dismissed', 'true');
     } catch {}
   };
 
@@ -124,41 +126,22 @@ export function Gen11Banner() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative overflow-hidden"
       >
-        {/* Animated gradient border top */}
-        <div className="absolute top-0 left-0 right-0 h-px">
-          <motion.div
-            className="h-full bg-gradient-to-r from-transparent via-primary to-transparent"
-            animate={{ x: ['-100%', '100%'] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-            style={{ width: '200%' }}
-          />
-        </div>
+        {/* Subtle top border */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
 
         <div className="relative py-10 sm:py-14">
-          {/* Background effects */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
-          
-          {/* Glow orbs */}
-          <motion.div
-            className="absolute top-0 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute bottom-0 right-1/4 w-48 h-48 bg-accent/10 rounded-full blur-[60px]"
-            animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.5, 0.2] }}
-            transition={{ duration: 5, repeat: Infinity }}
-          />
+          {/* Clean background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-transparent" />
 
           <div className="container mx-auto px-4 relative z-10">
             {/* Dismiss button */}
             <button
               onClick={handleDismiss}
-              className="absolute top-2 right-4 sm:top-4 sm:right-6 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all z-20"
-              aria-label="Cerrar"
+              className="absolute top-3 right-3 sm:top-4 sm:right-6 p-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all z-20 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="Cerrar banner"
+              title="Cerrar"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
 
             <div className="max-w-5xl mx-auto">
@@ -190,7 +173,7 @@ export function Gen11Banner() {
                     className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold leading-tight"
                   >
                     Generacion{' '}
-                    <span className="text-gradient glow-text">11</span>
+                    <span className="text-gradient">11</span>
                   </motion.h2>
 
                   <motion.p
@@ -209,7 +192,7 @@ export function Gen11Banner() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="inline-flex items-center gap-1 p-4 rounded-xl bg-card/60 backdrop-blur-xl border border-primary/20"
+                    className="inline-flex items-center gap-1 p-4 rounded-xl bg-card/60 backdrop-blur-xl border border-border/30"
                   >
                     <Clock className="w-4 h-4 text-primary mr-2 shrink-0" />
                     {countdown.isLive ? (
@@ -243,7 +226,7 @@ export function Gen11Banner() {
                     <Button
                       asChild
                       size="lg"
-                      className="h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:scale-105"
+                      className="h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group transition-all duration-300 hover:scale-[1.02]"
                     >
                       <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
                         <Zap className="w-4 h-4 mr-2" />
@@ -258,7 +241,7 @@ export function Gen11Banner() {
                       className="h-12 px-6 border-primary/30 hover:border-primary/60 hover:bg-primary/5 font-mono transition-all duration-300"
                     >
                       <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer">
-                        Conocer mas
+                        CONOCER MAS
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </a>
                     </Button>
@@ -272,7 +255,7 @@ export function Gen11Banner() {
                   transition={{ delay: 0.6, duration: 0.8 }}
                   className="hidden lg:block"
                 >
-                  <div className="glass-strong rounded-xl p-5 border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="glass-strong rounded-xl p-5 border-border/30 hover:border-border/50 transition-all duration-300">
                     <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border/30">
                       <div className="w-3 h-3 rounded-full bg-red-500/70" />
                       <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
@@ -286,15 +269,8 @@ export function Gen11Banner() {
             </div>
           </div>
 
-          {/* Animated gradient border bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-px">
-            <motion.div
-              className="h-full bg-gradient-to-r from-transparent via-accent to-transparent"
-              animate={{ x: ['100%', '-100%'] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-              style={{ width: '200%' }}
-            />
-          </div>
+          {/* Subtle bottom border */}
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
         </div>
       </motion.section>
     </AnimatePresence>

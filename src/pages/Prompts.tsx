@@ -164,7 +164,7 @@ export default function Prompts() {
                   onClick={() => setSelectedCategory(cat.value)}
                   className={`shrink-0 gap-1.5 transition-all duration-300 ${
                     selectedCategory === cat.value 
-                      ? 'shadow-lg shadow-primary/20' 
+                      ? '' 
                       : 'hover:border-primary/30 hover:bg-primary/5'
                   }`}
                 >

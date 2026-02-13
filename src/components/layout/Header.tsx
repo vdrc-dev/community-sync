@@ -106,8 +106,8 @@ function NavItem({
           layoutId={`nav-bg-${to}`}
         />
         
-        {/* Hover glow effect */}
-        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 blur-sm -z-10" />
+        {/* Subtle hover bg */}
+        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-muted/30 -z-10" />
         
         <span className="relative flex items-center gap-2">
           {Icon && (
@@ -117,7 +117,7 @@ function NavItem({
             {label}
             {/* Underline animation */}
             <motion.span
-              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-primary to-accent rounded-full"
+              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary/60 rounded-full"
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ 
                 scaleX: isActive ? 1 : 0, 
@@ -134,7 +134,7 @@ function NavItem({
         {isActive && (
           <motion.div
             layoutId="nav-active-dot"
-            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-lg shadow-primary/50"
+            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary"
             transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
           />
         )}
@@ -153,7 +153,7 @@ export function Header() {
   const { scrollY } = useScroll();
   const headerBg = useTransform(scrollY, [0, 100], ['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)']);
   const headerBlur = useTransform(scrollY, [0, 100], [8, 24]);
-  const headerBorder = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0.05)', 'rgba(34,197,94,0.2)']);
+  const headerBorder = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0.03)', 'rgba(255,255,255,0.08)']);
 
   const handleSignOut = useCallback(async () => {
     await signOut();
@@ -191,24 +191,17 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-2.5 group">
             <motion.div 
-              whileHover={{ scale: 1.08, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent p-[1px] group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              className="w-9 h-9 rounded-lg overflow-hidden transition-all duration-300"
             >
-              <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
-                <span className="font-mono font-bold text-primary text-lg">VD</span>
-              </div>
+              <img src="/logos/vdrc-icon.png" alt="VDRC" className="w-full h-full object-cover" />
             </motion.div>
-            <div className="hidden sm:block">
-              <motion.span 
-                className="font-mono font-bold text-foreground"
-                whileHover={{ color: 'hsl(var(--primary))' }}
-              >
-                VDRC
-              </motion.span>
-              <span className="text-muted-foreground text-sm ml-2 hidden lg:inline">Workshop Portal</span>
+            <div className="hidden sm:flex items-baseline gap-2">
+              <img src="/logos/vdrc-green.png" alt="VDRC" className="h-5 opacity-90 group-hover:opacity-100 transition-opacity" />
+              <span className="text-muted-foreground text-xs hidden lg:inline font-mono">Portal</span>
             </div>
           </Link>
 
@@ -321,7 +314,7 @@ export function Header() {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                     >
-                      <Button variant="ghost" className="relative h-9 px-2 gap-2 rounded-xl border border-border/50 hover:border-primary/50 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
+                      <Button variant="ghost" className="relative h-9 px-2 gap-2 rounded-xl border border-border/50 hover:border-border hover:bg-muted/50 transition-all duration-300">
                         <Avatar className="h-7 w-7 ring-2 ring-transparent hover:ring-primary/30 transition-all">
                           <AvatarImage src={user.user_metadata?.avatar_url} />
                           <AvatarFallback className="bg-primary/10 text-primary font-mono text-xs">
@@ -411,7 +404,7 @@ export function Header() {
                   whileHover={{ scale: 1.05 }} 
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
+                  <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300">
                     <Link to="/auth?mode=signup">Registrarse</Link>
                   </Button>
                 </motion.div>
@@ -458,7 +451,7 @@ export function Header() {
                       className={`
                         flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300
                         ${location.pathname.startsWith(link.href)
-                          ? 'text-primary bg-primary/10 shadow-lg shadow-primary/10'
+                          ? 'text-primary bg-primary/10 border border-primary/20'
                           : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                         }
                       `}
@@ -468,12 +461,29 @@ export function Header() {
                       {location.pathname.startsWith(link.href) && (
                         <motion.div
                           layoutId="mobile-active"
-                          className="ml-auto w-2 h-2 rounded-full bg-primary shadow-lg shadow-primary/50"
+                          className="ml-auto w-2 h-2 rounded-full bg-primary"
                         />
                       )}
                     </PrefetchLink>
                   </motion.div>
                 ))}
+
+                {/* Ecosystem links for mobile */}
+                <div className="mt-3 pt-3 border-t border-border/30">
+                  <span className="px-4 text-[10px] font-mono tracking-widest text-muted-foreground/50 uppercase">Ecosistema</span>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all">
+                      <Globe className="w-4 h-4" />
+                      vdrc.cl
+                      <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
+                    </a>
+                    <a href="https://vdrc.lovable.app" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all">
+                      <Presentation className="w-4 h-4" />
+                      Presentaciones
+                      <ExternalLink className="w-3 h-3 ml-auto opacity-40" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </motion.nav>
           )}

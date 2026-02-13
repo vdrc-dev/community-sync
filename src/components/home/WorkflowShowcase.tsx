@@ -41,10 +41,8 @@ const showcaseWorkflows = [
 export function WorkflowShowcase() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Background effect */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
-      </div>
+      {/* Clean background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/10 to-transparent" />
       
       <div className="container mx-auto px-4 relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -92,7 +90,7 @@ export function WorkflowShowcase() {
               ))}
             </div>
             
-            <Button asChild size="lg" className="glow-primary">
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-[1.02]">
               <Link to="/workflows">
                 Explorar Workflows
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -115,7 +113,7 @@ export function WorkflowShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="group p-5 rounded-xl glass border-border/50 hover:border-primary/30 transition-all cursor-pointer"
+                className="group p-5 rounded-xl glass border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${workflow.color} border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
@@ -138,7 +136,7 @@ export function WorkflowShowcase() {
                     </div>
                   </div>
                   
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center opacity-30 group-hover:opacity-100 group-hover:bg-primary/20 transition-all duration-300">
                     <Play className="w-4 h-4 text-primary" />
                   </div>
                 </div>
@@ -147,9 +145,10 @@ export function WorkflowShowcase() {
             
             <Link
               to="/workflows"
-              className="block p-4 rounded-xl border border-dashed border-primary/30 text-center text-primary hover:bg-primary/5 transition-colors"
+              className="group block p-4 rounded-xl border border-dashed border-primary/20 text-center text-primary/70 hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
             >
-              Ver todos los workflows →
+              <span className="text-sm font-mono">Ver todos los workflows</span>
+              <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
         </div>

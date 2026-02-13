@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +23,7 @@ import {
 import { format, isSameDay, isAfter, addDays, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { toast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
 
 export default function CalendarPage() {
   const { user } = useAuth();
@@ -107,33 +109,31 @@ END:VCALENDAR`;
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-mono font-bold mb-4">
-              <span className="text-gradient">Calendario</span>
-            </h1>
-            <p className="text-muted-foreground max-w-xl">
-              Próximas sesiones y eventos del taller
-            </p>
-          </div>
-          
-          {upcomingEvents && upcomingEvents.length > 0 && (
-            <Button 
-              variant="outline" 
-              onClick={exportAllEvents}
-              className="gap-2 self-start sm:self-auto"
-            >
-              <Download className="h-4 w-4" />
-              Exportar todos
-            </Button>
-          )}
-        </div>
+      <div className="page-container section-py relative">
+        {/* Clean background */}
+
+        <PageHeader
+          title={<><span className="text-gradient">Calendario</span></>}
+          description="Proximas sesiones y eventos del taller"
+          badge={{ label: 'Eventos', icon: <CalendarIcon className="w-3 h-3" /> }}
+          breadcrumbs={[{ label: 'Calendario' }]}
+          actions={
+            upcomingEvents && upcomingEvents.length > 0 ? (
+              <Button 
+                variant="outline" 
+                onClick={exportAllEvents}
+                className="gap-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5 font-mono"
+              >
+                <Download className="h-4 w-4" />
+                Exportar todos
+              </Button>
+            ) : undefined
+          }
+        />
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Calendar */}
-          <Card className="glass border-border/50 lg:col-span-1">
+          <Card className="glass border-border/30 shadow-lg shadow-primary/5 lg:col-span-1">
             <CardContent className="p-4">
               <Calendar
                 mode="single"
@@ -155,7 +155,7 @@ END:VCALENDAR`;
           </Card>
 
           {/* Events for selected date */}
-          <Card className="glass border-border/50 lg:col-span-2">
+          <Card className="glass border-border/30 shadow-lg shadow-primary/5 lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
                 <CalendarIcon className="w-5 h-5 text-primary" />
@@ -239,7 +239,7 @@ END:VCALENDAR`;
         <div className="mt-12">
           <h2 className="text-xl font-mono font-bold mb-6 flex items-center gap-2">
             <ChevronRight className="w-5 h-5 text-primary" />
-            Próximos eventos
+            Proximos eventos
           </h2>
 
           {isLoading ? (
@@ -293,6 +293,8 @@ END:VCALENDAR`;
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-primary hover:underline flex items-center gap-1"
+                            title="Abrir enlace del evento"
+                            aria-label="Abrir enlace del evento"
                           >
                             <ExternalLink className="w-3 h-3" />
                           </a>

@@ -6,12 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink } from 'lucide-react';
 import { z } from 'zod';
+import { motion } from 'framer-motion';
 
 const authSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+  email: z.string().email('Email invalido'),
+  password: z.string().min(6, 'La contrasena debe tener al menos 6 caracteres'),
   fullName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
 });
 
@@ -72,7 +73,7 @@ export default function Auth() {
           if (error.message.includes('already registered')) {
             toast({
               title: 'Usuario ya registrado',
-              description: 'Este email ya está registrado. Intenta iniciar sesión.',
+              description: 'Este email ya esta registrado. Intenta iniciar sesion.',
               variant: 'destructive',
             });
           } else {
@@ -84,7 +85,7 @@ export default function Auth() {
           }
         } else {
           toast({
-            title: '¡Bienvenido!',
+            title: 'Bienvenido!',
             description: 'Tu cuenta ha sido creada exitosamente.',
           });
           navigate('/');
@@ -93,14 +94,14 @@ export default function Auth() {
         const { error } = await signIn(email, password);
         if (error) {
           toast({
-            title: 'Error al iniciar sesión',
-            description: 'Credenciales incorrectas. Verifica tu email y contraseña.',
+            title: 'Error al iniciar sesion',
+            description: 'Credenciales incorrectas. Verifica tu email y contrasena.',
             variant: 'destructive',
           });
         } else {
           toast({
-            title: '¡Hola de nuevo!',
-            description: 'Has iniciado sesión correctamente.',
+            title: 'Hola de nuevo!',
+            description: 'Has iniciado sesion correctamente.',
           });
           navigate('/');
         }
@@ -111,32 +112,46 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 circuit-bg">
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background effects */}
-      <div className="fixed inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+      <div className="fixed inset-0 bg-background" />
+      {/* Subtle grid background */}
+      <div className="fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
       
-      <div className="w-full max-w-md relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md relative z-10"
+      >
         {/* Back link */}
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-6 transition-colors group"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Volver al inicio</span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-sm font-mono">Volver al inicio</span>
         </Link>
 
-        <Card className="glass border-border/50">
+        <Card className="glass-strong border-primary/10 shadow-2xl shadow-primary/5">
           <CardHeader className="text-center pb-2">
             {/* Logo */}
-            <div className="mx-auto w-16 h-16 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 glow-primary">
-              <span className="font-mono font-bold text-primary text-2xl">VD</span>
-            </div>
-            <CardTitle className="text-2xl font-mono">
-              {isSignUp ? 'Crear cuenta' : 'Iniciar sesión'}
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: 'spring' }}
+              className="mx-auto relative"
+            >
+              <div className="relative w-16 h-16 rounded-xl overflow-hidden">
+                <img src="/logos/vdrc-icon.png" alt="VDRC" className="w-full h-full object-cover" />
+              </div>
+            </motion.div>
+            <CardTitle className="text-2xl font-mono mt-4">
+              {isSignUp ? 'Crear cuenta' : 'Iniciar sesion'}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
               {isSignUp 
-                ? 'Únete al portal de participantes VDRC' 
+                ? 'Unete al portal de participantes VDRC' 
                 : 'Accede a tu cuenta de participante'}
             </CardDescription>
           </CardHeader>
@@ -144,32 +159,37 @@ export default function Auth() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {isSignUp && (
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Nombre completo</Label>
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="space-y-2"
+                >
+                  <Label htmlFor="fullName" className="font-mono text-xs tracking-wider">Nombre completo</Label>
                   <Input
                     id="fullName"
                     type="text"
                     placeholder="Tu nombre"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="bg-muted/50 border-border focus:border-primary"
+                    className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
                     disabled={loading}
                   />
                   {errors.fullName && (
                     <p className="text-xs text-destructive">{errors.fullName}</p>
                   )}
-                </div>
+                </motion.div>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="font-mono text-xs tracking-wider">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="tu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-muted/50 border-border focus:border-primary"
+                  className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
                   disabled={loading}
                 />
                 {errors.email && (
@@ -178,7 +198,7 @@ export default function Auth() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
+                <Label htmlFor="password" className="font-mono text-xs tracking-wider">Contrasena</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -186,13 +206,14 @@ export default function Auth() {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-muted/50 border-border focus:border-primary pr-10"
+                    className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 pr-10 transition-all"
                     disabled={loading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'}
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -204,13 +225,13 @@ export default function Auth() {
 
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground glow-primary font-semibold"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
                 disabled={loading}
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin mr-2" />
                 ) : null}
-                {isSignUp ? 'Crear cuenta' : 'Iniciar sesión'}
+                {isSignUp ? 'CREAR CUENTA' : 'INICIAR SESION'}
               </Button>
             </form>
 
@@ -221,22 +242,49 @@ export default function Auth() {
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 {isSignUp ? (
-                  <>¿Ya tienes cuenta? <span className="text-primary font-medium">Inicia sesión</span></>
+                  <>Ya tienes cuenta? <span className="text-primary font-medium">Inicia sesion</span></>
                 ) : (
-                  <>¿No tienes cuenta? <span className="text-primary font-medium">Regístrate</span></>
+                  <>No tienes cuenta? <span className="text-primary font-medium">Registrate</span></>
                 )}
               </button>
+            </div>
+
+            {/* Gen 11 callout */}
+            <div className="mt-4 pt-4 border-t border-border/30">
+              <a
+                href="https://vdrc.cl/talleres"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 rounded-lg bg-accent/5 border border-accent/15 hover:border-accent/30 hover:bg-accent/10 transition-all group"
+              >
+                <Rocket className="w-4 h-4 text-accent shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium">Generacion 11 — Marzo 2026</p>
+                  <p className="text-[10px] text-muted-foreground">Inscripciones abiertas</p>
+                </div>
+                <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
+              </a>
             </div>
           </CardContent>
         </Card>
 
         {/* Terminal decoration */}
-        <div className="mt-6 text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-6 text-center"
+        >
           <p className="font-mono text-xs text-muted-foreground/50">
-            <span className="text-primary">$</span> Workshop Portal v1.0<span className="cursor-blink"></span>
+            <span className="text-primary/60">$</span> vdrc://auth <span className="text-primary/40">v2.0</span>
+            <motion.span
+              animate={{ opacity: [1, 0, 1] }}
+              transition={{ duration: 1.2, repeat: Infinity }}
+              className="text-primary/50"
+            > ▊</motion.span>
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

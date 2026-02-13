@@ -140,7 +140,7 @@ export default function Profile() {
         >
           {/* Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card/80 to-accent/5 border border-border/30 rounded-2xl" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px]" />
           
           <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-6">
             {/* Animated avatar ring */}

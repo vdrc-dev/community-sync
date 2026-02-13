@@ -19,7 +19,7 @@ const features = [
 export function FeaturesGrid() {
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,hsl(180_100%_45%/0.05),transparent_50%),radial-gradient(ellipse_at_70%_80%,hsl(142_76%_36%/0.05),transparent_50%)]" />
+      {/* No colored background radials — clean */}
 
       <div className="container mx-auto px-4 relative">
         {/* /// INTERVENCIÓN label */}
@@ -31,14 +31,14 @@ export function FeaturesGrid() {
         >
           <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// INTERVENCIÓN</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
-            Todo en <span className="text-gradient glow-text">un lugar</span>
+            Todo en <span className="text-gradient">un lugar</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
             Un ecosistema completo para dominar la productividad con inteligencia artificial
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" style={{ perspective: '1200px' }}>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -53,13 +53,13 @@ export function FeaturesGrid() {
                 <div className="absolute -inset-px rounded-xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/40 group-hover:to-accent/40 blur-sm transition-all duration-500" />
 
                 <motion.div
-                  className="relative flex flex-col h-full p-6 rounded-xl bg-card/80 backdrop-blur-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500 overflow-hidden"
+                  className="relative flex flex-col h-full p-6 rounded-xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 overflow-hidden"
                   whileHover={{ scale: 1.02, y: -4 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 >
                   {/* MODULE label */}
-                  <span className="font-mono text-[10px] tracking-widest text-primary/40 mb-3">
-                    MODULE_{String(index + 1).padStart(2, '0')}
+                  <span className="font-mono text-xs tracking-widest text-primary/30 mb-3">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
 
                   <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:border-primary/40 transition-all duration-300">
@@ -72,7 +72,7 @@ export function FeaturesGrid() {
 
                   <p className="text-muted-foreground text-sm flex-grow">{feature.description}</p>
 
-                  <div className="flex items-center mt-4 text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="flex items-center mt-4 text-sm text-primary font-medium opacity-60 group-hover:opacity-100 transition-all duration-300">
                     <span>Explorar</span>
                     <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>

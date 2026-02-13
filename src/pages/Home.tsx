@@ -27,13 +27,18 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection isAuthenticated={!!user} />
 
-      {/* Gen 11 Countdown Banner */}
+      {/* Gen 11 Countdown Banner — only for visitors */}
       {!user && <Gen11Banner />}
 
-      {/* Tools Marquee - Social proof of tools */}
+      {/* Tools Marquee — instant social proof */}
       <ToolsMarquee />
 
-      {/* Active Generation Dashboard (for logged in users) */}
+      {/* How It Works — explain value FIRST (visitors only) */}
+      {!user && <HowItWorks />}
+
+      {!user && <SectionDivider variant="gradient" />}
+
+      {/* Dashboard — for logged-in users, their personalized content */}
       {user && (
         <section className="py-8 relative">
           <div className="container mx-auto px-4">
@@ -49,7 +54,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* User Dashboard Section (for logged in users) */}
       {user && (
         <section className="py-8 relative">
           <div className="container mx-auto px-4">
@@ -71,35 +75,30 @@ export default function Home() {
         </section>
       )}
 
-      {/* Stats Section */}
+      {/* Features Grid — what the platform offers */}
+      <FeaturesGrid />
+
+      <SectionDivider variant="dots" />
+
+      {/* Testimonials — social proof early */}
+      <TestimonialsSection />
+
+      <SectionDivider variant="glow" />
+
+      {/* Stats — numbers to back up the testimonials */}
       <StatsSection />
 
       <SectionDivider variant="gradient" />
 
-      {/* How It Works */}
-      {!user && <HowItWorks />}
-
-      <SectionDivider variant="dots" />
-
-      {/* Features Grid */}
-      <FeaturesGrid />
-
-      <SectionDivider variant="glow" />
-
       {/* Workflow Showcase */}
       <WorkflowShowcase />
 
-      <SectionDivider variant="glow" />
+      <SectionDivider variant="dots" />
 
       {/* Presentations Preview */}
       <PresentationsPreview />
 
-      <SectionDivider variant="gradient" />
-
-      {/* Testimonials */}
-      <TestimonialsSection />
-
-      <SectionDivider variant="dots" />
+      <SectionDivider variant="glow" />
 
       {/* Ecosystem Section */}
       <EcosystemSection />

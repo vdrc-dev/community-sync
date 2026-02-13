@@ -138,15 +138,8 @@ export default function Generations() {
                   <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40 opacity-50 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                   
                   <div className="relative p-6 sm:p-8 rounded-xl bg-card/80 backdrop-blur-xl border border-accent/20 group-hover:border-accent/50 transition-all duration-300 overflow-hidden">
-                    {/* Grid background */}
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,200,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,200,0.03)_1px,transparent_1px)] bg-[size:30px_30px]" />
-                    
-                    {/* Glow orb */}
-                    <motion.div
-                      className="absolute top-0 right-0 w-48 h-48 bg-accent/10 rounded-full blur-[60px]"
-                      animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                    />
+                    {/* Subtle grid background */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
                     
                     <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                       <div className="flex items-start gap-5">
@@ -165,7 +158,7 @@ export default function Generations() {
                             </Badge>
                           </div>
                           <h3 className="text-2xl font-mono font-bold group-hover:text-accent transition-colors">
-                            Generacion <span className="text-gradient glow-text">11</span>
+                            Generacion <span className="text-gradient">11</span>
                           </h3>
                           <p className="text-sm text-muted-foreground mt-2 max-w-lg">
                             El Taller de Productividad Digital con IA vuelve en <span className="text-accent font-semibold">marzo 2026</span>.

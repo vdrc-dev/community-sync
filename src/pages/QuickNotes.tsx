@@ -7,12 +7,24 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useQuickNotes } from '@/hooks/useQuickNotes';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 export default function QuickNotes() {
   const { user } = useAuth();
@@ -45,9 +57,12 @@ export default function QuickNotes() {
     setEditContent(note.content);
   };
 
+  const { toast } = useToast();
+
   const handleSaveEdit = (id: string) => {
     updateQuickNote({ id, content: editContent });
     setEditingId(null);
+    toast({ title: 'Nota actualizada' });
   };
 
   const toggleProcessed = (id: string, current: boolean) => {
@@ -64,13 +79,16 @@ export default function QuickNotes() {
           className="mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 flex items-center justify-center">
               <PenLine className="h-5 w-5 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold">Notas Rápidas</h1>
+            <div>
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60 block">/// NOTAS</span>
+              <h1 className="text-2xl sm:text-3xl font-mono font-bold">Notas <span className="text-gradient">Rapidas</span></h1>
+            </div>
           </div>
-          <p className="text-muted-foreground">
-            Tu inbox de ideas capturadas al vuelo
+          <p className="text-muted-foreground text-sm">
+            Tu inbox de ideas capturadas al vuelo — presiona <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-xs font-mono">N</kbd> para capturar
           </p>
         </motion.div>
 
@@ -96,9 +114,9 @@ export default function QuickNotes() {
 
         {/* Notes list */}
         {isLoading ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-28 rounded-xl bg-muted/50 animate-pulse" />
+              <div key={i} className="h-28 rounded-xl skeleton-shimmer" />
             ))}
           </div>
         ) : filteredNotes.length > 0 ? (
@@ -113,8 +131,8 @@ export default function QuickNotes() {
                   exit={{ opacity: 0, x: -100 }}
                 >
                   <Card className={cn(
-                    "group transition-all",
-                    note.is_processed && "opacity-60"
+                    "group transition-all duration-300 border-border/30 bg-card/50 backdrop-blur-sm hover:border-primary/20 hover:shadow-md hover:shadow-primary/5",
+                    note.is_processed && "opacity-50"
                   )}>
                     <CardContent className="p-4">
                       <div className="flex gap-3">
@@ -194,27 +212,48 @@ export default function QuickNotes() {
 
                         {/* Actions */}
                         {editingId !== note.id && (
-                          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8"
+                              className="h-10 w-10"
                               onClick={() => handleStartEdit(note)}
+                              aria-label="Editar nota"
                             >
                               <Edit2 className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-destructive hover:text-destructive"
-                              onClick={() => {
-                                if (confirm('¿Eliminar esta nota?')) {
-                                  deleteQuickNote(note.id);
-                                }
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-10 w-10 text-destructive hover:text-destructive"
+                                  aria-label="Eliminar nota"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>¿Eliminar esta nota?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Esta acción no se puede deshacer. La nota será eliminada permanentemente.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => {
+                                      deleteQuickNote(note.id);
+                                      toast({ title: 'Nota eliminada' });
+                                    }}
+                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  >
+                                    Eliminar
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </div>
                         )}
                       </div>
