@@ -3,31 +3,45 @@ import { Quote, Star, Sparkles } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Lo más valioso que ustedes tienen no es Excel avanzado, macro o Power BI — es la capacidad de aprender nuevas herramientas y cambiarse las viejas lo más rápido posible.",
+    quote: "Afilar la sierra es invertir tiempo en mejorar las propias herramientas. Si quieren ser más productivos, paren — y afilen.",
     author: "Vicente Donoso R.",
     role: "Instructor VDRC",
     generation: "Filosofía",
     rating: 5,
   },
   {
-    quote: "La pregunta clave ya no es si se puede, es cómo lo hago. Con Lovable + Supabase + GitHub se puede crear cualquier software que se imagine.",
+    quote: "La habilidad importante hoy no es Excel avanzado ni Power BI — es la capacidad de aprender nuevas herramientas y cambiar las viejas lo más rápido posible.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "Mentalidad",
+    rating: 5,
+  },
+  {
+    quote: "Si ustedes se suben al carro ahora es como haber agarrado ChatGPT en noviembre del 2022. Las oportunidades están ahí para quien actúe.",
     author: "Vicente Donoso R.",
     role: "Instructor VDRC",
     generation: "Vibe Coding",
     rating: 5,
   },
   {
-    quote: "Separen investigación de generación de informe: dos flujos distintos. Primero 'investigar a fondo', luego en un chat nuevo con ese PDF como contexto, generen la estrategia.",
+    quote: "Ustedes agregan valor en la estrategia, lo que quieren comunicar — no en el diagramito, la burbujita. Eso lo hace la IA.",
     author: "Vicente Donoso R.",
     role: "Instructor VDRC",
-    generation: "Metaprompts",
+    generation: "Presentaciones",
     rating: 5,
   },
   {
-    quote: "El contexto es más importante que el prompt. Traten a la IA como un analista junior que mejora con retroalimentación — no le den una tarea sin decirle quién es y para quién trabaja.",
+    quote: "El SaaS está muerto: hoy se pueden crear bases de datos e interfaces sin programar. Lo que antes costaba millones, hoy se hace en una tarde.",
     author: "Vicente Donoso R.",
     role: "Instructor VDRC",
-    generation: "IA Avanzada",
+    generation: "Software",
+    rating: 5,
+  },
+  {
+    quote: "La diferencia entre quienes usan las herramientas y quienes no, es la acción. No es necesario ser un genio — es necesario practicar.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "Acción",
     rating: 5,
   },
 ];
@@ -52,7 +66,7 @@ export function TestimonialsSection() {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl">
           {testimonials.map((testimonial, i) => (
             <motion.div
               key={i}

@@ -6,7 +6,7 @@ const modules = [
   {
     number: 1,
     title: 'Higiene Digital',
-    description: 'Inbox Zero, perfiles de navegador, Bitwarden, orden del escritorio digital y hábitos tecnológicos.',
+    description: 'Inbox Zero en Gmail y Outlook, Bitwarden, perfiles de navegador, Granola para notas de reunión y carpeta "inicio día" para tu rutina digital.',
     color: 'from-blue-500/20 to-blue-500/5',
     borderColor: 'border-blue-500/20 hover:border-blue-500/40',
     textColor: 'text-blue-400',
@@ -16,7 +16,7 @@ const modules = [
   {
     number: 2,
     title: 'IA & Productividad',
-    description: 'ChatGPT, Claude, Perplexity, Gemini, Manus. Personalización, metaprompts, agentes e investigación a fondo.',
+    description: 'ChatGPT (O3, Canvas, GPTs), Claude, Gemini, Perplexity, Manus. Metaprompts, proyectos, memoria, App Script, Zapier y Notebook LM.',
     color: 'from-primary/20 to-primary/5',
     borderColor: 'border-primary/20 hover:border-primary/40',
     textColor: 'text-primary',
@@ -26,7 +26,7 @@ const modules = [
   {
     number: 3,
     title: 'Presentaciones con IA',
-    description: 'Gama, Colors, Font Joy, Napkin. Crea presentaciones profesionales con paletas de marca y diseño visual.',
+    description: 'Gama para slides rápidas, Beautiful.ai para diagramas paramétricos, Napkin para infografías, Canva para kits de marca y Colors + Font Joy.',
     color: 'from-purple-500/20 to-purple-500/5',
     borderColor: 'border-purple-500/20 hover:border-purple-500/40',
     textColor: 'text-purple-400',
@@ -36,7 +36,7 @@ const modules = [
   {
     number: 4,
     title: 'Vibe Coding',
-    description: 'Lovable + Supabase + GitHub. Crea software real — ERPs, portales, dashboards — sin escribir código.',
+    description: 'Lovable + Supabase + GitHub: la triada. Airtable para datos, Faces App para landing pages, Codex para mejoras automáticas y Cursor para proyectos locales.',
     color: 'from-accent/20 to-accent/5',
     borderColor: 'border-accent/20 hover:border-accent/40',
     textColor: 'text-accent',

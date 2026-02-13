@@ -29,20 +29,36 @@ const showcaseWorkflows = [
     color: 'from-primary/20 to-accent/10',
   },
   {
-    title: 'Presentación Profesional con Gama',
+    title: 'Dashboard Power BI con Canvas + CSV',
     emoji: '📊',
-    steps: 5,
+    steps: 3,
     timeSaved: '2 hrs',
-    category: 'Presentaciones',
+    category: 'Análisis',
     color: 'from-blue-500/20 to-cyan-500/10',
   },
   {
-    title: 'Análisis Financiero con Claude en Excel',
-    emoji: '📈',
-    steps: 3,
-    timeSaved: '30 min',
-    category: 'Finanzas',
+    title: 'Automatización con Zapier',
+    emoji: '⚡',
+    steps: 4,
+    timeSaved: '1 hr',
+    category: 'Automatización',
     color: 'from-orange-500/20 to-yellow-500/10',
+  },
+  {
+    title: 'Landing Page con Faces App',
+    emoji: '🏠',
+    steps: 3,
+    timeSaved: '3 hrs',
+    category: 'Marketing',
+    color: 'from-green-500/20 to-emerald-500/10',
+  },
+  {
+    title: 'Base de Datos Relacional en Airtable',
+    emoji: '📋',
+    steps: 5,
+    timeSaved: '2 hrs',
+    category: 'Datos',
+    color: 'from-indigo-500/20 to-violet-500/10',
   },
 ];
 
@@ -79,9 +95,11 @@ export function WorkflowShowcase() {
             <div className="space-y-4 mb-8">
               {[
                 'Metaprompts: pide a la IA que escriba el prompt perfecto',
-                'Separar investigación de estrategia en flujos distintos',
-                'Variables dinámicas: {{EMPRESA}}, {{INDUSTRIA}}, {{OBJETIVO}}',
-                'Lanzar el mismo prompt en ChatGPT, Gemini y Manus para comparar',
+                'Separar investigación de estrategia en dos flujos distintos',
+                'Comparar resultados en ChatGPT, Claude, Gemini y Manus',
+                'Automatizar tareas recurrentes con Zapier y App Script',
+                'De CSV a dashboard interactivo con Canvas de ChatGPT',
+                'De prompt a software funcional con Lovable + Supabase',
               ].map((feature, i) => (
                 <motion.div
                   key={i}

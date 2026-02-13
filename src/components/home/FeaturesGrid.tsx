@@ -6,14 +6,14 @@ import {
 } from 'lucide-react';
 
 const features = [
-  { icon: Workflow, title: 'Workflows con IA', description: 'Ejecuta metaprompts, investigaciones a fondo y automatizaciones paso a paso con variables personalizables.', href: '/workflows', featured: true },
-  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Conecta con +122 profesionales, comparte casos reales y aprende del ecosistema VDRC.', href: '/community' },
-  { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, presentaciones y notas de +50 sesiones desde la Gen 1 hasta la Gen 11.', href: '/generations' },
-  { icon: Wrench, title: 'Stack de Herramientas IA', description: 'ChatGPT, Claude, Perplexity, Gemini, Manus, Cursor, Lovable y +20 herramientas catalogadas.', href: '/tools' },
-  { icon: Calculator, title: 'Calculadora de ROI', description: 'Mide las horas y dinero que ahorras delegando tareas repetitivas a la IA.', href: '/roi-calculator' },
-  { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con prompts, compara modelos y genera contenido profesional en tiempo real.', href: '/playground' },
-  { icon: Code2, title: 'Vibe Coding', description: 'Crea software real con Lovable + Supabase + GitHub sin escribir una sola línea de código.', href: '/workflows' },
-  { icon: Calendar, title: 'Calendario de Sesiones', description: 'Próximas clases, eventos de la comunidad y fechas clave de cada generación.', href: '/calendar' },
+  { icon: Workflow, title: 'Workflows con IA', description: 'Metaprompts, investigaciones a fondo, automatizaciones con Zapier y App Script — flujos paso a paso con variables dinámicas.', href: '/workflows', featured: true },
+  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Conecta con +122 profesionales de 10 generaciones. Comparte casos reales, pide feedback y aprende del ecosistema VDRC.', href: '/community' },
+  { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, slides de Gama y notas de +50 sesiones. Desde higiene digital hasta vibe coding, todo organizado por módulo.', href: '/generations' },
+  { icon: Wrench, title: 'Stack de +30 Herramientas', description: 'ChatGPT, Claude, Gemini, Lovable, Supabase, Airtable, Zapier, Gama, Beautiful.ai, Canva, Faces App y más — catalogadas y comparadas.', href: '/tools' },
+  { icon: Calculator, title: 'Calculadora de ROI', description: 'Mide las horas y dinero que ahorras delegando tareas a la IA. Como dice Vicente: "la diferencia está en la acción."', href: '/roi-calculator' },
+  { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con prompts, compara O3 vs GPT-4 vs Claude, y genera contenido profesional con Canvas en tiempo real.', href: '/playground' },
+  { icon: Code2, title: 'Vibe Coding', description: 'La triada Lovable + Supabase + GitHub: ERPs, portales, dashboards y landing pages sin escribir código. "El SaaS está muerto."', href: '/workflows' },
+  { icon: Calendar, title: 'Calendario de Sesiones', description: 'Próximas clases, eventos de la comunidad, fechas de cada generación y talleres de actualización continua.', href: '/calendar' },
 ];
 
 export function FeaturesGrid() {
@@ -32,7 +32,7 @@ export function FeaturesGrid() {
             Todo lo que necesitas para <span className="text-gradient">dominar la IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Desde higiene digital hasta vibe coding — un ecosistema completo de productividad con inteligencia artificial
+            Desde Inbox Zero hasta crear software con IA — un ecosistema completo con +30 herramientas y +50 clases grabadas
           </p>
         </motion.div>
 

@@ -79,7 +79,7 @@ function TypingLine({
 }
 
 // Rotating text effect for features — now with actual class content
-const rotatingWords = ['ChatGPT & Claude', 'vibe coding', 'metaprompts', 'Lovable + Supabase', 'automatizaciones'];
+const rotatingWords = ['ChatGPT & Claude', 'vibe coding', 'metaprompts', 'Lovable + Supabase', 'Zapier & App Script', 'Gama & Beautiful.ai', 'Airtable & datos'];
 
 function RotatingText() {
   const [index, setIndex] = useState(0);
@@ -245,7 +245,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </div>
             <div className="w-px h-10 bg-primary/20" />
             <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">+20</div>
+              <div className="text-2xl md:text-3xl font-bold text-primary">+30</div>
               <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Herramientas</div>
             </div>
           </motion.div>
@@ -333,13 +333,14 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
             </div>
             <div className="space-y-1 min-h-[140px]">
-              <TypingLine text=" vdrc --afila-sierra" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
-              <TypingLine text="Cargando stack: ChatGPT + Claude + Perplexity + Cursor..." delay={3500} className="text-accent" prefix="> " />
-              <TypingLine text="Higiene digital: OK" delay={4200} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Metaprompts & agentes: OK" delay={4800} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Vibe coding (Lovable + Supabase + GitHub): OK" delay={5500} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Bienvenido a tus años más productivos." delay={6500} className="text-primary font-bold" prefix="> " />
-              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8 }}>
+              <TypingLine text=" vdrc --afila-sierra --gen=11" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
+              <TypingLine text="Stack: ChatGPT + Claude + Perplexity + Gemini + 26 más..." delay={3500} className="text-accent" prefix="> " />
+              <TypingLine text="Higiene digital (Inbox Zero, Bitwarden): OK" delay={4200} className="text-green-400" prefix="✓ " />
+              <TypingLine text="IA avanzada (metaprompts, agentes, Canvas): OK" delay={4800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Presentaciones (Gama, Beautiful.ai, Napkin): OK" delay={5300} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Vibe coding (Lovable + Supabase + GitHub): OK" delay={5800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Bienvenido a tus años más productivos." delay={6800} className="text-primary font-bold" prefix="> " />
+              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8.5 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
               </motion.p>
             </div>

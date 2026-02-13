@@ -2,26 +2,42 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 const tools = [
+  // IA Core
   { name: 'ChatGPT', emoji: '🤖' },
   { name: 'Claude', emoji: '🧠' },
   { name: 'Perplexity', emoji: '🔍' },
   { name: 'Gemini', emoji: '✨' },
-  { name: 'Cursor', emoji: '💻' },
+  { name: 'Manus', emoji: '🤝' },
+  // Vibe Coding
   { name: 'Lovable', emoji: '💜' },
   { name: 'Supabase', emoji: '🗄️' },
   { name: 'GitHub', emoji: '🐙' },
-  { name: 'Manus', emoji: '🤝' },
-  { name: 'Gama', emoji: '📊' },
-  { name: 'Notebook LM', emoji: '📓' },
-  { name: 'Bitwarden', emoji: '🔐' },
-  { name: 'Granola', emoji: '🎙️' },
-  { name: 'Napkin', emoji: '🗒️' },
-  { name: 'Excel Labs', emoji: '📈' },
+  { name: 'Cursor', emoji: '💻' },
   { name: 'Claude Code', emoji: '⌨️' },
-  { name: 'Mapbox', emoji: '🗺️' },
+  { name: 'Codex', emoji: '🔧' },
+  // Presentaciones & Diseño
+  { name: 'Gama', emoji: '📊' },
+  { name: 'Beautiful.ai', emoji: '🎯' },
+  { name: 'Napkin', emoji: '🗒️' },
+  { name: 'Canva', emoji: '🖼️' },
   { name: 'Colors', emoji: '🎨' },
   { name: 'Font Joy', emoji: '🔤' },
-  { name: 'Miro', emoji: '📋' },
+  // Datos & Bases
+  { name: 'Airtable', emoji: '📋' },
+  { name: 'Excel Labs', emoji: '📈' },
+  { name: 'Notebook LM', emoji: '📓' },
+  // Automatización
+  { name: 'Zapier', emoji: '⚡' },
+  { name: 'App Script', emoji: '📜' },
+  // Productividad
+  { name: 'Bitwarden', emoji: '🔐' },
+  { name: 'Granola', emoji: '🎙️' },
+  { name: 'Faces App', emoji: '🏠' },
+  { name: 'HubSpot', emoji: '📇' },
+  { name: 'Mapbox', emoji: '🗺️' },
+  { name: 'Vercel', emoji: '▲' },
+  { name: 'Mistral AI', emoji: '🌀' },
+  { name: 'Read.ai', emoji: '👂' },
 ];
 
 const doubledTools = [...tools, ...tools];
@@ -44,7 +60,7 @@ export function ToolsMarquee() {
           viewport={{ once: true }}
           className="text-center text-sm font-mono text-muted-foreground uppercase tracking-widest"
         >
-          +20 herramientas que dominarás en el taller
+          +30 herramientas que dominarás en el taller
         </motion.p>
       </div>
 

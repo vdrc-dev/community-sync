@@ -100,8 +100,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
               </h2>
 
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-                4 sesiones intensivas. +20 herramientas. Desde higiene digital hasta crear software con IA.
-                El taller que ya transformó a +122 profesionales en Chile y LATAM.
+                4 sesiones intensivas. +30 herramientas. Desde Inbox Zero hasta crear software con IA.
+                El taller que ya transformó a +122 profesionales en 10 generaciones.
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 font-mono">

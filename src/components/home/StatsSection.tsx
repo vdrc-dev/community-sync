@@ -75,7 +75,7 @@ export function StatsSection() {
   const stats = [
     { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller completados' },
     { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas disponibles' },
-    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA catalogadas' },
+    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA cubiertas en el taller' },
     { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones listas' },
     { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Profesionales activos' },
     { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Estimado por la comunidad' },
@@ -99,7 +99,7 @@ export function StatsSection() {
             Impacto <span className="text-gradient">real</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Numeros que demuestran el poder de la productividad con IA
+            Números que demuestran el poder de la productividad con IA
           </p>
         </motion.div>
 
