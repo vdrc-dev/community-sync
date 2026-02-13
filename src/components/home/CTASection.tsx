@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Users, Rocket, BarChart3, BookOpen } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Users, Rocket, BarChart3, BookOpen, Brain, Code2, Shield } from 'lucide-react';
 
 interface CTASectionProps {
   isAuthenticated: boolean;
@@ -19,7 +19,6 @@ const badgeVariants = {
 
 export function CTASection({ isAuthenticated }: CTASectionProps) {
   if (isAuthenticated) {
-    // Authenticated users: ecosystem exploration CTA
     return (
       <section className="py-16 relative overflow-hidden">
         <div className="container mx-auto px-4 relative">
@@ -32,13 +31,13 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
             <div className="relative p-8 sm:p-10 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/50 overflow-hidden text-center">
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
               <div className="relative z-10">
-                <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// EXPLORA MAS</span>
+                <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// SIGUE AFILANDO</span>
                 <h3 className="text-2xl sm:text-3xl font-mono font-bold mt-3 mb-4">
                   Sigue <span className="text-gradient">explorando</span>
                 </h3>
                 <div className="flex flex-wrap justify-center gap-3 mb-6">
                   {[
-                    { icon: BookOpen, text: 'Workflows', to: '/workflows' },
+                    { icon: Zap, text: 'Workflows', to: '/workflows' },
                     { icon: BarChart3, text: 'ROI Calculator', to: '/roi-calculator' },
                     { icon: Users, text: 'Comunidad', to: '/community' },
                   ].map((item, i) => (
@@ -93,22 +92,23 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
 
             <div className="relative z-10 text-center">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// ACCESO</span>
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// BIENVENIDO A TUS AÑOS MÁS PRODUCTIVOS</span>
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-4 mb-6">
-                Accede a tu<br />
-                <span className="text-gradient">portal de productividad</span>
+                Afila tu<br />
+                <span className="text-gradient">sierra digital</span>
               </h2>
 
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-                Inicia sesion para acceder a todos los recursos, workflows y la comunidad.
+                4 sesiones intensivas. +20 herramientas. Desde higiene digital hasta crear software con IA.
+                El taller que ya transformó a +122 profesionales en Chile y LATAM.
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 font-mono">
                 {[
-                  { icon: Zap, text: 'Workflows interactivos' },
-                  { icon: Users, text: 'Comunidad activa' },
-                  { icon: Sparkles, text: 'Recursos exclusivos' },
+                  { icon: Shield, text: 'Higiene digital' },
+                  { icon: Brain, text: 'ChatGPT, Claude & más' },
+                  { icon: Code2, text: 'Vibe coding' },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -129,7 +129,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 <Button asChild size="lg" className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 font-mono group transition-all duration-300 hover:scale-[1.02]">
                   <Link to="/auth">
                     <span className="flex items-center">
-                      INICIAR SESION
+                      INICIAR SESIÓN
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Link>

@@ -78,8 +78,8 @@ function TypingLine({
   );
 }
 
-// Rotating text effect for features
-const rotatingWords = ['workflows', 'herramientas IA', 'comunidad', 'presentaciones', 'automatizaciones'];
+// Rotating text effect for features — now with actual class content
+const rotatingWords = ['ChatGPT & Claude', 'vibe coding', 'metaprompts', 'Lovable + Supabase', 'automatizaciones'];
 
 function RotatingText() {
   const [index, setIndex] = useState(0);
@@ -118,11 +118,11 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
       <div className="absolute inset-0 -z-10 bg-background" />
       <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] via-transparent to-transparent" />
 
-      {/* Circuit corners — diagonal pair for subtle branding */}
+      {/* Circuit corners */}
       <CircuitCorner position="tl" />
       <CircuitCorner position="br" />
 
-      {/* Floating particles — subtle dots only */}
+      {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((particle) => (
           <motion.div
@@ -143,7 +143,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         ))}
       </div>
 
-      {/* Grid pattern — very subtle */}
+      {/* Grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_60%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
@@ -153,7 +153,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           transition={{ duration: 1, ease: 'easeOut' }}
           className="max-w-5xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-card/60 backdrop-blur-xl border border-border/30 relative"
         >
-          {/* /// TRANSMISSION label - vdrc.cl style */}
+          {/* /// TRANSMISSION label */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -165,7 +165,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </span>
           </motion.div>
 
-          {/* Gen 11 badge for non-authenticated + System version badge */}
+          {/* Badges */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -188,7 +188,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               className="px-4 py-2 border-border/40 bg-card/50 backdrop-blur-sm font-mono text-xs tracking-wider"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse mr-2 inline-block" />
-              SYSTEM v2.0 // COMMUNITY EDITION
+              10 GENERACIONES // +122 PROFESIONALES
             </Badge>
           </motion.div>
 
@@ -200,10 +200,10 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-bold mb-6 leading-[0.9] tracking-tight">
               <motion.span className="block text-foreground" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.6 }}>
-                ACTUALIZA TU
+                AFILA TU
               </motion.span>
               <motion.span className="block text-gradient mt-2" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.8 }}>
-                PRODUCTIVIDAD
+                SIERRA DIGITAL
               </motion.span>
             </h1>
           </motion.div>
@@ -216,13 +216,13 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             className="max-w-3xl mx-auto mb-8 text-center"
           >
             <p className="text-base sm:text-lg md:text-xl text-foreground/70 leading-relaxed">
-              Tu hub exclusivo con <RotatingText />,{' '}
-              <span className="text-accent font-bold">slides interactivas</span>{' '}
-              y una comunidad de productividad digital.
+              Domina <RotatingText />,{' '}
+              <span className="text-accent font-bold">delega en tecnología</span>{' '}
+              y transforma tu productividad profesional con IA.
             </p>
           </motion.div>
 
-          {/* Social proof - vdrc.cl/talleres style */}
+          {/* Social proof */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -235,13 +235,18 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </div>
             <div className="w-px h-10 bg-primary/20" />
             <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">11</div>
+              <div className="text-2xl md:text-3xl font-bold text-primary">10</div>
               <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Generaciones</div>
             </div>
             <div className="w-px h-10 bg-primary/20" />
             <div className="text-center px-3">
               <div className="text-2xl md:text-3xl font-bold text-primary">+50</div>
               <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Clases</div>
+            </div>
+            <div className="w-px h-10 bg-primary/20" />
+            <div className="text-center px-3">
+              <div className="text-2xl md:text-3xl font-bold text-primary">+20</div>
+              <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Herramientas</div>
             </div>
           </motion.div>
 
@@ -273,7 +278,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-[1.02]">
                   <Link to="/auth">
                     <span className="relative z-10 flex items-center">
-                      INICIAR SESION
+                      INICIAR SESIÓN
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Link>
@@ -291,7 +296,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             )}
           </motion.div>
 
-          {/* Cross-site links - ecosystem */}
+          {/* Cross-site links */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -328,12 +333,13 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
             </div>
             <div className="space-y-1 min-h-[140px]">
-              <TypingLine text=" vdrc --status" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
-              <TypingLine text="Gen 11: INSCRIPCIONES ABIERTAS // Marzo 2026" delay={3500} className="text-accent" prefix="> " />
-              <TypingLine text="Portal: ONLINE" delay={4200} className="text-green-400" prefix="> " />
-              <TypingLine text="Comunidad: 122+ activos" delay={4800} className="text-green-400" prefix="> " />
-              <TypingLine text="Ecosistema: vdrc.cl + comunidad + presentaciones" delay={5500} className="text-green-400" prefix="> " />
-              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 7 }}>
+              <TypingLine text=" vdrc --afila-sierra" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
+              <TypingLine text="Cargando stack: ChatGPT + Claude + Perplexity + Cursor..." delay={3500} className="text-accent" prefix="> " />
+              <TypingLine text="Higiene digital: OK" delay={4200} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Metaprompts & agentes: OK" delay={4800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Vibe coding (Lovable + Supabase + GitHub): OK" delay={5500} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Bienvenido a tus años más productivos." delay={6500} className="text-primary font-bold" prefix="> " />
+              <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
               </motion.p>
             </div>
@@ -341,7 +347,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
         </motion.div>
       </div>
 
-      {/* Scroll indicator - vdrc.cl style */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

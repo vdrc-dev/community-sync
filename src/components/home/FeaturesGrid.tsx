@@ -2,25 +2,23 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Users, Calendar, Wrench, ChevronRight, Workflow,
-  Calculator, Sparkles, Gamepad2, MessageSquare
+  Calculator, Sparkles, Gamepad2, MessageSquare, Shield, Code2
 } from 'lucide-react';
 
 const features = [
-  { icon: Workflow, title: 'Workflows Interactivos', description: 'Ejecuta prompts en tiempo real con variables personalizables y guarda tu historial.', href: '/workflows', featured: true },
-  { icon: MessageSquare, title: 'Comunidad', description: 'Espacios de discusión, posts, likes y comentarios para conectar con participantes.', href: '/community' },
-  { icon: BookOpen, title: 'Biblioteca de Recursos', description: 'Grabaciones, presentaciones y materiales organizados por generación.', href: '/generations' },
-  { icon: Wrench, title: 'Catálogo de Herramientas', description: '30+ herramientas IA categorizadas con tracking personal de uso.', href: '/tools' },
-  { icon: Calculator, title: 'Calculadora ROI', description: 'Mide el tiempo y dinero que ahorras con tus automatizaciones.', href: '/roi-calculator' },
-  { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con prompts y genera contenido con diferentes modelos.', href: '/playground' },
-  { icon: Gamepad2, title: 'Gamificación', description: 'Gana puntos, desbloquea badges y compite en el leaderboard.', href: '/leaderboard' },
-  { icon: Calendar, title: 'Calendario', description: 'Mantente al día con próximas sesiones y eventos del taller.', href: '/calendar' },
+  { icon: Workflow, title: 'Workflows con IA', description: 'Ejecuta metaprompts, investigaciones a fondo y automatizaciones paso a paso con variables personalizables.', href: '/workflows', featured: true },
+  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Conecta con +122 profesionales, comparte casos reales y aprende del ecosistema VDRC.', href: '/community' },
+  { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, presentaciones y notas de +50 sesiones desde la Gen 1 hasta la Gen 11.', href: '/generations' },
+  { icon: Wrench, title: 'Stack de Herramientas IA', description: 'ChatGPT, Claude, Perplexity, Gemini, Manus, Cursor, Lovable y +20 herramientas catalogadas.', href: '/tools' },
+  { icon: Calculator, title: 'Calculadora de ROI', description: 'Mide las horas y dinero que ahorras delegando tareas repetitivas a la IA.', href: '/roi-calculator' },
+  { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con prompts, compara modelos y genera contenido profesional en tiempo real.', href: '/playground' },
+  { icon: Code2, title: 'Vibe Coding', description: 'Crea software real con Lovable + Supabase + GitHub sin escribir una sola línea de código.', href: '/workflows' },
+  { icon: Calendar, title: 'Calendario de Sesiones', description: 'Próximas clases, eventos de la comunidad y fechas clave de cada generación.', href: '/calendar' },
 ];
 
 export function FeaturesGrid() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* No colored background radials — clean */}
-
       <div className="container mx-auto px-4 relative">
         {/* /// INTERVENCIÓN label */}
         <motion.div
@@ -29,12 +27,12 @@ export function FeaturesGrid() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// INTERVENCIÓN</span>
+          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// ECOSISTEMA</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
-            Todo en <span className="text-gradient">un lugar</span>
+            Todo lo que necesitas para <span className="text-gradient">dominar la IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Un ecosistema completo para dominar la productividad con inteligencia artificial
+            Desde higiene digital hasta vibe coding — un ecosistema completo de productividad con inteligencia artificial
           </p>
         </motion.div>
 

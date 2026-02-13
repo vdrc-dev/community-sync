@@ -1,32 +1,40 @@
 import { motion } from 'framer-motion';
-import { UserPlus, Workflow, Rocket, ArrowRight } from 'lucide-react';
+import { Shield, Brain, Rocket, ArrowRight, Presentation, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const steps = [
   {
     number: '01',
-    icon: UserPlus,
-    title: 'Inicia sesión',
-    description: 'Accede con tu cuenta de participante y entra a tu portal personalizado.',
+    icon: Shield,
+    title: 'Higiene Digital',
+    description: 'Inbox Zero, perfiles de navegador, gestión de contraseñas con Bitwarden y organización de tu escritorio digital.',
     gradient: 'from-primary to-emerald-400',
     glowColor: 'hsl(142, 76%, 50%)',
   },
   {
     number: '02',
-    icon: Workflow,
-    title: 'Explora & Practica',
-    description: 'Sigue workflows interactivos, prueba herramientas IA y ejecuta prompts en tiempo real.',
+    icon: Brain,
+    title: 'Domina la IA',
+    description: 'ChatGPT, Claude, Perplexity, Gemini y Manus. Personalización, metaprompts, agentes e investigación a fondo.',
     gradient: 'from-accent to-blue-400',
     glowColor: 'hsl(180, 100%, 45%)',
   },
   {
     number: '03',
-    icon: Rocket,
-    title: 'Domina & Automatiza',
-    description: 'Mide tu ROI, gana badges y transforma tu productividad con automatizaciones reales.',
+    icon: Presentation,
+    title: 'Presenta con IA',
+    description: 'Crea presentaciones profesionales con Gama, paletas de marca con Colors y diseño visual con Napkin.',
     gradient: 'from-purple-500 to-pink-500',
     glowColor: 'hsl(270, 70%, 50%)',
+  },
+  {
+    number: '04',
+    icon: Code2,
+    title: 'Vibe Coding',
+    description: 'Construye software real con Lovable + Supabase + GitHub. ERPs, portales, dashboards — sin escribir código.',
+    gradient: 'from-orange-500 to-yellow-500',
+    glowColor: 'hsl(30, 90%, 50%)',
   },
 ];
 
@@ -50,18 +58,18 @@ export function HowItWorks() {
             viewport={{ once: true }}
             className="inline-block px-4 py-1.5 rounded-full text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 mb-6"
           >
-            CÓMO FUNCIONA
+            4 SESIONES INTENSIVAS
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-4">
-            Tres pasos para <span className="text-gradient">dominar la IA</span>
+            De cero a <span className="text-gradient">productivo con IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Un camino claro desde principiante hasta experto en productividad con IA
+            Cada generación cubre 4 módulos que te transforman de principiante a experto en productividad digital
           </p>
         </motion.div>
 
-        <div className="max-w-5xl mx-auto relative">
-          {/* Connecting line — single animated version */}
+        <div className="max-w-6xl mx-auto relative">
+          {/* Connecting line */}
           <motion.div
             className="absolute top-1/2 left-0 right-0 h-px hidden lg:block -translate-y-1/2"
             style={{
@@ -73,18 +81,18 @@ export function HowItWorks() {
             transition={{ duration: 1.5, delay: 0.5 }}
           />
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {steps.map((step, i) => (
               <motion.div
                 key={step.number}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.2, duration: 0.6 }}
+                transition={{ delay: i * 0.15, duration: 0.6 }}
                 className="relative group"
               >
                 {/* Step card */}
-                <div className="relative p-8 rounded-2xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 text-center">
+                <div className="relative p-7 rounded-2xl bg-card/90 backdrop-blur-sm border border-border/40 group-hover:border-primary/30 transition-all duration-500 text-center h-full">
                   {/* Hover glow */}
                   <motion.div
                     className={`absolute -inset-[1px] rounded-2xl bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-100 blur-md transition-all duration-500`}
@@ -93,12 +101,12 @@ export function HowItWorks() {
 
                   {/* Step number */}
                   <motion.div
-                    className={`relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} p-[2px] mb-6`}
+                    className={`relative inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${step.gradient} p-[2px] mb-5`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: 'spring', stiffness: 300 }}
                   >
                     <div className="w-full h-full rounded-2xl bg-card flex items-center justify-center">
-                      <step.icon className="w-7 h-7 text-primary" />
+                      <step.icon className="w-6 h-6 text-primary" />
                     </div>
                   </motion.div>
 
@@ -107,25 +115,13 @@ export function HowItWorks() {
                     {step.number}
                   </div>
 
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg font-bold mb-3 group-hover:text-primary transition-colors">
                     {step.title}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {step.description}
                   </p>
                 </div>
-
-                {/* Arrow between steps (desktop) */}
-                {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-6 lg:-right-8 -translate-y-1/2 z-10">
-                    <motion.div
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <ArrowRight className="w-5 h-5 text-primary/50" />
-                    </motion.div>
-                  </div>
-                )}
               </motion.div>
             ))}
           </div>
@@ -141,7 +137,7 @@ export function HowItWorks() {
         >
           <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-[1.02] transition-all duration-300">
             <Link to="/auth">
-              Iniciar sesion
+              Quiero dominar la IA
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </Button>

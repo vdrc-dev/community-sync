@@ -1,46 +1,46 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Globe, Users, Presentation, ArrowRight, Zap } from 'lucide-react';
+import { ExternalLink, Globe, Users, Presentation, Zap } from 'lucide-react';
 
 const ecosystemNodes = [
   {
     id: 'main',
     label: 'vdrc.cl',
     title: 'Sitio Principal',
-    description: 'Informacion del taller, inscripciones, blog y recursos publicos.',
+    description: 'Información del taller, inscripciones para nuevas generaciones, blog con recursos públicos y contacto.',
     href: 'https://vdrc.cl',
     icon: Globe,
     color: 'primary',
     gradient: 'from-primary/20 to-primary/5',
     borderColor: 'border-primary/30 hover:border-primary/60',
     glowColor: 'shadow-primary/20',
-    badges: ['Inscripciones', 'Blog', 'Info'],
+    badges: ['Inscripciones', 'Blog', 'Gen 11'],
   },
   {
     id: 'community',
     label: 'Comunidad',
     title: 'Portal Comunidad',
-    description: 'Workflows, herramientas IA, gamificacion, foro y recursos exclusivos del taller.',
+    description: 'Workflows interactivos, catálogo de +20 herramientas IA, foro, gamificación y recursos exclusivos del taller.',
     href: '/',
     icon: Users,
     color: 'accent',
     gradient: 'from-accent/20 to-accent/5',
     borderColor: 'border-accent/30 hover:border-accent/60',
     glowColor: 'shadow-accent/20',
-    badges: ['Workflows', 'Tools', 'Comunidad'],
+    badges: ['Workflows', 'Herramientas', 'Comunidad'],
     isCurrent: true,
   },
   {
     id: 'presentations',
     label: 'Presentaciones',
-    title: 'IA & Productividad',
-    description: 'Slides interactivas, material de clases y presentaciones de cada modulo.',
+    title: 'Slides Interactivas',
+    description: 'Material de cada sesión: desde higiene digital hasta vibe coding, con slides navegables por módulo.',
     href: 'https://vdrc.lovable.app',
     icon: Presentation,
     color: 'purple',
     gradient: 'from-purple-500/20 to-purple-500/5',
     borderColor: 'border-purple-500/30 hover:border-purple-500/60',
     glowColor: 'shadow-purple-500/20',
-    badges: ['Slides', 'Clases', 'Material'],
+    badges: ['Slides', '4 Módulos', 'Interactivas'],
   },
 ];
 
@@ -56,7 +56,6 @@ function ConnectionLine({ delay = 0 }: { delay?: number }) {
 export function EcosystemSection() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Background — clean */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
 
       <div className="container mx-auto px-4 relative">
@@ -75,7 +74,7 @@ export function EcosystemSection() {
             <span className="text-gradient">conectado</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Tres plataformas que trabajan juntas para potenciar tu productividad con IA
+            Tres plataformas que trabajan juntas — como Lovable + Supabase + GitHub, pero para tu aprendizaje
           </p>
         </motion.div>
 
@@ -95,15 +94,13 @@ export function EcosystemSection() {
                 whileHover={{ scale: 1.03, y: -6 }}
                 className={`group relative flex flex-col ${node.isCurrent ? 'cursor-default' : ''}`}
               >
-                {/* No glow — clean hover is handled via border */}
-
                 <div className={`relative flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-card/80 backdrop-blur-xl border ${node.borderColor} transition-all duration-500 overflow-hidden`}>
                   {/* Current indicator */}
                   {node.isCurrent && (
                     <div className="absolute top-3 right-3">
                       <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-[10px] font-mono tracking-wider">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                        AQUI ESTAS
+                        AQUÍ ESTÁS
                       </span>
                     </div>
                   )}

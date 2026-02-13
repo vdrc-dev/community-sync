@@ -4,20 +4,24 @@ import { useState } from 'react';
 const tools = [
   { name: 'ChatGPT', emoji: '🤖' },
   { name: 'Claude', emoji: '🧠' },
-  { name: 'Midjourney', emoji: '🎨' },
-  { name: 'Cursor', emoji: '💻' },
-  { name: 'Notion AI', emoji: '📝' },
   { name: 'Perplexity', emoji: '🔍' },
   { name: 'Gemini', emoji: '✨' },
-  { name: 'Copilot', emoji: '🚀' },
+  { name: 'Cursor', emoji: '💻' },
   { name: 'Lovable', emoji: '💜' },
-  { name: 'v0', emoji: '⚡' },
-  { name: 'Gamma', emoji: '📊' },
-  { name: 'Runway', emoji: '🎬' },
-  { name: 'ElevenLabs', emoji: '🎙️' },
-  { name: 'Zapier', emoji: '🔗' },
-  { name: 'Make', emoji: '⚙️' },
-  { name: 'Bolt', emoji: '🔩' },
+  { name: 'Supabase', emoji: '🗄️' },
+  { name: 'GitHub', emoji: '🐙' },
+  { name: 'Manus', emoji: '🤝' },
+  { name: 'Gama', emoji: '📊' },
+  { name: 'Notebook LM', emoji: '📓' },
+  { name: 'Bitwarden', emoji: '🔐' },
+  { name: 'Granola', emoji: '🎙️' },
+  { name: 'Napkin', emoji: '🗒️' },
+  { name: 'Excel Labs', emoji: '📈' },
+  { name: 'Claude Code', emoji: '⌨️' },
+  { name: 'Mapbox', emoji: '🗺️' },
+  { name: 'Colors', emoji: '🎨' },
+  { name: 'Font Joy', emoji: '🔤' },
+  { name: 'Miro', emoji: '📋' },
 ];
 
 const doubledTools = [...tools, ...tools];
@@ -32,7 +36,6 @@ export function ToolsMarquee() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-background via-card/30 to-background" />
-      {/* No colored radial background */}
 
       <div className="container mx-auto px-4 relative mb-8">
         <motion.p
@@ -41,7 +44,7 @@ export function ToolsMarquee() {
           viewport={{ once: true }}
           className="text-center text-sm font-mono text-muted-foreground uppercase tracking-widest"
         >
-          Herramientas que dominaras
+          +20 herramientas que dominarás en el taller
         </motion.p>
       </div>
 

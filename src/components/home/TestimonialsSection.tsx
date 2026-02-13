@@ -1,33 +1,33 @@
 import { motion } from 'framer-motion';
-import { Quote, Star } from 'lucide-react';
+import { Quote, Star, Sparkles } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Los workflows interactivos cambiaron completamente mi forma de trabajar. Ahorro mínimo 2 horas diarias en tareas repetitivas.",
-    author: "María G.",
-    role: "Product Manager",
-    generation: "Gen 9",
+    quote: "Lo más valioso que ustedes tienen no es Excel avanzado, macro o Power BI — es la capacidad de aprender nuevas herramientas y cambiarse las viejas lo más rápido posible.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "Filosofía",
     rating: 5,
   },
   {
-    quote: "Por fin entiendo cómo usar ChatGPT de manera productiva. Los prompts del taller son oro puro.",
-    author: "Carlos R.",
-    role: "Desarrollador Full-Stack",
-    generation: "Gen 10",
+    quote: "La pregunta clave ya no es si se puede, es cómo lo hago. Con Lovable + Supabase + GitHub se puede crear cualquier software que se imagine.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "Vibe Coding",
     rating: 5,
   },
   {
-    quote: "La calculadora de ROI me ayudó a justificar la inversión en herramientas IA ante mi equipo con datos concretos.",
-    author: "Ana L.",
-    role: "Fundadora, Startup Tech",
-    generation: "Gen 8",
-    rating: 4,
+    quote: "Separen investigación de generación de informe: dos flujos distintos. Primero 'investigar a fondo', luego en un chat nuevo con ese PDF como contexto, generen la estrategia.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "Metaprompts",
+    rating: 5,
   },
   {
-    quote: "Llegué sin saber nada de IA y ahora automatizo reportes que antes me tomaban medio día. Increíble la comunidad.",
-    author: "Diego M.",
-    role: "Analista de Datos",
-    generation: "Gen 10",
+    quote: "El contexto es más importante que el prompt. Traten a la IA como un analista junior que mejora con retroalimentación — no le den una tarea sin decirle quién es y para quién trabaja.",
+    author: "Vicente Donoso R.",
+    role: "Instructor VDRC",
+    generation: "IA Avanzada",
     rating: 5,
   },
 ];
@@ -35,8 +35,6 @@ const testimonials = [
 export function TestimonialsSection() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Clean background */}
-
       <div className="container mx-auto px-4 relative">
         {/* /// TESTIMONIOS label */}
         <motion.div
@@ -45,12 +43,12 @@ export function TestimonialsSection() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// TESTIMONIOS</span>
+          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// FILOSOFÍA_VDRC</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
-            Lo que dicen los <span className="text-gradient">participantes</span>
+            Principios del <span className="text-gradient">taller</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Historias reales de productividad transformada
+            Frases clave que guían cada sesión del Taller de Productividad Digital con IA
           </p>
         </motion.div>
 
@@ -65,14 +63,12 @@ export function TestimonialsSection() {
               className="group relative"
             >
               <div className="relative h-full p-6 rounded-2xl bg-card/90 border border-border/40 group-hover:border-primary/25 transition-all duration-300">
-                {/* Stars */}
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className={`w-3.5 h-3.5 ${j < testimonial.rating ? 'fill-primary text-primary' : 'text-muted-foreground/20'}`} />
-                  ))}
+                {/* Quote icon */}
+                <div className="mb-4">
+                  <Sparkles className="w-5 h-5 text-primary/60" />
                 </div>
 
-                <p className="text-foreground/85 text-sm mb-5 leading-relaxed">
+                <p className="text-foreground/85 text-sm mb-5 leading-relaxed italic">
                   "{testimonial.quote}"
                 </p>
 

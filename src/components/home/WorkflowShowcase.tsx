@@ -13,28 +13,36 @@ import {
 
 const showcaseWorkflows = [
   {
-    title: 'Email a Cliente desde Reunión',
-    emoji: '📧',
+    title: 'Metaprompt + Investigación a Fondo',
+    emoji: '🧠',
     steps: 4,
-    timeSaved: '15 min',
-    category: 'Comunicación',
-    color: 'from-blue-500/20 to-cyan-500/10',
-  },
-  {
-    title: 'Análisis de Competencia',
-    emoji: '🔍',
-    steps: 5,
     timeSaved: '45 min',
     category: 'Investigación',
     color: 'from-purple-500/20 to-pink-500/10',
   },
   {
-    title: 'Documentación de Código',
+    title: 'Vibe Coding: App con Lovable + Supabase',
     emoji: '💻',
-    steps: 3,
-    timeSaved: '30 min',
+    steps: 6,
+    timeSaved: '4 hrs',
     category: 'Desarrollo',
     color: 'from-primary/20 to-accent/10',
+  },
+  {
+    title: 'Presentación Profesional con Gama',
+    emoji: '📊',
+    steps: 5,
+    timeSaved: '2 hrs',
+    category: 'Presentaciones',
+    color: 'from-blue-500/20 to-cyan-500/10',
+  },
+  {
+    title: 'Análisis Financiero con Claude en Excel',
+    emoji: '📈',
+    steps: 3,
+    timeSaved: '30 min',
+    category: 'Finanzas',
+    color: 'from-orange-500/20 to-yellow-500/10',
   },
 ];
 
@@ -55,26 +63,25 @@ export function WorkflowShowcase() {
           >
             <Badge variant="outline" className="mb-4 border-primary/50 bg-primary/5">
               <Workflow className="w-3 h-3 mr-1" />
-              Nuevo
+              Casos Reales del Taller
             </Badge>
             
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-6">
-              Workflows<br />
-              <span className="text-gradient">Interactivos</span>
+              Workflows que<br />
+              <span className="text-gradient">usamos en clase</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              No solo leas los prompts — <strong className="text-foreground">ejecútalos</strong>. 
-              Nuestros workflows te permiten probar cada paso con variables personalizables 
-              y ver resultados de IA en tiempo real.
+              No son prompts teóricos — son <strong className="text-foreground">flujos probados en vivo</strong>{' '}
+              durante las sesiones del taller, con casos reales de los participantes.
             </p>
             
             <div className="space-y-4 mb-8">
               {[
-                'Variables dinámicas como {{TEMA}} o {{EMPRESA}}',
-                'Ejecución en tiempo real con múltiples modelos IA',
-                'Historial de ejecuciones guardado automáticamente',
-                'Copia prompts optimizados con un clic',
+                'Metaprompts: pide a la IA que escriba el prompt perfecto',
+                'Separar investigación de estrategia en flujos distintos',
+                'Variables dinámicas: {{EMPRESA}}, {{INDUSTRIA}}, {{OBJETIVO}}',
+                'Lanzar el mismo prompt en ChatGPT, Gemini y Manus para comparar',
               ].map((feature, i) => (
                 <motion.div
                   key={i}
@@ -147,7 +154,7 @@ export function WorkflowShowcase() {
               to="/workflows"
               className="group block p-4 rounded-xl border border-dashed border-primary/20 text-center text-primary/70 hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
             >
-              <span className="text-sm font-mono">Ver todos los workflows</span>
+              <span className="text-sm font-mono">Ver todos los workflows del taller</span>
               <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
