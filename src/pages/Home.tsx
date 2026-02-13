@@ -14,7 +14,6 @@ import { HowItWorks } from '@/components/home/HowItWorks';
 import { ToolsMarquee } from '@/components/home/ToolsMarquee';
 import { SectionDivider } from '@/components/home/SectionDivider';
 import { ActiveGenerationWidget } from '@/components/dashboard/ActiveGenerationWidget';
-import { Gen11Banner } from '@/components/home/Gen11Banner';
 import { EcosystemSection } from '@/components/home/EcosystemSection';
 import { PresentationsPreview } from '@/components/home/PresentationsPreview';
 import { motion } from 'framer-motion';
@@ -24,21 +23,23 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero Section */}
+      {/* ─── 1. HERO — Primera impresión ─── */}
       <HeroSection isAuthenticated={!!user} />
 
-      {/* Gen 11 Countdown Banner — only for visitors */}
-      {!user && <Gen11Banner />}
-
-      {/* Tools Marquee — instant social proof */}
+      {/* ─── 2. TOOLS MARQUEE — Prueba social inmediata ─── */}
       <ToolsMarquee />
 
-      {/* How It Works — explain value FIRST (visitors only) */}
+      {/* ═══════════════════════════════════════════════════
+          VISITOR FLOW: Explicar valor → mostrar producto → convencer
+          ═══════════════════════════════════════════════════ */}
+
+      {/* ─── 3. CÓMO FUNCIONA — Los 4 módulos (solo visitantes) ─── */}
       {!user && <HowItWorks />}
 
-      {!user && <SectionDivider variant="gradient" />}
+      {/* ═══════════════════════════════════════════════════
+          AUTHENTICATED FLOW: Dashboard personalizado
+          ═══════════════════════════════════════════════════ */}
 
-      {/* Dashboard — for logged-in users, their personalized content */}
       {user && (
         <section className="py-8 relative">
           <div className="container mx-auto px-4">
@@ -75,38 +76,40 @@ export default function Home() {
         </section>
       )}
 
-      {/* Features Grid — what the platform offers */}
+      {/* ═══════════════════════════════════════════════════
+          SHARED SECTIONS: Contenido para todos
+          ═══════════════════════════════════════════════════ */}
+
+      {/* ─── 4. FEATURES — Qué ofrece la plataforma ─── */}
       <FeaturesGrid />
-
-      <SectionDivider variant="dots" />
-
-      {/* Testimonials — social proof early */}
-      <TestimonialsSection />
-
-      <SectionDivider variant="glow" />
-
-      {/* Stats — numbers to back up the testimonials */}
-      <StatsSection />
 
       <SectionDivider variant="gradient" />
 
-      {/* Workflow Showcase */}
+      {/* ─── 5. WORKFLOWS — Mostrar el producto estrella ─── */}
       <WorkflowShowcase />
 
       <SectionDivider variant="dots" />
 
-      {/* Presentations Preview */}
+      {/* ─── 6. PRESENTACIONES — Material de cada módulo ─── */}
       <PresentationsPreview />
 
       <SectionDivider variant="glow" />
 
-      {/* Ecosystem Section */}
+      {/* ─── 7. FILOSOFÍA — Frases clave del taller ─── */}
+      <TestimonialsSection />
+
+      {/* ─── 8. STATS — Números de impacto ─── */}
+      <StatsSection />
+
+      <SectionDivider variant="gradient" />
+
+      {/* ─── 9. ECOSISTEMA — Las 3 plataformas conectadas ─── */}
       <EcosystemSection />
 
-      {/* CTA Section */}
+      {/* ─── 10. CTA — Llamada a la acción final ─── */}
       <CTASection isAuthenticated={!!user} />
 
-      {/* Footer */}
+      {/* ─── 11. FOOTER ─── */}
       <Footer />
     </Layout>
   );
