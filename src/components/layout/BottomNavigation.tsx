@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, BookOpen, Wrench, Users, Menu } from 'lucide-react';
+import { Home, BookOpen, Wrench, Users, Menu, MessageCircle, Presentation } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import {
@@ -14,18 +14,21 @@ import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
   { icon: Home, label: 'Inicio', href: '/' },
-  { icon: BookOpen, label: 'Clases', href: '/generations' },
-  { icon: Wrench, label: 'Tools', href: '/tools' },
+  { icon: BookOpen, label: 'Generaciones', href: '/generations' },
   { icon: Users, label: 'Comunidad', href: '/community' },
+  { icon: MessageCircle, label: 'Chat', href: '/chat' },
 ];
 
 const moreLinks = [
+  { label: 'Herramientas', href: '/tools' },
   { label: 'Workflows', href: '/workflows' },
   { label: 'Playground IA', href: '/playground' },
-  { label: 'Prompts', href: '/prompts' },
+  { label: 'Presentaciones', href: '/presentations' },
+  { label: 'Foro', href: '/forum' },
   { label: 'Leaderboard', href: '/leaderboard' },
   { label: 'Calendario', href: '/calendar' },
   { label: 'Mi Stack', href: '/my-tools' },
+  { label: 'Prompts', href: '/prompts' },
   { label: 'Calculadora ROI', href: '/roi-calculator' },
 ];
 
@@ -88,7 +91,7 @@ export function BottomNavigation() {
                     to={link.href}
                     onClick={() => setSheetOpen(false)}
                     className={cn(
-                      'px-4 py-3 rounded-lg text-sm font-medium transition-colors',
+                      'px-4 py-3 rounded-xl text-sm font-medium transition-colors',
                       isActive(link.href)
                         ? 'bg-primary/10 text-primary border border-primary/30'
                         : 'bg-muted/50 text-foreground hover:bg-muted'

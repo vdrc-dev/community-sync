@@ -8,7 +8,22 @@ import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, Users, Sparkles, Rocket, ExternalLink, ArrowRight, Clock } from 'lucide-react';
+import { 
+  Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, 
+  Users, Sparkles, Rocket, ExternalLink, Clock, Presentation, 
+  Play, ArrowRight
+} from 'lucide-react';
+
+// Module color map for presentation badges
+const MODULE_COLORS = [
+  { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+  { bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20' },
+  { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+  { bg: 'bg-accent/10', text: 'text-accent', border: 'border-accent/20' },
+];
+
+const MODULE_NAMES = ['Higiene Digital', 'IA & Productividad', 'Presentaciones con IA', 'Vibe Coding'];
+const MODULE_ICONS = ['🛡️', '🤖', '🎨', '💻'];
 
 export default function Generations() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +34,7 @@ export default function Generations() {
       const { data, error } = await supabase
         .from('generations')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('code', { ascending: true });
       
       if (error) throw error;
       return data;
@@ -34,12 +49,15 @@ export default function Generations() {
 
   const activeCount = generations?.filter(g => g.is_active).length || 0;
 
+  // Extract generation number from code (e.g., "GEN-008" → 8)
+  const getGenNumber = (code: string) => parseInt(code.replace('GEN-', '').replace('GEN-0', ''), 10);
+
   return (
     <Layout>
       <div className="page-container section-py">
         <PageHeader
-          title={<>Generaciones del <span className="text-gradient">Taller</span></>}
-          description="Explora los materiales de cada versión del Taller de Productividad Digital"
+          title={<>Las <span className="text-gradient">10 Generaciones</span></>}
+          description="Cada generación es un grupo de profesionales que transformaron su productividad. Explora los recursos de cada una."
           badge={{ 
             label: `${generations?.length || 0} generaciones`, 
             icon: <GraduationCap className="w-3 h-3" /> 
@@ -55,24 +73,28 @@ export default function Generations() {
           }
         />
 
-        {/* Quick stats */}
+        {/* Timeline stats */}
         {generations && generations.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center gap-4 mb-8 flex-wrap"
+            className="flex items-center gap-3 mb-8 flex-wrap"
           >
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/5 border border-primary/10">
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
               <BookOpen className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium">{generations.length} generaciones</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/5 border border-accent/10">
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
               <Users className="w-4 h-4 text-accent" />
               <span className="text-sm font-medium">+200 participantes</span>
             </div>
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
+              <Presentation className="w-4 h-4 text-purple-400" />
+              <span className="text-sm font-medium">4 módulos por gen</span>
+            </div>
             {activeCount > 0 && (
-              <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500/5 border border-green-500/10">
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-sm font-medium text-green-400">{activeCount} en curso</span>
               </div>
@@ -92,61 +114,58 @@ export default function Generations() {
             placeholder="Buscar generación..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50"
+            className="pl-10"
           />
         </motion.div>
 
         {/* Generations Grid */}
         {isLoading ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="h-56 rounded-xl skeleton-shimmer" />
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="h-64 rounded-2xl skeleton-shimmer" />
             ))}
           </div>
         ) : !generations || generations.length === 0 ? (
           <EmptyState
             icon={BookOpen}
             title="Próximamente"
-            description="Las generaciones del taller aparecerán aquí. Vuelve pronto para explorar los recursos."
+            description="Las generaciones del taller aparecerán aquí."
           />
         ) : filteredGenerations?.length === 0 ? (
           <EmptyState
             icon={Search}
             title="Sin resultados"
-            description="No se encontraron generaciones con ese término de búsqueda"
+            description="No se encontraron generaciones con ese término"
             action={{
               label: 'Limpiar búsqueda',
               onClick: () => setSearchQuery('')
             }}
           />
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Gen 11 Coming Soon Card */}
+          <div className="space-y-6">
+            {/* Gen 11 Coming Soon Banner */}
             {!searchQuery && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="sm:col-span-2 lg:col-span-3"
               >
                 <a
                   href="https://vdrc.cl/talleres"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block relative rounded-xl overflow-hidden"
+                  className="group block relative rounded-2xl overflow-hidden"
                 >
-                  {/* Animated glow border */}
-                  <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40 opacity-50 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40 opacity-50 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                   
-                  <div className="relative p-6 sm:p-8 rounded-xl bg-card/80 backdrop-blur-xl border border-accent/20 group-hover:border-accent/50 transition-all duration-300 overflow-hidden">
-                    {/* Subtle grid background */}
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
+                  <div className="glass glass-specular relative p-6 sm:p-8 rounded-2xl border border-accent/20 group-hover:border-accent/50 transition-all duration-300 overflow-hidden">
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px]" />
                     
                     <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                       <div className="flex items-start gap-5">
                         <motion.div
                           animate={{ scale: [1, 1.08, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
-                          className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 flex items-center justify-center shrink-0"
+                          className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 flex items-center justify-center shrink-0"
                         >
                           <Rocket className="w-8 h-8 text-accent" />
                         </motion.div>
@@ -154,27 +173,20 @@ export default function Generations() {
                           <div className="flex items-center gap-3 mb-2">
                             <Badge className="bg-accent/10 text-accent border-accent/30 font-mono text-xs">
                               <Clock className="w-3 h-3 mr-1" />
-                              PROXIMAMENTE
+                              PRÓXIMAMENTE
                             </Badge>
                           </div>
                           <h3 className="text-2xl font-mono font-bold group-hover:text-accent transition-colors">
-                            Generacion <span className="text-gradient">11</span>
+                            Generación <span className="text-gradient">11</span>
                           </h3>
                           <p className="text-sm text-muted-foreground mt-2 max-w-lg">
                             El Taller de Productividad Digital con IA vuelve en <span className="text-accent font-semibold">marzo 2026</span>.
-                            Nuevos modulos, workflows actualizados y herramientas de ultima generacion.
+                            Nuevos módulos, workflows actualizados y herramientas de última generación.
                           </p>
-                          <div className="flex flex-wrap gap-2 mt-3">
-                            {['4 Modulos', 'Workflows IA', 'Comunidad', 'Certificado'].map((tag) => (
-                              <span key={tag} className="text-[10px] font-mono px-2 py-1 rounded-md bg-accent/5 border border-accent/15 text-accent/70">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 text-accent font-mono font-semibold group-hover:gap-3 transition-all shrink-0">
-                        INSCRIBETE
+                        INSCRÍBETE
                         <ExternalLink className="w-4 h-4" />
                       </div>
                     </div>
@@ -183,83 +195,96 @@ export default function Generations() {
               </motion.div>
             )}
 
-            {filteredGenerations?.map((gen, index) => (
-              <motion.div
-                key={gen.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 * Math.min(index, 6) }}
-              >
-                <Link
-                  to={`/generations/${gen.code}`}
-                  className="group block relative rounded-xl card-premium glow-hover overflow-hidden h-full"
-                >
-                  {/* Background decoration */}
-                  {gen.cover_image_url && (
-                    <div 
-                      className="absolute inset-0 opacity-10 bg-cover bg-center transition-opacity group-hover:opacity-20"
-                      style={{ backgroundImage: `url(${gen.cover_image_url})` }}
-                    />
-                  )}
-                  
-                  {/* Top gradient accent */}
-                  <div className={`h-1 w-full ${gen.is_active ? 'bg-gradient-to-r from-green-500 to-emerald-400' : 'bg-gradient-to-r from-primary/50 to-accent/30'}`} />
-                  
-                  <div className="relative z-10 p-6">
-                    {/* Status badge */}
-                    {gen.is_active && (
-                      <Badge className="absolute top-4 right-4 bg-green-500/20 text-green-400 border-green-500/30 badge-pulse gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                        Activo
-                      </Badge>
-                    )}
-
-                    {/* Generation code */}
-                    <motion.div 
-                      className="icon-glow inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/30 mb-4"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
+            {/* Generations — reverse order so newest is first */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {[...filteredGenerations!].reverse().map((gen, index) => {
+                const genNum = getGenNumber(gen.code);
+                
+                return (
+                  <motion.div
+                    key={gen.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.03 * Math.min(index, 10) }}
+                  >
+                    <Link
+                      to={`/generations/${gen.code}`}
+                      className="group block relative rounded-2xl overflow-hidden h-full"
                     >
-                      <span className="font-mono font-bold text-primary text-lg">
-                        {gen.code.replace('GEN-', '')}
-                      </span>
-                    </motion.div>
+                      <div className="glass glass-specular relative h-full p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02]">
+                        {/* Active glow */}
+                        {gen.is_active && (
+                          <div className="absolute inset-0 rounded-2xl ring-1 ring-green-500/30 animate-pulse pointer-events-none" />
+                        )}
 
-                    {/* Title */}
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                      {gen.name}
-                    </h3>
+                        {/* Top row: number + status */}
+                        <div className="flex items-center justify-between mb-4">
+                          <motion.div 
+                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/30 flex items-center justify-center"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                          >
+                            <span className="font-mono font-bold text-primary text-lg">
+                              {String(genNum).padStart(2, '0')}
+                            </span>
+                          </motion.div>
+                          {gen.is_active ? (
+                            <Badge className="bg-green-500/20 text-green-400 border-green-500/30 gap-1 text-[10px]">
+                              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                              Activo
+                            </Badge>
+                          ) : (
+                            <span className="text-[10px] font-mono text-muted-foreground/50">
+                              {gen.code}
+                            </span>
+                          )}
+                        </div>
 
-                    {/* Description */}
-                    {gen.description && (
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                        {gen.description}
-                      </p>
-                    )}
+                        {/* Title */}
+                        <h3 className="text-base font-semibold mb-1.5 group-hover:text-primary transition-colors">
+                          {gen.name}
+                        </h3>
 
-                    {/* Meta */}
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      {gen.start_date && (
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(gen.start_date).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' })}
-                        </span>
-                      )}
-                    </div>
+                        {/* Date */}
+                        {gen.start_date && (
+                          <p className="text-xs text-muted-foreground flex items-center gap-1 mb-3">
+                            <Calendar className="w-3 h-3" />
+                            {new Date(gen.start_date).toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
+                          </p>
+                        )}
 
-                    {/* Arrow */}
-                    <div className="absolute bottom-6 right-6">
-                      <motion.div
-                        className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <ChevronRight className="w-4 h-4 text-primary" />
-                      </motion.div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                        {/* Description */}
+                        {gen.description && (
+                          <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-2 leading-relaxed">
+                            {gen.description}
+                          </p>
+                        )}
+
+                        {/* Module presentations mini-badges */}
+                        <div className="flex flex-wrap gap-1.5 mt-auto">
+                          {MODULE_NAMES.map((mod, i) => (
+                            <span
+                              key={mod}
+                              className={`text-[9px] font-mono px-1.5 py-0.5 rounded-md ${MODULE_COLORS[i].bg} ${MODULE_COLORS[i].border} border ${MODULE_COLORS[i].text}`}
+                              title={mod}
+                            >
+                              {MODULE_ICONS[i]} M{i + 1}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Hover arrow */}
+                        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all">
+                          <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                            <ChevronRight className="w-4 h-4 text-primary" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

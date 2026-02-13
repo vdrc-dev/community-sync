@@ -1,18 +1,17 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { 
-  Hash, Lock, Plus, Users, BookOpen, Wrench, 
+  Hash, Plus, Users, BookOpen, Wrench, 
   Workflow, Sparkles, Trophy, Calendar, Calculator,
-  MessageSquare, ChevronDown, ChevronRight, MessageCircle
+  MessageCircle, ChevronDown, ChevronRight, Presentation
 } from 'lucide-react';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 
 interface NavSection {
@@ -25,16 +24,17 @@ const platformSections: NavSection[] = [
     title: 'Aprendizaje',
     items: [
       { href: '/generations', label: 'Generaciones', icon: BookOpen },
+      { href: '/presentations', label: 'Presentaciones', icon: Presentation },
       { href: '/tools', label: 'Herramientas', icon: Wrench },
       { href: '/workflows', label: 'Workflows', icon: Workflow },
-      { href: '/prompts', label: 'Prompts', icon: Sparkles },
       { href: '/playground', label: 'Lab IA', icon: Sparkles },
     ],
   },
   {
-    title: 'Comunidad',
+    title: 'Interacción',
     items: [
-      { href: '/chat', label: 'Chat', icon: MessageCircle, badge: 'NEW' },
+      { href: '/chat', label: 'Chat en vivo', icon: MessageCircle, badge: 'LIVE' },
+      { href: '/forum', label: 'Foro', icon: Hash },
       { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
       { href: '/calendar', label: 'Calendario', icon: Calendar },
       { href: '/roi-calculator', label: 'ROI Calculator', icon: Calculator },
@@ -46,7 +46,7 @@ export function CommunitySidebar() {
   const { spaces, spacesLoading } = useSpaces();
   const { user } = useAuth();
   const location = useLocation();
-  const [expandedSections, setExpandedSections] = useState<string[]>(['Espacios', 'Aprendizaje']);
+  const [expandedSections, setExpandedSections] = useState<string[]>(['Espacios', 'Interacción']);
 
   const toggleSection = (title: string) => {
     setExpandedSections(prev =>
@@ -153,7 +153,12 @@ export function CommunitySidebar() {
                   'h-4 w-4 shrink-0',
                   isActive(item.href) ? 'text-primary' : 'text-muted-foreground'
                 )} />
-                <span className="truncate">{item.label}</span>
+                <span className="truncate flex-1">{item.label}</span>
+                {item.badge && (
+                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             ))}
           </SidebarSection>

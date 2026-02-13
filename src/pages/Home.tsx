@@ -16,6 +16,9 @@ import { SectionDivider } from '@/components/home/SectionDivider';
 import { ActiveGenerationWidget } from '@/components/dashboard/ActiveGenerationWidget';
 import { EcosystemSection } from '@/components/home/EcosystemSection';
 import { PresentationsPreview } from '@/components/home/PresentationsPreview';
+import { Gen11Banner } from '@/components/home/Gen11Banner';
+import { GenerationsQuickGrid } from '@/components/home/GenerationsQuickGrid';
+import { CommunityPreview } from '@/components/home/CommunityPreview';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -77,39 +80,50 @@ export default function Home() {
       )}
 
       {/* ═══════════════════════════════════════════════════
-          SHARED SECTIONS: Contenido para todos
+          SHARED SECTIONS
           ═══════════════════════════════════════════════════ */}
 
-      {/* ─── 4. FEATURES — Qué ofrece la plataforma ─── */}
+      {/* ─── 4. GENERACIONES — Las 10 generaciones del taller ─── */}
+      <GenerationsQuickGrid />
+
+      <SectionDivider variant="gradient" />
+
+      {/* ─── 5. PRESENTACIONES — Material de cada módulo ─── */}
+      <PresentationsPreview />
+
+      <SectionDivider variant="dots" />
+
+      {/* ─── 6. COMUNIDAD — Donde los participantes interactúan ─── */}
+      <CommunityPreview isAuthenticated={!!user} />
+
+      <SectionDivider variant="glow" />
+
+      {/* ─── 7. FEATURES — Qué ofrece la plataforma ─── */}
       <FeaturesGrid />
 
       <SectionDivider variant="gradient" />
 
-      {/* ─── 5. WORKFLOWS — Mostrar el producto estrella ─── */}
+      {/* ─── 8. WORKFLOWS — Mostrar el producto estrella ─── */}
       <WorkflowShowcase />
 
       <SectionDivider variant="dots" />
 
-      {/* ─── 6. PRESENTACIONES — Material de cada módulo ─── */}
-      <PresentationsPreview />
-
-      <SectionDivider variant="glow" />
-
-      {/* ─── 7. FILOSOFÍA — Frases clave del taller ─── */}
+      {/* ─── 9. FILOSOFÍA — Frases clave del taller ─── */}
       <TestimonialsSection />
 
-      {/* ─── 8. STATS — Números de impacto ─── */}
+      {/* ─── 10. STATS + Gen 11 ─── */}
       <StatsSection />
 
-      <SectionDivider variant="gradient" />
+      {/* ─── 11. GEN 11 BANNER ─── */}
+      <Gen11Banner />
 
-      {/* ─── 9. ECOSISTEMA — Las 3 plataformas conectadas ─── */}
+      {/* ─── 12. ECOSISTEMA ─── */}
       <EcosystemSection />
 
-      {/* ─── 10. CTA — Llamada a la acción final ─── */}
+      {/* ─── 13. CTA ─── */}
       <CTASection isAuthenticated={!!user} />
 
-      {/* ─── 11. FOOTER ─── */}
+      {/* ─── 14. FOOTER ─── */}
       <Footer />
     </Layout>
   );

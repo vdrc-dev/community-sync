@@ -9,7 +9,7 @@ interface CommunityLayoutProps {
 
 export function CommunityLayout({ children }: CommunityLayoutProps) {
   return (
-    <div className="min-h-screen circuit-bg">
+    <div className="min-h-screen bg-background">
       <Header />
       <div className="flex pt-16">
         <CommunitySidebar />
