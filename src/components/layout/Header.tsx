@@ -378,6 +378,12 @@ export function Header() {
                               <span className="text-sm">Diseño Presentaciones</span>
                             </PrefetchLink>
                           </DropdownMenuItem>
+                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/10 transition-colors">
+                            <PrefetchLink to="/admin/users" className="flex items-center gap-2 w-full">
+                              <Users className="w-4 h-4 text-yellow-500" />
+                              <span className="text-sm">Gestionar Usuarios</span>
+                            </PrefetchLink>
+                          </DropdownMenuItem>
                         </DropdownMenuGroup>
                       </>
                     )}

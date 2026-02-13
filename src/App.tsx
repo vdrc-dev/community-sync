@@ -33,6 +33,7 @@ const Community = lazy(() => import("./pages/Community"));
 const CommunitySpace = lazy(() => import("./pages/CommunitySpace"));
 const Chat = lazy(() => import("./pages/Chat"));
 const AdminPresentations = lazy(() => import("./pages/AdminPresentations"));
+const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const PresentationView = lazy(() => import("./pages/PresentationView"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -88,6 +89,7 @@ const App = () => (
               <Route path="/community/:slug/post/:postId" element={<CommunitySpace />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/admin/presentations" element={<AdminPresentations />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/presentations/:id?" element={<PresentationView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
