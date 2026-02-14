@@ -689,6 +689,167 @@ export type Database = {
         }
         Relationships: []
       }
+      generation_weeks: {
+        Row: {
+          id: string
+          generation_id: number
+          week: number
+          name: string
+          stack: string[]
+          drive_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          generation_id: number
+          week: number
+          name: string
+          stack?: string[]
+          drive_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          generation_id?: number
+          week?: number
+          name?: string
+          stack?: string[]
+          drive_url?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generation_weeks_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "slide_generations"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      sections: {
+        Row: {
+          id: string
+          title: string
+          display_order: number
+        }
+        Insert: {
+          id: string
+          title: string
+          display_order?: number
+        }
+        Update: {
+          id?: string
+          title?: string
+          display_order?: number
+        }
+        Relationships: []
+      }
+      slide_generations: {
+        Row: {
+          id: number
+          generation_number: number
+          name: string
+          module: string
+          week: number
+          total_weeks: number
+          date: string
+          instructor: string
+          stack: string[]
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          generation_number: number
+          name: string
+          module: string
+          week: number
+          total_weeks?: number
+          date: string
+          instructor?: string
+          stack?: string[]
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          generation_number?: number
+          name?: string
+          module?: string
+          week?: number
+          total_weeks?: number
+          date?: string
+          instructor?: string
+          stack?: string[]
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      slides: {
+        Row: {
+          id: string
+          generation_id: number
+          week: number
+          slide_number: number
+          section_id: string
+          section_number: number
+          title: string
+          storyline: string | null
+          component_name: string
+          content: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          generation_id: number
+          week?: number
+          slide_number: number
+          section_id: string
+          section_number: number
+          title: string
+          storyline?: string | null
+          component_name: string
+          content?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          generation_id?: number
+          week?: number
+          slide_number?: number
+          section_id?: string
+          section_number?: number
+          title?: string
+          storyline?: string | null
+          component_name?: string
+          content?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slides_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "slide_generations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "slides_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       notifications: {
         Row: {
           created_at: string

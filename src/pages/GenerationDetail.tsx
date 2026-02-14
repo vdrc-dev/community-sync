@@ -120,7 +120,7 @@ export default function GenerationDetail() {
     );
   }
 
-  const genNumber = parseInt(generation.code.replace('GEN-', '').replace('GEN-0', ''), 10);
+  const genNumber = parseInt(generation.code.replace(/GEN-0*/i, ''), 10);
 
   return (
     <Layout>
@@ -184,20 +184,58 @@ export default function GenerationDetail() {
               {/* OVERVIEW TAB */}
               <TabsContent value="overview">
                 <div className="space-y-6">
+                  {/* VDRC Rich Presentations Banner */}
+                  {genNumber >= 9 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <Link to={`/alumnos/gen${genNumber}`}>
+                        <div className="relative p-6 rounded-2xl overflow-hidden group cursor-pointer transition-all hover:scale-[1.01]"
+                          style={{
+                            background: 'linear-gradient(135deg, hsl(160 84% 42% / 0.12) 0%, hsl(160 84% 42% / 0.03) 100%)',
+                            border: '1px solid hsl(160 84% 42% / 0.3)',
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                <Presentation className="w-6 h-6 text-primary" />
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                  <h3 className="font-bold text-foreground">Presentaciones Interactivas</h3>
+                                  <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px]">
+                                    <Sparkles className="w-3 h-3 mr-1" />
+                                    VDRC Engine
+                                  </Badge>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                  Slides por semana (S1-S4) con navegacion, secciones, y exportacion PDF/PPTX
+                                </p>
+                              </div>
+                            </div>
+                            <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  )}
+
                   {/* Module Presentations Grid */}
                   <div>
                     <div className="flex items-center gap-2 mb-4">
                       <Presentation className="w-4 h-4 text-primary" />
-                      <h3 className="font-mono font-semibold text-sm tracking-wider uppercase">Presentaciones del Módulo</h3>
+                      <h3 className="font-mono font-semibold text-sm tracking-wider uppercase">Slides por Semana</h3>
                     </div>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       {[1, 2, 3, 4].map((moduleNum) => {
                         const colors = MODULE_COLORS[moduleNum - 1];
-                        const names = ['Higiene Digital', 'IA & Productividad', 'Presentaciones con IA', 'Vibe Coding'];
+                        const names = ['Higiene Digital', 'IA & Productividad', 'Comunicacion y Creacion', 'Vibe Coding'];
                         const descriptions = [
-                          'Inbox Zero, Bitwarden, perfiles, Granola',
-                          'ChatGPT, Claude, Gemini, Perplexity, Manus',
-                          'Gama, Beautiful.ai, Napkin, Canva',
+                          'Inbox Zero, Bitwarden, perfiles, Context Engineering',
+                          'Era Agentica, CROP, Agentes, MCP',
+                          'Gamma, NotebookLM, Claude Code, Cursor',
                           'Lovable + Supabase + GitHub + Cursor'
                         ];
                         
@@ -209,7 +247,7 @@ export default function GenerationDetail() {
                             transition={{ delay: moduleNum * 0.08 }}
                           >
                             <Link
-                              to={`/presentations/module/${moduleNum}`}
+                              to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
                               className="group block"
                             >
                               <div className={`glass glass-specular relative p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02] overflow-hidden h-full`}>
@@ -218,7 +256,7 @@ export default function GenerationDetail() {
                                   <div className="flex items-center justify-between mb-3">
                                     <span className="text-2xl">{MODULE_ICONS[moduleNum - 1]}</span>
                                     <Badge variant="outline" className={`${colors.border} ${colors.text} text-[10px] font-mono`}>
-                                      M{moduleNum}
+                                      S{moduleNum}
                                     </Badge>
                                   </div>
                                   <h4 className={`font-semibold text-sm mb-1 group-hover:${colors.text} transition-colors`}>
@@ -534,18 +572,32 @@ export default function GenerationDetail() {
               <TabsContent value="presentations">
                 <div className="space-y-6">
                   <p className="text-sm text-muted-foreground">
-                    Slides interactivas de los 4 módulos del taller. Cada generación cubre el mismo programa de 4 sesiones.
+                    Slides interactivas por semana con navegacion lateral, secciones, y export PDF/PPTX.
                   </p>
                   
+                  {/* Rich slide engine link */}
+                  {genNumber >= 9 && (
+                    <Link to={`/alumnos/gen${genNumber}`}>
+                      <div className="flex items-center gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors mb-4 group">
+                        <Sparkles className="w-5 h-5 text-primary" />
+                        <div className="flex-1">
+                          <span className="font-semibold text-sm text-primary">Ver todas las semanas en el Hub de Alumnos</span>
+                          <p className="text-xs text-muted-foreground">Accede a materiales, presentaciones y recursos por semana</p>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </Link>
+                  )}
+
                   <div className="grid sm:grid-cols-2 gap-4">
                     {[1, 2, 3, 4].map((moduleNum) => {
                       const colors = MODULE_COLORS[moduleNum - 1];
-                      const names = ['Higiene Digital', 'IA & Productividad', 'Presentaciones con IA', 'Vibe Coding'];
+                      const names = ['Higiene Digital', 'La Era Agentica', 'Comunicacion y Creacion', 'Vibe Coding'];
                       const descriptions = [
-                        'Inbox Zero, gestores de contraseñas, perfiles de navegador y rutinas digitales productivas.',
-                        'ChatGPT, Claude, Gemini, Perplexity, Manus. Metaprompts, agentes, automatización.',
-                        'Gama, Beautiful.ai, Napkin, Canva. Presentaciones y diseño visual profesional con IA.',
-                        'Lovable + Supabase + GitHub: crea software real sin escribir código.'
+                        'Inbox Zero, Bitwarden, perfiles de navegador, Context Engineering y manual digital.',
+                        'Era Agentica, framework CROP, agentes IA, MCP, Suite Claude, NotebookLM.',
+                        'Gamma, NotebookLM, Claude Code, Cursor. Automatizacion y CRM.',
+                        'Lovable + Supabase + GitHub + Cursor: crea software real sin escribir codigo.'
                       ];
                       
                       return (
@@ -556,7 +608,7 @@ export default function GenerationDetail() {
                           transition={{ delay: moduleNum * 0.1 }}
                         >
                           <Link
-                            to={`/presentations/module/${moduleNum}`}
+                            to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
                             className="group block h-full"
                           >
                             <Card className="glass glass-specular h-full hover:scale-[1.02] transition-all duration-300 overflow-hidden">
@@ -566,7 +618,7 @@ export default function GenerationDetail() {
                                   <span className="text-3xl">{MODULE_ICONS[moduleNum - 1]}</span>
                                   <div>
                                     <Badge variant="outline" className={`${colors.border} ${colors.text} text-[10px] font-mono mb-1`}>
-                                      Módulo {moduleNum}
+                                      Semana {moduleNum}
                                     </Badge>
                                     <h4 className="font-semibold text-lg group-hover:text-primary transition-colors">
                                       {names[moduleNum - 1]}
@@ -578,7 +630,7 @@ export default function GenerationDetail() {
                                 </p>
                                 <div className={`flex items-center gap-2 text-sm font-medium ${colors.text}`}>
                                   <Play className="w-4 h-4" />
-                                  Ver presentación completa
+                                  Ver presentacion completa
                                   <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                                 </div>
                               </CardContent>

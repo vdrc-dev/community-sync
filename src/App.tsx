@@ -25,9 +25,14 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Generations = lazy(() => import("./pages/Generations"));
 const GenerationDetail = lazy(() => import("./pages/GenerationDetail"));
 
-// Presentations
+// Presentations (legacy generic viewer)
 const PresentationView = lazy(() => import("./pages/PresentationView"));
 const ModulePresentationView = lazy(() => import("./pages/ModulePresentationView"));
+
+// VDRC Presentation Engine (component-based slides)
+const GenerationPage = lazy(() => import("./pages/GenerationPage"));
+const AlumnosHub = lazy(() => import("./pages/AlumnosHub"));
+const AlumnosGeneration = lazy(() => import("./pages/AlumnosGeneration"));
 
 // Tools & Productivity
 const Tools = lazy(() => import("./pages/Tools"));
@@ -127,6 +132,11 @@ const App = () => (
               {/* ── Admin ────────────────────────────── */}
               <Route path="/admin/presentations" element={<AdminPresentations />} />
               <Route path="/admin/users" element={<AdminUsers />} />
+
+              {/* ── VDRC Slide Engine ─────────────────── */}
+              <Route path="/alumnos" element={<AlumnosHub />} />
+              <Route path="/alumnos/:genId" element={<AlumnosGeneration />} />
+              <Route path="/slides/:genId" element={<GenerationPage />} />
 
               {/* ── Catch-all ────────────────────────── */}
               <Route path="*" element={<NotFound />} />

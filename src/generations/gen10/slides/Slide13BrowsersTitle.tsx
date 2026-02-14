@@ -1,0 +1,126 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Globe, Monitor } from 'lucide-react';
+import { useExportContext } from '@/contexts/ExportContext';
+import { useSlideContent } from '@/hooks/useSlideContent';
+
+const CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10/canva-browsers-bg.jpg';
+
+export function Slide13BrowsersTitle() {
+  const { isExporting } = useExportContext();
+  const content = useSlideContent(13);
+  const browsersBg = (content.imageUrl as string) || CLOUD_URL;
+
+  const getMotionProps = (delay: number) =>
+    isExporting ? {} : {
+      initial: { opacity: 0, x: -30 },
+      animate: { opacity: 1, x: 0 },
+      transition: { delay, duration: 0.6, ease: 'easeOut' },
+    };
+
+  return (
+    <div className="h-full w-full min-h-screen relative overflow-hidden flex font-sans selection:bg-cyan-500/30">
+      
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${browsersBg})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#020609]/98 via-[#020609]/80 to-[#020609]/40" />
+
+      {/* Ambient glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-0 w-[500px] h-[400px] bg-cyan-500/[0.08] rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[300px] bg-blue-500/[0.06] rounded-full blur-[120px]" />
+      </div>
+
+      {/* Grid pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Floating browser icons */}
+      {!isExporting && (
+        <div className="absolute right-24 top-1/2 -translate-y-1/2 flex flex-col gap-10 opacity-30">
+          <motion.div
+            animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20"
+          >
+            <Globe className="w-16 h-16 text-cyan-400" />
+          </motion.div>
+          <motion.div
+            animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+            transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+            className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20"
+          >
+            <Monitor className="w-14 h-14 text-blue-400" />
+          </motion.div>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="relative z-10 w-full flex items-center px-12 py-8">
+        <div className="max-w-3xl">
+          {/* Badge */}
+          <motion.div {...getMotionProps(0.1)} className="mb-6">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full backdrop-blur-sm">
+              <Globe className="w-4 h-4 text-cyan-400" />
+              <span className="text-cyan-400 text-sm font-semibold tracking-wide uppercase">Tema 2</span>
+            </div>
+          </motion.div>
+
+          {/* Title */}
+          <motion.div {...getMotionProps(0.2)}>
+            <h1 className="text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.1] mb-2">
+              NAVEGADORES
+            </h1>
+            <h1 
+              className="text-6xl md:text-7xl font-black tracking-tight leading-[1.1] mb-2"
+              style={{
+                background: 'linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Y PERFILES
+            </h1>
+            <h1 className="text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.1]">
+              SEPARADOS
+            </h1>
+          </motion.div>
+          
+          <motion.p 
+            {...getMotionProps(0.3)}
+            className="text-xl text-white/50 mt-8 max-w-xl"
+          >
+            Organizando tu vida digital en <span className="text-cyan-400/80 font-semibold">espacios definidos</span>
+          </motion.p>
+
+          {/* Key insight */}
+          <motion.div {...getMotionProps(0.4)} className="mt-8">
+            <div className="inline-flex items-center gap-4 px-6 py-3 bg-white/[0.03] border border-white/10 rounded-xl backdrop-blur-sm">
+              <div className="w-10 h-10 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center">
+                <span className="text-cyan-400 font-black text-lg">1</span>
+              </div>
+              <div>
+                <span className="text-white/60 text-sm">CONTEXTO</span>
+                <span className="text-white/30 mx-3">=</span>
+                <span className="text-cyan-400 font-bold">1 PERFIL</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Page number */}
+      <div className="absolute bottom-6 right-10 text-sm font-semibold text-white/20 tabular-nums tracking-wider">
+        13 / 29
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,15 @@
+export { S4Slide01Cover } from './S4Slide01Cover';
+export { S4Slide02Recap } from './S4Slide02Recap';
+export { S4Slide03Architecture } from './S4Slide03Architecture';
+export { S4Slide04CRUD } from './S4Slide04CRUD';
+export { S4Slide05GeminiCanvas } from './S4Slide05GeminiCanvas';
+export { S4Slide06Lovable } from './S4Slide06Lovable';
+export { S4Slide07Supabase } from './S4Slide07Supabase';
+export { S4Slide08DataModeling } from './S4Slide08DataModeling';
+export { S4Slide09GitHub } from './S4Slide09GitHub';
+export { S4Slide10CursorClaude } from './S4Slide10CursorClaude';
+export { S4Slide11CompleteFlow } from './S4Slide11CompleteFlow';
+export { S4Slide12DecisionGuide } from './S4Slide12DecisionGuide';
+export { S4Slide13Authentication } from './S4Slide13Authentication';
+export { S4Slide14CaseStudy } from './S4Slide14CaseStudy';
+export { S4Slide15Closing } from './S4Slide15Closing';
