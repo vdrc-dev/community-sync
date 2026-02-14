@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useGeneration } from '@/contexts/GenerationContext';
 import { useExportContext } from '@/contexts/ExportContext';
+import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import logoVdrc from '@/assets/logo-vdrc.png';
 
 interface ConsultingSlideLayoutProps {
@@ -70,6 +71,7 @@ export const ConsultingSlideLayout = forwardRef<HTMLDivElement, ConsultingSlideL
   }, ref) {
   const { config, currentWeek, generationNumber } = useGeneration();
   const { isExporting } = useExportContext();
+  const slideNumCtx = useSlideNumber();
 
   const motionProps = isExporting
     ? {}
@@ -218,7 +220,7 @@ export const ConsultingSlideLayout = forwardRef<HTMLDivElement, ConsultingSlideL
           )}
           
           <span className="text-base font-bold text-muted-foreground/50 tabular-nums">
-            {slideNumber} / 12
+            {slideNumber} / {slideNumCtx?.total ?? '—'}
           </span>
         </div>
       </motion.footer>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Chrome, Shield, Bot, Zap, ArrowRight, Sparkles, Play } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useGeneration } from '@/contexts/GenerationContext';
+import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import logoVdrc from '@/assets/logo-vdrc.png';
 
 const tools = [
@@ -66,6 +67,7 @@ function FloatingParticles({ count = 50, isExporting }: { count?: number; isExpo
 export function Slide01Cover() {
   const { isExporting } = useExportContext();
   const { config, currentWeek, generationNumber } = useGeneration();
+  const slideNum = useSlideNumber();
 
   const presentationUrl = `vdrc.lovable.app/gen${generationNumber}s${currentWeek}`;
 
@@ -379,7 +381,7 @@ export function Slide01Cover() {
       </motion.div>
 
       <div className="absolute bottom-8 right-8 text-base font-bold text-white/20 tabular-nums">
-        1 / 29
+        {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '01'}
       </div>
     </div>
   );

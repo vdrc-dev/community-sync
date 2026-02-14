@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, ComponentType } from 'react';
+import { useState, useCallback, useEffect, useRef, ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -10,7 +10,6 @@ import {
   HelpCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { UnifiedSidebarNav } from './UnifiedSidebarNav';
 import { ThumbnailsView } from './ThumbnailsView';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
@@ -28,20 +27,37 @@ import type {
 } from './types';
 import { DEFAULT_FEATURES } from './types';
 
+/* ── Premium easing curves ──────────────────────────────────────── */
+const premiumEase = [0.16, 1, 0.3, 1];
+
+/* ── Slide transition variants ──────────────────────────────────── */
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 60 : -60,
+    opacity: 0,
+    scale: 0.97,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -60 : 60,
+    opacity: 0,
+    scale: 0.97,
+  }),
+};
+
+/* ── Controls fade animation ────────────────────────────────────── */
+const CONTROLS_HIDE_DELAY = 3000;
+
 /**
- * Unified Presentation Layout Component
+ * Unified Presentation Layout — Premium Edition
  * 
- * The master orchestrator that unifies the presentation systems
- * used by both /templates and /gen{N} routes.
- * 
- * Features:
- * - Manages slide navigation state
- * - Gallery mode for template preview
- * - Presentation mode for full-screen slides
- * - Optional export functionality (PDF/PPTX)
- * - Unified sidebar and thumbnails navigation
- * - Keyboard shortcuts
- * - Progress bar
+ * The master orchestrator for the VDRC presentation system.
+ * Features auto-hiding controls, directional transitions,
+ * gradient progress bar, and glass morphism UI.
  */
 export function PresentationLayout({
   slides,
@@ -74,6 +90,7 @@ export function PresentationLayout({
   // ============================================
   
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
+  const [direction, setDirection] = useState(0); // -1 = prev, 1 = next
   const [mode, setMode] = useState<'gallery' | 'presentation'>(
     features.galleryMode ? 'gallery' : 'presentation'
   );
@@ -81,8 +98,43 @@ export function PresentationLayout({
   const [showSidebar, setShowSidebar] = useState(false);
   const [showThumbnails, setShowThumbnails] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(true);
+  const controlsTimer = useRef<NodeJS.Timeout | null>(null);
 
   const totalSlides = slides.length;
+
+  // ============================================
+  // Auto-hide controls
+  // ============================================
+
+  const resetControlsTimer = useCallback(() => {
+    setControlsVisible(true);
+    if (controlsTimer.current) clearTimeout(controlsTimer.current);
+    controlsTimer.current = setTimeout(() => {
+      if (!showSidebar && !showThumbnails && !showShortcuts) {
+        setControlsVisible(false);
+      }
+    }, CONTROLS_HIDE_DELAY);
+  }, [showSidebar, showThumbnails, showShortcuts]);
+
+  useEffect(() => {
+    const handleMove = () => resetControlsTimer();
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchstart', handleMove);
+    resetControlsTimer();
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('touchstart', handleMove);
+      if (controlsTimer.current) clearTimeout(controlsTimer.current);
+    };
+  }, [resetControlsTimer]);
+
+  // Always show controls when panels are open
+  useEffect(() => {
+    if (showSidebar || showThumbnails || showShortcuts) {
+      setControlsVisible(true);
+    }
+  }, [showSidebar, showThumbnails, showShortcuts]);
 
   // ============================================
   // Export Hook (conditional)
@@ -101,18 +153,30 @@ export function PresentationLayout({
   
   const goToSlide = useCallback((slideNumber: number) => {
     if (slideNumber >= 1 && slideNumber <= totalSlides) {
+      setDirection(slideNumber > currentSlide ? 1 : -1);
       setCurrentSlide(slideNumber);
       onSlideChange?.(slideNumber);
+      resetControlsTimer();
     }
-  }, [totalSlides, onSlideChange]);
+  }, [totalSlides, currentSlide, onSlideChange, resetControlsTimer]);
 
   const nextSlide = useCallback(() => {
-    goToSlide(currentSlide + 1);
-  }, [currentSlide, goToSlide]);
+    if (currentSlide < totalSlides) {
+      setDirection(1);
+      setCurrentSlide(prev => prev + 1);
+      onSlideChange?.(currentSlide + 1);
+      resetControlsTimer();
+    }
+  }, [currentSlide, totalSlides, onSlideChange, resetControlsTimer]);
 
   const prevSlide = useCallback(() => {
-    goToSlide(currentSlide - 1);
-  }, [currentSlide, goToSlide]);
+    if (currentSlide > 1) {
+      setDirection(-1);
+      setCurrentSlide(prev => prev - 1);
+      onSlideChange?.(currentSlide - 1);
+      resetControlsTimer();
+    }
+  }, [currentSlide, onSlideChange, resetControlsTimer]);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -143,8 +207,13 @@ export function PresentationLayout({
     if (mode !== 'presentation') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if typing in an input
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      // Ignore if typing in an input or contenteditable
+      const target = e.target as HTMLElement;
+      if (
+        target instanceof HTMLInputElement || 
+        target instanceof HTMLTextAreaElement ||
+        target.isContentEditable
+      ) {
         return;
       }
 
@@ -157,6 +226,22 @@ export function PresentationLayout({
         case 'ArrowLeft':
           e.preventDefault();
           prevSlide();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          prevSlide();
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          nextSlide();
+          break;
+        case 'Home':
+          e.preventDefault();
+          goToSlide(1);
+          break;
+        case 'End':
+          e.preventDefault();
+          goToSlide(totalSlides);
           break;
         case 'Escape':
           if (showThumbnails) {
@@ -201,7 +286,7 @@ export function PresentationLayout({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [mode, nextSlide, prevSlide, toggleFullscreen, showThumbnails, showSidebar, showShortcuts, features, exitToGallery]);
+  }, [mode, nextSlide, prevSlide, toggleFullscreen, goToSlide, totalSlides, showThumbnails, showSidebar, showShortcuts, features, exitToGallery]);
 
   // Listen for fullscreen changes
   useEffect(() => {
@@ -224,11 +309,50 @@ export function PresentationLayout({
   }, [goToSlide]);
 
   // ============================================
-  // Render Current Slide
+  // Touch / Swipe Support
+  // ============================================
+  
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (mode !== 'presentation') return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!touchStart.current) return;
+      const dx = e.changedTouches[0].clientX - touchStart.current.x;
+      const dy = e.changedTouches[0].clientY - touchStart.current.y;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      // Only horizontal swipes > 50px, and horizontal > vertical
+      if (absDx > 50 && absDx > absDy) {
+        if (dx < 0) nextSlide();
+        else prevSlide();
+      }
+      touchStart.current = null;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [mode, nextSlide, prevSlide]);
+
+  // ============================================
+  // Helpers
   // ============================================
   
   const CurrentSlideComponent = slides[currentSlide - 1];
   const progress = (currentSlide / totalSlides) * 100;
+
+  // Find which section the current slide belongs to
+  const currentSection = sections.find(s => s.slides.includes(currentSlide));
 
   // ============================================
   // Gallery Mode Render
@@ -237,22 +361,20 @@ export function PresentationLayout({
   if (mode === 'gallery' && features.galleryMode) {
     return (
       <div className="min-h-screen bg-background">
-        {/* Gallery Header (custom content from parent) */}
         {galleryHeader}
 
-        {/* Slide Grid Preview */}
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sections.map((section) => (
+            {sections.map((section, si) => (
               <div key={section.id} className="space-y-4">
                 <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
                   <span className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
-                    {sections.indexOf(section) + 1}
+                    {si + 1}
                   </span>
                   {section.title}
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
-                  {section.slides.slice(0, 4).map((slideNum) => (
+                  {section.slides.map((slideNum) => (
                     <motion.button
                       key={slideNum}
                       onClick={() => startPresentation(slideNum)}
@@ -270,7 +392,6 @@ export function PresentationLayout({
             ))}
           </div>
 
-          {/* Start Presentation Button */}
           <div className="mt-12 text-center">
             <Button
               size="lg"
@@ -294,13 +415,18 @@ export function PresentationLayout({
     <div className="relative min-h-screen bg-background overflow-hidden">
       {/* Main Slide Canvas */}
       <div className="relative w-full h-screen">
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ 
+              duration: 0.4, 
+              ease: premiumEase,
+            }}
             className="w-full h-full"
           >
             <SlideWrapper>
@@ -314,144 +440,198 @@ export function PresentationLayout({
         </AnimatePresence>
       </div>
 
-      {/* Controls Overlay */}
-      <div className="fixed top-4 left-4 right-4 flex items-center justify-between z-30 no-print">
-        {/* Left Controls */}
-        <div className="flex items-center gap-2">
-          {features.sidebar && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowSidebar(true)}
-              className="bg-background/80 backdrop-blur-sm border border-border"
-            >
-              <Menu className="w-4 h-4" />
-            </Button>
-          )}
-          
-          {/* Week Navigator (student materials flow) */}
-          {backUrl && generationInfo && (
-            <WeekNavigator
-              generationInfo={generationInfo}
-              backUrl={backUrl}
-            />
-          )}
+      {/* ── Controls Overlay (auto-hides) ──────────────────────── */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-30 no-print"
+        initial={false}
+        animate={{ 
+          opacity: controlsVisible ? 1 : 0,
+          y: controlsVisible ? 0 : -8,
+        }}
+        transition={{ duration: 0.35, ease: premiumEase }}
+        style={{ pointerEvents: controlsVisible ? 'auto' : 'none' }}
+      >
+        <div className="flex items-center justify-between px-4 pt-4">
+          {/* Left Controls */}
+          <div className="flex items-center gap-2">
+            {features.sidebar && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowSidebar(true)}
+                className="bg-black/40 backdrop-blur-xl border border-white/[0.08] hover:bg-black/60 hover:border-white/15 text-white/70 hover:text-white transition-all"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+            )}
+            
+            {backUrl && generationInfo && (
+              <WeekNavigator
+                generationInfo={generationInfo}
+                backUrl={backUrl}
+              />
+            )}
 
-          {features.galleryMode && !backUrl && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={exitToGallery}
-              className="bg-background/80 backdrop-blur-sm border border-border gap-1"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Galería
-            </Button>
-          )}
-        </div>
+            {features.galleryMode && !backUrl && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={exitToGallery}
+                className="bg-black/40 backdrop-blur-xl border border-white/[0.08] hover:bg-black/60 gap-1 text-white/70 hover:text-white"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Galería
+              </Button>
+            )}
+          </div>
 
-        {/* Center: Presentation Name Badge */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm border border-border">
-          {config.badge && (
-            <span 
-              className="text-xs font-medium px-2 py-0.5 rounded text-primary-foreground"
-              style={{ backgroundColor: config.badgeColor || 'hsl(var(--primary))' }}
-            >
-              {config.badge}
+          {/* Center: Presentation Name Badge */}
+          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/[0.08]">
+            {config.badge && (
+              <span 
+                className="text-[10px] font-bold px-2 py-0.5 rounded-md text-white tracking-wider"
+                style={{ backgroundColor: config.badgeColor || 'hsl(var(--primary))' }}
+              >
+                {config.badge}
+              </span>
+            )}
+            <span className="text-xs font-medium text-white/60 hidden sm:block">
+              {config.name}
             </span>
-          )}
-          <span className="text-sm font-medium text-foreground">
-            {config.name}
-          </span>
+            {currentSection && (
+              <>
+                <div className="w-px h-3 bg-white/10 hidden sm:block" />
+                <span className="text-[10px] text-white/30 hidden sm:block">
+                  {currentSection.title}
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Right Controls */}
+          <div className="flex items-center gap-2">
+            {features.thumbnails && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowThumbnails(true)}
+                className="bg-black/40 backdrop-blur-xl border border-white/[0.08] hover:bg-black/60 hover:border-white/15 text-white/70 hover:text-white transition-all"
+              >
+                <Grid3X3 className="w-4 h-4" />
+              </Button>
+            )}
+
+            {features.keyboardShortcuts && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowShortcuts(true)}
+                className="bg-black/40 backdrop-blur-xl border border-white/[0.08] hover:bg-black/60 hover:border-white/15 text-white/70 hover:text-white transition-all"
+              >
+                <HelpCircle className="w-4 h-4" />
+              </Button>
+            )}
+
+            {features.fullscreen && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleFullscreen}
+                className="bg-black/40 backdrop-blur-xl border border-white/[0.08] hover:bg-black/60 hover:border-white/15 text-white/70 hover:text-white transition-all"
+              >
+                {isFullscreen ? (
+                  <Minimize className="w-4 h-4" />
+                ) : (
+                  <Maximize className="w-4 h-4" />
+                )}
+              </Button>
+            )}
+
+            {features.export && exportTools && (
+              <ExportDropdown
+                onExportPDF={exportTools.exportToPDF}
+                onExportPPTX={exportTools.exportToPPTX}
+                isExporting={exportTools.isExporting}
+                quality={exportTools.quality}
+                onQualityChange={exportTools.setQuality}
+              />
+            )}
+          </div>
         </div>
+      </motion.div>
 
-        {/* Right Controls */}
-        <div className="flex items-center gap-2">
-          {features.thumbnails && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowThumbnails(true)}
-              className="bg-background/80 backdrop-blur-sm border border-border"
-            >
-              <Grid3X3 className="w-4 h-4" />
-            </Button>
-          )}
+      {/* ── Bottom Navigation (auto-hides) ─────────────────────── */}
+      <motion.div
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 no-print"
+        initial={false}
+        animate={{ 
+          opacity: controlsVisible ? 1 : 0,
+          y: controlsVisible ? 0 : 16,
+        }}
+        transition={{ duration: 0.35, ease: premiumEase }}
+        style={{ pointerEvents: controlsVisible ? 'auto' : 'none' }}
+      >
+        <div className="flex items-center gap-3 px-2 py-1.5 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/[0.08]">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={prevSlide}
+            disabled={currentSlide === 1}
+            className="w-8 h-8 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
 
-          {features.keyboardShortcuts && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowShortcuts(true)}
-              className="bg-background/80 backdrop-blur-sm border border-border"
-            >
-              <HelpCircle className="w-4 h-4" />
-            </Button>
-          )}
+          <div className="flex items-center gap-1.5 min-w-[80px] justify-center">
+            <span className="text-sm font-bold text-white/80 tabular-nums">
+              {String(currentSlide).padStart(2, '0')}
+            </span>
+            <span className="text-white/20 text-xs">/</span>
+            <span className="text-xs text-white/30 tabular-nums">
+              {totalSlides}
+            </span>
+          </div>
 
-          {features.fullscreen && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleFullscreen}
-              className="bg-background/80 backdrop-blur-sm border border-border"
-            >
-              {isFullscreen ? (
-                <Minimize className="w-4 h-4" />
-              ) : (
-                <Maximize className="w-4 h-4" />
-              )}
-            </Button>
-          )}
-
-          {features.export && exportTools && (
-            <ExportDropdown
-              onExportPDF={exportTools.exportToPDF}
-              onExportPPTX={exportTools.exportToPPTX}
-              isExporting={exportTools.isExporting}
-              quality={exportTools.quality}
-              onQualityChange={exportTools.setQuality}
-            />
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={nextSlide}
+            disabled={currentSlide === totalSlides}
+            className="w-8 h-8 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </Button>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30 no-print">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={prevSlide}
-          disabled={currentSlide === 1}
-          className="bg-background/80 backdrop-blur-sm border border-border disabled:opacity-50"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </Button>
-
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm border border-border">
-          <span className="text-sm font-medium text-muted-foreground">
-            {currentSlide} / {totalSlides}
-          </span>
-        </div>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={nextSlide}
-          disabled={currentSlide === totalSlides}
-          className="bg-background/80 backdrop-blur-sm border border-border disabled:opacity-50"
-        >
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </div>
-
-      {/* Progress Bar */}
+      {/* ── Premium Gradient Progress Bar ───────────────────────── */}
       {features.progressBar && (
         <div className="fixed bottom-0 left-0 right-0 z-20 no-print">
-          <Progress 
-            value={progress} 
-            className="h-1 rounded-none bg-secondary/50"
-          />
+          <div className="h-[3px] bg-white/[0.03] relative overflow-hidden">
+            <motion.div
+              className="absolute inset-y-0 left-0"
+              style={{
+                background: 'linear-gradient(90deg, hsl(263 65% 55%), hsl(330 60% 55%), hsl(185 65% 50%), hsl(45 85% 55%))',
+                backgroundSize: '300% 100%',
+              }}
+              initial={false}
+              animate={{ 
+                width: `${progress}%`,
+                backgroundPosition: `${progress}% 0%`,
+              }}
+              transition={{ duration: 0.4, ease: premiumEase }}
+            />
+            {/* Glow effect at tip */}
+            <motion.div
+              className="absolute top-[-2px] h-[7px] w-8 blur-sm"
+              style={{
+                background: 'hsl(263 65% 55% / 0.6)',
+              }}
+              initial={false}
+              animate={{ left: `calc(${progress}% - 16px)` }}
+              transition={{ duration: 0.4, ease: premiumEase }}
+            />
+          </div>
         </div>
       )}
 

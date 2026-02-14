@@ -1,13 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export interface GenerationNavInfo {
   generationNumber: number;
   currentWeek: number;
   totalWeeks: number;
-  availableWeeks?: number[]; // weeks that have slides
+  availableWeeks?: number[];
 }
 
 interface WeekNavigatorProps {
@@ -24,18 +23,35 @@ export function WeekNavigator({ generationInfo, backUrl }: WeekNavigatorProps) {
   return (
     <div className="flex items-center gap-2">
       {/* Back to materials */}
-      <Button
-        variant="ghost"
-        size="sm"
+      <motion.button
         onClick={() => navigate(backUrl)}
-        className="bg-background/80 backdrop-blur-sm border border-border gap-1 text-xs"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all"
+        style={{
+          background: 'rgba(0, 0, 0, 0.4)',
+          backdropFilter: 'blur(20px)',
+          borderColor: 'rgba(255, 255, 255, 0.08)',
+          color: 'rgba(255, 255, 255, 0.6)',
+        }}
+        whileHover={{ 
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          borderColor: 'rgba(255, 255, 255, 0.15)',
+          color: 'rgba(255, 255, 255, 0.9)',
+        }}
+        whileTap={{ scale: 0.96 }}
       >
         <ArrowLeft className="w-3.5 h-3.5" />
-        Materiales
-      </Button>
+        <span className="hidden sm:inline">Materiales</span>
+      </motion.button>
 
       {/* Week chips */}
-      <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-background/80 backdrop-blur-sm border border-border">
+      <div 
+        className="flex items-center gap-0.5 px-1.5 py-1 rounded-xl border"
+        style={{
+          background: 'rgba(0, 0, 0, 0.4)',
+          backdropFilter: 'blur(20px)',
+          borderColor: 'rgba(255, 255, 255, 0.08)',
+        }}
+      >
         {weeks.map((week) => {
           const isActive = week === currentWeek;
           const isAvailable = !availableWeeks || availableWeeks.includes(week);
@@ -49,22 +65,29 @@ export function WeekNavigator({ generationInfo, backUrl }: WeekNavigatorProps) {
                 }
               }}
               disabled={!isAvailable}
-              className={`
-                relative px-2.5 py-1 rounded-md text-xs font-medium transition-all
-                ${isActive
-                  ? 'text-primary-foreground'
+              className="relative px-2.5 py-1 rounded-lg text-xs font-bold transition-all"
+              style={{
+                color: isActive
+                  ? 'white'
                   : isAvailable
-                    ? 'text-muted-foreground hover:text-foreground hover:bg-accent/50 cursor-pointer'
-                    : 'text-muted-foreground/40 cursor-not-allowed'
-                }
-              `}
-              whileHover={isAvailable && !isActive ? { scale: 1.05 } : {}}
-              whileTap={isAvailable && !isActive ? { scale: 0.95 } : {}}
+                    ? 'rgba(255, 255, 255, 0.4)'
+                    : 'rgba(255, 255, 255, 0.15)',
+                cursor: isAvailable ? 'pointer' : 'not-allowed',
+              }}
+              whileHover={isAvailable && !isActive ? { 
+                color: 'rgba(255, 255, 255, 0.7)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              } : {}}
+              whileTap={isAvailable && !isActive ? { scale: 0.92 } : {}}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeWeek"
-                  className="absolute inset-0 rounded-md bg-primary"
+                  className="absolute inset-0 rounded-lg"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(263 55% 50%), hsl(263 55% 40%))',
+                    boxShadow: '0 0 16px hsl(263 55% 50% / 0.4)',
+                  }}
                   transition={{ type: 'spring', duration: 0.4 }}
                 />
               )}
