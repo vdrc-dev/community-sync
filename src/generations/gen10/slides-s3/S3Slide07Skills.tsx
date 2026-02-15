@@ -6,10 +6,10 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const SKILLS = [
-  { name: 'Brand Theme', tip: 'Tu identidad visual precargada', icon: Palette, accent: S3_ACCENT.rose },
-  { name: 'Excel Controller', tip: 'Lee y edita hojas de cálculo', icon: FileSpreadsheet, accent: S3_ACCENT.emerald },
-  { name: 'PDF Editor', tip: 'Extrae y transforma documentos', icon: FileText, accent: S3_ACCENT.amber },
-  { name: 'Web Researcher', tip: 'Busca info pública actualizada', icon: Search, accent: S3_ACCENT.cyan },
+  { name: 'Brand Theme', tip: 'Tu identidad visual precargada', example: '"Aplica mi marca a este PDF"', icon: Palette, accent: S3_ACCENT.rose },
+  { name: 'Excel Controller', tip: 'Lee y edita hojas de cálculo', example: '"Analiza ventas Q3 de este xlsx"', icon: FileSpreadsheet, accent: S3_ACCENT.emerald },
+  { name: 'PDF Editor', tip: 'Extrae y transforma documentos', example: '"Resume este contrato en 5 puntos"', icon: FileText, accent: S3_ACCENT.amber },
+  { name: 'Web Researcher', tip: 'Busca info pública actualizada', example: '"Investiga tendencias IA 2025"', icon: Search, accent: S3_ACCENT.cyan },
 ];
 
 const FLOATING_PILLS = [
@@ -121,6 +121,7 @@ export function S3Slide07Skills() {
                   <div>
                     <p className="text-sm font-black text-white mb-1">{skill.name}</p>
                     <p className="text-[11px] text-white/35 leading-relaxed">{skill.tip}</p>
+                    <p className="text-[9px] text-white/20 font-mono mt-1 italic">{skill.example}</p>
                   </div>
                 </div>
               </motion.div>

@@ -6,9 +6,9 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const TOOLS = [
-  { name: 'Gamma', tagline: 'Texto → Presentación', icon: Presentation, accent: S3_ACCENT.violet, badge: 'Recomendado' },
-  { name: 'Napkin AI', tagline: 'Texto → Infografías', icon: BarChart3, accent: S3_ACCENT.amber, badge: null },
-  { name: 'Beautiful.ai', tagline: 'Plantillas inteligentes', icon: Layers, accent: S3_ACCENT.cyan, badge: null },
+  { name: 'Gamma', tagline: 'Texto → Presentación', detail: '400 créditos gratis, exporta a PPTX', icon: Presentation, accent: S3_ACCENT.violet, badge: 'Recomendado' },
+  { name: 'Napkin AI', tagline: 'Texto → Infografías', detail: 'Ideal para LinkedIn y reportes', icon: BarChart3, accent: S3_ACCENT.amber, badge: null },
+  { name: 'Beautiful.ai', tagline: 'Plantillas inteligentes', detail: 'Auto-layout con diseño profesional', icon: Layers, accent: S3_ACCENT.cyan, badge: null },
 ];
 
 const FLOATING_PILLS = [
@@ -112,6 +112,7 @@ export function S3Slide07PresentationAI() {
                   <div>
                     <p className="text-lg font-black text-white mb-1">{tool.name}</p>
                     <p className="text-sm text-white/35">{tool.tagline}</p>
+                    <p className="text-[10px] text-white/20 mt-1">{tool.detail}</p>
                   </div>
 
                   {/* Mini mockup: slide preview with animated bars */}

@@ -6,9 +6,9 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const PIPELINE = [
-  { label: 'CRM', sub: 'HubSpot · Salesforce', icon: Database, accent: S3_ACCENT.amber },
-  { label: 'MCP', sub: 'Conector', icon: Plug, accent: S3_ACCENT.violet },
-  { label: 'Análisis', sub: 'Canvas · NotebookLM', icon: BarChart3, accent: S3_ACCENT.cyan },
+  { label: 'CRM', sub: 'HubSpot · Salesforce · Pipedrive', icon: Database, accent: S3_ACCENT.amber },
+  { label: 'MCP', sub: 'Plug & Play en 2 min', icon: Plug, accent: S3_ACCENT.violet },
+  { label: 'Análisis', sub: 'Dashboard + Insights', icon: BarChart3, accent: S3_ACCENT.cyan },
 ];
 
 const FLOATING_PILLS = [
@@ -194,9 +194,22 @@ export function S3Slide09CRM() {
           })}
         </div>
 
-        <motion.div {...m(0.6)} className="mt-12 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Example prompts */}
+        <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+          {[
+            { tip: '💬 "¿Cuántos deals cerré este mes?"', detail: 'Claude consulta HubSpot vía MCP y te da el número exacto' },
+            { tip: '📊 "Hazme un pipeline visual"', detail: 'Combina datos del CRM con Canvas para un dashboard' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span></span>
+          <span>Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span> → usa como alternativa</span>
         </motion.div>
       </div>
 

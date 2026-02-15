@@ -6,9 +6,9 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const CASES = [
-  { title: 'Folleto Digital', icon: Presentation, time: '~5 min', accent: S3_ACCENT.violet },
-  { title: 'Modelo Excel', icon: FileSpreadsheet, time: '~3 min', accent: S3_ACCENT.emerald },
-  { title: 'Tarea Recurrente', icon: Repeat, time: 'Auto', accent: S3_ACCENT.amber },
+  { title: 'Folleto Digital', icon: Presentation, time: '~5 min', detail: '"Hazme un folleto con estos datos de producto"', accent: S3_ACCENT.violet },
+  { title: 'Modelo Excel', icon: FileSpreadsheet, time: '~3 min', detail: '"Crea un modelo financiero con proyección a 12 meses"', accent: S3_ACCENT.emerald },
+  { title: 'Tarea Recurrente', icon: Repeat, time: 'Auto', detail: '"Cada lunes resume los emails de la semana"', accent: S3_ACCENT.amber },
 ];
 
 const FLOATING_PILLS = [
@@ -154,6 +154,7 @@ export function S3Slide08Automatizacion() {
                     <Icon className="w-7 h-7" style={{ color: c.accent.text }} />
                   </div>
                   <p className="text-base font-black text-white">{c.title}</p>
+                  <p className="text-[9px] text-white/25 font-mono italic mt-1 leading-relaxed">{c.detail}</p>
                   <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
                     style={{ borderColor: `${c.accent.text}15`, background: `${c.accent.text}05` }}>
                     <Clock className="w-3 h-3" style={{ color: c.accent.text }} />

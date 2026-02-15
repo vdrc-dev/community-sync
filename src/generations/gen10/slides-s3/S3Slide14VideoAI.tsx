@@ -13,9 +13,9 @@ const POWERS = [
 ];
 
 const ENGINES = [
-  { name: 'Sora', provider: 'OpenAI' },
-  { name: 'Veo 3', provider: 'Google' },
-  { name: 'Kling', provider: 'Kuaishou' },
+  { name: 'Sora', provider: 'OpenAI', detail: '1080p, 20s clips' },
+  { name: 'Veo 3', provider: 'Google', detail: '4K, audio sincronizado' },
+  { name: 'Kling', provider: 'Kuaishou', detail: 'Lip-sync, 5s gratis' },
 ];
 
 const FLOATING_PILLS = [
@@ -185,6 +185,7 @@ export function S3Slide14VideoAI() {
               {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.rose.border, scale: 1.04 } })}>
               <span className="text-sm font-bold text-white">{e.name}</span>
               <span className="text-[9px] text-white/20 font-mono ml-2">{e.provider}</span>
+              <span className="text-[8px] text-white/15 ml-1">· {e.detail}</span>
             </motion.div>
           ))}
         </motion.div>
@@ -213,7 +214,20 @@ export function S3Slide14VideoAI() {
           </div>
         </motion.div>
 
-        <motion.div {...m(0.7)} className="mt-8 inline-flex items-center gap-2 text-xs text-rose-400/50">
+        {/* Pro tips */}
+        <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+          {[
+            { tip: '🎬 Sube una imagen', detail: 'Krea anima cualquier foto estática en video de 5-10s' },
+            { tip: '🗣️ Agrega voz', detail: 'Sube audio y Kling sincroniza labios automáticamente' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.75)} className="mt-5 inline-flex items-center gap-2 text-xs text-rose-400/50">
           <Sparkles className="w-3.5 h-3.5" />
           <span>De clips aleatorios a <span className="text-rose-400/80 font-semibold">narrativas visuales</span> con control total</span>
         </motion.div>

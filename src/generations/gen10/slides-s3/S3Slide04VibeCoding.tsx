@@ -6,9 +6,9 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const EXAMPLES = [
-  { prompt: '"Estética agencia boutique"', result: 'Serif + espaciado', color: S3_ACCENT.violet },
-  { prompt: '"Mi paleta corporativa"', result: 'Colores en 3s', color: S3_ACCENT.cyan },
-  { prompt: '"Más minimalista"', result: 'Foco en datos', color: S3_ACCENT.amber },
+  { prompt: '"Estética agencia boutique"', result: 'Serif + espaciado', detail: 'Playfair Display + 40px padding', color: S3_ACCENT.violet },
+  { prompt: '"Mi paleta corporativa #2B5EA7"', result: 'Colores en 3s', detail: 'Genera 5 tonos armónicos', color: S3_ACCENT.cyan },
+  { prompt: '"Más minimalista, solo datos"', result: 'Foco en datos', detail: 'Elimina decoración, agranda KPIs', color: S3_ACCENT.amber },
 ];
 
 const FLOATING_PILLS = [
@@ -147,8 +147,20 @@ export function S3Slide04VibeCoding() {
           ))}
         </div>
 
-        {/* Tip */}
-        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Pro tips */}
+        <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+          {[
+            { tip: '💡 Sé específico con adjetivos', detail: '"Elegante y tech" > "bonito". Los modelos entienden estética.' },
+            { tip: '🎨 Pega tu HEX', detail: 'Dale tu color principal y pide variaciones complementarias.' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
           <span><span className="text-amber-400/80 font-semibold">Coolors.co</span> para paletas · <span className="text-amber-400/80 font-semibold">Fontjoy</span> para tipografías</span>
         </motion.div>

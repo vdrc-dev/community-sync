@@ -195,9 +195,23 @@ export function S3Slide11Cursor() {
           </div>
         </div>
 
-        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Workflow tip */}
+        <motion.div {...m(0.55)} className="mt-6 max-w-3xl mx-auto grid grid-cols-3 gap-3 text-left">
+          {[
+            { tip: '⌨️ Cmd+K = Editar', detail: 'Selecciona código y pide cambios inline' },
+            { tip: '💬 Chat = Planear', detail: 'Abre el chat lateral para cambios multi-archivo' },
+            { tip: '🔄 Composer = Crear', detail: 'Genera features completas con contexto del proyecto' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Empieza gratis — <span className="text-amber-400/80 font-semibold">cursor.com</span></span>
+          <span>Hobby gratis · <span className="text-amber-400/80 font-semibold">Pro $20/mes</span> (500 requests rápidos)</span>
         </motion.div>
       </div>
 

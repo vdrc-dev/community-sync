@@ -59,9 +59,23 @@ export function S3Slide03Canvas() {
           {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
           <div className="h-0.5 w-32 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(185 70% 65%), hsl(263 60% 70%))', transformOrigin: 'center' }} />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-lg mx-auto">
           Transforma cualquier dataset en visualizaciones interactivas sin código
         </motion.p>
+
+        {/* Stats bar */}
+        <motion.div {...m(0.18)} className="flex items-center justify-center gap-6 mb-12">
+          {[
+            { stat: '30 seg', desc: 'CSV → gráfico' },
+            { stat: '12+', desc: 'tipos de chart' },
+            { stat: '$0', desc: 'gratis en Gemini' },
+          ].map((s, i) => (
+            <div key={i} className="text-center px-4">
+              <p className="text-xl font-black" style={{ color: S3_ACCENT.cyan.text }}>{s.stat}</p>
+              <p className="text-[10px] text-white/25 uppercase tracking-wider mt-0.5">{s.desc}</p>
+            </div>
+          ))}
+        </motion.div>
 
         {/* Visual flow: CSV → Canvas → Dashboard */}
         <div className="flex items-center justify-center gap-6">
@@ -138,7 +152,21 @@ export function S3Slide03Canvas() {
           </motion.div>
         </div>
 
-        <motion.div {...m(0.6)} className="mt-12 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Pro tips */}
+        <motion.div {...m(0.55)} className="mt-10 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
+          {[
+            { tip: '📊 Pide "hazme un dashboard interactivo"', detail: 'Canvas genera HTML+JS que puedes exportar' },
+            { tip: '🔄 Itera en tiempo real', detail: '"Cambia a barras horizontales y agrega tooltip"' },
+            { tip: '📋 Copia el código', detail: 'Pega el HTML en tu sitio o comparte como link' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Funciona en <span className="text-amber-400/80 font-semibold">Gemini</span> y <span className="text-amber-400/80 font-semibold">ChatGPT</span> — Canvas incluido</span>
         </motion.div>
