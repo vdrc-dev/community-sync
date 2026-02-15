@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { AlertCircle, CheckCircle2, Lightbulb, Crosshair, ArrowRight, Bot } from 'lucide-react';
-import { S2_ACCENT, S2_THEME } from './theme';
+import { S2_ACCENT } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const ACCENT = { red: S2_ACCENT.red, emerald: S2_ACCENT.emerald, violet: S2_ACCENT.violet, amber: S2_ACCENT.amber };
 
@@ -24,7 +24,6 @@ const AI_RESPONSES = {
 
 export function S2Slide12Ambiguity() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(11);
   const [activeView, setActiveView] = useState<'vague' | 'specific'>('vague');
 
@@ -43,47 +42,33 @@ export function S2Slide12Ambiguity() {
   const activeAccent = isVague ? ACCENT.red : ACCENT.emerald;
   const aiData = AI_RESPONSES[activeView];
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex items-center font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="AMBIGÜEDAD VS ESPECIFICIDAD"
+      className="flex items-center"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(0_60%_40%_/_0.12),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(160_55%_45%_/_0.1),_transparent_65%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-        {!isExporting && (
-          <>
-            <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-              key={activeView}
-              initial={{ opacity: 0 }} animate={{ opacity: 0.4, scale: [1, 1.1, 1] }}
-              transition={{ opacity: { duration: 0.4 }, scale: { duration: 8, repeat: Infinity } }}
-              style={{ background: `radial-gradient(circle, ${activeAccent.glow}, transparent 70%)` }} />
-            <motion.div
-              className="absolute top-[15%] right-[15%] w-[320px] h-[320px] rounded-full blur-[140px]"
-              style={{ background: 'hsl(263 60% 45% / 0.09)' }}
-              animate={{ scale: [1, 1.15, 1], opacity: [0.09, 0.18, 0.09] }}
-              transition={{ duration: 9.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
-      </div>
+      </>}
+    >
+      {/* Breathing orbs */}
+      {!isExporting && (
+        <>
+          <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+            key={activeView}
+            initial={{ opacity: 0 }} animate={{ opacity: 0.4, scale: [1, 1.1, 1] }}
+            transition={{ opacity: { duration: 0.4 }, scale: { duration: 8, repeat: Infinity } }}
+            style={{ background: `radial-gradient(circle, ${activeAccent.glow}, transparent 70%)` }} />
+          <motion.div
+            className="absolute top-[15%] right-[15%] w-[320px] h-[320px] rounded-full blur-[140px]"
+            style={{ background: 'hsl(263 60% 45% / 0.09)' }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.09, 0.18, 0.09] }}
+            transition={{ duration: 9.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </>
+      )}
 
       {/* Content */}
       <div className="relative z-10 w-full px-12 lg:px-16">
@@ -257,17 +242,6 @@ export function S2Slide12Ambiguity() {
           </div>
         </div>
       </div>
-
-      {/* Bottom */}
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">AMBIGÜEDAD VS ESPECIFICIDAD</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '19 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

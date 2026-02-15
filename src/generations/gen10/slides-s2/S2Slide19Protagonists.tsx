@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { Bot, Globe, Monitor, Sparkles, Star, TrendingUp, Search, Code, LucideIcon } from 'lucide-react';
 import { useSlideContent, AgentItem } from '@/hooks/useSlideContent';
 import protagonistsImg from '@/assets/gen10-s2/page-19-protagonists.jpg';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const ICON_MAP: Record<string, LucideIcon> = { Bot, Globe, Monitor };
 
@@ -26,7 +25,6 @@ const SUBTITLE_MAP: Record<string, string> = { 'Manus AI': 'Butterfly Effect', '
 
 export function S2Slide19Protagonists() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(18);
   const [activeAgent, setActiveAgent] = useState(0);
 
@@ -34,41 +32,33 @@ export function S2Slide19Protagonists() {
   const deepResearch = content.deepResearch;
   const claudeCode = content.claudeCode;
 
-  const m = (delay: number) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } };
+  const m = useS2Motion();
 
   const active = agents[activeAgent];
   const activeColor = COLOR_MAP[active?.color] || COLOR_MAP.violet;
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="AGENTES AUTÓNOMOS"
+      className="flex flex-col justify-center px-16 2xl:px-20"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_90%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_85%_40%,_hsl(330_60%_40%_/_0.06),_transparent_55%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-        {!isExporting && (
-          <>
-            <motion.div className="absolute top-[25%] left-[35%] w-[600px] h-[500px] rounded-full blur-[200px]"
-              key={activeAgent} initial={{ opacity: 0 }} animate={{ opacity: 0.35, scale: [1, 1.15, 1] }}
-              transition={{ opacity: { duration: 0.4 }, scale: { duration: 8, repeat: Infinity } }}
-              style={{ background: `radial-gradient(circle, ${activeColor.glow}, transparent 70%)` }} />
-            <motion.div className="absolute bottom-[15%] right-[20%] w-[450px] h-[400px] rounded-full blur-[160px]"
-              style={{ background: 'hsl(185 55% 45% / 0.06)' }}
-              animate={{ scale: [1.1, 1, 1.1], opacity: [0.06, 0.15, 0.06] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }} />
-          </>
-        )}
-      </div>
+      </>}
+    >
+      {/* Breathing orbs */}
+      {!isExporting && (
+        <>
+          <motion.div className="absolute top-[25%] left-[35%] w-[600px] h-[500px] rounded-full blur-[200px]"
+            key={activeAgent} initial={{ opacity: 0 }} animate={{ opacity: 0.35, scale: [1, 1.15, 1] }}
+            transition={{ opacity: { duration: 0.4 }, scale: { duration: 8, repeat: Infinity } }}
+            style={{ background: `radial-gradient(circle, ${activeColor.glow}, transparent 70%)` }} />
+          <motion.div className="absolute bottom-[15%] right-[20%] w-[450px] h-[400px] rounded-full blur-[160px]"
+            style={{ background: 'hsl(185 55% 45% / 0.06)' }}
+            animate={{ scale: [1.1, 1, 1.1], opacity: [0.06, 0.15, 0.06] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }} />
+        </>
+      )}
 
       <div className="relative z-10 flex flex-col h-full justify-center max-w-[1600px] mx-auto w-full">
         {/* Header */}
@@ -211,16 +201,6 @@ export function S2Slide19Protagonists() {
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">AGENTES AUTÓNOMOS</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '26 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

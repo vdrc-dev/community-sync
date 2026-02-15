@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { Plug, Database, Lightbulb, ZoomIn, X, ArrowRight } from 'lucide-react';
 import { useSlideContent } from '@/hooks/useSlideContent';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const MCP_CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10-s2/concept-mcp-protocol.jpg';
 const CEAAS_CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10-s2/concept-ceaas-service.jpg';
@@ -18,7 +17,6 @@ const TAB_COLORS: Record<InfraTab, { text: string; bg: string; border: string; g
 
 export function S2Slide20Infrastructure() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(19);
   const [activeTab, setActiveTab] = useState<InfraTab>('mcp');
   const [lightbox, setLightbox] = useState(false);
@@ -40,8 +38,7 @@ export function S2Slide20Infrastructure() {
 
   const insight = content.insight || 'MCP convierte a la IA de consultor externo a empleado con acceso al sistema';
 
-  const m = (delay: number) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } };
+  const m = useS2Motion();
 
   const activeColor = TAB_COLORS[activeTab];
   const activeData = activeTab === 'mcp' ? mcp : ceaas;
@@ -50,22 +47,13 @@ export function S2Slide20Infrastructure() {
   const ActiveTabIcon = activeTab === 'mcp' ? Plug : Database;
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="INFRAESTRUCTURA AGÉNTICA"
+      className="flex flex-col justify-center px-16 2xl:px-20"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.18),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_15%_50%,_hsl(38_60%_40%_/_0.06),_transparent_55%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
         {!isExporting && (
           <>
             <motion.div className="absolute top-[25%] left-[35%] w-[600px] h-[500px] rounded-full blur-[200px]"
@@ -77,7 +65,8 @@ export function S2Slide20Infrastructure() {
               animate={{ scale: [1.1, 1, 1.1], opacity: [0.06, 0.15, 0.06] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }} />
           </>
         )}
-      </div>
+      </>}
+    >
 
       <div className="relative z-10 flex flex-col h-full justify-center max-w-[1600px] mx-auto w-full">
         {/* Header */}
@@ -255,16 +244,6 @@ export function S2Slide20Infrastructure() {
           </button>
         </motion.div>
       )}
-
-      {/* Bottom bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">INFRAESTRUCTURA AGÉNTICA</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '27 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

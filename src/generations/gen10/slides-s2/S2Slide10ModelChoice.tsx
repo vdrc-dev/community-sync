@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { Target, Code, FileText, MessageSquare, Image, BarChart3, Wallet, Sparkles, Zap, ArrowRight, Lightbulb, Layers } from 'lucide-react';
 import heroImg from '@/assets/gen10-s2/slide09-model-choice.jpg';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ─── Color palette (matches slide 7/8) ─── */
 const C = {
@@ -79,7 +78,6 @@ function getRec(task: string, ctx: number, budget: number): Rec {
 
 export function S2Slide10ModelChoice() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const [activeStep, setActiveStep] = useState(0);
   const [task, setTask] = useState<string | null>(null);
   const [context, setContext] = useState('1');
@@ -98,8 +96,7 @@ export function S2Slide10ModelChoice() {
     return budget;
   };
 
-  const m = (delay: number) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5 } };
+  const m = useS2Motion();
 
   const currentStep = STEPS[activeStep];
   const sc = C[currentStep.colorKey];
@@ -107,22 +104,14 @@ export function S2Slide10ModelChoice() {
   const recC = rec ? C[rec.color] : C.violet;
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-violet-500/30" style={{ background: S2_THEME.background }}>
-
-      {/* Atmosphere */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_20%,_hsl(263_50%_30%_/_0.12),_transparent)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
-
+    <S2Shell
+      footerLabel="CRITERIO DE SELECCIÓN"
+      radials={
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_20%,_hsl(263_50%_30%_/_0.12),_transparent)]" />
+        </>
+      }
+    >
       {!isExporting && (
         <>
           <motion.div
@@ -409,16 +398,6 @@ export function S2Slide10ModelChoice() {
           </div>
         </motion.div>
       </div>
-
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">CRITERIO DE SELECCIÓN</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '17 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef, ComponentType } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo, ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -30,22 +30,19 @@ import { DEFAULT_FEATURES } from './types';
 /* ── Premium easing curves ──────────────────────────────────────── */
 const premiumEase = [0.16, 1, 0.3, 1];
 
-/* ── Slide transition variants ──────────────────────────────────── */
+/* ── Slide transition variants — snappy feel ───────────────────── */
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 60 : -60,
+    x: direction > 0 ? 40 : -40,
     opacity: 0,
-    scale: 0.97,
   }),
   center: {
     x: 0,
     opacity: 1,
-    scale: 1,
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -60 : 60,
+    x: direction > 0 ? -40 : 40,
     opacity: 0,
-    scale: 0.97,
   }),
 };
 
@@ -351,8 +348,11 @@ export function PresentationLayout({
   const CurrentSlideComponent = slides[currentSlide - 1];
   const progress = (currentSlide / totalSlides) * 100;
 
-  // Find which section the current slide belongs to
-  const currentSection = sections.find(s => s.slides.includes(currentSlide));
+  // Find which section the current slide belongs to — memoized
+  const currentSection = useMemo(
+    () => sections.find(s => s.slides.includes(currentSlide)),
+    [sections, currentSlide]
+  );
 
   // ============================================
   // Gallery Mode Render
@@ -424,7 +424,7 @@ export function PresentationLayout({
             animate="center"
             exit="exit"
             transition={{ 
-              duration: 0.4, 
+              duration: 0.25, 
               ease: premiumEase,
             }}
             className="w-full h-full"

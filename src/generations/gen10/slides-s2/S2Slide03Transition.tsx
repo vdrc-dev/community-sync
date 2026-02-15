@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { ArrowRight, Sparkles, User, BriefcaseBusiness, Zap, Brain, Cpu } from 'lucide-react';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10-s2/page-03-transicion.jpg';
 
@@ -65,7 +64,6 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 
 export function S2Slide03Transition() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(3);
   const [activeEra, setActiveEra] = useState(2);
 
@@ -77,37 +75,18 @@ export function S2Slide03Transition() {
   const active = timeline[activeEra] || timeline[2];
   const style = ERA_STYLES[active.color] || ERA_STYLES.violet;
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 24 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex items-center font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* ── Deep atmospheric background ── */}
-      <div className="absolute inset-0">
-        {/* Primary radial glows */}
+    <S2Shell
+      footerLabel="TRANSICIÓN FUNDAMENTAL"
+      className="flex items-center"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_20%_-10%,_hsl(263_50%_40%_/_0.18),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_85%_80%,_hsl(185_60%_35%_/_0.1),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,_hsl(38_80%_40%_/_0.05),_transparent_50%)]" />
-
-        {/* Dot grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        {/* Noise texture */}
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
+      </>}
+    >
 
       {/* ── Reactive breathing orbs ── */}
       {!isExporting && (
@@ -440,17 +419,6 @@ export function S2Slide03Transition() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">TRANSICIÓN FUNDAMENTAL</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '05 / 37'}</span>
-        </div>
-      </div>
-
-      {/* ── Cinematic vignette ── */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

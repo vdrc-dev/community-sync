@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { User, Brain, Bot, Lightbulb, Zap, ChevronRight } from 'lucide-react';
 import metapromptBg from '@/assets/clase02/slide06-metaprompt-bg.png';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ── Pipeline node config ──────────────────────── */
 
@@ -101,7 +100,6 @@ function FlowArrow({ color, delay, isExporting }: { color: string; delay: number
 
 export function S2Slide16PromptEngineering() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(15);
 
   const title = content.title || 'El Meta-Prompt: IA gestionando a la IA';
@@ -111,66 +109,51 @@ export function S2Slide16PromptEngineering() {
   };
   const insight = content.insight || 'Ya no escribes prompts — escribes intenciones. Una IA las traduce en instrucciones perfectas para otra IA.';
 
-  const m = (delay: number) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.55, ease: [0.22, 0.61, 0.36, 1] },
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* ── Cinematic Background ── */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Reference image as atmospheric backdrop */}
-        <img
-          src={metapromptBg}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.12]"
-        />
-        {/* Dark overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a] via-[#04030a]/70 to-[#04030a]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#04030a]/80 via-transparent to-[#04030a]/80" />
-        {/* HSL atmospheric gradients */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(38_65%_45%_/_0.12),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(263_60%_45%_/_0.1),_transparent_65%)]" />
-        {/* Ambient orbs */}
-        {!isExporting && (
-          <>
-            <motion.div
-              className="absolute top-[20%] left-[15%] w-[500px] h-[400px] rounded-full blur-[180px]"
-              style={{ background: 'hsl(38 60% 45% / 0.06)' }}
-              animate={{ scale: [1, 1.12, 1], opacity: [0.06, 0.12, 0.06] }}
-              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute bottom-[15%] right-[10%] w-[450px] h-[350px] rounded-full blur-[160px]"
-              style={{ background: 'hsl(263 55% 45% / 0.07)' }}
-              animate={{ scale: [1.08, 1, 1.08], opacity: [0.07, 0.14, 0.07] }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
-        {isExporting && (
-          <>
-            <div className="absolute top-[20%] left-[15%] w-[500px] h-[400px] rounded-full blur-[180px]" style={{ background: 'hsl(38 60% 45% / 0.06)' }} />
-            <div className="absolute bottom-[15%] right-[10%] w-[450px] h-[350px] rounded-full blur-[160px]" style={{ background: 'hsl(263 55% 45% / 0.07)' }} />
-          </>
-        )}
-        {/* Dot grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        {/* Noise texture */}
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
+    <S2Shell
+      footerLabel="META-PROMPTING"
+      radials={
+        <>
+          {/* Reference image as atmospheric backdrop */}
+          <img
+            src={metapromptBg}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.12]"
+          />
+          {/* Dark overlays for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#04030a] via-[#04030a]/70 to-[#04030a]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04030a]/80 via-transparent to-[#04030a]/80" />
+          {/* HSL atmospheric gradients */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(38_65%_45%_/_0.12),_transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(263_60%_45%_/_0.1),_transparent_65%)]" />
+        </>
+      }
+    >
+      {/* Ambient orbs */}
+      {!isExporting && (
+        <>
+          <motion.div
+            className="absolute top-[20%] left-[15%] w-[500px] h-[400px] rounded-full blur-[180px]"
+            style={{ background: 'hsl(38 60% 45% / 0.06)' }}
+            animate={{ scale: [1, 1.12, 1], opacity: [0.06, 0.12, 0.06] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute bottom-[15%] right-[10%] w-[450px] h-[350px] rounded-full blur-[160px]"
+            style={{ background: 'hsl(263 55% 45% / 0.07)' }}
+            animate={{ scale: [1.08, 1, 1.08], opacity: [0.07, 0.14, 0.07] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </>
+      )}
+      {isExporting && (
+        <>
+          <div className="absolute top-[20%] left-[15%] w-[500px] h-[400px] rounded-full blur-[180px]" style={{ background: 'hsl(38 60% 45% / 0.06)' }} />
+          <div className="absolute bottom-[15%] right-[10%] w-[450px] h-[350px] rounded-full blur-[160px]" style={{ background: 'hsl(263 55% 45% / 0.07)' }} />
+        </>
+      )}
 
       <div className="relative z-10 flex flex-col h-full min-h-screen px-16 py-10 justify-between max-w-[1600px] mx-auto w-full">
 
@@ -307,16 +290,6 @@ export function S2Slide16PromptEngineering() {
           </div>
         </motion.div>
       </div>
-
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">META-PROMPTING</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '23 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

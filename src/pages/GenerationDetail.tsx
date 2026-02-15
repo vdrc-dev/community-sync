@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
-import { PageHeader } from '@/components/layout/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -27,24 +25,33 @@ import {
   Lock,
   Presentation,
   Sparkles,
-  Users,
-  MessageSquare,
-  ArrowRight
+  ArrowRight,
+  ChevronRight,
+  Home,
+  Calendar,
+  CheckCircle2
 } from 'lucide-react';
 import { usePresentations } from '@/hooks/usePresentations';
 
 const MODULE_COLORS = [
-  { gradient: 'from-blue-500/20 to-blue-500/5', text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/10' },
-  { gradient: 'from-primary/20 to-primary/5', text: 'text-primary', border: 'border-primary/20', bg: 'bg-primary/10' },
-  { gradient: 'from-purple-500/20 to-purple-500/5', text: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-500/10' },
-  { gradient: 'from-accent/20 to-accent/5', text: 'text-accent', border: 'border-accent/20', bg: 'bg-accent/10' },
+  { gradient: 'from-blue-500/20 to-blue-500/5', text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/10', ring: 'ring-blue-500/20' },
+  { gradient: 'from-primary/20 to-primary/5', text: 'text-primary', border: 'border-primary/20', bg: 'bg-primary/10', ring: 'ring-primary/20' },
+  { gradient: 'from-purple-500/20 to-purple-500/5', text: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-500/10', ring: 'ring-purple-500/20' },
+  { gradient: 'from-accent/20 to-accent/5', text: 'text-accent', border: 'border-accent/20', bg: 'bg-accent/10', ring: 'ring-accent/20' },
 ];
 const MODULE_ICONS = ['🛡️', '🤖', '🎨', '💻'];
+const MODULE_NAMES = ['Higiene Digital', 'IA & Productividad', 'Comunicacion y Creacion', 'Vibe Coding'];
+const MODULE_DESCRIPTIONS = [
+  'Inbox Zero, Bitwarden, perfiles, Context Engineering',
+  'Era Agentica, CROP, Agentes, MCP',
+  'Gamma, NotebookLM, Claude Code, Cursor',
+  'Lovable + Supabase + GitHub + Cursor'
+];
 
 export default function GenerationDetail() {
   const { code } = useParams<{ code: string }>();
   const { user, isAdmin } = useAuth();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [expandedClass, setExpandedClass] = useState<string | null>(null);
   const { trackActivity } = useActivityResume();
   const { presentations, createPresentation, isCreating } = usePresentations();
 
@@ -99,7 +106,10 @@ export default function GenerationDetail() {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <div className="text-center space-y-3">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
+            <p className="text-sm text-muted-foreground">Cargando generacion...</p>
+          </div>
         </div>
       </Layout>
     );
@@ -110,7 +120,7 @@ export default function GenerationDetail() {
       <Layout>
         <div className="container mx-auto px-4 py-12">
           <div className="text-center py-20">
-            <h2 className="text-2xl font-mono font-bold mb-4">Generación no encontrada</h2>
+            <h2 className="text-2xl font-mono font-bold mb-4">Generacion no encontrada</h2>
             <Button asChild>
               <Link to="/generations">Volver a generaciones</Link>
             </Button>
@@ -122,33 +132,70 @@ export default function GenerationDetail() {
 
   const genNumber = parseInt(generation.code.replace(/GEN-0*/i, ''), 10);
 
+  const dateRange = generation.start_date ? (
+    <>
+      {new Date(generation.start_date).toLocaleDateString('es-CL', { day: 'numeric', month: 'short' })}
+      {generation.end_date && (
+        <> — {new Date(generation.end_date).toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' })}</>
+      )}
+    </>
+  ) : null;
+
   return (
     <Layout>
-      <div className="page-container section-py">
-        {/* Page Header */}
-        <PageHeader
-          title={generation.name}
-          description={generation.description || undefined}
-          badge={generation.is_active ? { label: 'En curso', icon: <Sparkles className="w-3 h-3 mr-1" /> } : undefined}
-          breadcrumbs={[
-            { label: 'Generaciones', href: '/generations' },
-            { label: generation.code }
-          ]}
-        />
+      <div className="page-container py-6 md:py-10 max-w-5xl mx-auto">
+        
+        {/* ─── Breadcrumb ─── */}
+        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground mb-6">
+          <Link to="/" className="hover:text-foreground transition-colors"><Home className="w-4 h-4" /></Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <Link to="/generations" className="hover:text-foreground transition-colors">Generaciones</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground font-medium">{generation.code}</span>
+        </nav>
 
-        {/* Date range */}
-        {generation.start_date && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-sm text-muted-foreground font-mono mb-6 -mt-2"
-          >
-            {new Date(generation.start_date).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}
-            {generation.end_date && (
-              <> — {new Date(generation.end_date).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}</>
+        {/* ─── Hero: Title + Progress ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-10"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-4">
+            <div>
+              {generation.is_active && (
+                <Badge variant="outline" className="mb-3 border-primary/40 bg-primary/5 text-primary text-xs">
+                  <Sparkles className="w-3 h-3 mr-1.5" />
+                  En curso
+                </Badge>
+              )}
+              <h1 className="text-3xl sm:text-4xl font-mono font-bold tracking-tight">{generation.name}</h1>
+              {dateRange && (
+                <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span className="font-mono">{dateRange}</span>
+                </div>
+              )}
+            </div>
+            
+            {/* Progress card */}
+            {classes && classes.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15 }}
+                className="lg:min-w-[280px]"
+              >
+                <div className="glass rounded-2xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Tu progreso</span>
+                  </div>
+                  <GenerationProgressBar classes={classes} />
+                </div>
+              </motion.div>
             )}
-          </motion.p>
-        )}
+          </div>
+        </motion.div>
 
         {/* Content */}
         {!user ? (
@@ -157,493 +204,330 @@ export default function GenerationDetail() {
               <Lock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Contenido exclusivo</h3>
               <p className="text-muted-foreground mb-6">
-                Inicia sesión para acceder a los recursos de esta generación
+                Inicia sesion para acceder a los recursos de esta generacion
               </p>
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link to="/auth">Iniciar sesión</Link>
+                <Link to="/auth">Iniciar sesion</Link>
               </Button>
             </CardContent>
           </Card>
         ) : (
-          <>
-            {/* Tabs */}
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                <TabsList className="bg-muted/50">
-                  <TabsTrigger value="overview">Vista General</TabsTrigger>
-                  <TabsTrigger value="classes">Clases</TabsTrigger>
-                  <TabsTrigger value="presentations">Presentaciones</TabsTrigger>
-                </TabsList>
-                {classes && classes.length > 0 && (
-                  <div className="w-full sm:w-64">
-                    <GenerationProgressBar classes={classes} />
+          <div className="space-y-10">
+
+            {/* ─── SECTION 1: Slides por semana ─── */}
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                    <Presentation className="w-4 h-4 text-primary" />
                   </div>
+                  <div>
+                    <h2 className="font-semibold text-base">Slides por semana</h2>
+                    <p className="text-xs text-muted-foreground">4 modulos interactivos</p>
+                  </div>
+                </div>
+                {genNumber >= 9 && (
+                  <Link
+                    to={`/alumnos/gen${genNumber}`}
+                    className="hidden sm:flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
+                  >
+                    Hub completo
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 )}
               </div>
-
-              {/* OVERVIEW TAB */}
-              <TabsContent value="overview">
-                <div className="space-y-6">
-                  {/* VDRC Rich Presentations Banner */}
-                  {genNumber >= 9 && (
+              
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                {[1, 2, 3, 4].map((moduleNum) => {
+                  const colors = MODULE_COLORS[moduleNum - 1];
+                  
+                  return (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
+                      key={moduleNum}
+                      initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.12 + moduleNum * 0.06 }}
                     >
-                      <Link to={`/alumnos/gen${genNumber}`}>
-                        <div className="relative p-6 rounded-2xl overflow-hidden group cursor-pointer transition-all hover:scale-[1.01]"
-                          style={{
-                            background: 'linear-gradient(135deg, hsl(160 84% 42% / 0.12) 0%, hsl(160 84% 42% / 0.03) 100%)',
-                            border: '1px solid hsl(160 84% 42% / 0.3)',
-                          }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <div className="w-12 h-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center">
-                                <Presentation className="w-6 h-6 text-primary" />
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <h3 className="font-bold text-foreground">Presentaciones Interactivas</h3>
-                                  <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px]">
-                                    <Sparkles className="w-3 h-3 mr-1" />
-                                    VDRC Engine
-                                  </Badge>
-                                </div>
-                                <p className="text-sm text-muted-foreground">
-                                  Slides por semana (S1-S4) con navegacion, secciones, y exportacion PDF/PPTX
-                                </p>
-                              </div>
+                      <Link
+                        to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
+                        className="group block h-full"
+                      >
+                        <div className="glass glass-specular relative rounded-2xl overflow-hidden h-full transition-all duration-300 hover:scale-[1.03] hover:shadow-lg">
+                          <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-40`} />
+                          <div className="relative z-10 p-4 sm:p-5 flex flex-col h-full">
+                            <div className="flex items-start justify-between mb-3">
+                              <span className="text-2xl sm:text-3xl">{MODULE_ICONS[moduleNum - 1]}</span>
+                              <Badge variant="outline" className={`${colors.border} ${colors.text} text-[10px] font-mono shrink-0`}>
+                                S{moduleNum}
+                              </Badge>
                             </div>
-                            <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                            <h3 className="font-semibold text-sm sm:text-base mb-1 group-hover:text-primary transition-colors">
+                              {MODULE_NAMES[moduleNum - 1]}
+                            </h3>
+                            <p className="text-[11px] text-muted-foreground line-clamp-2 flex-1">
+                              {MODULE_DESCRIPTIONS[moduleNum - 1]}
+                            </p>
+                            <div className={`mt-3 flex items-center gap-1.5 text-xs font-medium ${colors.text} opacity-0 group-hover:opacity-100 transition-all duration-300`}>
+                              <Play className="w-3 h-3" />
+                              Ver slides
+                            </div>
                           </div>
                         </div>
                       </Link>
                     </motion.div>
-                  )}
+                  );
+                })}
+              </div>
 
-                  {/* Module Presentations Grid */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-4">
-                      <Presentation className="w-4 h-4 text-primary" />
-                      <h3 className="font-mono font-semibold text-sm tracking-wider uppercase">Slides por Semana</h3>
-                    </div>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                      {[1, 2, 3, 4].map((moduleNum) => {
-                        const colors = MODULE_COLORS[moduleNum - 1];
-                        const names = ['Higiene Digital', 'IA & Productividad', 'Comunicacion y Creacion', 'Vibe Coding'];
-                        const descriptions = [
-                          'Inbox Zero, Bitwarden, perfiles, Context Engineering',
-                          'Era Agentica, CROP, Agentes, MCP',
-                          'Gamma, NotebookLM, Claude Code, Cursor',
-                          'Lovable + Supabase + GitHub + Cursor'
-                        ];
-                        
-                        return (
-                          <motion.div
-                            key={moduleNum}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: moduleNum * 0.08 }}
-                          >
-                            <Link
-                              to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
-                              className="group block"
-                            >
-                              <div className={`glass glass-specular relative p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02] overflow-hidden h-full`}>
-                                <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-30`} />
-                                <div className="relative z-10">
-                                  <div className="flex items-center justify-between mb-3">
-                                    <span className="text-2xl">{MODULE_ICONS[moduleNum - 1]}</span>
-                                    <Badge variant="outline" className={`${colors.border} ${colors.text} text-[10px] font-mono`}>
-                                      S{moduleNum}
-                                    </Badge>
-                                  </div>
-                                  <h4 className={`font-semibold text-sm mb-1 group-hover:${colors.text} transition-colors`}>
-                                    {names[moduleNum - 1]}
-                                  </h4>
-                                  <p className="text-[11px] text-muted-foreground line-clamp-2">
-                                    {descriptions[moduleNum - 1]}
-                                  </p>
-                                  <div className={`mt-3 flex items-center gap-1.5 text-xs font-medium ${colors.text} opacity-0 group-hover:opacity-100 transition-all`}>
-                                    <Play className="w-3 h-3" />
-                                    Ver slides
-                                  </div>
-                                </div>
-                              </div>
-                            </Link>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
-                  </div>
+              {/* Mobile-only hub link */}
+              {genNumber >= 9 && (
+                <Link
+                  to={`/alumnos/gen${genNumber}`}
+                  className="flex sm:hidden items-center justify-center gap-2 mt-3 py-2.5 rounded-xl bg-primary/5 border border-primary/20 text-sm text-primary font-medium hover:bg-primary/10 transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Ver Hub completo
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              )}
+            </motion.section>
 
-                  {/* Classes overview */}
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-primary" />
-                        <h3 className="font-mono font-semibold text-sm tracking-wider uppercase">
-                          Clases ({classes?.length || 0})
-                        </h3>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setActiveTab('classes')}
-                        className="text-xs text-muted-foreground hover:text-foreground"
-                      >
-                        Ver todas <ArrowRight className="w-3 h-3 ml-1" />
-                      </Button>
-                    </div>
-                    
-                    {loadingClasses ? (
-                      <div className="flex items-center justify-center py-8">
-                        <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                      </div>
-                    ) : classes?.length === 0 ? (
-                      <Card className="glass border-border/30">
-                        <CardContent className="py-8 text-center">
-                          <BookOpen className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">Las clases aparecerán cuando estén disponibles</p>
-                        </CardContent>
-                      </Card>
-                    ) : (
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        {classes?.map((cls, i) => {
-                          const colors = MODULE_COLORS[i % 4];
-                          return (
-                            <motion.div
-                              key={cls.id}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.1 + i * 0.05 }}
-                            >
-                              <Card className="glass border-border/30 hover:border-primary/30 transition-all group cursor-pointer" onClick={() => setActiveTab('classes')}>
-                                <CardContent className="p-4">
-                                  <div className="flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center font-mono font-bold ${colors.text} shrink-0`}>
-                                      {cls.class_number}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <h4 className="font-semibold text-sm group-hover:text-primary transition-colors">{cls.title}</h4>
-                                      {cls.class_date && (
-                                        <p className="text-[11px] text-muted-foreground">
-                                          {new Date(cls.class_date).toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' })}
-                                        </p>
-                                      )}
-                                    </div>
-                                    <ClassProgressCheckbox classId={cls.id} />
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </motion.div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
+            {/* ─── Divider ─── */}
+            <div className="divider-gradient" />
 
-                  {/* Quick links to community */}
-                  <div className="glass glass-specular p-5 rounded-2xl">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Users className="w-4 h-4 text-accent" />
-                      <h3 className="font-mono font-semibold text-sm tracking-wider uppercase">Comunidad</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Conecta con los participantes de esta y otras generaciones.
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                      <Link
-                        to="/community"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all text-sm font-medium"
-                      >
-                        <MessageSquare className="w-4 h-4 text-primary" />
-                        Espacios
-                      </Link>
-                      <Link
-                        to="/chat"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all text-sm font-medium"
-                      >
-                        <Users className="w-4 h-4 text-accent" />
-                        Chat en vivo
-                      </Link>
-                      <Link
-                        to="/forum"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all text-sm font-medium"
-                      >
-                        <BookOpen className="w-4 h-4 text-purple-400" />
-                        Foro
-                      </Link>
-                    </div>
-                  </div>
+            {/* ─── SECTION 2: Cronograma de clases ─── */}
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+            >
+              <div className="flex items-center gap-2.5 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-blue-400" />
                 </div>
-              </TabsContent>
-
-              {/* CLASSES TAB */}
-              <TabsContent value="classes">
-                {loadingClasses ? (
-                  <div className="flex items-center justify-center py-12">
-                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                  </div>
-                ) : classes?.length === 0 ? (
-                  <Card className="card-static">
-                    <EmptyState
-                      icon={BookOpen}
-                      title="Sin clases aún"
-                      description="Las clases de esta generación aparecerán aquí cuando estén disponibles"
-                    />
-                  </Card>
-                ) : (
-                  <div className="space-y-4">
+                <div>
+                  <h2 className="font-semibold text-base">Cronograma</h2>
+                  <p className="text-xs text-muted-foreground">{classes?.length || 0} clases programadas</p>
+                </div>
+              </div>
+              
+              {loadingClasses ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                </div>
+              ) : classes?.length === 0 ? (
+                <Card className="card-static">
+                  <EmptyState
+                    icon={BookOpen}
+                    title="Sin clases aun"
+                    description="Las clases de esta generacion apareceran aqui cuando esten disponibles"
+                  />
+                </Card>
+              ) : (
+                <div className="relative">
+                  {/* Timeline line */}
+                  <div className="absolute left-[23px] top-3 bottom-3 w-px bg-border/60 hidden sm:block" />
+                  
+                  <div className="space-y-3">
                     {classes?.map((cls, i) => {
                       const classPresentation = presentations?.find(p => p.class_id === cls.id);
                       const colors = MODULE_COLORS[i % 4];
+                      const isExpanded = expandedClass === cls.id;
                       
                       return (
                         <motion.div
                           key={cls.id}
-                          initial={{ opacity: 0, y: 15 }}
+                          initial={{ opacity: 0, y: 12 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.05 }}
+                          transition={{ delay: 0.3 + i * 0.06 }}
+                          className="relative"
                         >
-                          <Card className="card-interactive group">
-                            <CardHeader className="pb-3">
-                              <div className="flex items-start justify-between gap-4">
-                                <div className="flex items-center gap-4">
-                                  <ClassProgressCheckbox classId={cls.id} />
-                                  <div className={`w-10 h-10 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center font-mono font-bold ${colors.text}`}>
-                                    {cls.class_number}
-                                  </div>
-                                  <div>
-                                    <CardTitle className="text-lg">{cls.title}</CardTitle>
-                                    {cls.class_date && (
-                                      <p className="text-sm text-muted-foreground">
-                                        {new Date(cls.class_date).toLocaleDateString('es-CL', {
-                                          weekday: 'long',
-                                          day: 'numeric',
-                                          month: 'long',
-                                          year: 'numeric'
-                                        })}
-                                      </p>
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  {/* Module presentation link */}
-                                  <Link
-                                    to={`/presentations/module/${cls.class_number}`}
-                                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-md ${colors.bg} ${colors.text} border ${colors.border} text-xs hover:opacity-80 transition-opacity`}
-                                  >
-                                    <Presentation className="w-3 h-3" />
-                                    <span className="hidden sm:inline">Slides M{cls.class_number}</span>
-                                  </Link>
-                                  {/* Published presentation: anyone can view */}
+                          {/* Timeline dot */}
+                          <div className={`absolute left-[18px] top-[22px] w-[11px] h-[11px] rounded-full border-2 ${colors.border} ${colors.bg} z-10 hidden sm:block`} />
+                          
+                          <div
+                            className={`sm:ml-12 glass rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer hover:border-primary/20 ${isExpanded ? 'border-primary/20' : ''}`}
+                            onClick={() => setExpandedClass(isExpanded ? null : cls.id)}
+                          >
+                            {/* Class header row */}
+                            <div className="flex items-center gap-3 p-4">
+                              <div className={`w-10 h-10 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center font-mono font-bold ${colors.text} shrink-0 text-sm`}>
+                                {cls.class_number}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-semibold text-sm sm:text-base truncate">{cls.title}</h3>
+                                {cls.class_date && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {new Date(cls.class_date).toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                {/* Quick slide link */}
+                                <Link
+                                  to={genNumber >= 9 ? `/slides/gen${genNumber}s${cls.class_number}` : `/presentations/module/${cls.class_number}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg ${colors.bg} ${colors.text} border ${colors.border} text-xs hover:opacity-80 transition-opacity`}
+                                >
+                                  <Presentation className="w-3 h-3" />
+                                  <span className="hidden sm:inline">S{cls.class_number}</span>
+                                </Link>
+                                <ClassProgressCheckbox classId={cls.id} />
+                              </div>
+                            </div>
+
+                            {/* Expandable detail */}
+                            <motion.div
+                              initial={false}
+                              animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
+                              transition={{ duration: 0.25, ease: 'easeInOut' }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-4 pb-4 pt-1 border-t border-border/30">
+                                {cls.description && (
+                                  <p className="text-sm text-muted-foreground mb-4">
+                                    {cls.description}
+                                  </p>
+                                )}
+
+                                {/* Resource links */}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                  {cls.recording_url && (
+                                    <a
+                                      href={cls.recording_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 text-sm hover:bg-red-500/20 transition-colors"
+                                    >
+                                      <Play className="w-4 h-4" />
+                                      Grabacion
+                                      <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                  )}
+                                  {cls.drive_folder_url && (
+                                    <a
+                                      href={cls.drive_folder_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 text-sm hover:bg-yellow-500/20 transition-colors"
+                                    >
+                                      <Folder className="w-4 h-4" />
+                                      Carpeta
+                                      <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                  )}
+                                  {cls.slides_url && (
+                                    <a
+                                      href={cls.slides_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm hover:bg-blue-500/20 transition-colors"
+                                    >
+                                      <FileText className="w-4 h-4" />
+                                      Slides
+                                      <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                  )}
                                   {classPresentation?.status === 'published' && (
                                     <Link
                                       to={`/presentations/${classPresentation.id}`}
-                                      className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-500/10 text-green-500 border border-green-500/20 text-xs hover:bg-green-500/20 transition-colors"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20 text-sm hover:bg-green-500/20 transition-colors"
                                     >
-                                      <Play className="w-3 h-3" />
-                                      <span className="hidden sm:inline">Ver</span>
+                                      <Play className="w-4 h-4" />
+                                      Presentacion
                                     </Link>
                                   )}
-                                  {/* Admin */}
-                                  {isAdmin && (
-                                    classPresentation ? (
+                                  {cls.notes_content && (
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="border-green-500/20 text-green-400 hover:bg-green-500/10 rounded-xl"
+                                    >
+                                      <BookOpen className="w-4 h-4 mr-2" />
+                                      Apuntes
+                                    </Button>
+                                  )}
+                                </div>
+
+                                {/* Admin actions */}
+                                {isAdmin && (
+                                  <div className="flex items-center gap-2 mb-3">
+                                    {classPresentation ? (
                                       <Link
                                         to="/admin/presentations"
-                                        className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs hover:bg-yellow-500/20 transition-colors"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs hover:bg-yellow-500/20 transition-colors"
                                       >
                                         <Presentation className="w-3 h-3" />
-                                        <span className="hidden sm:inline">Editar</span>
+                                        Editar presentacion
                                       </Link>
                                     ) : (
                                       <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => createPresentation(cls.id)}
+                                        onClick={(e) => { e.stopPropagation(); createPresentation(cls.id); }}
                                         disabled={isCreating}
-                                        className="gap-1 text-xs border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10"
+                                        className="gap-1.5 text-xs border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10"
                                       >
                                         <Presentation className="w-3 h-3" />
-                                        <span className="hidden sm:inline">Diseñar</span>
+                                        Diseñar
                                       </Button>
-                                    )
-                                  )}
+                                    )}
+                                  </div>
+                                )}
+
+                                <div className="flex items-center gap-2">
                                   <BookmarkButton 
                                     resourceType="class" 
                                     resourceId={cls.id}
                                     showLabel
                                   />
                                 </div>
-                              </div>
-                            </CardHeader>
-                            <CardContent>
-                              {cls.description && (
-                                <p className="text-sm text-muted-foreground mb-4">
-                                  {cls.description}
-                                </p>
-                              )}
 
-                              {/* Resource links */}
-                              <div className="flex flex-wrap gap-2">
-                                {cls.recording_url && (
-                                  <a
-                                    href={cls.recording_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 text-sm hover:bg-red-500/20 transition-colors"
-                                  >
-                                    <Play className="w-4 h-4" />
-                                    Grabación
-                                    <ExternalLink className="w-3 h-3" />
-                                  </a>
-                                )}
-                                {cls.drive_folder_url && (
-                                  <a
-                                    href={cls.drive_folder_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 text-sm hover:bg-yellow-500/20 transition-colors"
-                                  >
-                                    <Folder className="w-4 h-4" />
-                                    Carpeta
-                                    <ExternalLink className="w-3 h-3" />
-                                  </a>
-                                )}
-                                {cls.slides_url && (
-                                  <a
-                                    href={cls.slides_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm hover:bg-blue-500/20 transition-colors"
-                                  >
-                                    <FileText className="w-4 h-4" />
-                                    Slides
-                                    <ExternalLink className="w-3 h-3" />
-                                  </a>
-                                )}
-                                {cls.notes_content && (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="border-green-500/20 text-green-400 hover:bg-green-500/10 rounded-xl"
-                                  >
-                                    <BookOpen className="w-4 h-4 mr-2" />
-                                    Apuntes
-                                  </Button>
+                                {/* Personal Notes */}
+                                <div onClick={(e) => e.stopPropagation()}>
+                                  <ClassNotes classId={cls.id} classTitle={cls.title} className="mt-3" />
+                                </div>
+
+                                {/* Tools mentioned */}
+                                {cls.class_tools && cls.class_tools.length > 0 && (
+                                  <div className="mt-3 pt-3 border-t border-border/30">
+                                    <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                                      <Wrench className="w-3 h-3" />
+                                      Herramientas:
+                                    </p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {cls.class_tools.map((ct: any) => (
+                                        <Badge 
+                                          key={ct.tool.id} 
+                                          variant="outline" 
+                                          className="border-border/50 text-xs"
+                                        >
+                                          {ct.tool.icon_emoji} {ct.tool.name}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
                                 )}
                               </div>
-
-                              {/* Personal Notes */}
-                              <ClassNotes classId={cls.id} classTitle={cls.title} className="mt-4" />
-
-                              {/* Tools mentioned */}
-                              {cls.class_tools && cls.class_tools.length > 0 && (
-                                <div className="mt-4 pt-4 border-t border-border/50">
-                                  <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
-                                    <Wrench className="w-3 h-3" />
-                                    Herramientas mencionadas:
-                                  </p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {cls.class_tools.map((ct: any) => (
-                                      <Badge 
-                                        key={ct.tool.id} 
-                                        variant="outline" 
-                                        className="border-border hover:border-primary/50"
-                                      >
-                                        {ct.tool.icon_emoji} {ct.tool.name}
-                                      </Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )}
-              </TabsContent>
-
-              {/* PRESENTATIONS TAB */}
-              <TabsContent value="presentations">
-                <div className="space-y-6">
-                  <p className="text-sm text-muted-foreground">
-                    Slides interactivas por semana con navegacion lateral, secciones, y export PDF/PPTX.
-                  </p>
-                  
-                  {/* Rich slide engine link */}
-                  {genNumber >= 9 && (
-                    <Link to={`/alumnos/gen${genNumber}`}>
-                      <div className="flex items-center gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors mb-4 group">
-                        <Sparkles className="w-5 h-5 text-primary" />
-                        <div className="flex-1">
-                          <span className="font-semibold text-sm text-primary">Ver todas las semanas en el Hub de Alumnos</span>
-                          <p className="text-xs text-muted-foreground">Accede a materiales, presentaciones y recursos por semana</p>
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </Link>
-                  )}
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {[1, 2, 3, 4].map((moduleNum) => {
-                      const colors = MODULE_COLORS[moduleNum - 1];
-                      const names = ['Higiene Digital', 'La Era Agentica', 'Comunicacion y Creacion', 'Vibe Coding'];
-                      const descriptions = [
-                        'Inbox Zero, Bitwarden, perfiles de navegador, Context Engineering y manual digital.',
-                        'Era Agentica, framework CROP, agentes IA, MCP, Suite Claude, NotebookLM.',
-                        'Gamma, NotebookLM, Claude Code, Cursor. Automatizacion y CRM.',
-                        'Lovable + Supabase + GitHub + Cursor: crea software real sin escribir codigo.'
-                      ];
-                      
-                      return (
-                        <motion.div
-                          key={moduleNum}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: moduleNum * 0.1 }}
-                        >
-                          <Link
-                            to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
-                            className="group block h-full"
-                          >
-                            <Card className="glass glass-specular h-full hover:scale-[1.02] transition-all duration-300 overflow-hidden">
-                              <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-30`} />
-                              <CardContent className="relative p-6">
-                                <div className="flex items-center gap-3 mb-4">
-                                  <span className="text-3xl">{MODULE_ICONS[moduleNum - 1]}</span>
-                                  <div>
-                                    <Badge variant="outline" className={`${colors.border} ${colors.text} text-[10px] font-mono mb-1`}>
-                                      Semana {moduleNum}
-                                    </Badge>
-                                    <h4 className="font-semibold text-lg group-hover:text-primary transition-colors">
-                                      {names[moduleNum - 1]}
-                                    </h4>
-                                  </div>
-                                </div>
-                                <p className="text-sm text-muted-foreground mb-4">
-                                  {descriptions[moduleNum - 1]}
-                                </p>
-                                <div className={`flex items-center gap-2 text-sm font-medium ${colors.text}`}>
-                                  <Play className="w-4 h-4" />
-                                  Ver presentacion completa
-                                  <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
+                            </motion.div>
+                          </div>
                         </motion.div>
                       );
                     })}
                   </div>
                 </div>
-              </TabsContent>
-            </Tabs>
-          </>
+              )}
+            </motion.section>
+          </div>
         )}
       </div>
     </Layout>

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { Code2, Brain, Search, Zap, Sparkles, Crown, Puzzle, ArrowRight } from 'lucide-react';
-import { S2_ACCENT, S2_THEME } from './theme';
+import { S2_ACCENT } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ── Accent palette ── */
 const ACCENT = { violet: S2_ACCENT.violet, pink: S2_ACCENT.pink, cyan: S2_ACCENT.cyan, amber: S2_ACCENT.amber };
@@ -32,7 +32,6 @@ const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
 
 export function S2Slide05Fragmentation() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(5);
   const [activeSpec, setActiveSpec] = useState(0);
 
@@ -70,36 +69,21 @@ export function S2Slide05Fragmentation() {
     },
   ];
 
-  const m = (delay: number, extra?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 22 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.65, ease: [0.16, 1, 0.3, 1] },
-      ...extra,
-    };
+  const m = useS2Motion();
 
   const activeData = specializations[activeSpec];
   const activeAccent = activeData ? ACCENT[activeData.color as AccentKey] || ACCENT.violet : ACCENT.violet;
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex items-center font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* ── Atmospheric background ── */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="FRAGMENTACIÓN"
+      className="flex items-center"
+      radials={<>
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 15%, hsl(263 50% 40% / 0.12), transparent 60%)' }} />
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 40% at 85% 80%, hsl(330 55% 40% / 0.06), transparent 55%)' }} />
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 40% 30% at 60% 50%, hsl(185 60% 35% / 0.04), transparent 50%)' }} />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
+      </>}
+    >
 
       {/* ── Breathing orbs ── */}
       {!isExporting && (
@@ -314,20 +298,6 @@ export function S2Slide05Fragmentation() {
         </motion.div>
       </div>
 
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">FRAGMENTACIÓN</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">
-            {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '07 / 37'}
-          </span>
-        </div>
-      </div>
-
-      {/* ── Vignette ── */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

@@ -1,11 +1,11 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useGeneration } from '@/contexts/GenerationContext';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { Zap, ChevronRight, Sparkles, Brain, Bot, Workflow } from 'lucide-react';
 import logoVdrc from '@/assets/logo-vdrc.png';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10-s2/page-01-cover.jpg';
 
@@ -41,45 +41,23 @@ export function S2Slide01Cover() {
     return () => clearTimeout(t);
   }, [typedCount, isExporting]);
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 30 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex items-center font-sans selection:bg-violet-500/30" style={{ background: S2_THEME.background }}>
-
-      {/* ═══════════════════════════════════ */}
-      {/* ── ATMOSPHERIC BACKGROUND ──────── */}
-      {/* ═══════════════════════════════════ */}
-      <div className="absolute inset-0">
-        {/* Primary radials */}
+    <S2Shell
+      footerLabel="LA ERA AGÉNTICA"
+      className="flex items-center"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_130%_70%_at_55%_-25%,_hsl(263_80%_42%_/_0.28),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_-5%_110%,_hsl(280_60%_35%_/_0.14),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_55%_at_105%_15%,_hsl(45_80%_50%_/_0.07),_transparent_50%)]" />
-
-        {/* Fine grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: S2_THEME.grid.size + ' ' + S2_THEME.grid.size,
-          }}
-        />
-
-        {/* Horizontal scanlines */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(263 40% 50% / 0.3) 2px, hsl(263 40% 50% / 0.3) 3px)',
-            backgroundSize: '100% 6px',
-          }}
-        />
-      </div>
+        {/* Scanlines */}
+        <div className="absolute inset-0 opacity-[0.015]" style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(263 40% 50% / 0.3) 2px, hsl(263 40% 50% / 0.3) 3px)',
+          backgroundSize: '100% 6px',
+        }} />
+      </>}
+    >
 
       {/* ── Breathing orbs ── */}
       {!isExporting && (
@@ -455,18 +433,6 @@ export function S2Slide01Cover() {
         </motion.div>
       </div>
 
-      {/* ═══════════════════════════════════ */}
-      {/* ── BOTTOM BAR ─────────────────── */}
-      {/* ═══════════════════════════════════ */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-12 py-5">
-        <div className="h-px flex-1 max-w-[200px]"
-          style={{ background: 'linear-gradient(90deg, hsl(263 50% 50% / 0.18), transparent)' }} />
-        <span className="text-[11px] font-bold text-white/10 tabular-nums tracking-widest">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '01 / 37'}</span>
-      </div>
-
-      {/* ── Cinematic vignette ── */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

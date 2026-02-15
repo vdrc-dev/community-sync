@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { FileText, User, Target, Settings, Lightbulb, ArrowRight, Eye } from 'lucide-react';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const DEFAULT_FRAMEWORK = [
   { letter: 'C', label: 'CONTEXTO', sublabel: 'El Escenario', desc: '¿Qué información de fondo necesita saber la IA? (industria, audiencia, datos relevantes)', color: 'cyan' },
@@ -34,7 +33,6 @@ const CROP_FRAGMENTS: Record<string, string> = {
 
 export function S2Slide15CROP() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(14);
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [builtLetters, setBuiltLetters] = useState<Set<string>>(new Set());
@@ -60,44 +58,37 @@ export function S2Slide15CROP() {
     });
   };
 
-  const m = (delay: number, overrides?: Record<string, unknown>) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 20, ...overrides }, animate: { opacity: 1, y: 0, x: 0, scale: 1 }, transition: { delay, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } };
+  const m = useS2Motion();
 
   const activeColor = activeCard !== null ? (COLOR_MAP[framework[activeCard]?.color] || COLOR_MAP.violet) : null;
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.2),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-        {!isExporting && (
-          <>
-            {activeColor && (
-              <motion.div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] rounded-full -translate-x-1/2 -translate-y-1/2"
-                key={activeCard} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.5, scale: [1, 1.1, 1] }}
-                transition={{ opacity: { duration: 0.4 }, scale: { duration: 6, repeat: Infinity } }}
-                style={{ background: `radial-gradient(circle, ${activeColor.glow}, transparent 70%)` }} />
-            )}
-            <motion.div
-              className="absolute bottom-[15%] right-[8%] w-[400px] h-[400px] rounded-full blur-[160px]"
-              style={{ background: 'hsl(330 65% 55% / 0.09)' }}
-              animate={{ scale: [1, 1.12, 1], opacity: [0.08, 0.16, 0.08] }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
-      </div>
+    <S2Shell
+      footerLabel="FRAMEWORK C.R.O.P."
+      className="flex flex-col justify-center px-16 2xl:px-20"
+      radials={
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.2),_transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
+        </>
+      }
+    >
+      {!isExporting && (
+        <>
+          {activeColor && (
+            <motion.div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] rounded-full -translate-x-1/2 -translate-y-1/2"
+              key={activeCard} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.5, scale: [1, 1.1, 1] }}
+              transition={{ opacity: { duration: 0.4 }, scale: { duration: 6, repeat: Infinity } }}
+              style={{ background: `radial-gradient(circle, ${activeColor.glow}, transparent 70%)` }} />
+          )}
+          <motion.div
+            className="absolute bottom-[15%] right-[8%] w-[400px] h-[400px] rounded-full blur-[160px]"
+            style={{ background: 'hsl(330 65% 55% / 0.09)' }}
+            animate={{ scale: [1, 1.12, 1], opacity: [0.08, 0.16, 0.08] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </>
+      )}
 
       <div className="relative z-10 flex flex-col h-full justify-center items-center max-w-[1600px] mx-auto w-full">
         {/* Header */}
@@ -213,17 +204,6 @@ export function S2Slide15CROP() {
           </div>
         </motion.div>
       </div>
-
-      {/* Bottom bar */}
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">FRAMEWORK C.R.O.P.</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '22 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

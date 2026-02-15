@@ -69,77 +69,40 @@ function PrefetchLink({
   );
 }
 
-// Navigation item with active indicator and hover effects
+// Clean navigation item — text-focused, minimal
 function NavItem({ 
   to, 
   label, 
-  icon: Icon,
   isActive 
 }: { 
   to: string; 
   label: string; 
-  icon?: React.ComponentType<{ className?: string }>;
   isActive: boolean;
 }) {
   const { onMouseEnter, onFocus } = useLinkPrefetch(to);
   
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+    <Link
+      to={to}
+      onMouseEnter={onMouseEnter}
+      onFocus={onFocus}
+      className={`
+        relative px-3.5 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+        ${isActive 
+          ? 'text-primary bg-primary/10' 
+          : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
+        }
+      `}
     >
-      <Link
-        to={to}
-        onMouseEnter={onMouseEnter}
-        onFocus={onFocus}
-        className={`
-          relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 group
-          ${isActive 
-            ? 'text-primary bg-primary/10' 
-            : 'text-muted-foreground hover:text-foreground'
-          }
-        `}
-      >
-        {/* Hover background highlight */}
+      {label}
+      {isActive && (
         <motion.div
-          className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          layoutId={`nav-bg-${to}`}
+          layoutId="nav-active-pill"
+          className="absolute inset-0 rounded-lg bg-primary/10 -z-10"
+          transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
         />
-        
-        {/* Subtle hover bg */}
-        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-muted/30 -z-10" />
-        
-        <span className="relative flex items-center gap-2">
-          {Icon && (
-            <Icon className={`w-4 h-4 transition-all duration-300 ${isActive ? 'text-primary' : 'group-hover:text-primary'}`} />
-          )}
-          <span className="relative">
-            {label}
-            {/* Underline animation */}
-            <motion.span
-              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary/60 rounded-full"
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ 
-                scaleX: isActive ? 1 : 0, 
-                opacity: isActive ? 1 : 0 
-              }}
-              whileHover={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              style={{ originX: 0 }}
-            />
-          </span>
-        </span>
-        
-        {/* Active indicator dot */}
-        {isActive && (
-          <motion.div
-            layoutId="nav-active-dot"
-            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary"
-            transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-          />
-        )}
-      </Link>
-    </motion.div>
+      )}
+    </Link>
   );
 }
 
@@ -209,132 +172,62 @@ export function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation with Active Indicator */}
-          <nav className="hidden md:flex items-center gap-1 p-1 rounded-xl bg-muted/30 border border-border/30">
+          {/* Desktop Navigation — clean pill bar */}
+          <nav className="hidden md:flex items-center gap-0.5 p-1 rounded-xl bg-muted/30 border border-border/20">
             {navLinks.map((link) => (
               <NavItem
                 key={link.href}
                 to={link.href}
                 label={link.label}
-                icon={link.icon}
                 isActive={location.pathname.startsWith(link.href)}
               />
             ))}
           </nav>
 
-          {/* User Menu / Auth Buttons */}
-          <div className="flex items-center gap-2">
-            {/* Ecosystem Switcher */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="hidden lg:flex items-center gap-1.5 text-muted-foreground hover:text-foreground border-border/50 bg-muted/30 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 h-8 px-2.5"
-                  >
-                    <Globe className="w-3.5 h-3.5 text-primary" />
-                    <span className="text-[10px] font-mono tracking-wider">VDRC</span>
-                    <ChevronDown className="w-3 h-3" />
-                  </Button>
-                </motion.div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 glass-strong p-2">
-                <DropdownMenuLabel className="text-[10px] font-mono tracking-[0.2em] text-primary/70 uppercase px-2">
-                  Ecosistema VDRC
-                </DropdownMenuLabel>
-                <DropdownMenuItem className="rounded-lg bg-primary/5 border border-primary/20 mb-1">
-                  <Users className="w-4 h-4 text-primary mr-2" />
-                  <div className="flex-1">
-                    <span className="text-sm font-medium">Comunidad</span>
-                    <span className="text-[10px] text-primary ml-2">AQUI</span>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
-                  <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
-                    <Globe className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm flex-1">vdrc.cl</span>
-                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                  </a>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
-                  <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full">
-                    <BookOpen className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm flex-1">Talleres</span>
-                    <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                  </a>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="rounded-lg hover:bg-purple-500/10 transition-colors">
-                  <PrefetchLink to="/presentations" className="flex items-center gap-2 w-full">
-                    <Presentation className="w-4 h-4 text-purple-400" />
-                    <span className="text-sm flex-1">Presentaciones</span>
-                  </PrefetchLink>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* CMD+K hint */}
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+          {/* Right side — clean & focused */}
+          <div className="flex items-center gap-1.5">
+            {/* Search — compact icon on smaller screens, full on lg */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-all h-8 px-2.5"
+              onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
             >
-              <Button
-                variant="outline"
-                size="sm"
-                className="hidden lg:flex items-center gap-2 text-muted-foreground hover:text-foreground border-border/50 bg-muted/30 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
-                onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
-              >
-                <Command className="w-3 h-3" />
-                <span className="text-xs">Buscar</span>
-                <kbd className="ml-2 px-1.5 py-0.5 text-[10px] font-mono bg-background/50 rounded border border-border/50">⌘K</kbd>
-              </Button>
-            </motion.div>
+              <Command className="w-3.5 h-3.5" />
+              <span className="text-xs hidden lg:inline">Buscar</span>
+              <kbd className="hidden lg:inline ml-1 px-1.5 py-0.5 text-[10px] font-mono bg-muted/50 rounded border border-border/40">⌘K</kbd>
+            </Button>
 
             {user ? (
               <>
-                {/* Streak display - compact */}
-                <div className="hidden sm:block">
-                  <StreakDisplay size="sm" showMultiplier={false} />
-                </div>
-
-                {/* Points display (compact) */}
+                {/* Points — compact pill */}
                 <div className="hidden sm:block">
                   <PointsDisplay compact />
-                </div>
-
-                {/* Online users */}
-                <div className="hidden lg:block">
-                  <OnlineUsers showCount={false} maxAvatars={3} />
                 </div>
 
                 {/* Notifications */}
                 <NotificationBell />
 
-                {/* User Dropdown */}
+                {/* User Dropdown — contains profile, streak, ecosystem */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <Button variant="ghost" className="relative h-9 px-2 gap-2 rounded-xl border border-border/50 hover:border-border hover:bg-muted/50 transition-all duration-300">
-                        <Avatar className="h-7 w-7 ring-2 ring-transparent hover:ring-primary/30 transition-all">
-                          <AvatarImage src={user.user_metadata?.avatar_url} />
-                          <AvatarFallback className="bg-primary/10 text-primary font-mono text-xs">
-                            {user.email?.charAt(0).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <ChevronDown className="w-3 h-3 text-muted-foreground hidden sm:block" />
-                      </Button>
-                    </motion.div>
+                    <Button variant="ghost" className="relative h-9 px-2 gap-1.5 rounded-xl border border-border/30 hover:border-border/50 hover:bg-muted/40 transition-all duration-200">
+                      <Avatar className="h-7 w-7">
+                        <AvatarImage src={user.user_metadata?.avatar_url} />
+                        <AvatarFallback className="bg-primary/10 text-primary font-mono text-xs">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <ChevronDown className="w-3 h-3 text-muted-foreground hidden sm:block" />
+                    </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-64 glass-strong p-2">
-                    {/* User Info Header */}
-                    <div className="px-3 py-3 mb-2 rounded-lg bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10 border-2 border-primary/30">
+                  <DropdownMenuContent align="end" className="w-72 glass-strong p-2">
+                    {/* User info + streak */}
+                    <div className="px-3 py-3 mb-2 rounded-xl bg-gradient-to-br from-primary/8 to-accent/4 border border-primary/15">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Avatar className="h-10 w-10 border-2 border-primary/20">
                           <AvatarImage src={user.user_metadata?.avatar_url} />
-                          <AvatarFallback className="bg-primary/20 text-primary font-mono">
+                          <AvatarFallback className="bg-primary/15 text-primary font-mono">
                             {user.email?.charAt(0).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
@@ -345,20 +238,24 @@ export function Header() {
                           <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                         </div>
                         {isAdmin && (
-                          <Badge variant="outline" className="bg-primary/10 border-primary/30 text-primary text-xs">
-                            <Shield className="w-3 h-3 mr-1" /> Admin
+                          <Badge variant="outline" className="bg-primary/10 border-primary/20 text-primary text-[10px]">
+                            Admin
                           </Badge>
                         )}
+                      </div>
+                      {/* Inline streak */}
+                      <div className="pt-2 border-t border-primary/10">
+                        <StreakDisplay size="sm" showMultiplier={false} />
                       </div>
                     </div>
 
                     <DropdownMenuGroup>
-                      <DropdownMenuLabel className="text-xs text-muted-foreground px-2">
-                        Herramientas personales
+                      <DropdownMenuLabel className="text-[10px] text-muted-foreground/70 px-2 uppercase tracking-wider">
+                        Tu espacio
                       </DropdownMenuLabel>
                       {quickLinks.map((link) => (
-                        <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/10 transition-colors">
-                          <PrefetchLink to={link.href} className="flex items-center gap-2 w-full">
+                        <DropdownMenuItem key={link.href} asChild className="rounded-lg hover:bg-primary/8 transition-colors">
+                          <PrefetchLink to={link.href} className="flex items-center gap-2.5 w-full">
                             <link.icon className="w-4 h-4 text-muted-foreground" />
                             <span className="text-sm">{link.label}</span>
                           </PrefetchLink>
@@ -366,74 +263,85 @@ export function Header() {
                       ))}
                     </DropdownMenuGroup>
 
-                    {/* Admin Link */}
+                    <DropdownMenuSeparator className="my-1.5" />
+                    
+                    {/* Ecosystem links — grouped cleanly */}
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel className="text-[10px] text-muted-foreground/70 px-2 uppercase tracking-wider">
+                        Ecosistema VDRC
+                      </DropdownMenuLabel>
+                      <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
+                        <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 w-full">
+                          <Globe className="w-4 h-4 text-muted-foreground" />
+                          <span className="text-sm flex-1">vdrc.cl</span>
+                          <ExternalLink className="w-3 h-3 text-muted-foreground/50" />
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="rounded-lg hover:bg-muted/50 transition-colors">
+                        <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 w-full">
+                          <BookOpen className="w-4 h-4 text-muted-foreground" />
+                          <span className="text-sm flex-1">Talleres</span>
+                          <ExternalLink className="w-3 h-3 text-muted-foreground/50" />
+                        </a>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+
+                    {/* Admin */}
                     {isAdmin && (
                       <>
-                        <DropdownMenuSeparator className="my-2" />
+                        <DropdownMenuSeparator className="my-1.5" />
                         <DropdownMenuGroup>
-                          <DropdownMenuLabel className="text-xs text-yellow-500 px-2 flex items-center gap-1">
+                          <DropdownMenuLabel className="text-[10px] text-yellow-500/80 px-2 uppercase tracking-wider flex items-center gap-1">
                             <Shield className="w-3 h-3" />
-                            Administración
+                            Admin
                           </DropdownMenuLabel>
-                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/10 transition-colors">
-                            <PrefetchLink to="/admin/presentations" className="flex items-center gap-2 w-full">
+                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/8 transition-colors">
+                            <PrefetchLink to="/admin/presentations" className="flex items-center gap-2.5 w-full">
                               <Presentation className="w-4 h-4 text-yellow-500" />
-                              <span className="text-sm">Diseño Presentaciones</span>
+                              <span className="text-sm">Presentaciones</span>
                             </PrefetchLink>
                           </DropdownMenuItem>
-                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/10 transition-colors">
-                            <PrefetchLink to="/admin/users" className="flex items-center gap-2 w-full">
+                          <DropdownMenuItem asChild className="rounded-lg hover:bg-yellow-500/8 transition-colors">
+                            <PrefetchLink to="/admin/users" className="flex items-center gap-2.5 w-full">
                               <Users className="w-4 h-4 text-yellow-500" />
-                              <span className="text-sm">Gestionar Usuarios</span>
+                              <span className="text-sm">Usuarios</span>
                             </PrefetchLink>
                           </DropdownMenuItem>
                         </DropdownMenuGroup>
                       </>
                     )}
 
-                    <DropdownMenuSeparator className="my-2" />
+                    <DropdownMenuSeparator className="my-1.5" />
                     
                     <DropdownMenuItem 
                       onClick={handleSignOut} 
-                      className="text-destructive focus:text-destructive rounded-lg hover:bg-destructive/10 transition-colors"
+                      className="text-destructive focus:text-destructive rounded-lg hover:bg-destructive/8 transition-colors"
                     >
-                      <LogOut className="w-4 h-4 mr-2" /> Cerrar sesión
+                      <LogOut className="w-4 h-4 mr-2" /> Cerrar sesion
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </>
             ) : (
               <div className="flex items-center gap-2">
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300">
-                    <Link to="/auth">Iniciar sesión</Link>
-                  </Button>
-                </motion.div>
-                <motion.div 
-                  whileHover={{ scale: 1.05 }} 
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300">
-                    <Link to="/auth?mode=signup">Registrarse</Link>
-                  </Button>
-                </motion.div>
+                <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-all text-sm h-8">
+                  <Link to="/auth">Iniciar sesion</Link>
+                </Button>
+                <Button asChild size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground h-8">
+                  <Link to="/auth?mode=signup">Registrarse</Link>
+                </Button>
               </div>
             )}
 
-            {/* Mobile menu button */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            {/* Mobile menu */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden h-9 w-9"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </Button>
-            </motion.div>
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
         </div>
 

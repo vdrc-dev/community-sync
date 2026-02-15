@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { Lightbulb, MessageSquare, Zap, ArrowRight, Star } from 'lucide-react';
-import { S2_ACCENT, S2_THEME } from './theme';
+import { S2_ACCENT } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ── 3 Prompt Levels ── */
 const LEVELS = [
@@ -43,58 +43,44 @@ const LEVEL_ICONS = [MessageSquare, Star, Zap];
 
 export function S2Slide11Prompt() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(10);
   const [activeLevel, setActiveLevel] = useState(0);
 
   const analogy = (content.analogy as string) || 'La Regla del Pasante Brillante';
   const goldenRule = (content.goldenRule as string) || 'Instrucción vaga = trabajo mediocre. Instrucción detallada = trabajo brillante.';
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   const current = LEVELS[activeLevel];
   const accent = ACCENT[current.color];
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex items-center font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 100% 60% at 50% -20%, ${S2_ACCENT.violet.glow}, transparent 65%)` }} />
-        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 50% at 50% 110%, ${S2_ACCENT.emerald.glow}, transparent 65%)` }} />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-        {!isExporting && (
-          <>
-            <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full"
-              key={activeLevel}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 0.4, scale: [1, 1.08, 1] }}
-              transition={{ opacity: { duration: 0.4 }, scale: { duration: 6, repeat: Infinity } }}
-              style={{ background: `radial-gradient(circle, ${accent.glow}, transparent 70%)` }} />
-            <motion.div
-              className="absolute top-[18%] right-[12%] w-[350px] h-[350px] rounded-full blur-[140px]"
-              style={{ background: S2_ACCENT.emerald.glow }}
-              animate={{ scale: [1, 1.12, 1], opacity: [0.15, 0.28, 0.15] }}
-              transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
-      </div>
+    <S2Shell
+      footerLabel="FUNDAMENTOS DEL PROMPT"
+      className="flex items-center"
+      radials={
+        <>
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 100% 60% at 50% -20%, ${S2_ACCENT.violet.glow}, transparent 65%)` }} />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 50% at 50% 110%, ${S2_ACCENT.emerald.glow}, transparent 65%)` }} />
+        </>
+      }
+    >
+      {!isExporting && (
+        <>
+          <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full"
+            key={activeLevel}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.4, scale: [1, 1.08, 1] }}
+            transition={{ opacity: { duration: 0.4 }, scale: { duration: 6, repeat: Infinity } }}
+            style={{ background: `radial-gradient(circle, ${accent.glow}, transparent 70%)` }} />
+          <motion.div
+            className="absolute top-[18%] right-[12%] w-[350px] h-[350px] rounded-full blur-[140px]"
+            style={{ background: S2_ACCENT.emerald.glow }}
+            animate={{ scale: [1, 1.12, 1], opacity: [0.15, 0.28, 0.15] }}
+            transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </>
+      )}
 
       {/* Content */}
       <div className="relative z-10 w-full px-12 lg:px-16">
@@ -275,16 +261,6 @@ export function S2Slide11Prompt() {
           </div>
         </div>
       </div>
-
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: `linear-gradient(90deg, transparent, ${S2_ACCENT.violet.border}, transparent)` }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/45 uppercase">FUNDAMENTOS DEL PROMPT</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/65">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '10 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px rgba(4,3,10,0.88)' }} />
-    </div>
+    </S2Shell>
   );
 }

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { MessageCircle, Clock, ArrowRight, Lightbulb } from 'lucide-react';
 import heroImg from '@/assets/gen10-s2/slide08-context-window.jpg';
-import { S2_THEME, S2_ACCENT } from './theme';
+import { S2_ACCENT } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ─── Colors: cyan/red for context degradation, amber for rule ─── */
 const C = {
@@ -82,33 +82,23 @@ function MemoryBar({ fill, isExporting }: { fill: number; isExporting: boolean }
 
 export function S2Slide09ContextWindow() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const [active, setActive] = useState(0);
 
-  const m = (delay: number) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5 } };
+  const m = useS2Motion();
 
   const step = SCENARIOS[active];
   const sc = C[step.colorKey];
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-violet-500/30" style={{ background: S2_THEME.background }}>
-
-      {/* Atmosphere */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 50% at 40% 25%, ${C.cyan.glow}, transparent)` }} />
-        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 50% 40% at 70% 75%, ${C.red.glow}, transparent)` }} />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
-
+    <S2Shell
+      footerLabel="MEMORIA Y LIMITACIONES"
+      radials={
+        <>
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 70% 50% at 40% 25%, ${C.cyan.glow}, transparent)` }} />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 50% 40% at 70% 75%, ${C.red.glow}, transparent)` }} />
+        </>
+      }
+    >
       {!isExporting && (
         <>
           <motion.div
@@ -333,16 +323,6 @@ export function S2Slide09ContextWindow() {
           </p>
         </motion.div>
       </div>
-
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: `linear-gradient(90deg, transparent, ${S2_ACCENT.violet.border}, transparent)` }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/45 uppercase">MEMORIA Y LIMITACIONES</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/65">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '09 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px rgba(4,3,10,0.88)' }} />
-    </div>
+    </S2Shell>
   );
 }

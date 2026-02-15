@@ -47,18 +47,21 @@ export function GenerationProvider({ children, genId }: GenerationProviderProps)
     return resolveSlides(componentNames, generationId);
   }, [slidesData, generationId]);
 
+  // Memoize context value to prevent unnecessary re-renders of consumers
+  const contextValue = useMemo(() => ({
+    config, 
+    slidesData,
+    resolvedSlides,
+    computedSections,
+    isLoading, 
+    isFromDatabase, 
+    generationNumber,
+    currentWeek,
+    generationId,
+  }), [config, slidesData, resolvedSlides, computedSections, isLoading, isFromDatabase, generationNumber, currentWeek, generationId]);
+
   return (
-    <GenerationContext.Provider value={{ 
-      config, 
-      slidesData,
-      resolvedSlides,
-      computedSections,
-      isLoading, 
-      isFromDatabase, 
-      generationNumber,
-      currentWeek,
-      generationId,
-    }}>
+    <GenerationContext.Provider value={contextValue}>
       {children}
     </GenerationContext.Provider>
   );

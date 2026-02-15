@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useExportContext } from '@/contexts/ExportContext';
@@ -13,45 +13,45 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.3 },
+    transition: { duration: 0.2 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       type: 'spring',
-      stiffness: 100,
-      damping: 15,
+      stiffness: 120,
+      damping: 18,
     },
   },
 };
 
-/* ── Floating ambient particles ─────────────────────────────────── */
-const PARTICLE_COUNT = 24;
-const PARTICLE_HUES = [263, 185, 330, 160, 45]; // violet, cyan, pink, emerald, amber
+/* ── Floating ambient particles — reduced for performance ──────── */
+const PARTICLE_COUNT = 10; // reduced from 24
+const PARTICLE_HUES = [263, 185, 160]; // fewer hues
 
 const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
   id: i,
   left: `${Math.random() * 100}%`,
   top: `${Math.random() * 100}%`,
-  size: 1.5 + Math.random() * 2.5,
+  size: 1.5 + Math.random() * 2,
   hue: PARTICLE_HUES[i % PARTICLE_HUES.length],
-  duration: 6 + Math.random() * 6,
-  delay: Math.random() * 5,
-  yDrift: -(15 + Math.random() * 30),
+  duration: 8 + Math.random() * 6,
+  delay: Math.random() * 4,
+  yDrift: -(10 + Math.random() * 20),
 }));
 
-function FloatingParticles() {
+const FloatingParticles = memo(function FloatingParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map((p) => (
@@ -63,12 +63,12 @@ function FloatingParticles() {
             top: p.top,
             width: p.size,
             height: p.size,
-            background: `hsl(${p.hue} 60% 65% / 0.35)`,
-            boxShadow: `0 0 ${p.size * 4}px hsl(${p.hue} 60% 65% / 0.4)`,
+            background: `hsl(${p.hue} 60% 65% / 0.3)`,
+            willChange: 'transform, opacity',
           }}
           animate={{
             y: [0, p.yDrift, 0],
-            opacity: [0.1, 0.5, 0.1],
+            opacity: [0.1, 0.4, 0.1],
           }}
           transition={{
             duration: p.duration,
@@ -80,7 +80,7 @@ function FloatingParticles() {
       ))}
     </div>
   );
-}
+});
 
 export function SlideWrapper({ children, className }: SlideWrapperProps) {
   let isExporting = false;

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { CheckSquare, Lightbulb, Users, Building2, Clock, FileText, Crown, Eye } from 'lucide-react';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 const CHECKLIST_ICONS: React.ElementType[] = [Users, Building2, Clock, FileText];
 const CHECKLIST_COLORS = ['violet', 'amber', 'cyan', 'emerald'] as const;
@@ -27,7 +26,6 @@ const QUALITY_LEVELS = [18, 42, 68, 88, 96]; // quality at 0,1,2,3,4 items check
 
 export function S2Slide14Context() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(13);
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
 
@@ -51,40 +49,33 @@ export function S2Slide14Context() {
   const quality = QUALITY_LEVELS[checkedItems.size] || QUALITY_LEVELS[0];
   const qualityColor = quality < 40 ? 'hsl(0 65% 55%)' : quality < 70 ? 'hsl(38 90% 58%)' : 'hsl(160 65% 50%)';
 
-  const m = (delay: number, overrides?: Record<string, unknown>) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 20, ...overrides }, animate: { opacity: 1, y: 0, x: 0, scale: 1 }, transition: { delay, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-      {/* Atmospheric background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.18),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-        {!isExporting && (
-          <>
-            <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-              animate={{ opacity: [0.2, 0.35, 0.2], scale: [1, 1.08, 1] }}
-              transition={{ duration: 8, repeat: Infinity }}
-              style={{ background: `radial-gradient(circle, ${qualityColor.replace(')', ' / 0.2)')}, transparent 70%)` }} />
-            <motion.div
-              className="absolute top-[18%] right-[10%] w-[350px] h-[350px] rounded-full blur-[140px]"
-              style={{ background: 'hsl(185 70% 50% / 0.11)' }}
-              animate={{ y: [0, 20, 0], opacity: [0.11, 0.22, 0.11] }}
-              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
-      </div>
+    <S2Shell
+      footerLabel="EL CONTEXTO ES EL REY"
+      className="flex flex-col justify-center px-16 2xl:px-20"
+      radials={
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.18),_transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(185_55%_45%_/_0.1),_transparent_65%)]" />
+          {!isExporting && (
+            <>
+              <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+                animate={{ opacity: [0.2, 0.35, 0.2], scale: [1, 1.08, 1] }}
+                transition={{ duration: 8, repeat: Infinity }}
+                style={{ background: `radial-gradient(circle, ${qualityColor.replace(')', ' / 0.2)')}, transparent 70%)` }} />
+              <motion.div
+                className="absolute top-[18%] right-[10%] w-[350px] h-[350px] rounded-full blur-[140px]"
+                style={{ background: 'hsl(185 70% 50% / 0.11)' }}
+                animate={{ y: [0, 20, 0], opacity: [0.11, 0.22, 0.11] }}
+                transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </>
+          )}
+        </>
+      }
+    >
 
       <div className="relative z-10 flex flex-col h-full justify-center max-w-[1600px] mx-auto w-full">
         {/* Header */}
@@ -236,17 +227,6 @@ export function S2Slide14Context() {
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom bar */}
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">INGENIERÍA DE CONTEXTO</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '21 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

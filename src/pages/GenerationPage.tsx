@@ -1,4 +1,4 @@
-import { Suspense, Component, ReactNode } from 'react';
+import { Suspense, Component, ReactNode, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
 import { GenerationProvider, useGeneration } from '@/contexts/GenerationContext';
@@ -65,53 +65,56 @@ function PresentationSkeleton() {
 /* ── Main Presentation Content ─────────────────────────────────── */
 function PresentationContent() {
   const { config, isLoading, currentWeek, slidesData, generationNumber, resolvedSlides, computedSections } = useGeneration();
-  
-  if (isLoading) {
-    return <PresentationSkeleton />;
-  }
 
-  const presentationConfig: PresentationConfig = {
+  // All hooks MUST be called before any early return (Rules of Hooks)
+  const presentationConfig = useMemo<PresentationConfig>(() => ({
     name: config.name,
     badge: `Gen ${String(config.generation).padStart(2, '0')}`,
     badgeColor: 'hsl(var(--primary))',
     footer: `${config.module} | Semana ${config.week}`,
-  };
+  }), [config.name, config.generation, config.module, config.week]);
 
-  // Use dynamically computed sections from DB
-  const presentationSections: PresentationSection[] = computedSections.map(s => ({
-    id: s.id,
-    title: s.title,
-    slides: s.slides,
-  }));
+  const presentationSections = useMemo<PresentationSection[]>(
+    () => computedSections.map(s => ({ id: s.id, title: s.title, slides: s.slides })),
+    [computedSections]
+  );
 
-  const exportConfig: ExportConfig = {
+  const exportConfig = useMemo<ExportConfig>(() => ({
     filename: `vdrc-gen${config.generation}-semana${currentWeek}`,
     title: `${config.name} - Semana ${currentWeek}`,
     author: config.instructor,
     subject: config.module,
-  };
+  }), [config.generation, config.name, config.instructor, config.module, currentWeek]);
 
-  const slideMetadata = slidesData.map(s => ({
-    id: s.id,
-    title: s.title,
-  }));
+  const slideMetadata = useMemo(
+    () => slidesData.map(s => ({ id: s.id, title: s.title })),
+    [slidesData]
+  );
 
-  const slideListItems = slidesData.map(s => ({
-    componentName: s.componentName,
-    slideNumber: s.id,
-  }));
+  const slideListItems = useMemo(
+    () => slidesData.map(s => ({ componentName: s.componentName, slideNumber: s.id })),
+    [slidesData]
+  );
 
-  // Compute available weeks (1-4 for Gen 10, based on known data)
-  const availableWeeks = Array.from({ length: config.totalWeeks || 4 }, (_, i) => i + 1);
+  const totalWeeks = config.totalWeeks || 4;
+  const availableWeeks = useMemo(
+    () => Array.from({ length: totalWeeks }, (_, i) => i + 1),
+    [totalWeeks]
+  );
 
-  const generationNavInfo: GenerationNavInfo = {
+  const generationNavInfo = useMemo<GenerationNavInfo>(() => ({
     generationNumber: config.generation,
     currentWeek,
-    totalWeeks: config.totalWeeks || 4,
+    totalWeeks,
     availableWeeks,
-  };
+  }), [config.generation, currentWeek, totalWeeks, availableWeeks]);
 
   const backUrl = `/alumnos/gen${config.generation}`;
+
+  // Early return AFTER all hooks
+  if (isLoading) {
+    return <PresentationSkeleton />;
+  }
 
   return (
     <Suspense fallback={<PresentationSkeleton />}>

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { Sparkles, Bot, ArrowRight, TrendingUp, Lightbulb, MessageSquare, Cpu, Workflow } from 'lucide-react';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ── HSL Color System ── */
 const ERA_STYLES = {
@@ -63,7 +62,6 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 
 export function S2Slide17Revolution() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const content = useSlideContent(16);
   const [activeEra, setActiveEra] = useState(2);
 
@@ -73,33 +71,18 @@ export function S2Slide17Revolution() {
   const active = ERAS[activeEra];
   const style = ERA_STYLES[active.color];
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 24 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* ── Atmospheric background ── */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="REVOLUCIÓN AGÉNTICA"
+      className="flex flex-col justify-center px-16 2xl:px-20"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-10%,_hsl(263_55%_40%_/_0.18),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_85%_80%,_hsl(217_60%_40%_/_0.08),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_15%_65%,_hsl(38_70%_45%_/_0.06),_transparent_50%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
+      </>}
+    >
 
       {/* Reactive breathing orb */}
       {!isExporting && (
@@ -313,20 +296,6 @@ export function S2Slide17Revolution() {
           </motion.div>
         </div>
       </div>
-
-      {/* ── Bottom bar ── */}
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">REVOLUCIÓN AGÉNTICA</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '24 / 37'}</span>
-        </div>
-      </div>
-
-      {/* Vignette */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

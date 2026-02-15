@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useGeneration } from '@/contexts/GenerationContext';
 import { Bot, Sparkles, ArrowRight, Calendar, BookOpen, Music, Wand2, Zap } from 'lucide-react';
 import logoVdrc from '@/assets/logo-vdrc.png';
 import { useSlideContent } from '@/hooks/useSlideContent';
-import { S2_ACCENT, S2_THEME } from './theme';
+import { S2_ACCENT } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ── HSL Accent System ── */
 const ACCENT = { violet: S2_ACCENT.violet, pink: S2_ACCENT.pink, cyan: S2_ACCENT.cyan, emerald: S2_ACCENT.emerald };
@@ -28,7 +28,6 @@ const PARTICLES = Array.from({ length: 45 }, (_, i) => ({
 
 export function S2Slide22Closing() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const { generationNumber, currentWeek } = useGeneration();
   const content = useSlideContent(21);
 
@@ -36,33 +35,18 @@ export function S2Slide22Closing() {
   const workflowSteps = content.workflowSteps;
   const closingData = content.closingContent || (content.closing as { paradigm?: string; role?: string; definition?: string; callToAction?: string } | undefined);
 
-  const m = (delay: number, overrides?: object) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 24 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-      ...overrides,
-    };
+  const m = useS2Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col items-center justify-center font-sans selection:bg-violet-500/30"
-      style={{ background: S2_THEME.background }}>
-
-      {/* ── Atmospheric background ── */}
-      <div className="absolute inset-0">
+    <S2Shell
+      footerLabel="CIERRE"
+      className="flex flex-col items-center justify-center"
+      radials={<>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(263_70%_45%_/_0.25),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_110%,_hsl(330_55%_45%_/_0.15),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_20%_50%,_hsl(185_60%_40%_/_0.06),_transparent_55%)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
+      </>}
+    >
 
       {/* ── Breathing orbs ── */}
       {!isExporting && (
@@ -272,21 +256,6 @@ export function S2Slide22Closing() {
           Generación {generationNumber} • Sesión {currentWeek} de 4 • 2026
         </p>
       </motion.div>
-
-      {/* ── Bottom bar ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{
-          background: 'linear-gradient(90deg, transparent, hsl(263 55% 50% / 0.18), hsl(330 50% 50% / 0.12), transparent)',
-        }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium text-white/08 tracking-wider">CIERRE</span>
-          <span className="text-[11px] font-bold text-white/12 tabular-nums tracking-widest">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '29 / 37'}</span>
-        </div>
-      </div>
-
-      {/* Vignette */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

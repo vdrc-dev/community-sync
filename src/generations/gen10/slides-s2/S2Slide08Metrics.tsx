@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { MessageSquare, Cpu, PenLine, ArrowRight, Lightbulb } from 'lucide-react';
 import heroImg from '@/assets/gen10-s2/slide07-tokens-brain.jpg';
-import { S2_THEME } from './theme';
+import { S2Shell, useS2Motion } from './shared';
 
 /* ─── Color palette ─── */
 const C = {
@@ -62,32 +61,22 @@ const STEPS = [
 
 export function S2Slide08Metrics() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const [active, setActive] = useState(0);
 
-  const m = (delay: number) =>
-    isExporting ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5 } };
+  const m = useS2Motion();
 
   const step = STEPS[active];
   const sc = C[step.colorKey];
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-violet-500/30" style={{ background: S2_THEME.background }}>
-
-      {/* Atmosphere */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_35%,_hsl(263_40%_25%_/_0.12),_transparent)]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S2_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S2_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S2_THEME.grid.size} ${S2_THEME.grid.size}`,
-          }}
-        />
-        <div className="absolute inset-0" style={{ opacity: S2_THEME.noise.opacity, backgroundImage: S2_THEME.noise.svg }} />
-      </div>
-
+    <S2Shell
+      footerLabel="MOTOR DE INFERENCIA"
+      radials={
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_35%,_hsl(263_40%_25%_/_0.12),_transparent)]" />
+        </>
+      }
+    >
       {!isExporting && (
         <motion.div
           className="absolute top-[20%] left-[40%] w-[600px] h-[500px] rounded-full blur-[200px]"
@@ -291,16 +280,6 @@ export function S2Slide08Metrics() {
           </p>
         </motion.div>
       </div>
-
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">MOTOR DE INFERENCIA</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '15 / 37'}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
-    </div>
+    </S2Shell>
   );
 }

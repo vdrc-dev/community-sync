@@ -95,16 +95,32 @@ async function fetchGenerationData(
   // Determine which week to display (URL week or generation's current week)
   const displayWeek = weekNumber || generation.week;
 
-  // Fetch all weeks for this generation
-  const { data: weeksData, error: weeksError } = await supabase
-    .from('generation_weeks')
-    .select('week, name, stack')
-    .eq('generation_id', generation.id)
-    .order('week', { ascending: true });
+  // Parallel fetch: weeks, slides, and sections at the same time
+  const [weeksResult, slidesResult, sectionsResult] = await Promise.all([
+    supabase
+      .from('generation_weeks')
+      .select('week, name, stack')
+      .eq('generation_id', generation.id)
+      .order('week', { ascending: true }),
+    supabase
+      .from('slides')
+      .select('slide_number, section_id, section_number, title, storyline, component_name')
+      .eq('generation_id', generation.id)
+      .eq('week', displayWeek)
+      .order('slide_number', { ascending: true }),
+    supabase
+      .from('sections')
+      .select('id, title, display_order')
+      .order('display_order', { ascending: true }),
+  ]);
 
-  if (weeksError) throw weeksError;
+  if (weeksResult.error) throw weeksResult.error;
+  if (slidesResult.error) throw slidesResult.error;
+  if (sectionsResult.error) throw sectionsResult.error;
 
-  const weeks = weeksData as GenerationWeekRow[];
+  const weeks = weeksResult.data as GenerationWeekRow[];
+  const slidesData = slidesResult.data;
+  const sectionsData = sectionsResult.data;
   
   // Get the specific week's data
   const currentWeekData = weeks.find(w => w.week === displayWeek);
@@ -112,25 +128,7 @@ async function fetchGenerationData(
   // Get previous weeks (before displayWeek)
   const previousWeeks = weeks.filter(w => w.week < displayWeek);
 
-  // Fetch slides for this generation and week
-  const { data: slidesData, error: slidesError } = await supabase
-    .from('slides')
-    .select('slide_number, section_id, section_number, title, storyline, component_name, content')
-    .eq('generation_id', generation.id)
-    .eq('week', displayWeek)
-    .order('slide_number', { ascending: true });
-
-  if (slidesError) throw slidesError;
-
-  // Fetch sections for titles
-  const { data: sectionsData, error: sectionsError } = await supabase
-    .from('sections')
-    .select('id, title, display_order')
-    .order('display_order', { ascending: true });
-
-  if (sectionsError) throw sectionsError;
-
-  const sections = sectionsData as SectionRow[];
+  const sections = (sectionsData || []) as SectionRow[];
   const sectionMap = new Map(sections.map(s => [s.id, s.title]));
 
   // Build config with the specific week's data
@@ -154,8 +152,8 @@ async function fetchGenerationData(
     })),
   };
 
-  // Build slides data
-  const slides: SlideData[] = (slidesData as SlideRow[]).map(s => ({
+  // Build slides data (content field excluded from query for speed)
+  const slides: SlideData[] = ((slidesData || []) as SlideRow[]).map(s => ({
     id: s.slide_number,
     section: sectionMap.get(s.section_id) || s.section_id,
     sectionId: s.section_id,
