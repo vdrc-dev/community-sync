@@ -36,9 +36,9 @@ export function S3Slide09CRM() {
             </span>
           </div>
           <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight">
-            Conecta tu <span className="text-amber-400">CRM</span>
+            Conecta tu <span style={{ color: S3_ACCENT.amber.text }}>CRM</span>
           </h1>
-          <p className="text-white/40 text-sm mt-2">Trae tus datos reales a la IA — clientes, acuerdos y métricas</p>
+          <p className="text-white/40 text-sm mt-2 leading-relaxed">Trae tus datos reales a la IA — <span className="text-white/55 font-medium">clientes, acuerdos y métricas</span></p>
         </motion.div>
 
         {/* Pipeline */}

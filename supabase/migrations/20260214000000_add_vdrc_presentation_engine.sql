@@ -241,7 +241,7 @@ INSERT INTO public.slides (generation_id, week, slide_number, section_id, sectio
   (2, 2, 36, 's2-cierre', 7, 'Tu Kit Personal', 'S2Slide21Kit'),
   (2, 2, 37, 's2-cierre', 7, 'Cierre', 'S2Slide22Closing');
 
--- Gen 10 - Semana 3 (Comunicación) - 14 slides
+-- Gen 10 - Semana 3 (Comunicación) - 15 slides
 INSERT INTO public.slides (generation_id, week, slide_number, section_id, section_number, title, component_name) VALUES
   (2, 3, 1, 's3-apertura', 1, 'Comunicación y Creación Digital', 'S3Slide01Cover'),
   (2, 3, 2, 's3-apertura', 1, 'Recap: Semanas 1 y 2', 'S3Slide02Recap'),
@@ -256,7 +256,8 @@ INSERT INTO public.slides (generation_id, week, slide_number, section_id, sectio
   (2, 3, 11, 's3-aplicacion', 4, 'CRM y Gestión', 'S3Slide09CRM'),
   (2, 3, 12, 's3-aplicacion', 4, 'MCP vs API', 'S3Slide10MCPvsAPI'),
   (2, 3, 13, 's3-aplicacion', 4, 'Cursor', 'S3Slide11Cursor'),
-  (2, 3, 14, 's3-cierre', 5, 'Cierre y Próximos Pasos', 'S3Slide12Closing');
+  (2, 3, 14, 's3-cierre', 5, 'Video Generativo con IA', 'S3Slide14VideoAI'),
+  (2, 3, 15, 's3-cierre', 5, 'Cierre y Próximos Pasos', 'S3Slide12Closing');
 
 -- Gen 10 - Semana 4 (Desarrollo / VibeCoding) - 15 slides
 INSERT INTO public.slides (generation_id, week, slide_number, section_id, section_number, title, storyline, component_name) VALUES

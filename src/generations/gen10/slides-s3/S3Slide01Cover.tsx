@@ -6,7 +6,8 @@ import logoVdrc from '@/assets/logo-vdrc.png';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useGeneration } from '@/contexts/GenerationContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_EASE, s3Motion, S3_PARTICLE_HUES } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_EASE, s3Motion } from './theme';
+import { S3Atmosphere } from './S3Atmosphere';
 
 /* ── Tool badges ── */
 const TOOLS = [
@@ -53,97 +54,20 @@ export function S3Slide01Cover() {
   return (
     <div className={S3_ROOT_CLASS + ' flex items-center'} style={{ background: S3_THEME.background }}>
 
-      {/* ═══════════════════════════════════ */}
-      {/* ── ATMOSPHERIC BACKGROUND ──────── */}
-      {/* ═══════════════════════════════════ */}
+      {/* ── Atmospheric Background ── */}
       <div className="absolute inset-0">
-        {/* Background image base */}
         <img src={bgCover} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/70 via-[#04030a]/50 to-[#04030a]/85" />
-
-        {/* Primary radials */}
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 130% 70% at 55% -25%, hsl(330 80% 42% / 0.24), transparent 60%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 90% 55% at -5% 110%, hsl(263 60% 35% / 0.12), transparent 55%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 55% 55% at 105% 15%, hsl(185 70% 50% / 0.06), transparent 50%)' }} />
-
-        {/* Fine dot grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S3_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S3_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S3_THEME.grid.size} ${S3_THEME.grid.size}`,
-          }}
-        />
-
-        {/* Horizontal scanlines */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(330 40% 50% / 0.3) 2px, hsl(330 40% 50% / 0.3) 3px)',
-            backgroundSize: '100% 6px',
-          }}
+        <S3Atmosphere
+          isExporting={isExporting}
+          particleCount={40}
+          primaryHue={330}
+          secondaryHue={263}
+          tertiaryHue={185}
+          showOrbs
+          showLightSweep
         />
       </div>
-
-      {/* ── Breathing orbs ── */}
-      {!isExporting && (
-        <>
-          <motion.div
-            className="absolute top-[-5%] left-[20%] w-[900px] h-[700px] rounded-full blur-[260px]"
-            style={{ background: 'hsl(330 65% 42% / 0.1)' }}
-            animate={{ scale: [1, 1.22, 1], opacity: [0.1, 0.24, 0.1] }}
-            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute bottom-[-12%] right-[0%] w-[650px] h-[650px] rounded-full blur-[200px]"
-            style={{ background: 'hsl(263 50% 45% / 0.06)' }}
-            animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.06, 0.16, 0.06] }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-          />
-          <motion.div
-            className="absolute top-[30%] right-[25%] w-[380px] h-[380px] rounded-full blur-[170px]"
-            style={{ background: 'hsl(185 50% 45% / 0.06)' }}
-            animate={{ x: [0, 28, 0], y: [0, -18, 0], opacity: [0.05, 0.12, 0.05] }}
-            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          />
-        </>
-      )}
-
-      {/* ── Floating particles ── */}
-      {!isExporting && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 40 }).map((_, i) => {
-            const s = 1 + Math.random() * 2.5;
-            const h = S3_PARTICLE_HUES[i % S3_PARTICLE_HUES.length];
-            return (
-              <motion.div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  width: s, height: s,
-                  background: `hsl(${h} 60% 65% / 0.4)`,
-                  boxShadow: `0 0 ${s * 5}px hsl(${h} 60% 65% / 0.45)`,
-                }}
-                animate={{ y: [0, -(18 + Math.random() * 32), 0], opacity: [0.05, 0.5, 0.05] }}
-                transition={{ duration: 7 + Math.random() * 7, repeat: Infinity, delay: Math.random() * 8, ease: 'easeInOut' }}
-              />
-            );
-          })}
-        </div>
-      )}
-
-      {/* ── Animated light sweep ── */}
-      {!isExporting && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(105deg, transparent 40%, hsl(330 70% 60% / 0.04) 48%, hsl(185 80% 65% / 0.03) 52%, transparent 60%)' }}
-          animate={{ x: ['-100%', '200%'] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatDelay: 6 }}
-        />
-      )}
 
       {/* ═══════════════════════════════════ */}
       {/* ── TOP BAR ────────────────────── */}
@@ -452,9 +376,7 @@ export function S3Slide01Cover() {
         </span>
       </div>
 
-      {/* ── Cinematic vignette ── */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
+      {/* Cinematic vignette provided by S3Atmosphere */}
     </div>
   );
 }

@@ -33,6 +33,7 @@ export function S3Slide08Automatizacion() {
           <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight">
             Del Manual al <span style={{ color: S3_ACCENT.violet.text }}>Automático</span>
           </h1>
+          <p className="text-white/40 text-sm mt-2">Claude Code transforma horas de trabajo repetitivo en minutos de supervisión</p>
         </motion.div>
 
         {/* Before/After flow */}

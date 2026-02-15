@@ -55,11 +55,15 @@ export function S3Slide03DesignFoundations() {
 
         {/* Tabs */}
         <motion.div {...m(0.1)} className="flex justify-center mb-6">
-          <div className="inline-flex rounded-lg border border-white/[0.08] bg-white/[0.02] p-1">
-            <button onClick={() => setActiveTab('colores')} className={`px-5 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'colores' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : 'text-white/40'}`}>
+          <div className="inline-flex rounded-xl border border-white/[0.08] bg-white/[0.02] p-1 backdrop-blur-sm">
+            <button onClick={() => setActiveTab('colores')}
+              className="relative px-5 py-2 rounded-lg text-sm font-bold transition-all"
+              style={activeTab === 'colores' ? { background: S3_ACCENT.rose.bg, color: S3_ACCENT.rose.text, border: `1px solid ${S3_ACCENT.rose.border}` } : { color: 'rgba(255,255,255,0.4)' }}>
               <Palette className="w-4 h-4 inline mr-2" />Colores
             </button>
-            <button onClick={() => setActiveTab('tipografia')} className={`px-5 py-2 rounded-md text-sm font-bold transition-all ${activeTab === 'tipografia' ? 'bg-violet-500/15 text-violet-400 border border-violet-500/30' : 'text-white/40'}`}>
+            <button onClick={() => setActiveTab('tipografia')}
+              className="relative px-5 py-2 rounded-lg text-sm font-bold transition-all"
+              style={activeTab === 'tipografia' ? { background: S3_ACCENT.violet.bg, color: S3_ACCENT.violet.text, border: `1px solid ${S3_ACCENT.violet.border}` } : { color: 'rgba(255,255,255,0.4)' }}>
               <Type className="w-4 h-4 inline mr-2" />Tipografía
             </button>
           </div>
@@ -74,8 +78,11 @@ export function S3Slide03DesignFoundations() {
                 <div className="grid grid-cols-3 gap-2">
                   {HEX_EXAMPLES.map((c, i) => (
                     <motion.div key={i} {...m(0.2 + i * 0.04)} {...(isExporting ? {} : { whileHover: { scale: 1.05, y: -2 } })}
-                      className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] group hover:bg-white/[0.04] transition-colors">
-                      <div className="w-full h-10 rounded-lg mb-2" style={{ background: c.hex }} />
+                      className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] group hover:bg-white/[0.04] transition-all duration-300"
+                      style={{ position: 'relative' }}>
+                      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                        style={{ boxShadow: `0 0 20px ${c.hex}22, inset 0 0 20px ${c.hex}08` }} />
+                      <div className="w-full h-10 rounded-lg mb-2 transition-shadow duration-300" style={{ background: c.hex, boxShadow: `0 4px 12px ${c.hex}33` }} />
                       <p className="text-[10px] font-mono font-bold text-white/60">{c.hex}</p>
                       <p className="text-[9px] text-white/30">{c.name}</p>
                     </motion.div>

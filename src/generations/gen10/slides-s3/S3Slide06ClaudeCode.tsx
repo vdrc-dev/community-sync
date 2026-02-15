@@ -48,11 +48,15 @@ export function S3Slide06ClaudeCode() {
 
         {/* Toggle */}
         <motion.div {...m(0.1)} className="flex justify-center mb-6">
-          <div className="inline-flex rounded-lg border border-white/[0.08] bg-white/[0.02] p-1">
-            <button onClick={() => setShowDesktop(true)} className={`px-5 py-2 rounded-md text-sm font-bold transition-all ${showDesktop ? 'bg-violet-500/15 text-violet-400 border border-violet-500/30' : 'text-white/40'}`}>
+          <div className="inline-flex rounded-xl border border-white/[0.08] bg-white/[0.02] p-1 backdrop-blur-sm">
+            <button onClick={() => setShowDesktop(true)}
+              className="px-5 py-2 rounded-lg text-sm font-bold transition-all"
+              style={showDesktop ? { background: S3_ACCENT.violet.bg, color: S3_ACCENT.violet.text, border: `1px solid ${S3_ACCENT.violet.border}` } : { color: 'rgba(255,255,255,0.4)' }}>
               <Monitor className="w-4 h-4 inline mr-2" />Escritorio
             </button>
-            <button onClick={() => setShowDesktop(false)} className={`px-5 py-2 rounded-md text-sm font-bold transition-all ${!showDesktop ? 'bg-white/[0.06] text-white/70 border border-white/[0.12]' : 'text-white/40'}`}>
+            <button onClick={() => setShowDesktop(false)}
+              className="px-5 py-2 rounded-lg text-sm font-bold transition-all"
+              style={!showDesktop ? { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)' } : { color: 'rgba(255,255,255,0.4)' }}>
               <Globe className="w-4 h-4 inline mr-2" />Web
             </button>
           </div>

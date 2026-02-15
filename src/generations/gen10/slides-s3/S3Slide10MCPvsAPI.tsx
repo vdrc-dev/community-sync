@@ -104,6 +104,7 @@ export function S3Slide10MCPvsAPI() {
 
         {/* Bottom insight — visual diagram */}
         <motion.div {...m(0.6)} className="mt-6 p-5 rounded-xl border border-white/[0.08] bg-white/[0.03] max-w-2xl mx-auto">
+          <p className="text-[10px] text-white/25 uppercase tracking-[0.15em] font-bold text-center mb-4">Regla simple</p>
           <div className="flex items-center justify-center gap-8">
             <div className="flex items-center gap-3">
               <div
@@ -113,11 +114,11 @@ export function S3Slide10MCPvsAPI() {
                 <Cpu className="w-5 h-5" style={{ color: S3_ACCENT.violet.text }} />
               </div>
               <div>
-                <p className="text-xs font-bold text-violet-300/80">Agente necesita datos</p>
-                <p className="text-[10px] text-white/30">→ MCP</p>
+                <p className="text-xs font-bold" style={{ color: `${S3_ACCENT.violet.text}cc` }}>Agente necesita datos</p>
+                <p className="text-[10px] font-bold" style={{ color: S3_ACCENT.violet.text }}>→ MCP</p>
               </div>
             </div>
-            <div className="w-px h-10" style={{ background: 'hsl(0 0% 100% / 0.08)' }} />
+            <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, hsl(263 50% 50% / 0.15), hsl(38 80% 55% / 0.15))' }} />
             <div className="flex items-center gap-3">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -126,8 +127,8 @@ export function S3Slide10MCPvsAPI() {
                 <Server className="w-5 h-5" style={{ color: S3_ACCENT.amber.text }} />
               </div>
               <div>
-                <p className="text-xs font-bold text-amber-300/80">Sistema envía datos</p>
-                <p className="text-[10px] text-white/30">→ API</p>
+                <p className="text-xs font-bold" style={{ color: `${S3_ACCENT.amber.text}cc` }}>Sistema envía datos</p>
+                <p className="text-[10px] font-bold" style={{ color: S3_ACCENT.amber.text }}>→ API</p>
               </div>
             </div>
           </div>

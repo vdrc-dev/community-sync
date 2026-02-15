@@ -106,14 +106,16 @@ export function S3Slide05NotebookLM() {
           <motion.div
             {...m(0.2)}
             {...(isExporting ? {} : { whileHover: { scale: 1.01 } })}
-            className="p-6 rounded-2xl border border-violet-500/15 bg-violet-500/[0.03]"
+            className="p-6 rounded-2xl border"
+            style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}
           >
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center">
-                <span className="text-lg font-black text-violet-400">2</span>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: S3_ACCENT.violet.bg, borderColor: S3_ACCENT.violet.border, borderWidth: 1 }}>
+                <span className="text-lg font-black" style={{ color: S3_ACCENT.violet.text }}>2</span>
               </div>
               <div>
-                <p className="text-xs text-violet-400/60 font-bold uppercase tracking-wider">Bloque 2</p>
+                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: `${S3_ACCENT.violet.text}99` }}>Bloque 2</p>
                 <p className="text-lg font-bold text-white">Generador de Entregables</p>
               </div>
             </div>
@@ -134,10 +136,10 @@ export function S3Slide05NotebookLM() {
                 );
               })}
             </div>
-            <div className="mt-4 p-3 rounded-lg bg-violet-500/[0.04] border border-violet-500/15">
+            <div className="mt-4 p-3 rounded-lg border" style={{ background: `${S3_ACCENT.violet.bg}`, borderColor: `${S3_ACCENT.violet.border}` }}>
               <div className="flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
-                <p className="text-xs text-violet-300/60 leading-relaxed">Conecta NotebookLM con Gémini personal para consultar cuadernos directamente desde tu email.</p>
+                <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{ color: S3_ACCENT.violet.text }} />
+                <p className="text-xs leading-relaxed" style={{ color: `${S3_ACCENT.violet.text}99` }}>Conecta NotebookLM con Gémini personal para consultar cuadernos directamente desde tu email.</p>
               </div>
             </div>
           </motion.div>

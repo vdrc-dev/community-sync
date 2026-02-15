@@ -32,8 +32,8 @@ export function S3Slide11Cursor() {
       <div className="absolute inset-0">
         <img src={bgCursor} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/60 via-[#04030a]/50 to-[#04030a]/80" />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
       </div>
-      <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">
         <motion.div {...m(0)} className="text-center mb-8">

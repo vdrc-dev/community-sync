@@ -111,7 +111,7 @@ export function S3Slide14VideoAI() {
         </div>
       </div>
 
-      <S3Footer sectionLabel="VIDEO GENERATIVO" />
+      <S3Footer sectionLabel="VIDEO GENERATIVO" hue={330} />
     </div>
   );
 }

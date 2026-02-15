@@ -45,7 +45,7 @@ export function S3Slide12Closing() {
         {/* Header */}
         <motion.div {...m(0)} className="text-center mb-6">
           <div
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-4"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border mb-4"
             style={{ borderColor: S3_ACCENT.emerald.border, backgroundColor: S3_ACCENT.emerald.bg }}
           >
             <Rocket className="w-4 h-4" style={{ color: S3_ACCENT.emerald.text }} />
@@ -53,9 +53,14 @@ export function S3Slide12Closing() {
           </div>
           <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
             La diferencia es la{' '}
-            <span style={{ background: 'linear-gradient(135deg, hsl(150 60% 55%), hsl(185 70% 55%))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>acción</span>
+            <span style={{
+              background: 'linear-gradient(135deg, hsl(150 60% 55%), hsl(185 70% 55%), hsl(160 65% 50%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 30px hsl(150 60% 50% / 0.3))',
+            }}>acción</span>
           </h1>
-          <p className="text-white/40 text-sm max-w-lg mx-auto">No necesitas entender la sintaxis. Solo enfócate en para qué sirve y dónde aplicarlo.</p>
+          <p className="text-white/40 text-sm max-w-lg mx-auto leading-relaxed">No necesitas entender la sintaxis. Solo enfócate en <span className="text-white/60 font-medium">para qué sirve</span> y <span className="text-white/60 font-medium">dónde aplicarlo</span>.</p>
         </motion.div>
 
         {/* Session stats */}
@@ -90,6 +95,12 @@ export function S3Slide12Closing() {
         </motion.div>
 
         {/* Missions */}
+        <motion.div {...m(0.25)} className="mb-2">
+          <p className="text-xs text-white/30 uppercase tracking-[0.2em] font-bold text-center mb-4">
+            <CheckCircle2 className="w-3.5 h-3.5 inline mr-2 opacity-50" />
+            Misiones para esta semana
+          </p>
+        </motion.div>
         <div className="grid grid-cols-3 gap-4 mb-6">
           {MISSIONS.map((mission, i) => {
             const Icon = mission.icon;
@@ -97,16 +108,24 @@ export function S3Slide12Closing() {
               <motion.div
                 key={i}
                 {...m(0.3 + i * 0.08)}
-                className="p-4 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03]"
+                className="relative p-4 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03] overflow-hidden group"
                 {...(isExporting ? {} : { whileHover: { borderColor: mission.color.replace(')', ' / 0.3)'), scale: 1.02, y: -2 } })}
               >
+                {/* Mission number badge */}
+                <div className="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black"
+                  style={{ background: `${mission.color.replace(')', ' / 0.1)')}`, color: `${mission.color.replace(')', ' / 0.6)')}`, border: `1px solid ${mission.color.replace(')', ' / 0.15)')}` }}>
+                  {i + 1}
+                </div>
+                {/* Hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse at center, ${mission.color.replace(')', ' / 0.06)')}, transparent 70%)` }} />
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${mission.color.replace(')', ' / 0.1)')}`, border: `1px solid ${mission.color.replace(')', ' / 0.25)')}` }}>
                     <Icon className="w-3.5 h-3.5" style={{ color: mission.color }} />
                   </div>
                   <span className="text-[9px] font-bold text-white/30 uppercase tracking-wider">{mission.tool}</span>
                 </div>
-                <p className="text-sm text-white/60 leading-relaxed">{mission.task}</p>
+                <p className="text-sm text-white/60 leading-relaxed relative z-10">{mission.task}</p>
               </motion.div>
             );
           })}
