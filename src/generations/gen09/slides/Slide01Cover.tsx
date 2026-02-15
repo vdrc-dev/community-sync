@@ -17,8 +17,6 @@ export function Slide01Cover() {
   const { isExporting } = useExportContext();
   const { config, currentWeek, generationNumber } = useGeneration();
 
-  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
-
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden bg-[#050505] flex flex-col items-center justify-center font-sans selection:bg-emerald-500/30">
       
@@ -44,17 +42,6 @@ export function Slide01Cover() {
       </motion.div>
 
       {/* Header - URL */}
-      <motion.div 
-        {...(isExporting ? {} : {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.5 }
-        })}
-        className="absolute top-8 right-8 text-sm font-mono text-white/40 tracking-widest border border-white/10 px-4 py-2 rounded-full bg-white/5"
-      >
-        {presentationUrl}
-      </motion.div>
-
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center w-full max-w-7xl px-4">
         

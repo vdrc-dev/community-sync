@@ -69,8 +69,6 @@ export function Slide01Cover() {
   const { config, currentWeek, generationNumber } = useGeneration();
   const slideNum = useSlideNumber();
 
-  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
-
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden bg-[#030303] flex flex-col items-center justify-center font-sans selection:bg-emerald-500/30">
       
@@ -132,28 +130,6 @@ export function Slide01Cover() {
             VDRC <span className="text-emerald-400">///</span> GEN {String(config.generation).padStart(2, '0')}
           </span>
           <span className="text-white/40 text-xs font-mono tracking-widest uppercase">Vibe Development & Research</span>
-        </div>
-      </motion.div>
-
-      {/* Header - URL Badge */}
-      <motion.div 
-        {...(isExporting ? {} : {
-          initial: { opacity: 0, x: 20 },
-          animate: { opacity: 1, x: 0 },
-          transition: { delay: 0.5, duration: 0.6 }
-        })}
-        className="absolute top-8 right-8 z-30"
-      >
-        <div className="flex items-center gap-3 px-5 py-3 bg-white/5 border border-white/10 rounded-xl backdrop-blur-md">
-          <div className="relative">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full" />
-            <motion.div 
-              className="absolute inset-0 w-2 h-2 bg-emerald-400 rounded-full"
-              animate={isExporting ? {} : { scale: [1, 2, 1], opacity: [1, 0, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-          <span className="text-sm font-mono text-white/60 tracking-wide">{presentationUrl}</span>
         </div>
       </motion.div>
 

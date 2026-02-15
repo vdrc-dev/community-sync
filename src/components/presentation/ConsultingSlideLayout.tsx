@@ -84,9 +84,6 @@ export const ConsultingSlideLayout = forwardRef<HTMLDivElement, ConsultingSlideL
 
   const itemMotionProps = isExporting ? {} : { variants: itemVariants };
 
-  // URL for export footer
-  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
-
   return (
     <motion.div
       ref={ref}
@@ -211,7 +208,7 @@ export const ConsultingSlideLayout = forwardRef<HTMLDivElement, ConsultingSlideL
               className="text-sm font-mono font-medium"
               style={{ color: '#10B981' }}
             >
-              {presentationUrl}
+              Portal VDRC
             </span>
           ) : (
             <span className="text-sm text-muted-foreground/40 tracking-wide truncate max-w-[200px]">

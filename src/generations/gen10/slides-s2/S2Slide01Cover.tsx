@@ -29,8 +29,6 @@ export function S2Slide01Cover() {
   const slideNum = useSlideNumber();
   const [isHovered, setIsHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
-  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
-
   /* Typewriter for subtitle */
   const subtitle = 'Del Razonamiento a la Ejecución';
   useEffect(() => {
@@ -142,19 +140,6 @@ export function S2Slide01Cover() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border backdrop-blur-md"
-          style={{ background: 'hsl(0 0% 100% / 0.025)', borderColor: 'hsl(0 0% 100% / 0.06)' }}>
-          <div className="relative">
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'hsl(150 70% 50%)' }} />
-            {!isExporting && (
-              <motion.div className="absolute inset-0 w-1.5 h-1.5 rounded-full" style={{ background: 'hsl(150 70% 50%)' }}
-                animate={{ scale: [1, 2.8, 1], opacity: [1, 0, 1] }}
-                transition={{ duration: 2.2, repeat: Infinity }}
-              />
-            )}
-          </div>
-          <span className="text-[11px] font-mono text-white/30 tracking-wide">{presentationUrl}</span>
-        </div>
       </motion.div>
 
       {/* ═══════════════════════════════════ */}

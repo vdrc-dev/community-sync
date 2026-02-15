@@ -150,7 +150,7 @@ export function S4Slide15Closing() {
             {/* Final message */}
             <motion.div {...m(0.5)} className="p-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] text-center">
               <p className="text-lg font-black text-white mb-1">¡Gracias Generación 10! 🎓</p>
-              <p className="text-xs text-white/30">Todo el material está en <span className="text-emerald-400/60 font-mono font-bold">comunidad-vdrc.vercel.app</span></p>
+              <p className="text-xs text-white/30">Todo el material está en el <span className="text-emerald-400/60 font-mono font-bold">Portal VDRC</span></p>
               <p className="text-[11px] text-white/20 mt-2 italic">— Vicente Donoso R.</p>
             </motion.div>
           </div>
