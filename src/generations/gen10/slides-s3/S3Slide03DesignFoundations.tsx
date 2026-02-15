@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, Type, Pipette, ExternalLink, Sparkles, Copy, Check } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import bgDesignFoundations from '@/assets/gen10-s3/bg-design-foundations.jpg';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
@@ -17,9 +16,9 @@ const HEX_EXAMPLES = [
 ];
 
 const TOOLS = [
-  { name: 'Coolors.co', desc: 'Genera paletas de 3-5 colores complementarios con un clic. Exporta a HEX, RGB o CSS.', icon: Palette, color: 'hsl(185 70% 50%)', url: 'coolors.co' },
-  { name: 'Fontjoy', desc: 'IA que combina fuentes automáticamente. Genera pares tipográficos armoniosos en segundos.', icon: Type, color: 'hsl(280 70% 60%)', url: 'fontjoy.com' },
-  { name: 'Google Fonts', desc: '+1,500 fuentes gratis con licencia abierta. Revisa que tenga acentos y la letra ñ.', icon: Type, color: 'hsl(38 90% 55%)', url: 'fonts.google.com' },
+  { name: 'Coolors.co', desc: 'Genera paletas complementarias con un clic.', icon: Palette, color: 'hsl(185 70% 50%)', url: 'coolors.co' },
+  { name: 'Fontjoy', desc: 'IA que combina fuentes automáticamente.', icon: Type, color: 'hsl(280 70% 60%)', url: 'fontjoy.com' },
+  { name: 'Google Fonts', desc: '+1,500 fuentes gratis. Revisa acentos y ñ.', icon: Type, color: 'hsl(38 90% 55%)', url: 'fonts.google.com' },
 ];
 
 const FONT_TYPES = [
@@ -36,8 +35,9 @@ export function S3Slide03DesignFoundations() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgDesignFoundations} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/70 via-[#04030a]/50 to-[#04030a]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_25%,_hsl(330_65%_55%_/_0.08),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_65%,_hsl(280_60%_55%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_50%_90%,_hsl(185_70%_50%_/_0.05),_transparent_55%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
       </div>
 

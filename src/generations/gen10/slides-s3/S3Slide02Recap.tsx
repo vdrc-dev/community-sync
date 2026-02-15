@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Brain, MessageSquare, CheckCircle2, TrendingUp, Check } from 'lucide-react';
-import bgRecap from '@/assets/gen10-s3/bg-recap-journey.jpg';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -10,23 +9,23 @@ import { S3Footer } from './S3Footer';
 const WEEKS = [
   {
     num: 1, title: 'Higiene Digital', icon: Shield, color: 'hsl(185 70% 50%)',
-    skills: ['Inbox Zero — Algoritmo de procesamiento', 'Perfiles de Navegador — Separación de contextos', 'Bitwarden — Contraseñas únicas y seguras', 'Context Engineering — Manual de IA personal'],
+    skills: ['Inbox Zero', 'Perfiles de Navegador', 'Bitwarden', 'Context Engineering'],
     status: 'Completada',
     impact: 'Eliminaste el 80% del ruido digital',
     metric: { label: 'Reducción de fricción', value: '80%' },
   },
   {
     num: 2, title: 'La Era Agéntica', icon: Brain, color: 'hsl(280 70% 60%)',
-    skills: ['Framework C.R.O.P. — Contexto, Rol, Objetivo, Parámetros', 'Modelos Frontier — Elegir la herramienta correcta', 'Agentes de IA — Delegar en sistemas inteligentes', 'MCP — Protocolo de conexión universal'],
+    skills: ['Framework C.R.O.P.', 'Modelos Frontier', 'Agentes de IA', 'MCP'],
     status: 'Completada',
-    impact: 'Aprendiste a pensar como un director de IA',
+    impact: 'Aprendiste a dirigir la IA',
     metric: { label: 'Frameworks dominados', value: '4' },
   },
   {
     num: 3, title: 'Comunicación Digital', icon: MessageSquare, color: 'hsl(330 70% 60%)',
-    skills: ['Canvas & Dashboards — De datos a visualizaciones', 'Claude Code — Tu agente de escritorio', 'CRM + MCP — Datos reales conectados', 'Cursor & Video IA — Creación avanzada'],
+    skills: ['Canvas & Dashboards', 'Claude Code', 'CRM + MCP', 'Cursor & Video IA'],
     status: 'HOY',
-    impact: 'De consumidor a creador de soluciones',
+    impact: 'De consumidor a creador',
     metric: { label: 'Herramientas nuevas', value: '8+' },
   },
 ];
@@ -39,8 +38,9 @@ export function S3Slide02Recap() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgRecap} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/60 via-[#04030a]/40 to-[#04030a]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_30%,_hsl(185_70%_50%_/_0.08),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_80%,_hsl(330_65%_55%_/_0.07),_transparent_55%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
       </div>
 
@@ -120,18 +120,12 @@ export function S3Slide02Recap() {
                 <AnimatePresence mode="wait">
                   {isActive && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3, ease: S3_EASE }} className="space-y-1.5">
-                      {week.skills.map((skill, j) => {
-                        const [name, desc] = skill.split(' — ');
-                        return (
-                          <div key={j} className="flex items-start gap-2 p-2 rounded-lg border border-white/[0.03] bg-white/[0.01]">
-                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: isCurrent ? 'hsl(0 0% 100% / 0.2)' : week.color }} />
-                            <div>
-                              <span className={`text-xs font-semibold ${isCurrent ? 'text-white/40' : 'text-white/60'}`}>{name}</span>
-                              {desc && <span className="text-[10px] text-white/25 ml-1">— {desc}</span>}
-                            </div>
+                      {week.skills.map((skill, j) => (
+                          <div key={j} className="flex items-center gap-2 p-2 rounded-lg border border-white/[0.03] bg-white/[0.01]">
+                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: isCurrent ? 'hsl(0 0% 100% / 0.2)' : week.color }} />
+                            <span className={`text-xs font-semibold ${isCurrent ? 'text-white/40' : 'text-white/60'}`}>{skill}</span>
                           </div>
-                        );
-                      })}
+                      ))}
                       <div className="mt-2 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
                         <p className="text-[10px] text-white/30 italic leading-relaxed">"{week.impact}"</p>
                       </div>

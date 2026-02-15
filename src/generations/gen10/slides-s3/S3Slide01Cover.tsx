@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Presentation, Code2, Cpu, GitBranch, Sparkles, Zap, ChevronRight, Wrench, Workflow } from 'lucide-react';
-import bgCover from '@/assets/gen10-s3/bg-s3-cover.jpg';
-import logoVdrc from '@/assets/logo-vdrc.png';
+const logoVdrc = '/logos/vdrc-white.png';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useGeneration } from '@/contexts/GenerationContext';
@@ -56,8 +55,9 @@ export function S3Slide01Cover() {
 
       {/* ── Atmospheric Background ── */}
       <div className="absolute inset-0">
-        <img src={bgCover} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/70 via-[#04030a]/50 to-[#04030a]/85" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_20%,_hsl(330_65%_55%_/_0.12),_transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.08),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_90%_30%,_hsl(185_70%_50%_/_0.06),_transparent_50%)]" />
         <S3Atmosphere
           isExporting={isExporting}
           particleCount={40}
@@ -275,7 +275,7 @@ export function S3Slide01Cover() {
             </>
           )}
 
-          {/* Holographic frame */}
+          {/* Holographic frame — abstract visual */}
           <div className="relative p-[2px] rounded-[28px]"
             style={{
               background: isHovered
@@ -283,13 +283,24 @@ export function S3Slide01Cover() {
                 : 'linear-gradient(145deg, hsl(330 80% 60% / 0.4), hsl(280 60% 55% / 0.3), hsl(185 50% 45% / 0.2))',
               transition: 'background 0.6s ease',
             }}>
-            <div className="p-[1px] rounded-[27px]" style={{ background: 'hsl(0 0% 0% / 0.65)' }}>
-              <img
-                src={bgCover}
-                alt="Comunicación y Creación Digital"
-                className="w-full h-auto rounded-[26px]"
-                style={{ boxShadow: '0 50px 120px hsl(330 60% 30% / 0.4), 0 0 0 1px hsl(0 0% 100% / 0.03)' }}
-              />
+            <div className="rounded-[27px] aspect-[4/3] overflow-hidden relative"
+              style={{ background: 'hsl(0 0% 2%)', boxShadow: '0 50px 120px hsl(330 60% 30% / 0.4), 0 0 0 1px hsl(0 0% 100% / 0.03)' }}>
+              {/* Abstract tool grid inside frame */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,_hsl(330_65%_55%_/_0.15),_transparent_70%)]" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="grid grid-cols-2 gap-4 p-8">
+                  {TOOLS.map((tool, i) => {
+                    const Icon = tool.icon;
+                    return (
+                      <motion.div key={i} className="w-20 h-20 rounded-2xl border flex items-center justify-center"
+                        style={{ borderColor: `${tool.color}30`, background: `${tool.color}08` }}
+                        {...(isExporting ? {} : { animate: { scale: [1, 1.06, 1], opacity: [0.6, 1, 0.6] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
+                        <Icon className="w-8 h-8" style={{ color: tool.color }} />
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 

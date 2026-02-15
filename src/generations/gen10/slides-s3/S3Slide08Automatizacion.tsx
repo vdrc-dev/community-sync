@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Repeat, FileSpreadsheet, Presentation, TrendingUp, Clock, ArrowRight, Sparkles } from 'lucide-react';
-import bgAutomation from '@/assets/gen10-s3/bg-automation.jpg';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -19,8 +18,8 @@ export function S3Slide08Automatizacion() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgAutomation} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/60 via-[#04030a]/40 to-[#04030a]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(263_60%_55%_/_0.09),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(38_80%_55%_/_0.06),_transparent_55%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={38} />
       </div>
 

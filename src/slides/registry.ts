@@ -95,6 +95,9 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
 
   // ============================================
   // Gen 10 - Semana 3 (Comunicación y Creación Digital)
+  // Orden lógico: 01 Cover → 02 Recap → 03 Design → 04 Canvas → 05 VibeCoding →
+  //   06 NotebookLM → 07 ClaudeCode → 08 Skills → 09 PresentationAI →
+  //   10 Automatizacion → 11 CRM → 12 MCPvsAPI → 13 Cursor → 14 VideoAI → 15 Closing
   // ============================================
   'S3Slide01Cover': lazy(() => import('@/generations/gen10/slides-s3/S3Slide01Cover').then(m => ({ default: m.S3Slide01Cover }))),
   'S3Slide02Recap': lazy(() => import('@/generations/gen10/slides-s3/S3Slide02Recap').then(m => ({ default: m.S3Slide02Recap }))),
@@ -102,9 +105,9 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   'S3Slide03Canvas': lazy(() => import('@/generations/gen10/slides-s3/S3Slide03Canvas').then(m => ({ default: m.S3Slide03Canvas }))),
   'S3Slide04VibeCoding': lazy(() => import('@/generations/gen10/slides-s3/S3Slide04VibeCoding').then(m => ({ default: m.S3Slide04VibeCoding }))),
   'S3Slide05NotebookLM': lazy(() => import('@/generations/gen10/slides-s3/S3Slide05NotebookLM').then(m => ({ default: m.S3Slide05NotebookLM }))),
-  'S3Slide07PresentationAI': lazy(() => import('@/generations/gen10/slides-s3/S3Slide07PresentationAI').then(m => ({ default: m.S3Slide07PresentationAI }))),
   'S3Slide06ClaudeCode': lazy(() => import('@/generations/gen10/slides-s3/S3Slide06ClaudeCode').then(m => ({ default: m.S3Slide06ClaudeCode }))),
   'S3Slide07Skills': lazy(() => import('@/generations/gen10/slides-s3/S3Slide07Skills').then(m => ({ default: m.S3Slide07Skills }))),
+  'S3Slide07PresentationAI': lazy(() => import('@/generations/gen10/slides-s3/S3Slide07PresentationAI').then(m => ({ default: m.S3Slide07PresentationAI }))),
   'S3Slide08Automatizacion': lazy(() => import('@/generations/gen10/slides-s3/S3Slide08Automatizacion').then(m => ({ default: m.S3Slide08Automatizacion }))),
   'S3Slide09CRM': lazy(() => import('@/generations/gen10/slides-s3/S3Slide09CRM').then(m => ({ default: m.S3Slide09CRM }))),
   'S3Slide10MCPvsAPI': lazy(() => import('@/generations/gen10/slides-s3/S3Slide10MCPvsAPI').then(m => ({ default: m.S3Slide10MCPvsAPI }))),

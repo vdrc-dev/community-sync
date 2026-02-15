@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Presentation, BarChart3, Layers, ArrowRight, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import bgPresentationAI from '@/assets/gen10-s3/bg-presentation-ai.jpg';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
@@ -51,8 +50,9 @@ export function S3Slide07PresentationAI() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgPresentationAI} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/70 via-[#04030a]/50 to-[#04030a]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_30%,_hsl(263_60%_55%_/_0.1),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_65%,_hsl(280_55%_50%_/_0.07),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_85%,_hsl(38_80%_55%_/_0.05),_transparent_50%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={38} />
       </div>
 

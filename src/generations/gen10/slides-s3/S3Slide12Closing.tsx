@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Rocket, BarChart3, Terminal, Database, Code2, GitBranch, BookOpen, Video, Presentation, ArrowRight, Sparkles, Palette, Zap, CheckCircle2 } from 'lucide-react';
-import bgClosing from '@/assets/gen10-s3/bg-closing-mission.jpg';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, S3_PARTICLE_HUES } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -18,9 +17,9 @@ const TOOLS_LEARNED = [
 ];
 
 const MISSIONS = [
-  { task: 'Crea un dashboard con Canvas usando datos reales de tu trabajo', tool: 'Canvas/Gemini', icon: BarChart3, color: 'hsl(185 70% 50%)' },
-  { task: 'Instala Claude Code Desktop y configura al menos 2 skills', tool: 'Claude Code', icon: Terminal, color: 'hsl(280 70% 60%)' },
-  { task: 'Conecta una fuente de datos vía MCP o genera un video con Krea', tool: 'MCP / Krea', icon: Zap, color: 'hsl(38 90% 55%)' },
+  { task: 'Crea un dashboard con datos reales', tool: 'Canvas', icon: BarChart3, color: 'hsl(185 70% 50%)' },
+  { task: 'Instala Claude Code + 2 skills', tool: 'Claude Code', icon: Terminal, color: 'hsl(280 70% 60%)' },
+  { task: 'Conecta datos vía MCP o genera video', tool: 'MCP / Krea', icon: Zap, color: 'hsl(38 90% 55%)' },
 ];
 
 const STATS = [
@@ -36,8 +35,9 @@ export function S3Slide12Closing() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col justify-center items-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgClosing} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-[#04030a]/40 to-[#04030a]/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(150_60%_50%_/_0.08),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(185_70%_50%_/_0.06),_transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.05),_transparent_50%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={20} primaryHue={150} secondaryHue={185} tertiaryHue={330} />
       </div>
 
@@ -60,7 +60,7 @@ export function S3Slide12Closing() {
               filter: 'drop-shadow(0 0 30px hsl(150 60% 50% / 0.3))',
             }}>acción</span>
           </h1>
-          <p className="text-white/40 text-sm max-w-lg mx-auto leading-relaxed">No necesitas entender la sintaxis. Solo enfócate en <span className="text-white/60 font-medium">para qué sirve</span> y <span className="text-white/60 font-medium">dónde aplicarlo</span>.</p>
+          <p className="text-white/40 text-sm max-w-lg mx-auto leading-relaxed">Enfócate en <span className="text-white/60 font-medium">para qué sirve</span> y <span className="text-white/60 font-medium">dónde aplicarlo</span>.</p>
         </motion.div>
 
         {/* Session stats */}
