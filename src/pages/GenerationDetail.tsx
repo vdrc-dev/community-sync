@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -30,7 +30,6 @@ import {
   Calendar,
   CheckCircle2
 } from 'lucide-react';
-import { usePresentations } from '@/hooks/usePresentations';
 
 const MODULE_COLORS = [
   { gradient: 'from-blue-500/20 to-blue-500/5', text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/10', ring: 'ring-blue-500/20' },
@@ -52,7 +51,6 @@ export default function GenerationDetail() {
   const { user, isAdmin } = useAuth();
   const [expandedClass, setExpandedClass] = useState<string | null>(null);
   const { trackActivity } = useActivityResume();
-  const { presentations, createPresentation, isCreating } = usePresentations();
 
   const { data: generation, isLoading: loadingGen } = useQuery({
     queryKey: ['generation', code],
@@ -243,7 +241,7 @@ export default function GenerationDetail() {
                       transition={{ delay: 0.12 + moduleNum * 0.06 }}
                     >
                       <Link
-                        to={genNumber >= 9 ? `/slides/gen${genNumber}s${moduleNum}` : `/presentations/module/${moduleNum}`}
+                        to={`/slides/gen${genNumber}s${moduleNum}`}
                         className="group block h-full"
                       >
                         <div className="glass glass-specular relative rounded-2xl overflow-hidden h-full transition-all duration-300 hover:scale-[1.03] hover:shadow-lg">
@@ -313,7 +311,6 @@ export default function GenerationDetail() {
                   
                   <div className="space-y-3">
                     {classes?.map((cls, i) => {
-                      const classPresentation = presentations?.find(p => p.class_id === cls.id);
                       const colors = MODULE_COLORS[i % 4];
                       const isExpanded = expandedClass === cls.id;
                       
@@ -405,16 +402,6 @@ export default function GenerationDetail() {
                                       <ExternalLink className="w-3 h-3" />
                                     </a>
                                   )}
-                                  {classPresentation?.status === 'published' && (
-                                    <Link
-                                      to={`/presentations/${classPresentation.id}`}
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20 text-sm hover:bg-green-500/20 transition-colors"
-                                    >
-                                      <Play className="w-4 h-4" />
-                                      Presentacion
-                                    </Link>
-                                  )}
                                   {cls.notes_content && (
                                     <Button
                                       variant="outline"
@@ -427,32 +414,6 @@ export default function GenerationDetail() {
                                   )}
                                 </div>
 
-                                {/* Admin actions */}
-                                {isAdmin && (
-                                  <div className="flex items-center gap-2 mb-3">
-                                    {classPresentation ? (
-                                      <Link
-                                        to="/admin/presentations"
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs hover:bg-yellow-500/20 transition-colors"
-                                      >
-                                        <Presentation className="w-3 h-3" />
-                                        Editar presentacion
-                                      </Link>
-                                    ) : (
-                                      <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={(e) => { e.stopPropagation(); createPresentation(cls.id); }}
-                                        disabled={isCreating}
-                                        className="gap-1.5 text-xs border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10"
-                                      >
-                                        <Presentation className="w-3 h-3" />
-                                        Diseñar
-                                      </Button>
-                                    )}
-                                  </div>
-                                )}
 
                                 <div className="flex items-center gap-2">
                                   <BookmarkButton 

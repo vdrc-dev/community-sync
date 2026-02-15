@@ -163,7 +163,7 @@ export function Slide12NextSteps() {
           <div className="flex items-start gap-3">
             <BookOpen className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
             <p className="text-lg text-muted-foreground">
-              Esta presentación está en <span className="text-foreground font-bold">vdrc.lovable.app</span> para consultar después.
+              Esta presentación está en <span className="text-foreground font-bold">comunidad-vdrc.vercel.app</span> para consultar después.
             </p>
           </div>
         </motion.div>

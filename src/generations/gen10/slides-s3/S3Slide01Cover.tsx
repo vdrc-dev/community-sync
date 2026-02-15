@@ -100,7 +100,7 @@ export function S3Slide01Cover() {
               />
             )}
           </div>
-          <span className="text-[11px] font-mono text-white/30 tracking-wide">vdrc.lovable.app/gen10s3</span>
+          <span className="text-[11px] font-mono text-white/30 tracking-wide">comunidad-vdrc.vercel.app/slides/gen10s3</span>
         </div>
       </motion.div>
 

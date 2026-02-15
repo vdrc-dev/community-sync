@@ -14,7 +14,6 @@ import { HowItWorks } from '@/components/home/HowItWorks';
 import { ToolsMarquee } from '@/components/home/ToolsMarquee';
 import { ActiveGenerationWidget } from '@/components/dashboard/ActiveGenerationWidget';
 import { EcosystemSection } from '@/components/home/EcosystemSection';
-import { PresentationsPreview } from '@/components/home/PresentationsPreview';
 import { Gen11Banner } from '@/components/home/Gen11Banner';
 import { GenerationsQuickGrid } from '@/components/home/GenerationsQuickGrid';
 import { CommunityPreview } from '@/components/home/CommunityPreview';
@@ -66,9 +65,6 @@ export default function Home() {
 
       {/* ━━━ GENERACIONES ━━━ Las 10 generaciones */}
       <GenerationsQuickGrid />
-
-      {/* ━━━ PRESENTACIONES ━━━ Los 4 módulos */}
-      <PresentationsPreview />
 
       {/* ━━━ COMUNIDAD ━━━ Interacción entre participantes */}
       <CommunityPreview isAuthenticated={!!user} />

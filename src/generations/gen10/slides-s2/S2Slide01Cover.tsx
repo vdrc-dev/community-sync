@@ -29,7 +29,7 @@ export function S2Slide01Cover() {
   const slideNum = useSlideNumber();
   const [isHovered, setIsHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
-  const presentationUrl = `vdrc.lovable.app/gen${generationNumber}s${currentWeek}`;
+  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
 
   /* Typewriter for subtitle */
   const subtitle = 'Del Razonamiento a la Ejecución';

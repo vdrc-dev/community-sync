@@ -85,7 +85,7 @@ export const ConsultingSlideLayout = forwardRef<HTMLDivElement, ConsultingSlideL
   const itemMotionProps = isExporting ? {} : { variants: itemVariants };
 
   // URL for export footer
-  const presentationUrl = `vdrc.lovable.app/gen${generationNumber}s${currentWeek}`;
+  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
 
   return (
     <motion.div

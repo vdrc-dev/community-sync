@@ -418,7 +418,7 @@ function PresentationCard({ presentation, viewMode, index, onClick }: Presentati
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  window.open(`/presentations/${presentation.id}`, '_blank');
+                  window.open(`/admin/presentations`, '_blank');
                 }}
                 className="flex items-center gap-1 text-xs text-primary hover:underline"
               >

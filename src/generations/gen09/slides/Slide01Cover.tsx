@@ -17,7 +17,7 @@ export function Slide01Cover() {
   const { isExporting } = useExportContext();
   const { config, currentWeek, generationNumber } = useGeneration();
 
-  const presentationUrl = `vdrc.lovable.app/gen${generationNumber}s${currentWeek}`;
+  const presentationUrl = `comunidad-vdrc.vercel.app/slides/gen${generationNumber}s${currentWeek}`;
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden bg-[#050505] flex flex-col items-center justify-center font-sans selection:bg-emerald-500/30">

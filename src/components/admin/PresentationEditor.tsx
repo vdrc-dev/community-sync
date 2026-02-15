@@ -205,11 +205,11 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
           {slides.length > 0 && (
             <Button 
               variant="outline"
-              onClick={() => window.open(`/presentations/${presentation.id}`, '_blank')}
+              onClick={() => window.open(`/admin/presentations`, '_blank')}
               className="gap-2"
             >
               <Play className="h-4 w-4" />
-              Presentar
+              Vista previa
             </Button>
           )}
           <Button 
@@ -456,7 +456,7 @@ export function PresentationEditor({ presentation, onBack }: PresentationEditorP
           <SlideEditor
             slides={slides}
             onChange={setSlides}
-            onPreview={() => window.open(`/presentations/${presentation.id}`, '_blank')}
+            onPreview={() => window.open(`/admin/presentations`, '_blank')}
           />
         </TabsContent>
       </Tabs>

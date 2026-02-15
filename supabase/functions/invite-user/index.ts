@@ -71,7 +71,7 @@ serve(async (req) => {
         full_name: full_name || null,
         invited_role: inviteRole,
       },
-      redirectTo: `${req.headers.get('origin') || 'https://comunidad-vdrc.lovable.app'}/`,
+      redirectTo: `${req.headers.get('origin') || 'https://comunidad-vdrc.vercel.app'}/`,
     });
 
     if (inviteError) {
