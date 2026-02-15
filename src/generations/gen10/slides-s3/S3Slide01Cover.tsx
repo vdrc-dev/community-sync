@@ -30,6 +30,13 @@ const STATS = [
   { icon: Workflow, value: '5', label: 'workflows', color: S3_ACCENT.emerald.text },
 ];
 
+const CONSTELLATION_LINES = [
+  { x1: 22, y1: 28, x2: 52, y2: 40 },
+  { x1: 52, y1: 40, x2: 68, y2: 62 },
+  { x1: 36, y1: 68, x2: 68, y2: 62 },
+  { x1: 22, y1: 28, x2: 36, y2: 68 },
+];
+
 export function S3Slide01Cover() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
@@ -58,6 +65,7 @@ export function S3Slide01Cover() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_20%,_hsl(330_65%_55%_/_0.12),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_90%_30%,_hsl(185_70%_50%_/_0.06),_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(110deg,_transparent_35%,_hsl(330_70%_58%_/_0.08)_50%,_transparent_65%)]" />
         <S3Atmosphere
           isExporting={isExporting}
           particleCount={40}
@@ -256,6 +264,14 @@ export function S3Slide01Cover() {
           {/* Deep glow */}
           <div className="absolute -inset-20 rounded-full blur-[160px] opacity-50"
             style={{ background: 'radial-gradient(circle, hsl(330 65% 48% / 0.35), hsl(280 50% 40% / 0.12) 50%, transparent 70%)' }} />
+          {!isExporting && (
+            <motion.div
+              className="absolute -inset-16 rounded-[40px] pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse at center, hsl(185 80% 65% / 0.08), transparent 70%)' }}
+              animate={{ opacity: [0.2, 0.5, 0.2], scale: [0.98, 1.03, 0.98] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
 
           {/* Rotating orbital rings */}
           {!isExporting && (
@@ -287,6 +303,23 @@ export function S3Slide01Cover() {
               style={{ background: 'hsl(0 0% 2%)', boxShadow: '0 50px 120px hsl(330 60% 30% / 0.4), 0 0 0 1px hsl(0 0% 100% / 0.03)' }}>
               {/* Abstract tool grid inside frame */}
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,_hsl(330_65%_55%_/_0.15),_transparent_70%)]" />
+              <div className="absolute inset-0">
+                <svg className="w-full h-full opacity-30" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  {CONSTELLATION_LINES.map((line, i) => (
+                    <motion.line
+                      key={i}
+                      x1={line.x1}
+                      y1={line.y1}
+                      x2={line.x2}
+                      y2={line.y2}
+                      stroke="hsl(330 75% 68% / 0.35)"
+                      strokeWidth="0.4"
+                      strokeDasharray="1.5 1.5"
+                      {...(isExporting ? {} : { animate: { opacity: [0.2, 0.9, 0.2] }, transition: { duration: 3 + i, repeat: Infinity, ease: 'easeInOut' } })}
+                    />
+                  ))}
+                </svg>
+              </div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="grid grid-cols-2 gap-4 p-8">
                   {TOOLS.map((tool, i) => {
@@ -294,7 +327,7 @@ export function S3Slide01Cover() {
                     return (
                       <motion.div key={i} className="w-20 h-20 rounded-2xl border flex items-center justify-center"
                         style={{ borderColor: `${tool.color}30`, background: `${tool.color}08` }}
-                        {...(isExporting ? {} : { animate: { scale: [1, 1.06, 1], opacity: [0.6, 1, 0.6] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
+                        {...(isExporting ? {} : { animate: { scale: [1, 1.06, 1], opacity: [0.6, 1, 0.6], y: [0, -2, 0] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
                         <Icon className="w-8 h-8" style={{ color: tool.color }} />
                       </motion.div>
                     );

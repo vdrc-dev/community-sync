@@ -64,7 +64,7 @@ export function S4Slide14CaseStudy() {
               <Globe className="w-5 h-5 text-amber-400" />
               <div>
                 <p className="text-[10px] text-white/25 uppercase tracking-wider">URL Pública</p>
-                <p className="text-sm font-bold text-amber-400 font-mono">campus-kind.lovable.app</p>
+                <p className="text-sm font-bold text-amber-400 font-mono">campus-kind.vercel.app</p>
               </div>
               <ExternalLink className="w-4 h-4 text-amber-400/40 ml-auto" />
             </motion.div>

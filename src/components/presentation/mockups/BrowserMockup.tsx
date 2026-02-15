@@ -12,7 +12,7 @@ interface BrowserMockupProps {
 export function BrowserMockup({ 
   children, 
   title = 'App', 
-  url = 'miapp.lovable.app',
+  url = 'miapp.vercel.app',
   className,
   variant = 'default'
 }: BrowserMockupProps) {

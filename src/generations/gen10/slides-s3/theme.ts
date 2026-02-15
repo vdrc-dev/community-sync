@@ -8,12 +8,12 @@ export const S3_THEME = {
   background: '#04030a',
   selection: 'selection:bg-rose-500/30',
   grid: {
-    size: '48px',
-    opacity: 0.02,
-    dotColor: 'hsl(330 55% 65%)',
+    size: '44px',
+    opacity: 0.028,
+    dotColor: 'hsl(330 62% 70%)',
   },
   noise: {
-    opacity: 0.012,
+    opacity: 0.016,
     svg: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
   },
 } as const;

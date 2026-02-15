@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Zap, Palette, FileSpreadsheet, FileText, Search, Download } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -10,6 +10,13 @@ const SKILLS = [
   { name: 'Excel Controller', tip: 'Lee y edita hojas de cálculo', icon: FileSpreadsheet, accent: S3_ACCENT.emerald },
   { name: 'PDF Editor', tip: 'Extrae y transforma documentos', icon: FileText, accent: S3_ACCENT.amber },
   { name: 'Web Researcher', tip: 'Busca info pública actualizada', icon: Search, accent: S3_ACCENT.cyan },
+];
+
+const FLOATING_PILLS = [
+  { label: 'Brand', left: '-8%', top: '5%' },
+  { label: 'Excel', right: '-2%', top: '12%' },
+  { label: 'PDF', right: '-2%', top: '75%' },
+  { label: 'Web', left: '-6%', top: '78%' },
 ];
 
 export function S3Slide07Skills() {
@@ -33,14 +40,48 @@ export function S3Slide07Skills() {
         </motion.div>
 
         <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Skills: <span style={{ color: S3_ACCENT.violet.text }}>Superpoderes</span>
+          Skills: <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(330 65% 70%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 25px hsl(263 70% 72% / 0.4))',
+            }}
+          >Superpoderes</span>
         </motion.h1>
+        <motion.div
+          className="h-[2px] rounded-full mt-4 mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
+        />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Paquetes de instrucciones que multiplican a Claude
         </motion.p>
 
         {/* Visual: 4 skill cards in a grid */}
-        <div className="grid grid-cols-4 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-4 gap-4 max-w-4xl mx-auto relative">
+          {/* Floating decorative pills around the grid */}
+          {!isExporting && FLOATING_PILLS.map((pill, i) => (
+            <motion.div
+              key={pill.label}
+              className="absolute px-2.5 py-1 rounded-full text-[9px] font-semibold border pointer-events-none"
+              style={{
+                borderColor: S3_ACCENT.violet.border,
+                background: S3_ACCENT.violet.bg,
+                color: S3_ACCENT.violet.text,
+                left: 'left' in pill ? pill.left : undefined,
+                right: 'right' in pill ? pill.right : undefined,
+                top: pill.top,
+              }}
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2.8 + i * 0.2, repeat: Infinity, ease: 'easeInOut', delay: i * 0.15 }}
+            >
+              {pill.label}
+            </motion.div>
+          ))}
           {SKILLS.map((skill, i) => {
             const Icon = skill.icon;
             return (
@@ -52,10 +93,30 @@ export function S3Slide07Skills() {
                   <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
                     style={{ background: skill.accent.glow }} />
                 )}
+                {/* Shimmer sweep inside each card */}
+                {!isExporting && (
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${skill.accent.text.replace(')', ' / 0.1)')} 50%, transparent 65%)` }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                  />
+                )}
                 <div className="relative p-6 flex flex-col items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl border flex items-center justify-center"
-                    style={{ borderColor: `${skill.accent.text}25`, background: `${skill.accent.text}08` }}>
-                    <Icon className="w-7 h-7" style={{ color: skill.accent.text }} />
+                  {/* Orbital ring around each skill icon box */}
+                  <div className="relative w-14 h-14 flex items-center justify-center">
+                    {!isExporting && (
+                      <motion.div
+                        className="absolute inset-[-6px] rounded-2xl border-2 border-dashed pointer-events-none"
+                        style={{ borderColor: `${skill.accent.text}30`, opacity: 0.12 }}
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 65 + i * 5, repeat: Infinity, ease: 'linear' }}
+                      />
+                    )}
+                    <div className="w-14 h-14 rounded-2xl border flex items-center justify-center relative z-10"
+                      style={{ borderColor: `${skill.accent.text}25`, background: `${skill.accent.text}08` }}>
+                      <Icon className="w-7 h-7" style={{ color: skill.accent.text }} />
+                    </div>
                   </div>
                   <div>
                     <p className="text-sm font-black text-white mb-1">{skill.name}</p>

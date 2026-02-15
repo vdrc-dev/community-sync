@@ -156,7 +156,7 @@ export function Slide03FrontEnd() {
               </div>
               <div className="flex-1 max-w-md mx-auto h-7 bg-[#050505] rounded flex items-center justify-center border border-white/5">
                 <span className="text-white/40 text-sm font-mono flex items-center gap-2">
-                  <Layers size={12} /> miapp.lovable.app
+                  <Layers size={12} /> miapp.vercel.app
                 </span>
               </div>
             </div>

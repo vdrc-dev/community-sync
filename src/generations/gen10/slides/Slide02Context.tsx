@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, GraduationCap, Mail, Phone, Quote, CheckCircle, Sparkles, Building } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideContent, EducationItem, ExperienceData } from '@/hooks/useSlideContent';
-import vicentePhoto from '@/assets/vicente-donoso.png';
+import vicentePhoto from '@/assets/vicente-donoso.jpg';
 
 // Default fallback data
 const DEFAULT_EDUCATION: EducationItem[] = [

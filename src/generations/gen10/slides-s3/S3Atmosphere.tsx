@@ -3,6 +3,7 @@
  * Incluye: radiales, grid de puntos, scanlines, ruido, orbes respirantes y partículas.
  */
 import { motion } from 'framer-motion';
+import { useMemo } from 'react';
 import { S3_THEME, S3_PARTICLE_HUES } from './theme';
 
 interface S3AtmosphereProps {
@@ -28,8 +29,27 @@ export function S3Atmosphere({
   secondaryHue = 263,
   tertiaryHue = 185,
   showOrbs = true,
-  showLightSweep = false,
+  showLightSweep = true,
 }: S3AtmosphereProps) {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: particleCount }).map((_, i) => {
+        const seed = (i + 1) * 37.917;
+        const size = 1 + (seed % 2.6);
+        return {
+          id: i,
+          hue: S3_PARTICLE_HUES[i % S3_PARTICLE_HUES.length],
+          left: `${(seed * 13.71) % 100}%`,
+          top: `${(seed * 29.17) % 100}%`,
+          size,
+          rise: 16 + (seed % 30),
+          duration: 7 + (seed % 7),
+          delay: seed % 8,
+        };
+      }),
+    [particleCount]
+  );
+
   return (
     <>
       {/* ── Radial gradients ── */}
@@ -45,6 +65,17 @@ export function S3Atmosphere({
         <div
           className="absolute inset-0"
           style={{ background: `radial-gradient(ellipse 55% 55% at 105% 15%, hsl(${tertiaryHue} 70% 50% / 0.07), transparent 50%)` }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: `radial-gradient(ellipse 75% 60% at 50% 120%, hsl(${primaryHue} 75% 55% / 0.08), transparent 62%)` }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, hsl(250 45% 8% / 0.45) 0%, transparent 35%, transparent 70%, hsl(260 40% 6% / 0.5) 100%)',
+          }}
         />
 
         {/* Fine dot grid */}
@@ -63,6 +94,14 @@ export function S3Atmosphere({
           style={{
             backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(${primaryHue} 40% 50% / 0.3) 2px, hsl(${primaryHue} 40% 50% / 0.3) 3px)`,
             backgroundSize: '100% 6px',
+          }}
+        />
+
+        {/* Vertical cinematic beams */}
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 182px)`,
           }}
         />
 
@@ -94,53 +133,67 @@ export function S3Atmosphere({
             animate={{ x: [0, 25, 0], y: [0, -15, 0], opacity: [0.04, 0.12, 0.04] }}
             transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
           />
+          <motion.div
+            className="absolute top-[8%] right-[28%] w-[520px] h-[300px] rounded-full blur-[170px]"
+            style={{ background: `hsl(${secondaryHue} 70% 52% / 0.09)` }}
+            animate={{ x: [0, -30, 0], y: [0, 18, 0], opacity: [0.06, 0.16, 0.06] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          />
         </>
       )}
 
       {/* ── Floating particles ── */}
       {!isExporting && particleCount > 0 && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: particleCount }).map((_, i) => {
-            const s = 1 + Math.random() * 2.5;
-            const h = S3_PARTICLE_HUES[i % S3_PARTICLE_HUES.length];
-            return (
-              <motion.div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  width: s,
-                  height: s,
-                  background: `hsl(${h} 60% 65% / 0.4)`,
-                  boxShadow: `0 0 ${s * 5}px hsl(${h} 60% 65% / 0.45)`,
-                }}
-                animate={{
-                  y: [0, -(18 + Math.random() * 30), 0],
-                  opacity: [0.05, 0.5, 0.05],
-                }}
-                transition={{
-                  duration: 7 + Math.random() * 7,
-                  repeat: Infinity,
-                  delay: Math.random() * 8,
-                  ease: 'easeInOut',
-                }}
-              />
-            );
-          })}
+          {particles.map((p) => (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full"
+              style={{
+                left: p.left,
+                top: p.top,
+                width: p.size,
+                height: p.size,
+                background: `hsl(${p.hue} 60% 65% / 0.4)`,
+                boxShadow: `0 0 ${p.size * 5}px hsl(${p.hue} 60% 65% / 0.45)`,
+              }}
+              animate={{
+                x: [0, p.id % 2 === 0 ? 8 : -8, 0],
+                y: [0, -p.rise, 0],
+                scale: [0.85, 1.2, 0.85],
+                opacity: [0.05, 0.5, 0.05],
+              }}
+              transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: 'easeInOut',
+              }}
+            />
+          ))}
         </div>
       )}
 
       {/* ── Animated light sweep ── */}
       {showLightSweep && !isExporting && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `linear-gradient(105deg, transparent 40%, hsl(${primaryHue} 70% 60% / 0.04) 48%, hsl(${tertiaryHue} 80% 65% / 0.03) 52%, transparent 60%)`,
-          }}
-          animate={{ x: ['-100%', '200%'] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatDelay: 6 }}
-        />
+        <>
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `linear-gradient(105deg, transparent 40%, hsl(${primaryHue} 70% 60% / 0.06) 48%, hsl(${tertiaryHue} 80% 65% / 0.04) 52%, transparent 60%)`,
+            }}
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatDelay: 5 }}
+          />
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `linear-gradient(265deg, transparent 40%, hsl(${secondaryHue} 70% 58% / 0.05) 49%, transparent 58%)`,
+            }}
+            animate={{ x: ['180%', '-120%'] }}
+            transition={{ duration: 11, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+          />
+        </>
       )}
 
       {/* ── Cinematic vignette ── */}

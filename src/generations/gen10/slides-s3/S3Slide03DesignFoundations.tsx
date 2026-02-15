@@ -29,8 +29,21 @@ export function S3Slide03DesignFoundations() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_25%,_hsl(330_65%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_65%,_hsl(280_60%_55%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_50%_55%,_hsl(263_60%_55%_/_0.04),_transparent_70%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
       </div>
+
+      {/* Floating decorative pills */}
+      {!isExporting && (
+        <>
+          <motion.div className="absolute left-[14%] top-[42%] text-[9px] font-mono font-bold tracking-wider text-white/20"
+            animate={{ y: [0, -6, 0], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}>HEX</motion.div>
+          <motion.div className="absolute right-[16%] top-[45%] text-[9px] font-mono font-bold tracking-wider text-white/20"
+            animate={{ y: [0, 5, 0], opacity: [0.2, 0.35, 0.2] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}>RGB</motion.div>
+          <motion.div className="absolute right-[20%] bottom-[28%] text-[9px] font-mono font-bold tracking-wider text-white/25"
+            animate={{ y: [0, -4, 0], opacity: [0.25, 0.4, 0.25] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}>WOFF2</motion.div>
+        </>
+      )}
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-6">
@@ -40,16 +53,33 @@ export function S3Slide03DesignFoundations() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Diseño con <span style={{ color: S3_ACCENT.rose.text }}>Propósito</span>
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
+          Diseño con <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(280 70% 65%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
+            }}>Propósito</span>
         </motion.h1>
+        <motion.div {...m(0.1)} className="mb-3 flex justify-center"
+          {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
+          <div className="h-0.5 w-28 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 68%), hsl(280 70% 65%))', transformOrigin: 'center' }} />
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Colores + Tipografía = Comunicación visual profesional
         </motion.p>
 
         <div className="grid grid-cols-2 gap-10">
           {/* LEFT: Color palette visual */}
-          <motion.div {...m(0.2)} className="text-left">
+          <motion.div {...m(0.2)} className="text-left relative">
+            {/* Animated color-mixing blurred circle */}
+            {!isExporting && (
+              <motion.div className="absolute -top-4 -right-4 w-24 h-24 rounded-full blur-2xl pointer-events-none opacity-60"
+                animate={{ background: ['#E74C3C', '#2ECC71', '#3498DB', '#F1C40F', '#9B59B6', '#1ABC9C', '#E74C3C'] }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
+            )}
             <p className="text-[10px] text-white/25 uppercase tracking-widest font-bold mb-4">Paleta de Colores</p>
             <div className="grid grid-cols-6 gap-2 mb-4">
               {PALETTE.map((c, i) => (
@@ -65,14 +95,19 @@ export function S3Slide03DesignFoundations() {
                 </motion.div>
               ))}
             </div>
-            {/* Color rule */}
-            <div className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
-              <div className="flex gap-1">
+            {/* Color rule — with shimmer */}
+            <div className="relative overflow-hidden flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 z-10 pointer-events-none"
+                  style={{ background: 'linear-gradient(105deg, transparent 0%, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%, transparent 100%)', width: '50%' }}
+                  animate={{ x: ['-150%', '250%'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 4, ease: 'linear' }} />
+              )}
+              <div className="flex gap-1 relative">
                 <div className="w-6 h-6 rounded-lg" style={{ background: '#E74C3C' }} />
                 <div className="w-6 h-6 rounded-lg" style={{ background: '#2ECC71' }} />
                 <div className="w-6 h-6 rounded-lg" style={{ background: '#F5F5F5' }} />
               </div>
-              <p className="text-xs text-white/40">Primario + Acento + Neutro = <span className="text-white/70 font-semibold">máx 3-5</span></p>
+              <p className="text-xs text-white/40 relative">Primario + Acento + Neutro = <span className="text-white/70 font-semibold">máx 3-5</span></p>
             </div>
           </motion.div>
 

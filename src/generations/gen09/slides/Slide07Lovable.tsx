@@ -261,7 +261,7 @@ export function Slide07Lovable() {
                     color: 'rgba(255,255,255,0.5)'
                   }}
                 >
-                  miapp.lovable.app/dashboard
+                  miapp.vercel.app/dashboard
                 </div>
               </div>
               <span 

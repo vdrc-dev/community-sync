@@ -14,8 +14,28 @@ export function S3Slide03Canvas() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_30%,_hsl(185_70%_50%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_60%_/_0.08)_50%,_transparent_65%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={263} tertiaryHue={330} />
       </div>
+
+      {!isExporting && (
+        <>
+          <motion.div
+            className="absolute left-[16%] top-[34%] px-3 py-1 rounded-full border text-[10px] font-bold text-cyan-200/80 bg-cyan-400/10 border-cyan-300/20"
+            animate={{ y: [0, -7, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            live
+          </motion.div>
+          <motion.div
+            className="absolute right-[19%] top-[30%] px-3 py-1 rounded-full border text-[10px] font-bold text-emerald-200/80 bg-emerald-400/10 border-emerald-300/20"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+          >
+            +12%
+          </motion.div>
+        </>
+      )}
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-6">
@@ -25,9 +45,20 @@ export function S3Slide03Canvas() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Canvas: <span style={{ color: S3_ACCENT.cyan.text }}>Datos → Dashboard</span>
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
+          Canvas: <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(185 70% 65%), hsl(263 60% 70%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 25px hsl(185 70% 65% / 0.4))',
+            }}>Datos → Dashboard</span>
         </motion.h1>
+        <motion.div {...m(0.1)} className="mb-3 flex justify-center"
+          {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
+          <div className="h-0.5 w-32 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(185 70% 65%), hsl(263 60% 70%))', transformOrigin: 'center' }} />
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-lg mx-auto">
           Transforma cualquier dataset en visualizaciones interactivas sin código
         </motion.p>
@@ -35,8 +66,12 @@ export function S3Slide03Canvas() {
         {/* Visual flow: CSV → Canvas → Dashboard */}
         <div className="flex items-center justify-center gap-6">
           {/* Input: CSV */}
-          <motion.div {...m(0.2)} className="w-44">
-            <div className="p-5 rounded-2xl border flex flex-col items-center gap-3" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
+          <motion.div {...m(0.2)} className="w-44 relative">
+            {!isExporting && (
+              <motion.div className="absolute -inset-4 rounded-full border-2 border-dashed pointer-events-none" style={{ borderColor: `${S3_ACCENT.cyan.dot}40`, opacity: 0.25 }}
+                animate={{ rotate: 360 }} transition={{ duration: 14, repeat: Infinity, ease: 'linear' }} />
+            )}
+            <div className="relative p-5 rounded-2xl border flex flex-col items-center gap-3" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
               <FileSpreadsheet className="w-10 h-10" style={{ color: S3_ACCENT.cyan.text }} />
               <div>
                 <p className="text-sm font-black text-white">Tu Dataset</p>
@@ -54,11 +89,29 @@ export function S3Slide03Canvas() {
             <ArrowRight className="w-5 h-5 ml-1" style={{ color: `${S3_ACCENT.cyan.text}60` }} />
           </motion.div>
 
-          {/* Output: Dashboard mockup */}
-          <motion.div {...m(0.35)} className="flex-1 max-w-[420px]">
-            <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(185 70% 50% / 0.15)', background: 'hsl(185 70% 50% / 0.03)' }}>
-              {/* Browser chrome */}
-              <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(185 70% 50% / 0.1)' }}>
+          {/* Output: Dashboard mockup — shimmer + pulsing glow */}
+          <motion.div {...m(0.35)} className="flex-1 max-w-[420px] relative">
+            {!isExporting && (
+              <motion.div className="absolute -inset-4 rounded-3xl pointer-events-none z-0"
+                style={{ background: `radial-gradient(ellipse 80% 70% at 50% 50%, ${S3_ACCENT.cyan.glow}, transparent 70%)`, opacity: 0.5 }}
+                animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }} />
+            )}
+            {!isExporting && (
+              <motion.div
+                className="absolute -inset-6 rounded-[28px] border border-dashed pointer-events-none"
+                style={{ borderColor: `${S3_ACCENT.cyan.dot}26` }}
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
+              />
+            )}
+            <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(185 70% 50% / 0.15)', background: 'hsl(185 70% 50% / 0.03)' }}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 z-10 pointer-events-none"
+                  style={{ background: 'linear-gradient(105deg, transparent 0%, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%, transparent 100%)', width: '45%' }}
+                  animate={{ x: ['-150%', '250%'] }} transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3.5, ease: 'linear' }} />
+              )}
+              {/* Browser chrome (shimmer layer is above this) */}
+              <div className="relative px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(185 70% 50% / 0.1)' }}>
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
                 <span className="text-[9px] text-white/20 font-mono ml-2">dashboard.html</span>
               </div>

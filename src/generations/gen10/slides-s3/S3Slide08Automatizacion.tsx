@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Repeat, Presentation, FileSpreadsheet, ArrowRight, Clock, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -9,6 +9,12 @@ const CASES = [
   { title: 'Folleto Digital', icon: Presentation, time: '~5 min', accent: S3_ACCENT.violet },
   { title: 'Modelo Excel', icon: FileSpreadsheet, time: '~3 min', accent: S3_ACCENT.emerald },
   { title: 'Tarea Recurrente', icon: Repeat, time: 'Auto', accent: S3_ACCENT.amber },
+];
+
+const FLOATING_PILLS = [
+  { label: '5min', delay: 0 },
+  { label: 'auto', delay: 0.4 },
+  { label: '24/7', delay: 0.8 },
 ];
 
 export function S3Slide08Automatizacion() {
@@ -23,6 +29,25 @@ export function S3Slide08Automatizacion() {
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={263} secondaryHue={280} tertiaryHue={38} />
       </div>
 
+      {/* Floating decorative pills */}
+      {!isExporting && FLOATING_PILLS.map((pill, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border px-3 py-1 text-[10px] font-bold tracking-wider pointer-events-none"
+          style={{
+            borderColor: 'hsl(263 60% 55% / 0.25)',
+            background: 'hsl(263 60% 55% / 0.06)',
+            color: 'hsl(263 60% 75%)',
+            left: `${15 + i * 28}%`,
+            top: `${20 + (i % 2) * 8}%`,
+          }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
+        >
+          {pill.label}
+        </motion.div>
+      ))}
+
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
@@ -31,24 +56,69 @@ export function S3Slide08Automatizacion() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Del Manual al <span style={{ color: S3_ACCENT.violet.text }}>Automático</span>
-        </motion.h1>
+        <motion.div {...m(0.08)}>
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+            Del Manual al{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(185 70% 60%))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 25px hsl(263 70% 72% / 0.4))',
+              }}
+            >
+              Automático
+            </span>
+          </h1>
+          {/* Animated accent line under title */}
+          {!isExporting && (
+            <motion.div
+              className="h-1 rounded-full mx-auto mt-1"
+              style={{ width: '180px', background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8, transformOrigin: 'center' }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: S3_EASE }}
+            />
+          )}
+          {isExporting && (
+            <div className="h-1 rounded-full mx-auto mt-1 w-[180px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8 }} />
+          )}
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-md mx-auto">
           Horas de trabajo repetitivo → minutos de supervisión
         </motion.p>
 
         {/* Before → After visual */}
         <motion.div {...m(0.2)} className="flex items-center justify-center gap-5 mb-12">
-          <div className="px-6 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-            <p className="text-3xl font-black text-white/25">2h</p>
+          <div className="px-6 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] relative overflow-hidden">
+            {/* Strikethrough line that animates across "2h" */}
+            <p className="text-3xl font-black text-white/25 relative inline-block">
+              2h
+              {!isExporting && (
+                <motion.span
+                  className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full"
+                  style={{ background: 'hsl(0 0% 100% / 0.4)', transformOrigin: 'left' }}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.8, duration: 0.5, ease: S3_EASE }}
+                />
+              )}
+            </p>
             <p className="text-[10px] text-white/20 uppercase tracking-wider mt-1">manual</p>
           </div>
           <motion.div {...(isExporting ? {} : { animate: { x: [0, 6, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
             <ArrowRight className="w-6 h-6" style={{ color: S3_ACCENT.violet.text }} />
           </motion.div>
-          <div className="px-6 py-3 rounded-xl border" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
-            <p className="text-3xl font-black" style={{ color: S3_ACCENT.violet.text }}>5m</p>
+          <div className="px-6 py-3 rounded-xl border relative overflow-hidden" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
+            {/* 5m with subtle pulse glow */}
+            <motion.p
+              className="text-3xl font-black relative"
+              style={{ color: S3_ACCENT.violet.text }}
+              {...(isExporting ? {} : { animate: { filter: ['drop-shadow(0 0 8px hsl(263 60% 55% / 0.3))', 'drop-shadow(0 0 20px hsl(263 60% 55% / 0.5))', 'drop-shadow(0 0 8px hsl(263 60% 55% / 0.3))'] }, transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' } })}
+            >
+              5m
+            </motion.p>
             <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: `${S3_ACCENT.violet.text}80` }}>con Claude</p>
           </div>
         </motion.div>
@@ -57,11 +127,23 @@ export function S3Slide08Automatizacion() {
         <div className="grid grid-cols-3 gap-5">
           {CASES.map((c, i) => {
             const Icon = c.icon;
+            const shimmerHue = c.accent === S3_ACCENT.violet ? 263 : c.accent === S3_ACCENT.emerald ? 160 : 38;
             return (
               <motion.div key={i} {...m(0.3 + i * 0.1)}
                 className="relative group rounded-2xl border overflow-hidden"
                 style={{ borderColor: c.accent.border, background: c.accent.bg }}
                 {...(isExporting ? {} : { whileHover: { scale: 1.04, y: -4 } })}>
+                {/* Shimmer sweep */}
+                {!isExporting && (
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none z-[1]"
+                    style={{
+                      background: `linear-gradient(105deg, transparent 35%, hsl(${shimmerHue} 60% 60% / 0.1) 50%, transparent 65%)`,
+                    }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                  />
+                )}
                 {!isExporting && (
                   <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
                     style={{ background: c.accent.glow }} />

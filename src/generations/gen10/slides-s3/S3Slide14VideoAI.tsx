@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Video, Film, Mic, Wand2, Play, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -18,6 +18,8 @@ const ENGINES = [
   { name: 'Kling', provider: 'Kuaishou' },
 ];
 
+const FLOATING_PILLS = ['4K', 'Sora', 'lip-sync'];
+
 export function S3Slide14VideoAI() {
   const { isExporting } = useExportContext();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
@@ -30,6 +32,25 @@ export function S3Slide14VideoAI() {
         <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
       </div>
 
+      {/* Floating decorative pills */}
+      {!isExporting && FLOATING_PILLS.map((label, i) => (
+        <motion.div
+          key={label}
+          className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-bold pointer-events-none uppercase tracking-wider"
+          style={{
+            borderColor: 'hsl(330 85% 68% / 0.25)',
+            background: 'hsl(330 85% 68% / 0.06)',
+            color: 'hsl(330 85% 75% / 0.95)',
+            left: `${15 + i * 30}%`,
+            top: `${28 + (i % 3) * 8}%`,
+          }}
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 2.8 + i * 0.2, repeat: Infinity, ease: S3_EASE }}
+        >
+          {label}
+        </motion.div>
+      ))}
+
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
@@ -38,42 +59,125 @@ export function S3Slide14VideoAI() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Krea.ai: <span style={{ color: S3_ACCENT.rose.text }}>Centro de Mando</span>
-        </motion.h1>
+        <motion.div {...m(0.08)} className="relative inline-block">
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+            Krea.ai:{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 0 25px hsl(330 85% 60% / 0.4))',
+              }}
+            >
+              Centro de Mando
+            </span>
+          </h1>
+          {/* Animated accent line under title */}
+          {!isExporting && (
+            <motion.div
+              className="absolute left-0 right-0 -bottom-1 h-0.5 rounded-full"
+              style={{
+                background: 'linear-gradient(90deg, transparent, hsl(330 85% 60% / 0.6), hsl(263 60% 65% / 0.6), transparent)',
+                transformOrigin: 'center',
+              }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+            />
+          )}
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
           Orquesta Sora, Veo 3 y Kling desde una sola interfaz
         </motion.p>
 
-        {/* 4 power cards */}
-        <div className="grid grid-cols-4 gap-4 mb-10">
-          {POWERS.map((p, i) => {
-            const Icon = p.icon;
-            return (
-              <motion.div key={i} {...m(0.2 + i * 0.08)}
-                className="relative group rounded-2xl border overflow-hidden"
-                style={{ borderColor: p.accent.border, background: p.accent.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
-                {!isExporting && (
-                  <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                    style={{ background: p.accent.glow }} />
-                )}
-                <div className="relative p-6 flex flex-col items-center gap-4">
-                  {i === 0 && !isExporting && (
-                    <motion.div className="absolute inset-0 rounded-2xl pointer-events-none"
-                      style={{ border: `1px solid ${p.accent.dot}40` }}
-                      animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0, 0.4] }}
-                      transition={{ duration: 2.5, repeat: Infinity }} />
+        {/* Hero area with orbital ring + film frame around cards */}
+        <div className="relative">
+          {/* Orbital rotating ring around hero area */}
+          {!isExporting && (
+            <>
+              <motion.div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] max-w-[640px] aspect-video rounded-3xl pointer-events-none"
+                style={{
+                  border: '1px solid hsl(330 85% 60% / 0.12)',
+                  borderStyle: 'dashed',
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              />
+              <motion.div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] max-w-[680px] aspect-video rounded-3xl pointer-events-none"
+                style={{
+                  border: '1px solid hsl(263 60% 60% / 0.08)',
+                  borderStyle: 'dashed',
+                }}
+                animate={{ rotate: -360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+              />
+            </>
+          )}
+
+          {/* Film frame: two horizontal lines at top and bottom of card area */}
+          <div
+            className="absolute left-0 right-0 pointer-events-none z-[1]"
+            style={{
+              top: -20,
+              height: 12,
+              background: 'linear-gradient(180deg, hsl(330 65% 40% / 0.35) 0%, transparent 100%)',
+              borderBottom: '2px solid hsl(330 65% 55% / 0.25)',
+            }}
+          />
+          <div
+            className="absolute left-0 right-0 pointer-events-none z-[1]"
+            style={{
+              bottom: -20,
+              height: 12,
+              background: 'linear-gradient(0deg, hsl(263 60% 40% / 0.35) 0%, transparent 100%)',
+              borderTop: '2px solid hsl(263 60% 55% / 0.25)',
+            }}
+          />
+
+          {/* 4 power cards with shimmer inside each */}
+          <div className="grid grid-cols-4 gap-4 mb-10 relative">
+            {POWERS.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <motion.div key={i} {...m(0.2 + i * 0.08)}
+                  className="relative group rounded-2xl border overflow-hidden"
+                  style={{ borderColor: p.accent.border, background: p.accent.bg }}
+                  {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
+                  {/* Shimmer sweep inside each power card */}
+                  {!isExporting && (
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)',
+                      }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }}
+                    />
                   )}
-                  <div className="w-14 h-14 rounded-2xl border flex items-center justify-center"
-                    style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
-                    <Icon className="w-7 h-7" style={{ color: p.accent.text }} />
+                  {!isExporting && (
+                    <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                      style={{ background: p.accent.glow }} />
+                  )}
+                  <div className="relative p-6 flex flex-col items-center gap-4">
+                    {i === 0 && !isExporting && (
+                      <motion.div className="absolute inset-0 rounded-2xl pointer-events-none"
+                        style={{ border: `1px solid ${p.accent.dot}40` }}
+                        animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0, 0.4] }}
+                        transition={{ duration: 2.5, repeat: Infinity }} />
+                    )}
+                    <div className="w-14 h-14 rounded-2xl border flex items-center justify-center"
+                      style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
+                      <Icon className="w-7 h-7" style={{ color: p.accent.text }} />
+                    </div>
+                    <p className="text-sm font-black text-white">{p.title}</p>
                   </div>
-                  <p className="text-sm font-black text-white">{p.title}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Engine pills */}
@@ -87,6 +191,30 @@ export function S3Slide14VideoAI() {
               <span className="text-[9px] text-white/20 font-mono ml-2">{e.provider}</span>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Cinematic timeline strip */}
+        <motion.div
+          {...m(0.62)}
+          className="mt-6 mx-auto max-w-2xl rounded-xl border px-4 py-3 relative overflow-hidden"
+          style={{ borderColor: 'hsl(330 65% 60% / 0.2)', background: 'hsl(330 65% 55% / 0.05)' }}
+        >
+          <div className="h-1.5 rounded-full bg-white/10 relative">
+            {!isExporting && (
+              <motion.div
+                className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
+                style={{ background: 'hsl(330 90% 72%)', boxShadow: '0 0 18px hsl(330 90% 72% / 0.8)' }}
+                animate={{ left: ['0%', '100%', '0%'] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+            <div className="absolute inset-y-0 left-0 w-2/3 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }} />
+          </div>
+          <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-wider text-white/35 font-semibold">
+            <span>Storyboard</span>
+            <span>Render</span>
+            <span>Publish</span>
+          </div>
         </motion.div>
 
         <motion.div {...m(0.7)} className="mt-8 inline-flex items-center gap-2 text-xs text-rose-400/50">

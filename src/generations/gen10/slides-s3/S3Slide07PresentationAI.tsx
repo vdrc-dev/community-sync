@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Presentation, BarChart3, Layers, ArrowRight, Sparkles } from 'lucide-react';
+import { Presentation, BarChart3, Layers, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -9,6 +9,12 @@ const TOOLS = [
   { name: 'Gamma', tagline: 'Texto → Presentación', icon: Presentation, accent: S3_ACCENT.violet, badge: 'Recomendado' },
   { name: 'Napkin AI', tagline: 'Texto → Infografías', icon: BarChart3, accent: S3_ACCENT.amber, badge: null },
   { name: 'Beautiful.ai', tagline: 'Plantillas inteligentes', icon: Layers, accent: S3_ACCENT.cyan, badge: null },
+];
+
+const FLOATING_PILLS = [
+  { label: 'Gamma', left: '-5%', top: '18%' },
+  { label: 'Napkin', right: '-4%', top: '22%' },
+  { label: 'pptx', left: '-3%', top: '72%' },
 ];
 
 export function S3Slide07PresentationAI() {
@@ -32,14 +38,48 @@ export function S3Slide07PresentationAI() {
         </motion.div>
 
         <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Presentaciones con <span style={{ color: S3_ACCENT.violet.text }}>IA</span>
+          Presentaciones con <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(38 80% 65%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 25px hsl(263 70% 72% / 0.4))',
+            }}
+          >IA</span>
         </motion.h1>
+        <motion.div
+          className="h-[2px] rounded-full mt-4 mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
+        />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           De ideas a entregables visuales en minutos
         </motion.p>
 
         {/* Visual: 3 tool cards */}
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 gap-5 relative">
+          {/* Floating decorative pills */}
+          {!isExporting && FLOATING_PILLS.map((pill, i) => (
+            <motion.div
+              key={pill.label}
+              className="absolute px-2.5 py-1 rounded-full text-[9px] font-semibold border pointer-events-none"
+              style={{
+                borderColor: S3_ACCENT.violet.border,
+                background: S3_ACCENT.violet.bg,
+                color: S3_ACCENT.violet.text,
+                left: 'left' in pill ? pill.left : undefined,
+                right: 'right' in pill ? pill.right : undefined,
+                top: pill.top,
+              }}
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2.6 + i * 0.25, repeat: Infinity, ease: 'easeInOut', delay: i * 0.1 }}
+            >
+              {pill.label}
+            </motion.div>
+          ))}
           {TOOLS.map((tool, i) => {
             const Icon = tool.icon;
             return (
@@ -51,9 +91,18 @@ export function S3Slide07PresentationAI() {
                   <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
                     style={{ background: tool.accent.glow }} />
                 )}
+                {/* Shimmer sweep inside each tool card */}
+                {!isExporting && (
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${tool.accent.text.replace(')', ' / 0.1)')} 50%, transparent 65%)` }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                  />
+                )}
                 <div className="relative p-7 flex flex-col items-center gap-5">
                   {tool.badge && (
-                    <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[8px] font-black tracking-wider"
+                    <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[8px] font-black tracking-wider z-10"
                       style={{ background: tool.accent.dot, color: '#04030a' }}>{tool.badge}</div>
                   )}
                   <div className="w-16 h-16 rounded-2xl border flex items-center justify-center"
@@ -65,7 +114,7 @@ export function S3Slide07PresentationAI() {
                     <p className="text-sm text-white/35">{tool.tagline}</p>
                   </div>
 
-                  {/* Mini mockup: slide preview */}
+                  {/* Mini mockup: slide preview with animated bars */}
                   <div className="w-full h-20 rounded-xl overflow-hidden border" style={{ borderColor: `${tool.accent.text}12` }}>
                     <div className="h-full flex flex-col">
                       <div className="h-4 flex items-center px-2 gap-1" style={{ background: `${tool.accent.text}06` }}>
@@ -75,9 +124,23 @@ export function S3Slide07PresentationAI() {
                       </div>
                       <div className="flex-1 flex items-center justify-center gap-2 px-3">
                         <div className="w-8 h-3 rounded" style={{ background: `${tool.accent.text}20` }} />
-                        <div className="flex-1 space-y-1">
-                          <div className="h-1.5 rounded-full" style={{ background: `${tool.accent.text}15`, width: '80%' }} />
-                          <div className="h-1 rounded-full" style={{ background: `${tool.accent.text}08`, width: '60%' }} />
+                        <div className="flex-1 space-y-1 min-w-0">
+                          <motion.div
+                            className="h-1.5 rounded-full"
+                            style={{ background: `${tool.accent.text}15` }}
+                            {...(isExporting ? { style: { width: '80%', background: `${tool.accent.text}15` } } : {
+                              animate: { width: ['40%', '90%', '65%', '80%'] },
+                              transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.5 },
+                            })}
+                          />
+                          <motion.div
+                            className="h-1 rounded-full"
+                            style={{ background: `${tool.accent.text}08` }}
+                            {...(isExporting ? { style: { width: '60%', background: `${tool.accent.text}08` } } : {
+                              animate: { width: ['30%', '70%', '50%', '60%'] },
+                              transition: { duration: 2.2, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.8, delay: 0.2 },
+                            })}
+                          />
                         </div>
                       </div>
                     </div>

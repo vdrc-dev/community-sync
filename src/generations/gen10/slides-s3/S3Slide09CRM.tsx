@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Database, Plug, BarChart3, ArrowRight, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -9,6 +9,12 @@ const PIPELINE = [
   { label: 'CRM', sub: 'HubSpot · Salesforce', icon: Database, accent: S3_ACCENT.amber },
   { label: 'MCP', sub: 'Conector', icon: Plug, accent: S3_ACCENT.violet },
   { label: 'Análisis', sub: 'Canvas · NotebookLM', icon: BarChart3, accent: S3_ACCENT.cyan },
+];
+
+const FLOATING_PILLS = [
+  { label: 'datos', delay: 0 },
+  { label: 'MCP', delay: 0.35 },
+  { label: 'insights', delay: 0.7 },
 ];
 
 export function S3Slide09CRM() {
@@ -20,8 +26,28 @@ export function S3Slide09CRM() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_30%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_65%,_hsl(263_60%_55%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(38_90%_60%_/_0.07)_50%,_transparent_65%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
       </div>
+
+      {/* Floating decorative pills */}
+      {!isExporting && FLOATING_PILLS.map((pill, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border px-3 py-1 text-[10px] font-bold tracking-wider pointer-events-none"
+          style={{
+            borderColor: 'hsl(38 90% 55% / 0.25)',
+            background: 'hsl(38 90% 55% / 0.06)',
+            color: 'hsl(38 85% 65%)',
+            left: `${18 + i * 25}%`,
+            top: `${22 + (i % 2) * 6}%`,
+          }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 3.2 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
+        >
+          {pill.label}
+        </motion.div>
+      ))}
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-6">
@@ -31,30 +57,97 @@ export function S3Slide09CRM() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Conecta tu <span style={{ color: S3_ACCENT.amber.text }}>CRM</span>
-        </motion.h1>
+        <motion.div {...m(0.08)}>
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+            Conecta tu{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, hsl(38 90% 65%), hsl(280 60% 60%))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 25px hsl(38 90% 65% / 0.4))',
+              }}
+            >
+              CRM
+            </span>
+          </h1>
+          {/* Animated accent line under title */}
+          {!isExporting && (
+            <motion.div
+              className="h-1 rounded-full mx-auto mt-1"
+              style={{ width: '140px', background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8, transformOrigin: 'center' }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: S3_EASE }}
+            />
+          )}
+          {isExporting && (
+            <div className="h-1 rounded-full mx-auto mt-1 w-[140px]" style={{ background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8 }} />
+          )}
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-md mx-auto">
           Trae tus datos reales a la IA — clientes, acuerdos y métricas
         </motion.p>
 
         {/* Visual pipeline flow: CRM → MCP → Analysis */}
-        <div className="flex items-center justify-center gap-4">
+        <div className="relative flex items-center justify-center gap-4">
+          {!isExporting && (
+            <motion.div
+              className="absolute -inset-8 rounded-[32px] pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse at center, hsl(38 90% 60% / 0.12), transparent 72%)', filter: 'blur(26px)' }}
+              animate={{ opacity: [0.28, 0.55, 0.28] }}
+              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
           {PIPELINE.map((step, i) => {
             const Icon = step.icon;
+            const shimmerHue = step.accent === S3_ACCENT.amber ? 38 : step.accent === S3_ACCENT.violet ? 263 : 185;
             return (
               <motion.div key={i} className="flex items-center gap-4" {...m(0.2 + i * 0.1)}>
                 <motion.div
-                  className="relative group w-52 p-6 rounded-2xl border flex flex-col items-center gap-3"
+                  className="relative group w-52 p-6 rounded-2xl border flex flex-col items-center gap-3 overflow-hidden"
                   style={{ borderColor: step.accent.border, background: step.accent.bg }}
                   {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
+                  {/* Shimmer sweep */}
+                  {!isExporting && (
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none z-[1]"
+                      style={{
+                        background: `linear-gradient(105deg, transparent 35%, hsl(${shimmerHue} 60% 60% / 0.1) 50%, transparent 65%)`,
+                      }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                    />
+                  )}
                   {!isExporting && (
                     <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
                       style={{ background: step.accent.glow }} />
                   )}
-                  <div className="relative w-16 h-16 rounded-2xl border flex items-center justify-center"
-                    style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
-                    <Icon className="w-8 h-8" style={{ color: step.accent.text }} />
+                  <div className="relative flex flex-col items-center gap-3">
+                    {/* Orbital ring around icon */}
+                    <div className="relative w-16 h-16 flex items-center justify-center">
+                      {!isExporting && (
+                        <motion.div
+                          className="absolute inset-0 rounded-2xl border"
+                          style={{ borderColor: `${step.accent.text}20`, borderWidth: 1 }}
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                        />
+                      )}
+                      {!isExporting && (
+                        <motion.div
+                          className="absolute inset-[-4px] rounded-2xl border"
+                          style={{ borderColor: `${step.accent.text}12`, borderWidth: 1 }}
+                          animate={{ rotate: [360, 0] }}
+                          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                        />
+                      )}
+                      <div className="w-16 h-16 rounded-2xl border flex items-center justify-center relative z-10"
+                        style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
+                        <Icon className="w-8 h-8" style={{ color: step.accent.text }} />
+                      </div>
+                    </div>
                   </div>
                   <div className="relative">
                     <p className="text-lg font-black text-white">{step.label}</p>
@@ -63,12 +156,37 @@ export function S3Slide09CRM() {
                 </motion.div>
 
                 {i < PIPELINE.length - 1 && (
-                  <div className="flex items-center gap-1">
-                    {[0, 1, 2].map(dot => (
-                      <motion.div key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: step.accent.dot }}
-                        {...(isExporting ? {} : { animate: { x: [0, 10, 20], opacity: [0, 1, 0] }, transition: { duration: 1.2, repeat: Infinity, delay: dot * 0.25 + i * 0.3 } })} />
-                    ))}
-                    <ArrowRight className="w-4 h-4 ml-1" style={{ color: `${step.accent.text}50` }} />
+                  <div className="flex items-center gap-1 relative">
+                    {/* Glowing connection line between nodes */}
+                    <div className="absolute -left-2 -right-2 top-1/2 -translate-y-1/2 h-2 overflow-hidden rounded-full opacity-60">
+                      {!isExporting && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full"
+                          style={{
+                            background: `linear-gradient(90deg, ${step.accent.dot}, ${PIPELINE[i + 1].accent.dot})`,
+                            filter: 'blur(2px)',
+                          }}
+                          animate={{ opacity: [0.4, 0.9, 0.4] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                      )}
+                      {isExporting && (
+                        <div
+                          className="absolute inset-0 rounded-full"
+                          style={{
+                            background: `linear-gradient(90deg, ${step.accent.dot}, ${PIPELINE[i + 1].accent.dot})`,
+                            opacity: 0.7,
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className="relative flex items-center gap-1">
+                      {[0, 1, 2].map(dot => (
+                        <motion.div key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: step.accent.dot }}
+                          {...(isExporting ? {} : { animate: { x: [0, 10, 20], opacity: [0, 1, 0] }, transition: { duration: 1.2, repeat: Infinity, delay: dot * 0.25 + i * 0.3 } })} />
+                      ))}
+                      <ArrowRight className="w-4 h-4 ml-1" style={{ color: `${step.accent.text}50` }} />
+                    </div>
                   </div>
                 )}
               </motion.div>

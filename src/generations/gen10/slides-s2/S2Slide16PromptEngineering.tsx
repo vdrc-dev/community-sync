@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
 import { User, Brain, Bot, Lightbulb, Zap, ChevronRight } from 'lucide-react';
-import metapromptBg from '@/assets/clase02/slide06-metaprompt-bg.png';
+import metapromptBg from '@/assets/clase02/slide06-metaprompt-bg.jpg';
 import { S2Shell, useS2Motion } from './shared';
 
 /* ── Pipeline node config ──────────────────────── */

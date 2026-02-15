@@ -1,14 +1,24 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.91.0";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+const ALLOWED_ORIGINS = [
+  'https://comunidad-vdrc.vercel.app',
+  'http://localhost:8080',
+  'http://localhost:5173',
+];
+
+function getCorsHeaders(req: Request) {
+  const origin = req.headers.get('origin') || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers: getCorsHeaders(req) });
   }
 
   const startTime = Date.now();
@@ -81,13 +91,13 @@ serve(async (req) => {
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: 'Límite de uso alcanzado. Intenta de nuevo en unos minutos.' }), {
           status: 429,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
         });
       }
       if (response.status === 402) {
         return new Response(JSON.stringify({ error: 'Créditos de IA agotados.' }), {
           status: 402,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
         });
       }
       
@@ -97,7 +107,7 @@ serve(async (req) => {
     // Handle streaming response
     if (stream) {
       return new Response(response.body, {
-        headers: { ...corsHeaders, 'Content-Type': 'text/event-stream' },
+        headers: { ...getCorsHeaders(req), 'Content-Type': 'text/event-stream' },
       });
     }
 
@@ -139,7 +149,7 @@ serve(async (req) => {
       tokens_used: tokensUsed,
       execution_time_ms: executionTime,
     }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
     });
 
   } catch (error) {
@@ -148,7 +158,7 @@ serve(async (req) => {
       error: error instanceof Error ? error.message : 'Error desconocido' 
     }), {
       status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
     });
   }
 });

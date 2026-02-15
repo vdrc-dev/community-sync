@@ -22,8 +22,6 @@
  *
  * ── Presentations ────────────────────────────────
  * usePresentations         — CRUD class presentations
- * usePresentationState     — Slide navigation state
- * usePresentationKeyboard  — Keyboard shortcuts for slides
  *
  * ── Tools & Productivity ─────────────────────────
  * useToolLogs              — Tool usage tracking
