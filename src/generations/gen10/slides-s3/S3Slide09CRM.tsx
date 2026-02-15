@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
-import { Database, BookOpen, BarChart3, AlertTriangle, Plug } from 'lucide-react';
+import { Database, Plug, BarChart3, ArrowRight, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const PIPELINE = [
-  { label: 'CRM', sub: 'HubSpot / Salesforce', icon: Database, color: 'hsl(38 90% 55%)' },
-  { label: 'Conector MCP', sub: 'Claude Desktop', icon: Plug, color: 'hsl(280 70% 60%)' },
-  { label: 'Análisis', sub: 'NotebookLM / Canvas', icon: BarChart3, color: 'hsl(185 70% 50%)' },
+  { label: 'CRM', sub: 'HubSpot · Salesforce', icon: Database, accent: S3_ACCENT.amber },
+  { label: 'MCP', sub: 'Conector', icon: Plug, accent: S3_ACCENT.violet },
+  { label: 'Análisis', sub: 'Canvas · NotebookLM', icon: BarChart3, accent: S3_ACCENT.cyan },
 ];
 
 export function S3Slide09CRM() {
@@ -16,68 +16,59 @@ export function S3Slide09CRM() {
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
 
   return (
-    <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
+    <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_30%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_65%,_hsl(263_60%_55%_/_0.06),_transparent_60%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto w-full">
-        <motion.div {...m(0)} className="text-center mb-10">
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-3"
-            style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}
-          >
+      <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
+        <motion.div {...m(0)} className="mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}>
             <Database className="w-3.5 h-3.5" style={{ color: S3_ACCENT.amber.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.amber.text }}>
-              Conexiones y Datos
-            </span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.amber.text }}>Conexiones y Datos</span>
           </div>
-          <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight">
-            Conecta tu <span style={{ color: S3_ACCENT.amber.text }}>CRM</span>
-          </h1>
-          <p className="text-white/40 text-sm mt-2 leading-relaxed">Trae tus datos reales a la IA — <span className="text-white/55 font-medium">clientes, acuerdos y métricas</span></p>
         </motion.div>
 
-        {/* Pipeline */}
-        <div className="flex items-center justify-center gap-4 mb-10">
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+          Conecta tu <span style={{ color: S3_ACCENT.amber.text }}>CRM</span>
+        </motion.h1>
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-md mx-auto">
+          Trae tus datos reales a la IA — clientes, acuerdos y métricas
+        </motion.p>
+
+        {/* Visual pipeline flow: CRM → MCP → Analysis */}
+        <div className="flex items-center justify-center gap-4">
           {PIPELINE.map((step, i) => {
             const Icon = step.icon;
             return (
-              <motion.div key={i} className="flex items-center gap-4" {...m(0.15 + i * 0.1)}>
+              <motion.div key={i} className="flex items-center gap-4" {...m(0.2 + i * 0.1)}>
                 <motion.div
-                  className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] text-center min-w-[180px]"
-                  {...(isExporting ? {} : { whileHover: { scale: 1.05, boxShadow: `0 0 20px ${step.color.replace(')', ' / 0.3)')}` } })}
-                >
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3"
-                    style={{
-                      background: `${step.color.replace(')', ' / 0.1)')}`,
-                      border: `1px solid ${step.color.replace(')', ' / 0.25)')}`,
-                      boxShadow: 'none',
-                    }}
-                  >
-                    <Icon className="w-6 h-6" style={{ color: step.color }} />
+                  className="relative group w-52 p-6 rounded-2xl border flex flex-col items-center gap-3"
+                  style={{ borderColor: step.accent.border, background: step.accent.bg }}
+                  {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
+                  {!isExporting && (
+                    <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                      style={{ background: step.accent.glow }} />
+                  )}
+                  <div className="relative w-16 h-16 rounded-2xl border flex items-center justify-center"
+                    style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
+                    <Icon className="w-8 h-8" style={{ color: step.accent.text }} />
                   </div>
-                  <p className="text-base font-bold text-white">{step.label}</p>
-                  <p className="text-xs text-white/40 mt-1">{step.sub}</p>
+                  <div className="relative">
+                    <p className="text-lg font-black text-white">{step.label}</p>
+                    <p className="text-[11px] text-white/30 mt-0.5">{step.sub}</p>
+                  </div>
                 </motion.div>
+
                 {i < PIPELINE.length - 1 && (
                   <div className="flex items-center gap-1">
-                    {[0, 1, 2].map((dot) => (
-                      <motion.div
-                        key={dot}
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: step.color.replace(')', ' / 0.4)') }}
-                        {...(isExporting
-                          ? {}
-                          : {
-                              animate: { x: [0, 12, 24], opacity: [0, 1, 0] },
-                              transition: { duration: 1.5, repeat: Infinity, delay: dot * 0.3 + i * 0.5, ease: 'easeInOut' },
-                            })}
-                      />
+                    {[0, 1, 2].map(dot => (
+                      <motion.div key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: step.accent.dot }}
+                        {...(isExporting ? {} : { animate: { x: [0, 10, 20], opacity: [0, 1, 0] }, transition: { duration: 1.2, repeat: Infinity, delay: dot * 0.25 + i * 0.3 } })} />
                     ))}
+                    <ArrowRight className="w-4 h-4 ml-1" style={{ color: `${step.accent.text}50` }} />
                   </div>
                 )}
               </motion.div>
@@ -85,39 +76,9 @@ export function S3Slide09CRM() {
           })}
         </div>
 
-        {/* Two-tier explanation */}
-        <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto">
-          <motion.div
-            {...m(0.4)}
-            className="p-5 rounded-xl border border-amber-500/15 bg-amber-500/[0.03]"
-            {...(isExporting ? {} : { whileHover: { scale: 1.02, y: -2 } })}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full bg-amber-400" />
-              <p className="text-sm font-bold text-amber-300/80">Productividad Personal</p>
-            </div>
-            <p className="text-xs text-white/40 leading-relaxed">Conecta tu CRM vía MCP para consultas rápidas. Trae clientes, busca acuerdos, genera reportes. Ideal para uso individual.</p>
-          </motion.div>
-          <motion.div
-            {...m(0.45)}
-            className="p-5 rounded-xl border border-white/[0.06] bg-white/[0.02]"
-            {...(isExporting ? {} : { whileHover: { scale: 1.02, y: -2 } })}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full bg-white/30" />
-              <p className="text-sm font-bold text-white/50">Infraestructura Corporativa</p>
-            </div>
-            <p className="text-xs text-white/30 leading-relaxed">Para equipos grandes: Data Warehouse + API directa. Más complejo pero escalable. No es el enfoque de este taller.</p>
-          </motion.div>
-        </div>
-
-        <motion.div {...m(0.55)} className="mt-6 p-3 rounded-xl border border-amber-500/15 bg-amber-500/[0.03] max-w-xl mx-auto">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-            <p className="text-xs text-amber-300/60">
-              Si tu CRM no tiene conector MCP, busca si tiene API REST y usa un conector personalizado.
-            </p>
-          </div>
+        <motion.div {...m(0.6)} className="mt-12 inline-flex items-center gap-2 text-xs text-amber-400/50">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span></span>
         </motion.div>
       </div>
 

@@ -1,21 +1,21 @@
 import { motion } from 'framer-motion';
-import { Video, Film, Mic, Wand2, Sparkles, Play, Zap } from 'lucide-react';
+import { Video, Film, Mic, Wand2, Play, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
-const CAPABILITIES = [
-  { title: 'Videos Instantáneos', desc: 'Genera videos sin pausas. Movimiento natural que mantiene estilo e identidad visual.', icon: Play, color: 'hsl(330 70% 60%)' },
-  { title: 'Calidad de Cine', desc: 'Resolución profesional entrenada con datos masivos. Ideal para proyectos de alto nivel.', icon: Film, color: 'hsl(280 70% 60%)' },
-  { title: 'Anima Imágenes', desc: 'Da vida a cualquier foto con movimiento. Convierte capturas estáticas en narrativas visuales.', icon: Wand2, color: 'hsl(185 70% 50%)' },
-  { title: 'Sincroniza Voces', desc: 'Lip-sync automático: los personajes hablan naturalmente sincronizando labios con el audio.', icon: Mic, color: 'hsl(38 90% 55%)' },
+const POWERS = [
+  { title: 'Videos Instantáneos', icon: Play, accent: S3_ACCENT.rose },
+  { title: 'Calidad de Cine', icon: Film, accent: S3_ACCENT.violet },
+  { title: 'Anima Imágenes', icon: Wand2, accent: S3_ACCENT.cyan },
+  { title: 'Sincroniza Voces', icon: Mic, accent: S3_ACCENT.amber },
 ];
 
 const ENGINES = [
-  { name: 'Sora', provider: 'OpenAI', strength: 'Narrativa cinematográfica' },
-  { name: 'Veo 3', provider: 'Google', strength: 'Realismo fotográfico' },
-  { name: 'Kling', provider: 'Kuaishou', strength: 'Velocidad de generación' },
+  { name: 'Sora', provider: 'OpenAI' },
+  { name: 'Veo 3', provider: 'Google' },
+  { name: 'Kling', provider: 'Kuaishou' },
 ];
 
 export function S3Slide14VideoAI() {
@@ -23,92 +23,76 @@ export function S3Slide14VideoAI() {
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
 
   return (
-    <div className={S3_ROOT_CLASS + ' flex flex-col justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
+    <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_85%,_hsl(185_70%_50%_/_0.05),_transparent_50%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto w-full">
-        <motion.div {...m(0)} className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-3" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
+      <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
+        <motion.div {...m(0)} className="mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
             <Video className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Video Generativo</span>
           </div>
-          <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight">
-            Krea.ai: <span style={{ color: S3_ACCENT.rose.text }}>Centro de Mando Visual</span>
-          </h1>
-          <p className="text-white/40 text-sm mt-2">De una beta experimental a una suite de orquestación que integra Sora, Veo 3 y Kling</p>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-6">
-          {/* Capabilities grid */}
-          <div className="col-span-8 grid grid-cols-2 gap-4">
-            {CAPABILITIES.map((cap, i) => {
-              const Icon = cap.icon;
-              return (
-                <motion.div key={i} {...m(0.15 + i * 0.08)}
-                  className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
-                  {...(isExporting ? {} : { whileHover: { borderColor: cap.color.replace(')', ' / 0.3)'), scale: 1.02, y: -2 } })}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="relative w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${cap.color.replace(')', ' / 0.1)')}`, border: `1px solid ${cap.color.replace(')', ' / 0.25)')}` }}>
-                      {i === 0 && !isExporting && (
-                        <motion.div className="absolute inset-0 rounded-xl pointer-events-none"
-                          style={{ border: `1px solid ${cap.color.replace(')', ' / 0.3)')}` }}
-                          animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      )}
-                      <Icon className="w-5 h-5 relative z-10" style={{ color: cap.color }} />
-                    </div>
-                    <span className="text-base font-bold text-white">{cap.title}</span>
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+          Krea.ai: <span style={{ color: S3_ACCENT.rose.text }}>Centro de Mando</span>
+        </motion.h1>
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
+          Orquesta Sora, Veo 3 y Kling desde una sola interfaz
+        </motion.p>
+
+        {/* 4 power cards */}
+        <div className="grid grid-cols-4 gap-4 mb-10">
+          {POWERS.map((p, i) => {
+            const Icon = p.icon;
+            return (
+              <motion.div key={i} {...m(0.2 + i * 0.08)}
+                className="relative group rounded-2xl border overflow-hidden"
+                style={{ borderColor: p.accent.border, background: p.accent.bg }}
+                {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
+                {!isExporting && (
+                  <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                    style={{ background: p.accent.glow }} />
+                )}
+                <div className="relative p-6 flex flex-col items-center gap-4">
+                  {i === 0 && !isExporting && (
+                    <motion.div className="absolute inset-0 rounded-2xl pointer-events-none"
+                      style={{ border: `1px solid ${p.accent.dot}40` }}
+                      animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0, 0.4] }}
+                      transition={{ duration: 2.5, repeat: Infinity }} />
+                  )}
+                  <div className="w-14 h-14 rounded-2xl border flex items-center justify-center"
+                    style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
+                    <Icon className="w-7 h-7" style={{ color: p.accent.text }} />
                   </div>
-                  <p className="text-xs text-white/40 leading-relaxed">{cap.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Engines sidebar */}
-          <div className="col-span-4 space-y-3">
-            <motion.p {...m(0.15)} className="text-xs text-white/30 uppercase tracking-wider font-bold mb-3 pl-1">Motores Integrados</motion.p>
-            {ENGINES.map((eng, i) => (
-              <motion.div key={i} {...m(0.25 + i * 0.08)}
-                className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.02]"
-                {...(isExporting ? {} : { whileHover: { borderColor: 'hsl(330 65% 55% / 0.2)', scale: 1.02 } })}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-base font-bold text-white">{eng.name}</span>
-                  <span className="text-[9px] font-mono text-white/20">{eng.provider}</span>
+                  <p className="text-sm font-black text-white">{p.title}</p>
                 </div>
-                <p className="text-xs text-white/40">{eng.strength}</p>
               </motion.div>
-            ))}
-
-            <motion.div {...m(0.55)} className="p-4 rounded-xl border border-rose-500/15 bg-rose-500/[0.03]">
-              <div className="flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-rose-300/80 mb-1">El cambio clave</p>
-                  <p className="text-[11px] text-rose-300/60 leading-relaxed">Ya no se trata de crear clips aleatorios, sino de construir <span className="text-rose-300/80 font-semibold">narrativas visuales dinámicas</span> con control total.</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div {...m(0.6)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-amber-400" />
-                <div>
-                  <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Extras</p>
-                  <p className="text-[11px] text-white/40">Control estético · Reacción al sonido · IA predictiva</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+            );
+          })}
         </div>
+
+        {/* Engine pills */}
+        <motion.div {...m(0.5)} className="flex items-center justify-center gap-3">
+          <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold mr-2">Motores:</p>
+          {ENGINES.map((e, i) => (
+            <motion.div key={i} {...m(0.55 + i * 0.06)}
+              className="px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]"
+              {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.rose.border, scale: 1.04 } })}>
+              <span className="text-sm font-bold text-white">{e.name}</span>
+              <span className="text-[9px] text-white/20 font-mono ml-2">{e.provider}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-8 inline-flex items-center gap-2 text-xs text-rose-400/50">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>De clips aleatorios a <span className="text-rose-400/80 font-semibold">narrativas visuales</span> con control total</span>
+        </motion.div>
       </div>
 
       <S3Footer sectionLabel="VIDEO GENERATIVO" hue={330} />
