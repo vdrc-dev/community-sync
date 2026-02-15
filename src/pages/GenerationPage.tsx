@@ -109,7 +109,7 @@ function PresentationContent() {
     availableWeeks,
   }), [config.generation, currentWeek, totalWeeks, availableWeeks]);
 
-  const backUrl = `/alumnos/gen${config.generation}`;
+  const backUrl = `/generations/GEN-${String(config.generation).padStart(3, '0')}`;
 
   // Early return AFTER all hooks
   if (isLoading) {
