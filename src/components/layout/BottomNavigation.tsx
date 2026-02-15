@@ -18,7 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
   { icon: Home, label: 'Inicio', href: '/' },
-  { icon: BookOpen, label: 'Clases', href: '/generations' },
+  { icon: BookOpen, label: 'Generaciones', href: '/generations' },
   { icon: Users, label: 'Comunidad', href: '/community' },
   { icon: MessageCircle, label: 'Chat', href: '/chat' },
 ];

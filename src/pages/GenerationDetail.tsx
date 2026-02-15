@@ -25,7 +25,6 @@ import {
   Lock,
   Presentation,
   Sparkles,
-  ArrowRight,
   ChevronRight,
   Home,
   Calendar,
@@ -230,15 +229,6 @@ export default function GenerationDetail() {
                     <p className="text-xs text-muted-foreground">4 modulos interactivos</p>
                   </div>
                 </div>
-                {genNumber >= 9 && (
-                  <Link
-                    to={`/alumnos/gen${genNumber}`}
-                    className="hidden sm:flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
-                  >
-                    Hub completo
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                )}
               </div>
               
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -283,17 +273,6 @@ export default function GenerationDetail() {
                 })}
               </div>
 
-              {/* Mobile-only hub link */}
-              {genNumber >= 9 && (
-                <Link
-                  to={`/alumnos/gen${genNumber}`}
-                  className="flex sm:hidden items-center justify-center gap-2 mt-3 py-2.5 rounded-xl bg-primary/5 border border-primary/20 text-sm text-primary font-medium hover:bg-primary/10 transition-colors"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Ver Hub completo
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              )}
             </motion.section>
 
             {/* ─── Divider ─── */}
@@ -367,15 +346,6 @@ export default function GenerationDetail() {
                                 )}
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
-                                {/* Quick slide link */}
-                                <Link
-                                  to={genNumber >= 9 ? `/slides/gen${genNumber}s${cls.class_number}` : `/presentations/module/${cls.class_number}`}
-                                  onClick={(e) => e.stopPropagation()}
-                                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg ${colors.bg} ${colors.text} border ${colors.border} text-xs hover:opacity-80 transition-opacity`}
-                                >
-                                  <Presentation className="w-3 h-3" />
-                                  <span className="hidden sm:inline">S{cls.class_number}</span>
-                                </Link>
                                 <ClassProgressCheckbox classId={cls.id} />
                               </div>
                             </div>
