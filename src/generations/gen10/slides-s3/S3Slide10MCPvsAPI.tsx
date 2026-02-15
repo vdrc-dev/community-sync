@@ -13,9 +13,9 @@ const ROWS = [
 ];
 
 const FLOATING_PILLS = [
-  { label: 'plug & play', delay: 0 },
-  { label: 'REST', delay: 0.4 },
-  { label: 'agents', delay: 0.8 },
+  { label: 'plug & play', left: '10%', top: '20%', delay: 0 },
+  { label: 'REST', left: '85%', top: '24%', delay: 0.4 },
+  { label: 'agents', left: '82%', top: '62%', delay: 0.8 },
 ];
 
 export function S3Slide10MCPvsAPI() {
@@ -39,8 +39,8 @@ export function S3Slide10MCPvsAPI() {
             borderColor: i === 0 ? 'hsl(263 60% 55% / 0.25)' : i === 1 ? 'hsl(38 90% 55% / 0.25)' : 'hsl(263 60% 55% / 0.2)',
             background: i === 0 ? 'hsl(263 60% 55% / 0.06)' : i === 1 ? 'hsl(38 90% 55% / 0.06)' : 'hsl(263 60% 55% / 0.05)',
             color: i === 1 ? 'hsl(38 85% 65%)' : 'hsl(263 60% 75%)',
-            left: `${12 + i * 30}%`,
-            top: `${18 + (i % 2) * 10}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
@@ -86,7 +86,7 @@ export function S3Slide10MCPvsAPI() {
           {/* Animated accent line under title */}
           {!isExporting && (
             <motion.div
-              className="h-1 rounded-full mx-auto mt-1"
+              className="h-0.5 rounded-full mx-auto mt-1"
               style={{ width: '200px', background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8, transformOrigin: 'center' }}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -94,7 +94,7 @@ export function S3Slide10MCPvsAPI() {
             />
           )}
           {isExporting && (
-            <div className="h-1 rounded-full mx-auto mt-1 w-[200px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8 }} />
+            <div className="h-0.5 rounded-full mx-auto mt-1 w-[200px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8 }} />
           )}
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-12 max-w-md mx-auto">

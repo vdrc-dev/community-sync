@@ -22,7 +22,11 @@ const MISSIONS = [
   { task: 'Conecta MCP o genera video', icon: Zap, accent: S3_ACCENT.amber },
 ];
 
-const FLOATING_PILLS = ['8+', 'semana 4', 'acción'];
+const FLOATING_PILLS = [
+  { label: '8+', left: '16%', top: '20%' },
+  { label: 'semana 4', left: '13%', top: '56%' },
+  { label: 'acción', left: '80%', top: '22%' },
+];
 
 export function S3Slide12Closing() {
   const { isExporting } = useExportContext();
@@ -38,21 +42,21 @@ export function S3Slide12Closing() {
       </div>
 
       {/* Floating decorative pills */}
-      {!isExporting && FLOATING_PILLS.map((label, i) => (
+      {!isExporting && FLOATING_PILLS.map((pill, i) => (
         <motion.div
-          key={label}
+          key={pill.label}
           className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-bold pointer-events-none"
           style={{
             borderColor: 'hsl(160 65% 50% / 0.25)',
             background: 'hsl(160 65% 50% / 0.06)',
             color: 'hsl(160 65% 65% / 0.95)',
-            left: `${20 + i * 25}%`,
-            top: `${22 + (i % 2) * 15}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2.4 + i * 0.4, repeat: Infinity, ease: S3_EASE }}
         >
-          {label}
+          {pill.label}
         </motion.div>
       ))}
 
@@ -64,35 +68,27 @@ export function S3Slide12Closing() {
           </div>
         </motion.div>
 
-        <motion.div {...m(0.08)} className="relative inline-block">
-          <h1 className="text-5xl 2xl:text-7xl font-black text-white tracking-tight mb-3">
-            La diferencia es la{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, hsl(160 65% 55%), hsl(185 70% 60%), hsl(263 60% 65%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 35px hsl(160 65% 50% / 0.4)) drop-shadow(0 0 50px hsl(263 60% 55% / 0.25))',
-              }}
-            >
-              acción
-            </span>
-          </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="absolute left-0 right-0 -bottom-1 h-0.5 rounded-full"
-              style={{
-                background: 'linear-gradient(90deg, transparent, hsl(160 65% 50% / 0.5), hsl(185 70% 55% / 0.5), hsl(263 60% 60% / 0.5), transparent)',
-                transformOrigin: 'center',
-              }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-            />
-          )}
-        </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-12 max-w-md mx-auto">
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-7xl font-black text-white tracking-tight mb-3">
+          La diferencia es la{' '}
+          <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(160 65% 55%), hsl(185 70% 60%), hsl(263 60% 65%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 35px hsl(160 65% 50% / 0.4)) drop-shadow(0 0 50px hsl(263 60% 55% / 0.25))',
+            }}
+          >
+            acción
+          </span>
+        </motion.h1>
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(160 65% 50% / 0.5), hsl(185 70% 55% / 0.5), hsl(263 60% 60% / 0.5), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+        />
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-12 max-w-md mx-auto">
           8+ herramientas · 5 workflows · 3 frameworks
         </motion.p>
 

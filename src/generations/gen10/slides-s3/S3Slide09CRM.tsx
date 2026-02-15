@@ -12,9 +12,9 @@ const PIPELINE = [
 ];
 
 const FLOATING_PILLS = [
-  { label: 'datos', delay: 0 },
-  { label: 'MCP', delay: 0.35 },
-  { label: 'insights', delay: 0.7 },
+  { label: 'datos', left: '14%', top: '24%', delay: 0 },
+  { label: 'MCP', left: '83%', top: '28%', delay: 0.35 },
+  { label: 'insights', left: '80%', top: '64%', delay: 0.7 },
 ];
 
 export function S3Slide09CRM() {
@@ -39,8 +39,8 @@ export function S3Slide09CRM() {
             borderColor: 'hsl(38 90% 55% / 0.25)',
             background: 'hsl(38 90% 55% / 0.06)',
             color: 'hsl(38 85% 65%)',
-            left: `${18 + i * 25}%`,
-            top: `${22 + (i % 2) * 6}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 3.2 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
@@ -75,7 +75,7 @@ export function S3Slide09CRM() {
           {/* Animated accent line under title */}
           {!isExporting && (
             <motion.div
-              className="h-1 rounded-full mx-auto mt-1"
+              className="h-0.5 rounded-full mx-auto mt-1"
               style={{ width: '140px', background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8, transformOrigin: 'center' }}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -83,10 +83,10 @@ export function S3Slide09CRM() {
             />
           )}
           {isExporting && (
-            <div className="h-1 rounded-full mx-auto mt-1 w-[140px]" style={{ background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8 }} />
+            <div className="h-0.5 rounded-full mx-auto mt-1 w-[140px]" style={{ background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8 }} />
           )}
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Trae tus datos reales a la IA — clientes, acuerdos y métricas
         </motion.p>
 

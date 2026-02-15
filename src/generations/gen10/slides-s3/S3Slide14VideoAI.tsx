@@ -18,7 +18,11 @@ const ENGINES = [
   { name: 'Kling', provider: 'Kuaishou' },
 ];
 
-const FLOATING_PILLS = ['4K', 'Sora', 'lip-sync'];
+const FLOATING_PILLS = [
+  { label: '4K', left: '12%', top: '30%' },
+  { label: 'Sora', left: '84%', top: '28%' },
+  { label: 'lip-sync', left: '80%', top: '64%' },
+];
 
 export function S3Slide14VideoAI() {
   const { isExporting } = useExportContext();
@@ -33,21 +37,21 @@ export function S3Slide14VideoAI() {
       </div>
 
       {/* Floating decorative pills */}
-      {!isExporting && FLOATING_PILLS.map((label, i) => (
+      {!isExporting && FLOATING_PILLS.map((pill, i) => (
         <motion.div
-          key={label}
+          key={pill.label}
           className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-bold pointer-events-none uppercase tracking-wider"
           style={{
             borderColor: 'hsl(330 85% 68% / 0.25)',
             background: 'hsl(330 85% 68% / 0.06)',
             color: 'hsl(330 85% 75% / 0.95)',
-            left: `${15 + i * 30}%`,
-            top: `${28 + (i % 3) * 8}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 2.8 + i * 0.2, repeat: Infinity, ease: S3_EASE }}
         >
-          {label}
+          {pill.label}
         </motion.div>
       ))}
 
@@ -59,35 +63,27 @@ export function S3Slide14VideoAI() {
           </div>
         </motion.div>
 
-        <motion.div {...m(0.08)} className="relative inline-block">
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-            Krea.ai:{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 25px hsl(330 85% 60% / 0.4))',
-              }}
-            >
-              Centro de Mando
-            </span>
-          </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="absolute left-0 right-0 -bottom-1 h-0.5 rounded-full"
-              style={{
-                background: 'linear-gradient(90deg, transparent, hsl(330 85% 60% / 0.6), hsl(263 60% 65% / 0.6), transparent)',
-                transformOrigin: 'center',
-              }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-            />
-          )}
-        </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+          Krea.ai:{' '}
+          <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 25px hsl(330 85% 60% / 0.4))',
+            }}
+          >
+            Centro de Mando
+          </span>
+        </motion.h1>
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(330 85% 60% / 0.6), hsl(263 60% 65% / 0.6), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+        />
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-lg mx-auto">
           Orquesta Sora, Veo 3 y Kling desde una sola interfaz
         </motion.p>
 

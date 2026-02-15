@@ -46,13 +46,13 @@ export function S3Slide06ClaudeCode() {
           >Escritorio</span>
         </motion.h1>
         <motion.div
-          className="h-[2px] rounded-full mt-4 mx-auto max-w-[120px] origin-center"
+          className="h-0.5 rounded-full mt-4 mx-auto max-w-[120px] origin-center"
           style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), transparent)' }}
           initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           La IA que vive en tu computador, no en la nube
         </motion.p>
 

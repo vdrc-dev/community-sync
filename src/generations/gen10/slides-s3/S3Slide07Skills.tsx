@@ -51,7 +51,7 @@ export function S3Slide07Skills() {
           >Superpoderes</span>
         </motion.h1>
         <motion.div
-          className="h-[2px] rounded-full mt-4 mx-auto max-w-[120px] origin-center"
+          className="h-0.5 rounded-full mt-4 mx-auto max-w-[120px] origin-center"
           style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), transparent)' }}
           initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
           animate={{ scaleX: 1 }}

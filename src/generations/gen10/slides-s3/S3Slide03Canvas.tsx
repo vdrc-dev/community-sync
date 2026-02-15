@@ -59,7 +59,7 @@ export function S3Slide03Canvas() {
           {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
           <div className="h-0.5 w-32 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(185 70% 65%), hsl(263 60% 70%))', transformOrigin: 'center' }} />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-16 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
           Transforma cualquier dataset en visualizaciones interactivas sin código
         </motion.p>
 
@@ -90,7 +90,7 @@ export function S3Slide03Canvas() {
           </motion.div>
 
           {/* Output: Dashboard mockup — shimmer + pulsing glow */}
-          <motion.div {...m(0.35)} className="flex-1 max-w-[420px] relative">
+          <motion.div {...m(0.35)} className="flex-1 max-w-[420px] relative" {...(isExporting ? {} : { whileHover: { scale: 1.03, y: -3 } })}>
             {!isExporting && (
               <motion.div className="absolute -inset-4 rounded-3xl pointer-events-none z-0"
                 style={{ background: `radial-gradient(ellipse 80% 70% at 50% 50%, ${S3_ACCENT.cyan.glow}, transparent 70%)`, opacity: 0.5 }}

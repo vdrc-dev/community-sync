@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Wand2, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -9,6 +9,12 @@ const EXAMPLES = [
   { prompt: '"Estética agencia boutique"', result: 'Serif + espaciado', color: S3_ACCENT.violet },
   { prompt: '"Mi paleta corporativa"', result: 'Colores en 3s', color: S3_ACCENT.cyan },
   { prompt: '"Más minimalista"', result: 'Foco en datos', color: S3_ACCENT.amber },
+];
+
+const FLOATING_PILLS = [
+  { label: 'prompt', left: '14%', top: '34%', delay: 0 },
+  { label: 'CSS', left: '82%', top: '30%', delay: 0.4 },
+  { label: 'theme', left: '78%', top: '68%', delay: 0.8 },
 ];
 
 export function S3Slide04VibeCoding() {
@@ -21,8 +27,28 @@ export function S3Slide04VibeCoding() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,_hsl(185_70%_50%_/_0.12),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(280_70%_60%_/_0.08),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_60%_/_0.07)_50%,_transparent_65%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={280} tertiaryHue={38} />
       </div>
+
+      {/* Floating pills */}
+      {!isExporting && FLOATING_PILLS.map((pill) => (
+        <motion.div
+          key={pill.label}
+          className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-mono font-bold pointer-events-none"
+          style={{
+            borderColor: 'hsl(185 70% 50% / 0.25)',
+            background: 'hsl(185 70% 50% / 0.06)',
+            color: 'hsl(185 70% 70% / 0.9)',
+            left: pill.left,
+            top: pill.top,
+          }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 3 + pill.delay, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
+        >
+          {pill.label}
+        </motion.div>
+      ))}
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         {/* Badge */}
@@ -33,15 +59,33 @@ export function S3Slide04VibeCoding() {
           </div>
         </motion.div>
 
-        {/* Title */}
+        {/* Title with gradient text */}
         <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Diseña con <span style={{ color: S3_ACCENT.cyan.text }}>Palabras</span>
+          Diseña con{' '}
+          <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(185 70% 65%), hsl(280 60% 65%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 25px hsl(185 70% 55% / 0.4))',
+            }}
+          >
+            Palabras
+          </span>
         </motion.h1>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-lg mx-auto">
+        {/* Accent line */}
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(185 70% 55% / 0.6), hsl(280 60% 60% / 0.6), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+        />
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-lg mx-auto">
           Un prompt transforma toda la estética de tu app
         </motion.p>
 
-        {/* Visual: 3 prompt → result cards */}
+        {/* Visual: 3 prompt → result cards with shimmer + orbital */}
         <div className="grid grid-cols-3 gap-5">
           {EXAMPLES.map((ex, i) => (
             <motion.div
@@ -49,8 +93,18 @@ export function S3Slide04VibeCoding() {
               {...m(0.2 + i * 0.1)}
               className="relative group rounded-2xl border overflow-hidden"
               style={{ borderColor: ex.color.border, background: ex.color.bg }}
+              {...(isExporting ? {} : { whileHover: { scale: 1.04, y: -4 } })}
             >
-              {/* Glow */}
+              {/* Shimmer sweep */}
+              {!isExporting && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: `linear-gradient(105deg, transparent 35%, ${ex.color.text}18 50%, transparent 65%)` }}
+                  animate={{ x: ['-150%', '250%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }}
+                />
+              )}
+              {/* Hover glow */}
               {!isExporting && (
                 <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
                   style={{ background: ex.color.glow }} />
@@ -65,7 +119,7 @@ export function S3Slide04VibeCoding() {
                 {/* Arrow */}
                 <div className="w-8 h-px" style={{ background: `${ex.color.text}40` }} />
 
-                {/* Result mockup: simple color bar composition */}
+                {/* Result mockup */}
                 <div className="w-full h-24 rounded-xl overflow-hidden border" style={{ borderColor: `${ex.color.text}15` }}>
                   <div className="h-full flex flex-col">
                     <div className="h-6 flex items-center px-3 gap-1.5" style={{ background: `${ex.color.text}08` }}>

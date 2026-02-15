@@ -12,7 +12,11 @@ const POWERS = [
   { icon: Terminal, label: 'Terminal integrada', accent: S3_ACCENT.emerald },
 ];
 
-const FLOATING_PILLS = ['tsx', 'npm', 'localhost'];
+const FLOATING_PILLS = [
+  { label: 'tsx', left: '14%', top: '34%' },
+  { label: 'npm', left: '82%', top: '46%' },
+  { label: 'localhost', left: '80%', top: '26%' },
+];
 
 export function S3Slide11Cursor() {
   const { isExporting } = useExportContext();
@@ -28,21 +32,21 @@ export function S3Slide11Cursor() {
       </div>
 
       {/* Floating decorative pills */}
-      {!isExporting && FLOATING_PILLS.map((label, i) => (
+      {!isExporting && FLOATING_PILLS.map((pill, i) => (
         <motion.div
-          key={label}
+          key={pill.label}
           className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-mono font-bold pointer-events-none"
           style={{
             borderColor: 'hsl(38 80% 55% / 0.2)',
             background: 'hsl(38 80% 55% / 0.06)',
             color: 'hsl(38 85% 70% / 0.9)',
-            left: `${18 + i * 28}%`,
-            top: `${35 + (i % 2) * 12}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2.5 + i * 0.3, repeat: Infinity, ease: S3_EASE }}
         >
-          {label}
+          {pill.label}
         </motion.div>
       ))}
 
@@ -54,35 +58,27 @@ export function S3Slide11Cursor() {
           </div>
         </motion.div>
 
-        <motion.div {...m(0.08)} className="relative inline-block">
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-            Cursor:{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, hsl(38 90% 65%), hsl(185 70% 60%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 25px hsl(38 90% 55% / 0.4))',
-              }}
-            >
-              IDE con IA
-            </span>
-          </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="absolute left-0 right-0 -bottom-1 h-0.5 rounded-full"
-              style={{
-                background: 'linear-gradient(90deg, transparent, hsl(38 90% 55% / 0.6), hsl(185 70% 55% / 0.6), transparent)',
-                transformOrigin: 'center',
-              }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-            />
-          )}
-        </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
+        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+          Cursor:{' '}
+          <span
+            style={{
+              background: 'linear-gradient(135deg, hsl(38 90% 65%), hsl(185 70% 60%))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 25px hsl(38 90% 55% / 0.4))',
+            }}
+          >
+            IDE con IA
+          </span>
+        </motion.h1>
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(38 90% 55% / 0.6), hsl(185 70% 55% / 0.6), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+        />
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-md mx-auto">
           Tu estudio de desarrollo para proyectos largos y consistentes
         </motion.p>
 

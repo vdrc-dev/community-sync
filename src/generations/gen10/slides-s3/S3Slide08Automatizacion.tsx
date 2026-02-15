@@ -12,9 +12,9 @@ const CASES = [
 ];
 
 const FLOATING_PILLS = [
-  { label: '5min', delay: 0 },
-  { label: 'auto', delay: 0.4 },
-  { label: '24/7', delay: 0.8 },
+  { label: '5min', left: '14%', top: '20%', delay: 0 },
+  { label: 'auto', left: '82%', top: '62%', delay: 0.4 },
+  { label: '24/7', left: '83%', top: '22%', delay: 0.8 },
 ];
 
 export function S3Slide08Automatizacion() {
@@ -38,8 +38,8 @@ export function S3Slide08Automatizacion() {
             borderColor: 'hsl(263 60% 55% / 0.25)',
             background: 'hsl(263 60% 55% / 0.06)',
             color: 'hsl(263 60% 75%)',
-            left: `${15 + i * 28}%`,
-            top: `${20 + (i % 2) * 8}%`,
+            left: pill.left,
+            top: pill.top,
           }}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
@@ -74,7 +74,7 @@ export function S3Slide08Automatizacion() {
           {/* Animated accent line under title */}
           {!isExporting && (
             <motion.div
-              className="h-1 rounded-full mx-auto mt-1"
+              className="h-0.5 rounded-full mx-auto mt-1"
               style={{ width: '180px', background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8, transformOrigin: 'center' }}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -82,7 +82,7 @@ export function S3Slide08Automatizacion() {
             />
           )}
           {isExporting && (
-            <div className="h-1 rounded-full mx-auto mt-1 w-[180px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8 }} />
+            <div className="h-0.5 rounded-full mx-auto mt-1 w-[180px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8 }} />
           )}
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-md mx-auto">
