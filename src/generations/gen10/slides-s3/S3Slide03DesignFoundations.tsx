@@ -131,9 +131,23 @@ export function S3Slide03DesignFoundations() {
           </motion.div>
         </div>
 
-        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Design rules */}
+        <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto grid grid-cols-3 gap-3 text-left">
+          {[
+            { rule: '🎯 Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.' },
+            { rule: '✅ Contraste 4.5:1', detail: 'Mínimo para texto normal (WCAG AA). Verifica en webaim.org/contrast' },
+            { rule: '🔤 Máx 2 fuentes', detail: 'Una display para títulos + una body para texto. Nunca más de 3.' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.rule}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span><span className="text-amber-400/80 font-semibold">Coolors.co</span> para paletas · <span className="text-amber-400/80 font-semibold">Fontjoy</span> para pares tipográficos</span>
+          <span><span className="text-amber-400/80 font-semibold">Coolors.co</span> para paletas · <span className="text-amber-400/80 font-semibold">Fontjoy</span> para pares · <span className="text-amber-400/80 font-semibold">Realtime Colors</span> para preview</span>
         </motion.div>
       </div>
 

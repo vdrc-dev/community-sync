@@ -8,8 +8,9 @@ import { S3Footer } from './S3Footer';
 const ROWS = [
   { cat: 'Para', mcp: 'Agentes ↔ Apps', api: 'App ↔ App' },
   { cat: 'Ideal', mcp: 'Contexto, poco volumen', api: 'Flujos directos, volumen' },
-  { cat: 'Ejemplo', mcp: 'Consultar CRM desde Claude', api: 'Migración masiva' },
-  { cat: 'Complejidad', mcp: 'Baja — plug & play', api: 'Media/Alta' },
+  { cat: 'Ejemplo', mcp: 'Consultar CRM desde Claude', api: 'Webhook Stripe → Slack' },
+  { cat: 'Setup', mcp: '~2 min, plug & play', api: '30 min+, código necesario' },
+  { cat: 'Costo', mcp: 'Gratis (incluido en Claude)', api: 'Varía por API ($)' },
 ];
 
 const FLOATING_PILLS = [

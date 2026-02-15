@@ -17,9 +17,9 @@ const TOOLS = [
 ];
 
 const MISSIONS = [
-  { task: 'Dashboard con datos reales', icon: BarChart3, accent: S3_ACCENT.cyan },
-  { task: 'Claude Code + 2 skills', icon: Terminal, accent: S3_ACCENT.violet },
-  { task: 'Conecta MCP o genera video', icon: Zap, accent: S3_ACCENT.amber },
+  { task: 'Dashboard con datos reales', detail: 'Sube tu CSV a Canvas → comparte', icon: BarChart3, accent: S3_ACCENT.cyan },
+  { task: 'Claude Code + 2 skills', detail: 'Brand Theme + Excel Controller', icon: Terminal, accent: S3_ACCENT.violet },
+  { task: 'Conecta MCP o genera video', detail: 'CRM vía MCP o clip en Krea.ai', icon: Zap, accent: S3_ACCENT.amber },
 ];
 
 const FLOATING_PILLS = [
@@ -194,6 +194,7 @@ export function S3Slide12Closing() {
                   <Icon className="w-4 h-4" style={{ color: mission.accent.text }} />
                 </div>
                 <span className="relative text-sm text-white/55 font-medium">{mission.task}</span>
+                <span className="relative text-[9px] text-white/25 ml-auto">{mission.detail}</span>
               </motion.div>
             );
           })}

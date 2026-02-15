@@ -8,10 +8,10 @@ import { S3Footer } from './S3Footer';
 const INPUTS = ['PDFs', 'Slides', 'Texto', 'Audio'];
 
 const OUTPUTS = [
-  { label: 'Podcasts', icon: FileAudio, color: S3_ACCENT.violet },
-  { label: 'Resúmenes', icon: FileText, color: S3_ACCENT.cyan },
-  { label: 'Guías', icon: BookOpen, color: S3_ACCENT.amber },
-  { label: 'Presentaciones', icon: Presentation, color: S3_ACCENT.rose },
+  { label: 'Podcasts', detail: '2 voces, ~10 min', icon: FileAudio, color: S3_ACCENT.violet },
+  { label: 'Resúmenes', detail: 'Con citas exactas', icon: FileText, color: S3_ACCENT.cyan },
+  { label: 'Guías de estudio', detail: 'Flashcards + FAQ', icon: BookOpen, color: S3_ACCENT.amber },
+  { label: 'Briefings', detail: 'Puntos clave ejecutivos', icon: Presentation, color: S3_ACCENT.rose },
 ];
 
 const FLOATING_PILLS = [
@@ -168,17 +168,29 @@ export function S3Slide05NotebookLM() {
                   style={{ borderColor: output.color.border, background: output.color.bg }}
                 >
                   <Icon className="w-4 h-4" style={{ color: output.color.text }} />
-                  <span className="text-sm text-white/60 font-medium">{output.label}</span>
+                  <div className="text-left">
+                    <span className="text-sm text-white/60 font-medium block">{output.label}</span>
+                    <span className="text-[9px] text-white/25">{output.detail}</span>
+                  </div>
                 </motion.div>
               );
             })}
           </motion.div>
         </div>
 
-        {/* Limitation note */}
-        <motion.p {...m(0.6)} className="mt-12 text-[11px] text-white/20">
-          No procesa CSV/Excel — para datos usa <span className="text-white/35 font-semibold">Canvas</span>
-        </motion.p>
+        {/* Pro tips + limitation */}
+        <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
+          {[
+            { tip: '📚 Máx 50 fuentes', detail: 'Sube hasta 50 PDFs o URLs por notebook' },
+            { tip: '🎙️ Podcast custom', detail: '"Enfócate en X tema" antes de generar audio' },
+            { tip: '⚠️ Sin CSV/Excel', detail: 'Para datos tabulares usa Canvas en su lugar' },
+          ].map((t, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
 
       <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} />

@@ -6,9 +6,9 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const DESKTOP_POWERS = [
-  { icon: FolderOpen, label: 'Archivos locales' },
-  { icon: Plug, label: 'Conectores MCP' },
-  { icon: Terminal, label: 'Terminal' },
+  { icon: FolderOpen, label: 'Archivos locales', detail: 'Lee tu disco completo' },
+  { icon: Plug, label: 'Conectores MCP', detail: '200+ integraciones' },
+  { icon: Terminal, label: 'Terminal', detail: 'Ejecuta comandos reales' },
 ];
 
 const FLOATING_PILLS = ['MCP', 'Skills', 'Local'];
@@ -122,7 +122,10 @@ export function S3Slide06ClaudeCode() {
                       className="flex items-center gap-3 px-4 py-3 rounded-xl border"
                       style={{ borderColor: `${S3_ACCENT.violet.text}15`, background: `${S3_ACCENT.violet.text}05` }}>
                       <Icon className="w-5 h-5" style={{ color: S3_ACCENT.violet.text }} />
-                      <span className="text-sm text-white/60 font-medium">{p.label}</span>
+                      <div className="text-left">
+                        <span className="text-sm text-white/60 font-medium block">{p.label}</span>
+                        <span className="text-[9px] text-white/25">{p.detail}</span>
+                      </div>
                     </motion.div>
                   );
                 })}
@@ -182,9 +185,24 @@ export function S3Slide06ClaudeCode() {
           </motion.div>
         </div>
 
-        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-amber-400/50">
+        {/* Setup steps */}
+        <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto flex items-center justify-center gap-3">
+          {[
+            { step: '1', text: 'Descarga claude.ai/download' },
+            { step: '2', text: 'Login con tu cuenta' },
+            { step: '3', text: 'Arrastra archivos al chat' },
+            { step: '4', text: 'Conecta tu primer MCP' },
+          ].map((s, i) => (
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <span className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style={{ background: S3_ACCENT.violet.bg, color: S3_ACCENT.violet.text, border: `1px solid ${S3_ACCENT.violet.border}` }}>{s.step}</span>
+              <span className="text-[10px] text-white/45 font-medium">{s.text}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Gratis para empezar — <span className="text-amber-400/80 font-semibold">claude.ai/download</span></span>
+          <span>Gratis para empezar — <span className="text-amber-400/80 font-semibold">Plan Pro recomendado ($20/mes)</span></span>
         </motion.div>
       </div>
 
