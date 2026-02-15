@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgClaude from '@/assets/gen10-s3/bg-claude-code.jpg';
 
 const DESKTOP_POWERS = [
   { icon: FolderOpen, label: 'Archivos locales', detail: 'Lee tu disco completo' },
@@ -20,6 +21,7 @@ export function S3Slide06ClaudeCode() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
+        <img src={bgClaude} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(263_60%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(280_55%_50%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(110deg,_transparent_35%,_hsl(263_75%_65%_/_0.08)_50%,_transparent_65%)]" />
@@ -202,7 +204,7 @@ export function S3Slide06ClaudeCode() {
 
         <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Gratis para empezar — <span className="text-amber-400/80 font-semibold">Plan Pro recomendado ($20/mes)</span></span>
+          <span>Free disponible · <span className="text-amber-400/80 font-semibold">Pro $20/mes</span> · Max $100/mes para uso intensivo</span>
         </motion.div>
       </div>
 

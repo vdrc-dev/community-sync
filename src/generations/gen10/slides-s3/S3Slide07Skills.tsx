@@ -9,7 +9,7 @@ const SKILLS = [
   { name: 'Brand Theme', tip: 'Tu identidad visual precargada', example: '"Aplica mi marca a este PDF"', icon: Palette, accent: S3_ACCENT.rose },
   { name: 'Excel Controller', tip: 'Lee y edita hojas de cálculo', example: '"Analiza ventas Q3 de este xlsx"', icon: FileSpreadsheet, accent: S3_ACCENT.emerald },
   { name: 'PDF Editor', tip: 'Extrae y transforma documentos', example: '"Resume este contrato en 5 puntos"', icon: FileText, accent: S3_ACCENT.amber },
-  { name: 'Web Researcher', tip: 'Busca info pública actualizada', example: '"Investiga tendencias IA 2025"', icon: Search, accent: S3_ACCENT.cyan },
+  { name: 'Web Researcher', tip: 'Busca info pública actualizada', example: '"Investiga tendencias IA 2026"', icon: Search, accent: S3_ACCENT.cyan },
 ];
 
 const FLOATING_PILLS = [

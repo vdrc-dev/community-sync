@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgCursor from '@/assets/gen10-s3/bg-cursor-ide.jpg';
 
 const POWERS = [
   { icon: FolderTree, label: 'Multi-archivo', accent: S3_ACCENT.amber },
@@ -25,6 +26,7 @@ export function S3Slide11Cursor() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
+        <img src={bgCursor} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_25%_25%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.06),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(38_90%_60%_/_0.07)_50%,_transparent_65%)]" />
@@ -200,7 +202,7 @@ export function S3Slide11Cursor() {
           {[
             { tip: '⌨️ Cmd+K = Editar', detail: 'Selecciona código y pide cambios inline' },
             { tip: '💬 Chat = Planear', detail: 'Abre el chat lateral para cambios multi-archivo' },
-            { tip: '🔄 Composer = Crear', detail: 'Genera features completas con contexto del proyecto' },
+            { tip: '🤖 Agent = Crear', detail: 'Genera features completas con contexto del proyecto' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
@@ -211,7 +213,7 @@ export function S3Slide11Cursor() {
 
         <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Hobby gratis · <span className="text-amber-400/80 font-semibold">Pro $20/mes</span> (500 requests rápidos)</span>
+          <span>Hobby gratis · <span className="text-amber-400/80 font-semibold">Pro $20/mes</span> (créditos) · Pro+ $60 · Ultra $200</span>
         </motion.div>
       </div>
 

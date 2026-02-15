@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgVibeCoding from '@/assets/gen10-s3/bg-vibe-coding.jpg';
 
 const EXAMPLES = [
   { prompt: '"Estética agencia boutique"', result: 'Serif + espaciado', detail: 'Playfair Display + 40px padding', color: S3_ACCENT.violet },
@@ -25,6 +26,7 @@ export function S3Slide04VibeCoding() {
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       {/* Atmosphere */}
       <div className="absolute inset-0">
+        <img src={bgVibeCoding} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,_hsl(185_70%_50%_/_0.12),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(280_70%_60%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_60%_/_0.07)_50%,_transparent_65%)]" />

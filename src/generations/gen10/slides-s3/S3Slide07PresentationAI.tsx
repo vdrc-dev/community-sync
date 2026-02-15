@@ -1,237 +1,228 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Presentation, BarChart3, Layers, Sparkles, CheckCircle2, Clock, Zap, ChevronRight, ExternalLink, Image, FileText } from 'lucide-react';
+import { Presentation, BarChart3, Layers, Sparkles, ChevronRight } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgPresentation from '@/assets/gen10-s3/bg-presentation-ai.jpg';
 
 const TOOLS = [
   {
     name: 'Gamma',
-    tagline: 'Texto → Presentación',
+    tagline: 'Texto → Slides',
     icon: Presentation,
+    hue: 263,
     accent: S3_ACCENT.violet,
-    badge: '⭐ Top',
-    price: 'Gratis · 400 créditos',
-    speed: '~30s',
-    pros: ['Exporta PPTX/PDF', 'Diseño pro automático', 'Embeds interactivos', 'Importa docs existentes'],
-    bestFor: 'Pitch decks, reportes, clases',
-    prompt: '"Crea una presentación sobre X con 10 slides"',
+    badge: '⭐ TOP',
+    speed: '30s',
+    price: 'Free / $8',
+    output: 'PPTX / PDF / Slides',
+    highlight: '50M+ usuarios · Embeds interactivos',
   },
   {
     name: 'Napkin AI',
     tagline: 'Texto → Infografías',
     icon: BarChart3,
+    hue: 38,
     accent: S3_ACCENT.amber,
     badge: null,
-    price: 'Gratis · 100/mes',
-    speed: '~15s',
-    pros: ['Diagramas de flujo auto', 'Timelines inteligentes', 'Exporta SVG/PNG HD', 'Estilos personalizables'],
-    bestFor: 'LinkedIn, docs, newsletters',
-    prompt: '"Pega tu texto → selecciona visual → exporta"',
+    speed: '15s',
+    price: 'Free / $9',
+    output: 'SVG / PNG / PPT',
+    highlight: '500 créditos/sem gratis',
   },
   {
     name: 'Beautiful.ai',
     tagline: 'Templates inteligentes',
     icon: Layers,
+    hue: 185,
     accent: S3_ACCENT.cyan,
     badge: null,
-    price: '$12/mes Pro',
-    speed: '~45s',
-    pros: ['Auto-layout perfecto', 'Brand kit integrado', '100+ smart templates', 'Colaboración en equipo'],
-    bestFor: 'Equipos corporativos',
-    prompt: '"Selecciona template → llena datos → auto-ajusta"',
+    speed: '45s',
+    price: '$12/mes',
+    output: 'PPTX / PDF',
+    highlight: '300+ Smart Slides · Brand kit',
   },
 ];
 
-const COMPARISON = [
-  { feature: 'Precio', vals: ['✅ Gratis', '✅ Gratis', '💰 $12/mes'] },
-  { feature: 'Output', vals: ['Slides', 'Infografías', 'Slides'] },
-  { feature: 'Exportar', vals: ['PPTX/PDF', 'SVG/PNG', 'PPTX/PDF'] },
-  { feature: 'AI Gen', vals: ['✅ Full', '✅ Full', '⚡ Parcial'] },
-  { feature: 'Interactivo', vals: ['✅ Sí', '❌ No', '✅ Sí'] },
-];
-
-const WORKFLOW_STEPS = [
-  { num: '1', tool: 'Claude', action: 'Genera outline', accent: S3_ACCENT.emerald },
-  { num: '2', tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber },
-  { num: '3', tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet },
-  { num: '4', tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan },
+const WORKFLOW = [
+  { tool: 'Claude', action: 'Outline', accent: S3_ACCENT.emerald },
+  { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber },
+  { tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet },
+  { tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan },
 ];
 
 export function S3Slide07PresentationAI() {
   const { isExporting } = useExportContext();
-  const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
+  const m = (d: number) => s3Motion(d, isExporting);
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
+      {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_30%,_hsl(263_60%_55%_/_0.1),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_65%,_hsl(280_55%_50%_/_0.07),_transparent_60%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={6} primaryHue={263} secondaryHue={280} tertiaryHue={38} />
+        <img src={bgPresentation} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_25%,_hsl(263_55%_50%_/_0.12),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_70%,_hsl(38_80%_50%_/_0.06),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_85%_20%,_hsl(185_70%_45%_/_0.05),_transparent_55%)]" />
+        {/* Diagonal light */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{ background: 'linear-gradient(135deg, transparent 30%, hsl(263 60% 60% / 0.5) 50%, transparent 70%)' }}
+        />
+        <S3Atmosphere isExporting={isExporting} particleCount={5} primaryHue={263} secondaryHue={38} tertiaryHue={185} />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto w-full flex-1 flex flex-col min-h-0">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-16">
         {/* Header */}
-        <div className="flex items-center justify-between mb-5 shrink-0">
-          <motion.div {...m(0)} className="flex items-center gap-3">
-            <div className="w-1 h-8 rounded-full" style={{ background: `linear-gradient(180deg, ${S3_ACCENT.violet.text}, ${S3_ACCENT.amber.text})` }} />
-            <div>
-              <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-white/25">Creación Digital</span>
-              <h1 className="text-3xl font-black text-white tracking-tight leading-none">
-                Presentaciones con{' '}
-                <span style={{
-                  background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(38 80% 65%))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}>IA</span>
-              </h1>
-            </div>
-          </motion.div>
-          <motion.p {...m(0.05)} className="text-white/20 text-xs max-w-[220px] text-right">
+        <motion.div {...m(0)} className="text-center mb-12">
+          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/25 block mb-3">
+            Creación Digital
+          </span>
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+            Presentaciones con{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(38 85% 65%))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 0 30px hsl(263 65% 55% / 0.35))',
+              }}
+            >
+              IA
+            </span>
+          </h1>
+          <motion.div
+            className="h-0.5 rounded-full mx-auto max-w-[100px] origin-center"
+            style={{ background: 'linear-gradient(90deg, transparent, hsl(263 65% 60% / 0.5), hsl(38 85% 60% / 0.5), transparent)' }}
+            initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.35, duration: 0.8, ease: S3_EASE }}
+          />
+          <motion.p {...m(0.1)} className="text-white/25 text-base mt-4 max-w-md mx-auto">
             De ideas a slides profesionales — sin tocar diseño
           </motion.p>
-        </div>
+        </motion.div>
 
-        {/* Main grid: 3 tool cards + comparison + workflow */}
-        <div className="flex-1 flex flex-col gap-2 min-h-0">
-          {/* Row 1: 3 Tool Cards */}
-          <div className="grid grid-cols-3 gap-2">
-            {TOOLS.map((tool, i) => {
-              const Icon = tool.icon;
-              return (
+        {/* 3 Hero Cards */}
+        <div className="grid grid-cols-3 gap-5 mb-10">
+          {TOOLS.map((tool, i) => {
+            const Icon = tool.icon;
+            return (
               <motion.div
-                  key={i}
-                  {...m(0.08 + i * 0.06)}
-                  className="relative rounded-xl border overflow-hidden group"
-                  style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
+                key={tool.name}
+                {...m(0.15 + i * 0.08)}
+                className="relative rounded-2xl border overflow-hidden group"
+                style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
+                {...(isExporting ? {} : { whileHover: { scale: 1.02, y: -4 } })}
               >
-                  {!isExporting && (
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{ background: `linear-gradient(105deg, transparent 35%, ${tool.accent.text}10 50%, transparent 65%)` }}
-                      animate={{ x: ['-150%', '250%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 6 }}
-                    />
-                  )}
-                  {/* Hover glow */}
-                  {!isExporting && (
-                    <div className="absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none"
-                      style={{ background: tool.accent.glow }} />
-                  )}
+                {/* Shimmer sweep */}
+                {!isExporting && (
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: `linear-gradient(105deg, transparent 40%, ${tool.accent.text}12 55%, transparent 70%)` }}
+                    animate={{ x: ['-200%', '300%'] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 5 + i * 2 }}
+                  />
+                )}
 
-                  <div className="relative p-4">
-                    {/* Header */}
-                    <div className="flex items-center gap-2.5 mb-3">
-                      <div className="w-10 h-10 rounded-lg border flex items-center justify-center shrink-0"
-                        style={{ borderColor: `${tool.accent.text}25`, background: `${tool.accent.text}08` }}>
-                        <Icon className="w-5 h-5" style={{ color: tool.accent.text }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-base font-black text-white">{tool.name}</p>
-                          {tool.badge && (
-                            <span className="px-1.5 py-0.5 rounded text-[6px] font-black"
-                              style={{ background: tool.accent.dot, color: '#04030a' }}>{tool.badge}</span>
-                          )}
-                        </div>
-                        <p className="text-[10px] text-white/30">{tool.tagline}</p>
-                      </div>
-                    </div>
+                {/* Inner glow at top */}
+                <div
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 rounded-full blur-3xl opacity-20 pointer-events-none"
+                  style={{ background: tool.accent.dot }}
+                />
 
-                    {/* Stats */}
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="flex items-center gap-1 text-[9px]">
-                        <Clock className="w-3 h-3 text-white/15" />
-                        <span className="text-white/25">{tool.speed}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[9px]">
-                        <Zap className="w-3 h-3 text-white/15" />
-                        <span className="text-white/25">{tool.price}</span>
-                      </div>
-                    </div>
-
-                    {/* Pros */}
-                    <div className="space-y-1">
-                      {tool.pros.map((pro, j) => (
-                        <div key={j} className="flex items-center gap-1.5">
-                          <CheckCircle2 className="w-3 h-3 shrink-0" style={{ color: `${tool.accent.text}60` }} />
-                          <span className="text-[10px] text-white/40">{pro}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Best for */}
-                    <div className="mt-3 pt-3 border-t" style={{ borderColor: `${tool.accent.text}10` }}>
-                      <p className="text-[7px] text-white/15 uppercase tracking-wider font-bold mb-0.5">Ideal para</p>
-                      <p className="text-[10px] text-white/30">{tool.bestFor}</p>
-                    </div>
-
-                    {/* Prompt example */}
-                    <div className="mt-2 px-3 py-2 rounded-lg border" style={{ borderColor: `${tool.accent.text}10`, background: `${tool.accent.text}04` }}>
-                      <p className="text-[8px] text-white/15 font-bold mb-0.5">PROMPT</p>
-                      <p className="text-[9px] font-mono leading-relaxed" style={{ color: `${tool.accent.text}70` }}>{tool.prompt}</p>
+                <div className="relative p-6 flex flex-col items-center text-center">
+                  {/* Icon container with glow ring */}
+                  <div className="relative mb-5">
+                    {!isExporting && (
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl blur-xl opacity-40"
+                        style={{ background: tool.accent.glow }}
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
+                      />
+                    )}
+                    <div
+                      className="relative w-16 h-16 rounded-2xl border-2 flex items-center justify-center"
+                      style={{
+                        borderColor: `${tool.accent.text}40`,
+                        background: `linear-gradient(135deg, ${tool.accent.text}15, ${tool.accent.text}05)`,
+                      }}
+                    >
+                      <Icon className="w-7 h-7" style={{ color: tool.accent.text }} />
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
 
-          {/* Row 2: Comparison + Workflow */}
-          <div className="grid grid-cols-5 gap-3 shrink-0">
-            {/* Comparison */}
-            <motion.div {...m(0.35)} className="col-span-2 rounded-xl border border-white/[0.06] bg-white/[0.015] p-3">
-              <p className="text-[8px] text-white/20 uppercase tracking-wider font-bold mb-2">Comparativa</p>
-              <div className="grid grid-cols-4 gap-1 pb-1.5 border-b border-white/[0.06]">
-                <span></span>
-                {['Gamma', 'Napkin', 'Beautiful'].map(n => (
-                  <span key={n} className="text-[7px] text-white/25 font-bold text-center">{n}</span>
-                ))}
-              </div>
-              {COMPARISON.map((row, i) => (
-                <div key={i} className="grid grid-cols-4 gap-1 py-1 border-b border-white/[0.02]">
-                  <span className="text-[7px] text-white/20 font-semibold">{row.feature}</span>
-                  {row.vals.map((v, j) => (
-                    <span key={j} className="text-[7px] text-white/30 text-center">{v}</span>
-                  ))}
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Workflow */}
-            <motion.div {...m(0.4)} className="col-span-3 rounded-xl border border-white/[0.06] bg-white/[0.015] p-3 flex flex-col">
-              <div className="flex items-center gap-1.5 mb-2">
-                <Sparkles className="w-3 h-3 text-amber-400/50" />
-                <p className="text-[8px] text-white/20 uppercase tracking-wider font-bold">Workflow Recomendado</p>
-              </div>
-              <div className="flex items-center gap-1.5">
-                {WORKFLOW_STEPS.map((step, i) => (
-                  <div key={i} className="flex items-center gap-1.5 flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg border flex-1 min-w-0"
-                      style={{ borderColor: step.accent.border, background: step.accent.bg }}>
-                      <span className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0"
-                        style={{ background: `${step.accent.text}20`, color: step.accent.text }}>
-                        {step.num}
+                  {/* Name + badge */}
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-xl font-black text-white">{tool.name}</h3>
+                    {tool.badge && (
+                      <span
+                        className="px-2 py-0.5 rounded-full text-[8px] font-black"
+                        style={{ background: tool.accent.dot, color: '#04030a' }}
+                      >
+                        {tool.badge}
                       </span>
-                      <div className="min-w-0">
-                        <p className="text-[8px] font-bold truncate" style={{ color: step.accent.text }}>{step.tool}</p>
-                        <p className="text-[6px] text-white/20 truncate">{step.action}</p>
-                      </div>
-                    </div>
-                    {i < WORKFLOW_STEPS.length - 1 && (
-                      <ChevronRight className="w-2.5 h-2.5 text-white/10 shrink-0" />
                     )}
                   </div>
-                ))}
-              </div>
-              <p className="text-[8px] text-white/15 mt-2 italic">
-                💡 Usa Claude para el outline: situación → complicación → resolución
-              </p>
-            </motion.div>
-          </div>
+                  <p className="text-xs text-white/30 mb-5">{tool.tagline}</p>
+
+                  {/* Key stat row */}
+                  <div className="flex items-center justify-center gap-4 mb-4">
+                    <div className="text-center">
+                      <p className="text-lg font-black" style={{ color: tool.accent.text }}>{tool.speed}</p>
+                      <p className="text-[8px] text-white/20 uppercase tracking-wider">Genera</p>
+                    </div>
+                    <div className="w-px h-8" style={{ background: `${tool.accent.text}15` }} />
+                    <div className="text-center">
+                      <p className="text-lg font-black" style={{ color: tool.accent.text }}>{tool.price}</p>
+                      <p className="text-[8px] text-white/20 uppercase tracking-wider">Precio</p>
+                    </div>
+                  </div>
+
+                  {/* Output format chip */}
+                  <div
+                    className="px-3 py-1.5 rounded-lg border text-[10px] font-semibold mb-3"
+                    style={{ borderColor: `${tool.accent.text}15`, color: `${tool.accent.text}90`, background: `${tool.accent.text}06` }}
+                  >
+                    {tool.output}
+                  </div>
+
+                  {/* Highlight */}
+                  <p className="text-[11px] text-white/35">{tool.highlight}</p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+
+        {/* Workflow Pipeline */}
+        <motion.div {...m(0.45)} className="flex items-center justify-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400/40 mr-1" />
+          <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/20 mr-3">Workflow</span>
+          {WORKFLOW.map((step, i) => (
+            <div key={step.tool} className="flex items-center gap-2">
+              <div
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border"
+                style={{ borderColor: step.accent.border, background: step.accent.bg }}
+              >
+                <span
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black"
+                  style={{ background: `${step.accent.text}25`, color: step.accent.text }}
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="text-xs font-bold" style={{ color: step.accent.text }}>{step.tool}</p>
+                  <p className="text-[8px] text-white/20">{step.action}</p>
+                </div>
+              </div>
+              {i < WORKFLOW.length - 1 && (
+                <ChevronRight className="w-3 h-3 text-white/10" />
+              )}
+            </div>
+          ))}
+        </motion.div>
       </div>
 
       <S3Footer sectionLabel="CREACIÓN DIGITAL" hue={263} />

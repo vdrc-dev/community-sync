@@ -4,13 +4,14 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgNotebookLM from '@/assets/gen10-s3/bg-notebooklm.jpg';
 
 const INPUTS = ['PDFs', 'Slides', 'Texto', 'Audio'];
 
 const OUTPUTS = [
-  { label: 'Podcasts', detail: '2 voces, ~10 min', icon: FileAudio, color: S3_ACCENT.violet },
-  { label: 'Resúmenes', detail: 'Con citas exactas', icon: FileText, color: S3_ACCENT.cyan },
-  { label: 'Guías de estudio', detail: 'Flashcards + FAQ', icon: BookOpen, color: S3_ACCENT.amber },
+  { label: 'Audio Overviews', detail: '2 voces · customizable', icon: FileAudio, color: S3_ACCENT.violet },
+  { label: 'Resúmenes', detail: 'Con citas exactas de fuentes', icon: FileText, color: S3_ACCENT.cyan },
+  { label: 'Guías de estudio', detail: 'Flashcards + FAQ + Quiz', icon: BookOpen, color: S3_ACCENT.amber },
   { label: 'Briefings', detail: 'Puntos clave ejecutivos', icon: Presentation, color: S3_ACCENT.rose },
 ];
 
@@ -28,6 +29,7 @@ export function S3Slide05NotebookLM() {
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       {/* Atmosphere */}
       <div className="absolute inset-0">
+        <img src={bgNotebookLM} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.15]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_40%,_hsl(185_70%_50%_/_0.1),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_60%,_hsl(263_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_58%_/_0.07)_50%,_transparent_65%)]" />
@@ -181,9 +183,9 @@ export function S3Slide05NotebookLM() {
         {/* Pro tips + limitation */}
         <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
-            { tip: '📚 Máx 50 fuentes', detail: 'Sube hasta 50 PDFs o URLs por notebook' },
-            { tip: '🎙️ Podcast custom', detail: '"Enfócate en X tema" antes de generar audio' },
-            { tip: '⚠️ Sin CSV/Excel', detail: 'Para datos tabulares usa Canvas en su lugar' },
+            { tip: '📚 50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
+            { tip: '🎙️ 3 audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
+            { tip: '🆓 Incluido en Google', detail: 'Free con cuenta Google · Plus con AI Premium' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>

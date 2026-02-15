@@ -4,13 +4,14 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgMCP from '@/assets/gen10-s3/bg-mcp-vs-api.jpg';
 
 const ROWS = [
   { cat: 'Para', mcp: 'Agentes ↔ Apps', api: 'App ↔ App' },
   { cat: 'Ideal', mcp: 'Contexto, poco volumen', api: 'Flujos directos, volumen' },
   { cat: 'Ejemplo', mcp: 'Consultar CRM desde Claude', api: 'Webhook Stripe → Slack' },
   { cat: 'Setup', mcp: '~2 min, plug & play', api: '30 min+, código necesario' },
-  { cat: 'Costo', mcp: 'Gratis (incluido en Claude)', api: 'Varía por API ($)' },
+  { cat: 'Ecosistema', mcp: '200+ servidores (Docker)', api: 'Miles de APIs públicas' },
 ];
 
 const FLOATING_PILLS = [
@@ -26,6 +27,7 @@ export function S3Slide10MCPvsAPI() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
+        <img src={bgMCP} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_30%_30%,_hsl(263_60%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_65%,_hsl(38_80%_55%_/_0.07),_transparent_55%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={263} secondaryHue={38} tertiaryHue={185} />
@@ -98,7 +100,7 @@ export function S3Slide10MCPvsAPI() {
             <div className="h-0.5 rounded-full mx-auto mt-1 w-[200px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8 }} />
           )}
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-12 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Dos formas de conectar — una para agentes, otra para sistemas
         </motion.p>
 

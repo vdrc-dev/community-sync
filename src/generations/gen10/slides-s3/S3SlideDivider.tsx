@@ -5,6 +5,7 @@
 import { motion } from 'framer-motion';
 import { type LucideIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
+import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { S3_THEME, S3_ROOT_CLASS, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 
@@ -30,6 +31,7 @@ export function S3SlideDivider({
   tools = [],
 }: S3SlideDividerProps) {
   const { isExporting } = useExportContext();
+  const slideNum = useSlideNumber();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
 
   const accent = `hsl(${accentHue} ${accentSat}% ${accentLight}%)`;
@@ -85,7 +87,7 @@ export function S3SlideDivider({
 
         {/* Accent line */}
         <motion.div
-          className="h-[3px] rounded-full mx-auto max-w-[160px] origin-center"
+          className="h-0.5 rounded-full mx-auto max-w-[160px] origin-center"
           style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
           initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -137,17 +139,33 @@ export function S3SlideDivider({
         )}
       </div>
 
-      {/* Bottom indicator */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-        <motion.div
-          {...m(0.5)}
-          className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase"
-          style={{ color: `${accentText}50` }}
-        >
-          <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentBorder})` }} />
-          <span>Siguiente →</span>
-          <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, ${accentBorder}, transparent)` }} />
-        </motion.div>
+      {/* Bottom bar with slide number + siguiente */}
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+        <div className="flex items-center justify-between px-12 py-4 backdrop-blur-[2px]">
+          {/* Siguiente CTA */}
+          <motion.div
+            {...m(0.5)}
+            className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase"
+            style={{ color: `${accentText}50` }}
+          >
+            <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentBorder})` }} />
+            <span>Siguiente →</span>
+            <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, ${accentBorder}, transparent)` }} />
+          </motion.div>
+
+          {/* Slide number */}
+          <div
+            className="text-[11px] font-bold tabular-nums tracking-wider px-3 py-1 rounded-lg border"
+            style={{
+              color: `${accentText}dd`,
+              borderColor: `${accent}36`,
+              background: `linear-gradient(135deg, ${accent}14, ${accent}08)`,
+              boxShadow: `0 0 26px ${accentGlow}`,
+            }}
+          >
+            {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}
+          </div>
+        </div>
       </div>
     </div>
   );

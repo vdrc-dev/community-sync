@@ -399,12 +399,25 @@ export function S3Slide01Cover() {
       {/* ═══════════════════════════════════ */}
       {/* ── BOTTOM BAR ─────────────────── */}
       {/* ═══════════════════════════════════ */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-12 py-5">
-        <div className="h-px flex-1 max-w-[200px]"
-          style={{ background: 'linear-gradient(90deg, hsl(330 50% 50% / 0.18), transparent)' }} />
-        <span className="text-[11px] font-bold text-white/10 tabular-nums tracking-widest">
-          {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '01 / 15'}
-        </span>
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+        <div className="flex items-center justify-between px-12 py-4 backdrop-blur-[2px]">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
+              VDRC · Gen {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
+            </span>
+          </div>
+          <div
+            className="text-[11px] font-bold tabular-nums tracking-wider px-3 py-1 rounded-lg border"
+            style={{
+              color: 'hsl(330 80% 76% / 0.88)',
+              borderColor: 'hsl(330 70% 55% / 0.22)',
+              background: 'linear-gradient(135deg, hsl(330 65% 50% / 0.08), hsl(330 65% 50% / 0.03))',
+              boxShadow: '0 0 26px hsl(330 75% 52% / 0.18)',
+            }}
+          >
+            {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '01 / 19'}
+          </div>
+        </div>
       </div>
 
       {/* Cinematic vignette provided by S3Atmosphere */}

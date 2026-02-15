@@ -4,18 +4,19 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import bgVideo from '@/assets/gen10-s3/bg-video-ai.jpg';
 
 const POWERS = [
-  { title: 'Videos Instantáneos', icon: Play, accent: S3_ACCENT.rose },
-  { title: 'Calidad de Cine', icon: Film, accent: S3_ACCENT.violet },
-  { title: 'Anima Imágenes', icon: Wand2, accent: S3_ACCENT.cyan },
-  { title: 'Sincroniza Voces', icon: Mic, accent: S3_ACCENT.amber },
+  { title: '4K 60fps Nativo', icon: Play, accent: S3_ACCENT.rose },
+  { title: 'Audio + Video', icon: Film, accent: S3_ACCENT.violet },
+  { title: 'Img → Video', icon: Wand2, accent: S3_ACCENT.cyan },
+  { title: 'Multi-Cámara', icon: Mic, accent: S3_ACCENT.amber },
 ];
 
 const ENGINES = [
-  { name: 'Sora', provider: 'OpenAI', detail: '1080p, 20s clips' },
-  { name: 'Veo 3', provider: 'Google', detail: '4K, audio sincronizado' },
-  { name: 'Kling', provider: 'Kuaishou', detail: 'Lip-sync, 5s gratis' },
+  { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot' },
+  { name: 'Veo 3.1', provider: 'Google', detail: '4K · Audio integrado' },
+  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · 15s · Multi-cam' },
 ];
 
 const FLOATING_PILLS = [
@@ -31,6 +32,7 @@ export function S3Slide14VideoAI() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
+        <img src={bgVideo} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
         <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
@@ -84,7 +86,7 @@ export function S3Slide14VideoAI() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-lg mx-auto">
-          Orquesta Sora, Veo 3 y Kling desde una sola interfaz
+          Orquesta Sora 2, Veo 3.1 y Kling 3.0 desde una interfaz
         </motion.p>
 
         {/* Hero area with orbital ring + film frame around cards */}
@@ -217,8 +219,8 @@ export function S3Slide14VideoAI() {
         {/* Pro tips */}
         <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
           {[
-            { tip: '🎬 Sube una imagen', detail: 'Krea anima cualquier foto estática en video de 5-10s' },
-            { tip: '🗣️ Agrega voz', detail: 'Sube audio y Kling sincroniza labios automáticamente' },
+            { tip: '🎬 Img → Video', detail: 'Krea anima fotos en clips de 5-15s con audio nativo' },
+            { tip: '🗣️ Lip-sync + Multi-cam', detail: 'Kling 3.0: hasta 6 cortes de cámara en un solo clip' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
