@@ -86,19 +86,13 @@ export function S3Slide10MCPvsAPI() {
               API
             </span>
           </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="h-0.5 rounded-full mx-auto mt-1"
-              style={{ width: '200px', background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8, transformOrigin: 'center' }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.6, ease: S3_EASE }}
-            />
-          )}
-          {isExporting && (
-            <div className="h-0.5 rounded-full mx-auto mt-1 w-[200px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(38 90% 65%))', opacity: 0.8 }} />
-          )}
+          <motion.div
+            className="h-0.5 rounded-full mx-auto mt-1 max-w-[200px] origin-center"
+            style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), hsl(38 90% 65% / 0.8), transparent)' }}
+            initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+          />
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Dos formas de conectar — una para agentes, otra para sistemas

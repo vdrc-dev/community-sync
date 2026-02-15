@@ -58,9 +58,9 @@ export function S3Slide05NotebookLM() {
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         {/* Badge */}
         <motion.div {...m(0)} className="mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
-            <BookOpen className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Comunicación Visual</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
+            <BookOpen className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Herramientas de Creación</span>
           </div>
         </motion.div>
 
@@ -72,6 +72,7 @@ export function S3Slide05NotebookLM() {
               background: 'linear-gradient(135deg, hsl(185 70% 65%), hsl(263 60% 70%))',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               filter: 'drop-shadow(0 0 25px hsl(185 70% 55% / 0.4))',
             }}
           >
@@ -99,10 +100,17 @@ export function S3Slide05NotebookLM() {
               <motion.div
                 key={input}
                 {...m(0.25 + i * 0.06)}
-                className="px-5 py-3 rounded-xl border text-sm text-white/60 font-medium"
+                className="relative px-5 py-3 rounded-xl border text-sm text-white/60 font-medium overflow-hidden"
                 style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}
+                {...(isExporting ? {} : { whileHover: { scale: 1.04, x: 4 } })}
               >
-                {input}
+                {!isExporting && (
+                  <motion.div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 70% 65% / 0.1) 50%, transparent 65%)' }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.3 }} />
+                )}
+                <span className="relative">{input}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -166,11 +174,18 @@ export function S3Slide05NotebookLM() {
                 <motion.div
                   key={output.label}
                   {...m(0.4 + i * 0.06)}
-                  className="flex items-center gap-3 px-5 py-3 rounded-xl border"
+                  className="relative flex items-center gap-3 px-5 py-3 rounded-xl border overflow-hidden group"
                   style={{ borderColor: output.color.border, background: output.color.bg }}
+                  {...(isExporting ? {} : { whileHover: { scale: 1.04, x: -4 } })}
                 >
-                  <Icon className="w-4 h-4" style={{ color: output.color.text }} />
-                  <div className="text-left">
+                  {!isExporting && (
+                    <motion.div className="absolute inset-0 pointer-events-none"
+                      style={{ background: `linear-gradient(105deg, transparent 35%, ${output.color.text}15 50%, transparent 65%)` }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 2.8, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.4 }} />
+                  )}
+                  <Icon className="w-4 h-4 relative" style={{ color: output.color.text }} />
+                  <div className="text-left relative">
                     <span className="text-sm text-white/60 font-medium block">{output.label}</span>
                     <span className="text-[9px] text-white/25">{output.detail}</span>
                   </div>
@@ -195,7 +210,7 @@ export function S3Slide05NotebookLM() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} />
+      <S3Footer sectionLabel="HERRAMIENTAS" hue={263} />
     </div>
   );
 }

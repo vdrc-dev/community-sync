@@ -145,6 +145,7 @@ export function S3Slide01Cover() {
                 background: 'linear-gradient(135deg, hsl(330 85% 68%) 0%, hsl(280 70% 60%) 40%, hsl(185 70% 55%) 75%, hsl(38 80% 60%) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
                 filter: `drop-shadow(0 0 ${isHovered ? '80' : '35'}px hsl(330 70% 50% / 0.55))`,
                 transition: 'filter 0.7s ease',
               }}

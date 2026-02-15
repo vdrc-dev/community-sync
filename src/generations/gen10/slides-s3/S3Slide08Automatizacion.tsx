@@ -73,19 +73,13 @@ export function S3Slide08Automatizacion() {
               Automático
             </span>
           </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="h-0.5 rounded-full mx-auto mt-1"
-              style={{ width: '180px', background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8, transformOrigin: 'center' }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.6, ease: S3_EASE }}
-            />
-          )}
-          {isExporting && (
-            <div className="h-0.5 rounded-full mx-auto mt-1 w-[180px]" style={{ background: 'linear-gradient(90deg, hsl(263 70% 72%), hsl(185 70% 60%))', opacity: 0.8 }} />
-          )}
+          <motion.div
+            className="h-0.5 rounded-full mx-auto mt-1 max-w-[180px] origin-center"
+            style={{ background: 'linear-gradient(90deg, transparent, hsl(263 70% 72% / 0.8), hsl(185 70% 60% / 0.8), transparent)' }}
+            initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+          />
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-md mx-auto">
           Horas de trabajo repetitivo → minutos de supervisión

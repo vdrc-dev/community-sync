@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
-import { Shield, Brain, MessageSquare, ChevronRight } from 'lucide-react';
+import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const WEEKS = [
-  { num: 1, title: 'Higiene Digital', icon: Shield, accent: S3_ACCENT.cyan, skills: ['Inbox Zero', 'Navegadores', 'Bitwarden', 'Context Eng.'], done: true },
-  { num: 2, title: 'Era Agéntica', icon: Brain, accent: S3_ACCENT.violet, skills: ['C.R.O.P.', 'Modelos', 'Agentes', 'MCP'], done: true },
-  { num: 3, title: 'Comunicación', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Canvas', 'Claude Code', 'CRM', 'Cursor'], done: false },
+  { num: 1, title: 'Higiene Digital', icon: Shield, accent: S3_ACCENT.cyan, skills: ['Inbox Zero', 'Navegadores', 'Bitwarden', 'Context Eng.'], done: true, current: false },
+  { num: 2, title: 'Era Agéntica', icon: Brain, accent: S3_ACCENT.violet, skills: ['C.R.O.P.', 'Modelos', 'Agentes', 'MCP'], done: true, current: false },
+  { num: 3, title: 'Comunicación', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Canvas', 'Claude Code', 'CRM', 'Cursor'], done: false, current: true },
+  { num: 4, title: 'VibeCoding', icon: Code2, accent: S3_ACCENT.emerald, skills: ['App en 90 min', 'Deploy', 'GitHub', 'Proyecto Final'], done: false, current: false },
 ];
 
 export function S3Slide02Recap() {
@@ -54,12 +55,15 @@ export function S3Slide02Recap() {
               filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
             }}>Aquí</span>
         </motion.h1>
-        <motion.div {...m(0.1)} className="mb-3 flex justify-center"
-          {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
-          <div className="h-0.5 w-24 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 68%), hsl(280 70% 65%))', transformOrigin: 'center' }} />
-        </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-9 max-w-md mx-auto">
-          Semana 3 de 4 — 75% completado
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[96px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(330 85% 68% / 0.8), hsl(280 70% 65% / 0.8), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        />
+        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-9 max-w-lg mx-auto">
+          Semana 3 de 4 — 75% del programa completado
         </motion.p>
         <motion.div
           {...m(0.18)}
@@ -81,25 +85,26 @@ export function S3Slide02Recap() {
           <span className="text-xs font-bold text-white/70">75%</span>
         </motion.div>
 
-        {/* Visual journey: 3 large stage nodes connected by line */}
-        <div className="relative flex items-center justify-center gap-8">
+        {/* Visual journey: 4 stage nodes connected by line */}
+        <div className="relative flex items-center justify-center gap-6">
           {/* Connecting line behind */}
-          <div className="absolute top-1/2 left-[15%] right-[15%] h-px -translate-y-1/2" style={{ background: 'linear-gradient(90deg, hsl(185 70% 50% / 0.3), hsl(263 60% 55% / 0.3), hsl(330 65% 55% / 0.3))' }} />
+          <div className="absolute top-1/2 left-[8%] right-[8%] h-px -translate-y-1/2" style={{ background: 'linear-gradient(90deg, hsl(185 70% 50% / 0.3), hsl(263 60% 55% / 0.3), hsl(330 65% 55% / 0.3), hsl(160 65% 45% / 0.15))' }} />
           {/* Progress fill */}
-          <motion.div className="absolute top-1/2 left-[15%] h-[2px] -translate-y-1/2 rounded-full"
+          <motion.div className="absolute top-1/2 left-[8%] h-[2px] -translate-y-1/2 rounded-full"
             style={{ background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' }}
-            {...(isExporting ? { style: { width: '52%', background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' } } : { initial: { width: '0%' }, animate: { width: '52%' }, transition: { delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] } })}
+            {...(isExporting ? { style: { width: '40%', background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' } } : { initial: { width: '0%' }, animate: { width: '40%' }, transition: { delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] } })}
           />
 
           {WEEKS.map((week, i) => {
             const Icon = week.icon;
-            const isCurrent = !week.done;
+            const isCurrent = week.current;
+            const isFuture = !week.done && !week.current;
             return (
-              <motion.div key={i} {...m(0.2 + i * 0.12)} className="relative flex flex-col items-center gap-4 z-10">
+              <motion.div key={i} {...m(0.2 + i * 0.1)} className={`relative flex flex-col items-center gap-3 z-10 ${isFuture ? 'opacity-40' : ''}`}>
                 <div
                   className="absolute -inset-4 rounded-3xl pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle at center, ${week.accent.dot}22, transparent 70%)`,
+                    background: `radial-gradient(circle at center, ${week.accent.dot}${isFuture ? '0a' : '22'}, transparent 70%)`,
                     filter: 'blur(24px)',
                   }}
                 />
@@ -113,20 +118,30 @@ export function S3Slide02Recap() {
                         animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
                     </>
                   )}
-                  <div className="w-28 h-28 rounded-full border-2 flex items-center justify-center relative"
-                    style={{ borderColor: isCurrent ? week.accent.dot : `${week.accent.dot}60`, background: isCurrent ? week.accent.bg : `${week.accent.bg}40` }}>
+                  <div className={`w-24 h-24 rounded-full border-2 flex items-center justify-center relative`}
+                    style={{
+                      borderColor: isCurrent ? week.accent.dot : isFuture ? `${week.accent.dot}25` : `${week.accent.dot}60`,
+                      background: isCurrent ? week.accent.bg : isFuture ? `${week.accent.bg}20` : `${week.accent.bg}40`,
+                      borderStyle: isFuture ? 'dashed' : 'solid',
+                    }}>
                     {week.done && (
-                      <div className="absolute -top-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-black"
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black"
                         style={{ background: week.accent.dot, color: '#04030a' }}>✓</div>
                     )}
-                    <Icon className="w-10 h-10" style={{ color: isCurrent ? week.accent.text : `${week.accent.text}90` }} />
+                    {isFuture && (
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border"
+                        style={{ background: '#04030a', borderColor: `${week.accent.dot}30` }}>
+                        <Lock className="w-3 h-3" style={{ color: `${week.accent.text}40` }} />
+                      </div>
+                    )}
+                    <Icon className={`w-8 h-8`} style={{ color: isCurrent ? week.accent.text : isFuture ? `${week.accent.text}40` : `${week.accent.text}90` }} />
                   </div>
                 </div>
 
                 {/* Label */}
                 <div>
-                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-1" style={{ color: `${week.accent.text}80` }}>Semana {week.num}</p>
-                  <p className="text-lg font-black text-white">{week.title}</p>
+                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-1" style={{ color: isFuture ? `${week.accent.text}35` : `${week.accent.text}80` }}>Semana {week.num}</p>
+                  <p className={`text-base font-black ${isFuture ? 'text-white/30' : 'text-white'}`}>{week.title}</p>
                   {isCurrent && (
                     <span className="inline-block mt-1.5 relative overflow-hidden rounded-full">
                       {!isExporting && (
@@ -141,13 +156,19 @@ export function S3Slide02Recap() {
                       </motion.span>
                     </span>
                   )}
+                  {isFuture && (
+                    <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[8px] font-bold tracking-wider border"
+                      style={{ borderColor: `${week.accent.text}15`, color: `${week.accent.text}30`, background: `${week.accent.text}05` }}>
+                      PRÓXIMA
+                    </span>
+                  )}
                 </div>
 
                 {/* Mini skill pills */}
-                <div className="flex flex-wrap justify-center gap-1.5 max-w-[160px]">
+                <div className="flex flex-wrap justify-center gap-1.5 max-w-[140px]">
                   {week.skills.map((s, j) => (
-                    <span key={j} className="px-2 py-0.5 rounded-full text-[9px] font-semibold border"
-                      style={{ borderColor: `${week.accent.text}15`, color: `${week.accent.text}60`, background: `${week.accent.text}05` }}>{s}</span>
+                    <span key={j} className="px-2 py-0.5 rounded-full text-[8px] font-semibold border"
+                      style={{ borderColor: `${week.accent.text}${isFuture ? '08' : '15'}`, color: `${week.accent.text}${isFuture ? '30' : '60'}`, background: `${week.accent.text}05` }}>{s}</span>
                   ))}
                 </div>
               </motion.div>

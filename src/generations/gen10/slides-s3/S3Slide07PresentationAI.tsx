@@ -85,6 +85,7 @@ export function S3Slide07PresentationAI() {
                 background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(38 85% 65%))',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
                 filter: 'drop-shadow(0 0 30px hsl(263 65% 55% / 0.35))',
               }}
             >

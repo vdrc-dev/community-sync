@@ -14,9 +14,9 @@ const POWERS = [
 ];
 
 const ENGINES = [
-  { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot' },
-  { name: 'Veo 3.1', provider: 'Google', detail: '4K · Audio integrado' },
-  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · 15s · Multi-cam' },
+  { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot', accent: S3_ACCENT.rose },
+  { name: 'Veo 3.1', provider: 'Google', detail: '4K · Audio integrado', accent: S3_ACCENT.violet },
+  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · 15s · Multi-cam', accent: S3_ACCENT.cyan },
 ];
 
 const FLOATING_PILLS = [
@@ -72,6 +72,7 @@ export function S3Slide14VideoAI() {
               background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               filter: 'drop-shadow(0 0 25px hsl(330 85% 60% / 0.4))',
             }}
           >
@@ -183,11 +184,20 @@ export function S3Slide14VideoAI() {
           <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold mr-2">Motores:</p>
           {ENGINES.map((e, i) => (
             <motion.div key={i} {...m(0.55 + i * 0.06)}
-              className="px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]"
-              {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.rose.border, scale: 1.04 } })}>
-              <span className="text-sm font-bold text-white">{e.name}</span>
-              <span className="text-[9px] text-white/20 font-mono ml-2">{e.provider}</span>
-              <span className="text-[8px] text-white/15 ml-1">· {e.detail}</span>
+              className="relative px-4 py-2.5 rounded-xl border overflow-hidden"
+              style={{ borderColor: e.accent.border, background: e.accent.bg }}
+              {...(isExporting ? {} : { whileHover: { scale: 1.04, y: -2 } })}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 pointer-events-none"
+                  style={{ background: `linear-gradient(105deg, transparent 35%, ${e.accent.text}10 50%, transparent 65%)` }}
+                  animate={{ x: ['-150%', '250%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }} />
+              )}
+              <div className="relative flex items-center gap-2">
+                <span className="text-sm font-bold text-white">{e.name}</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-md" style={{ color: `${e.accent.text}90`, background: `${e.accent.text}10` }}>{e.provider}</span>
+              </div>
+              <p className="relative text-[9px] text-white/30 mt-0.5">{e.detail}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -219,14 +229,29 @@ export function S3Slide14VideoAI() {
         {/* Pro tips */}
         <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
           {[
-            { tip: '🎬 Img → Video', detail: 'Krea anima fotos en clips de 5-15s con audio nativo' },
-            { tip: '🗣️ Lip-sync + Multi-cam', detail: 'Kling 3.0: hasta 6 cortes de cámara en un solo clip' },
-          ].map((t, i) => (
-            <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
-            </motion.div>
-          ))}
+            { icon: Wand2, tip: 'Img → Video', detail: 'Krea anima fotos en clips de 5-15s con audio nativo', accent: S3_ACCENT.rose },
+            { icon: Film, tip: 'Lip-sync + Multi-cam', detail: 'Kling 3.0: hasta 6 cortes de cámara en un solo clip', accent: S3_ACCENT.violet },
+          ].map((t, i) => {
+            const TipIcon = t.icon;
+            return (
+              <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] relative overflow-hidden group"
+                {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border, scale: 1.02 } })}>
+                {!isExporting && (
+                  <motion.div className="absolute inset-0 pointer-events-none"
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${t.accent.text}08 50%, transparent 65%)` }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.5 }} />
+                )}
+                <div className="relative flex items-start gap-2.5">
+                  <TipIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: t.accent.text }} />
+                  <div>
+                    <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
+                    <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <motion.div {...m(0.75)} className="mt-5 inline-flex items-center gap-2 text-xs text-rose-400/50">

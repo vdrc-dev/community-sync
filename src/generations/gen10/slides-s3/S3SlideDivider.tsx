@@ -59,6 +59,7 @@ export function S3SlideDivider({
               background: `linear-gradient(180deg, hsl(${accentHue} ${accentSat}% ${accentLight + 10}% / 0.15), hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.03))`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               filter: `drop-shadow(0 0 60px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.2))`,
             }}
           >

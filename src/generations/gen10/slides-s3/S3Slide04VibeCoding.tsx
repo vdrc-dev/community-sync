@@ -69,6 +69,7 @@ export function S3Slide04VibeCoding() {
               background: 'linear-gradient(135deg, hsl(185 70% 65%), hsl(280 60% 65%))',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               filter: 'drop-shadow(0 0 25px hsl(185 70% 55% / 0.4))',
             }}
           >

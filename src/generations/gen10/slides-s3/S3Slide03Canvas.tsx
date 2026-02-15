@@ -57,10 +57,13 @@ export function S3Slide03Canvas() {
               filter: 'drop-shadow(0 0 25px hsl(185 70% 65% / 0.4))',
             }}>Datos → Dashboard</span>
         </motion.h1>
-        <motion.div {...m(0.1)} className="mb-3 flex justify-center"
-          {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
-          <div className="h-0.5 w-32 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(185 70% 65%), hsl(263 60% 70%))', transformOrigin: 'center' }} />
-        </motion.div>
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[128px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(185 70% 65% / 0.8), hsl(263 60% 70% / 0.8), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-lg mx-auto">
           Transforma cualquier dataset en visualizaciones interactivas sin código
         </motion.p>

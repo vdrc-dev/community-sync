@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Pipette, Sparkles } from 'lucide-react';
+import { Pipette, Sparkles, Target, CheckCircle2, Type } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -65,10 +65,13 @@ export function S3Slide03DesignFoundations() {
               filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
             }}>Propósito</span>
         </motion.h1>
-        <motion.div {...m(0.1)} className="mb-3 flex justify-center"
-          {...(isExporting ? {} : { initial: { scaleX: 0 }, animate: { scaleX: 1 }, transition: { delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] } })}>
-          <div className="h-0.5 w-28 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 68%), hsl(280 70% 65%))', transformOrigin: 'center' }} />
-        </motion.div>
+        <motion.div
+          className="h-0.5 rounded-full mx-auto max-w-[112px] origin-center"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(330 85% 68% / 0.8), hsl(280 70% 65% / 0.8), transparent)' }}
+          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Colores + Tipografía = Comunicación visual profesional
         </motion.p>
@@ -119,13 +122,19 @@ export function S3Slide03DesignFoundations() {
             <div className="space-y-3">
               {FONTS.map((f, i) => (
                 <motion.div key={i} {...m(0.35 + i * 0.06)}
-                  className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] flex items-center justify-between"
+                  className="relative p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] flex items-center justify-between overflow-hidden group"
                   {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.violet.border, scale: 1.02 } })}>
-                  <div>
+                  {!isExporting && (
+                    <motion.div className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(263 60% 65% / 0.08) 50%, transparent 65%)' }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.6 }} />
+                  )}
+                  <div className="relative">
                     <p className={`text-2xl text-white/80 ${f.style}`}>{f.name}</p>
                     <p className="text-[10px] text-white/25 font-mono mt-0.5">{f.example}</p>
                   </div>
-                  <span className="text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border"
+                  <span className="relative text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border"
                     style={{ borderColor: S3_ACCENT.violet.border, color: S3_ACCENT.violet.text, background: S3_ACCENT.violet.bg }}>{f.use}</span>
                 </motion.div>
               ))}
@@ -136,15 +145,30 @@ export function S3Slide03DesignFoundations() {
         {/* Design rules */}
         <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
-            { rule: '🎯 Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.' },
-            { rule: '✅ Contraste 4.5:1', detail: 'Mínimo para texto normal (WCAG AA). Verifica en webaim.org/contrast' },
-            { rule: '🔤 Máx 2 fuentes', detail: 'Una display para títulos + una body para texto. Nunca más de 3.' },
-          ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-              <p className="text-[11px] text-white/60 font-semibold mb-1">{t.rule}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
-            </motion.div>
-          ))}
+            { icon: Target, rule: 'Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.', accent: S3_ACCENT.rose },
+            { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo para texto normal (WCAG AA). Verifica en webaim.org/contrast', accent: S3_ACCENT.emerald },
+            { icon: Type, rule: 'Máx 2 fuentes', detail: 'Una display para títulos + una body para texto. Nunca más de 3.', accent: S3_ACCENT.violet },
+          ].map((t, i) => {
+            const RuleIcon = t.icon;
+            return (
+              <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] group relative overflow-hidden"
+                {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border, scale: 1.02 } })}>
+                {!isExporting && (
+                  <motion.div className="absolute inset-0 pointer-events-none"
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${t.accent.text}08 50%, transparent 65%)` }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.6 }} />
+                )}
+                <div className="relative flex items-start gap-2.5">
+                  <RuleIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: t.accent.text }} />
+                  <div>
+                    <p className="text-[11px] text-white/60 font-semibold mb-1">{t.rule}</p>
+                    <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">

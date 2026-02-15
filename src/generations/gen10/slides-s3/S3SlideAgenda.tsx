@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Map, Palette, Wrench, Plug, Rocket } from 'lucide-react';
+import { Map, Palette, Wrench, Plug, Rocket, Clock } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -13,6 +13,7 @@ const MODULES = [
     icon: Palette,
     accent: S3_ACCENT.rose,
     time: '~20 min',
+    timePercent: 21,
   },
   {
     num: '02',
@@ -21,6 +22,7 @@ const MODULES = [
     icon: Wrench,
     accent: S3_ACCENT.violet,
     time: '~35 min',
+    timePercent: 37,
   },
   {
     num: '03',
@@ -29,6 +31,7 @@ const MODULES = [
     icon: Plug,
     accent: S3_ACCENT.amber,
     time: '~30 min',
+    timePercent: 32,
   },
   {
     num: '04',
@@ -37,6 +40,7 @@ const MODULES = [
     icon: Rocket,
     accent: S3_ACCENT.emerald,
     time: '~10 min',
+    timePercent: 10,
   },
 ];
 
@@ -64,7 +68,7 @@ export function S3SlideAgenda() {
           Recorrido de{' '}
           <span style={{
             background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(280 70% 65%), hsl(185 70% 60%))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
           }}>Hoy</span>
         </motion.h1>
@@ -144,8 +148,17 @@ export function S3SlideAgenda() {
                         ))}
                       </div>
 
-                      {/* Time */}
-                      <span className="text-[10px] font-bold mt-1" style={{ color: `${mod.accent.text}50` }}>{mod.time}</span>
+                      {/* Time with micro progress bar */}
+                      <div className="w-full mt-2 space-y-1.5">
+                        <div className="flex items-center justify-center gap-1.5">
+                          <Clock className="w-3 h-3" style={{ color: `${mod.accent.text}50` }} />
+                          <span className="text-[10px] font-bold" style={{ color: `${mod.accent.text}50` }}>{mod.time}</span>
+                        </div>
+                        <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: `${mod.accent.text}10` }}>
+                          <motion.div className="h-full rounded-full" style={{ background: mod.accent.dot }}
+                            {...(isExporting ? { style: { width: `${mod.timePercent}%`, background: mod.accent.dot } } : { initial: { width: '0%' }, animate: { width: `${mod.timePercent}%` }, transition: { delay: 0.8 + i * 0.15, duration: 0.8, ease: S3_EASE } })} />
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 </motion.div>

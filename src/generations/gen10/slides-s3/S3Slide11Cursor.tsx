@@ -67,6 +67,7 @@ export function S3Slide11Cursor() {
               background: 'linear-gradient(135deg, hsl(38 90% 65%), hsl(185 70% 60%))',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               filter: 'drop-shadow(0 0 25px hsl(38 90% 55% / 0.4))',
             }}
           >

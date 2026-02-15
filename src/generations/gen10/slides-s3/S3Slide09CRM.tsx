@@ -74,19 +74,13 @@ export function S3Slide09CRM() {
               CRM
             </span>
           </h1>
-          {/* Animated accent line under title */}
-          {!isExporting && (
-            <motion.div
-              className="h-0.5 rounded-full mx-auto mt-1"
-              style={{ width: '140px', background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8, transformOrigin: 'center' }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.4, duration: 0.6, ease: S3_EASE }}
-            />
-          )}
-          {isExporting && (
-            <div className="h-0.5 rounded-full mx-auto mt-1 w-[140px]" style={{ background: 'linear-gradient(90deg, hsl(38 90% 65%), hsl(280 60% 60%))', opacity: 0.8 }} />
-          )}
+          <motion.div
+            className="h-0.5 rounded-full mx-auto mt-1 max-w-[140px] origin-center"
+            style={{ background: 'linear-gradient(90deg, transparent, hsl(38 90% 65% / 0.8), hsl(280 60% 60% / 0.8), transparent)' }}
+            initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
+          />
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
           Trae tus datos reales a la IA — clientes, acuerdos y métricas

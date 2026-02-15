@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Rocket, BarChart3, Terminal, Database, Code2, BookOpen, Video, Presentation, ArrowRight, Palette, Zap, CheckCircle2, Sparkles, Star, TrendingUp } from 'lucide-react';
+import { Rocket, BarChart3, Terminal, Database, Code2, BookOpen, Video, Presentation, ArrowRight, Palette, Zap, CheckCircle2, Sparkles, Star, TrendingUp, Trophy } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -97,6 +97,7 @@ export function S3Slide12Closing() {
                     background: 'linear-gradient(135deg, hsl(160 65% 55%), hsl(185 70% 60%), hsl(263 60% 65%))',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
                   }}>
                     acción
                   </span>
@@ -105,8 +106,24 @@ export function S3Slide12Closing() {
             </motion.div>
           </div>
 
-          {/* Stats pills */}
+          {/* Achievement badge + Stats pills */}
           <motion.div {...m(0.1)} className="flex items-center gap-3">
+            {/* Achievement badge */}
+            <motion.div
+              className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border overflow-hidden"
+              style={{ borderColor: 'hsl(160 65% 45% / 0.3)', background: 'hsl(160 65% 45% / 0.08)' }}
+              {...(isExporting ? {} : { whileHover: { scale: 1.04 } })}
+            >
+              {!isExporting && (
+                <motion.div className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(160 65% 60% / 0.1) 50%, transparent 65%)' }}
+                  animate={{ x: ['-150%', '250%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
+              )}
+              <Trophy className="w-4 h-4 relative" style={{ color: S3_ACCENT.emerald.text }} />
+              <span className="text-[10px] font-bold tracking-wider uppercase relative" style={{ color: S3_ACCENT.emerald.text }}>75% completado</span>
+            </motion.div>
+            <div className="w-px h-6" style={{ background: 'hsl(0 0% 100% / 0.06)' }} />
             {WEEK_STATS.map((s, i) => (
               <motion.div key={i} {...m(0.12 + i * 0.04)} className="text-center px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
                 <p className="text-xl font-black" style={{ color: S3_ACCENT.emerald.text }}>{s.num}</p>
@@ -248,9 +265,16 @@ export function S3Slide12Closing() {
               </motion.div>
 
               {/* Key takeaway */}
-              <motion.div {...m(0.55)} className="relative overflow-hidden flex items-start gap-3 px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.02]">
-                <TrendingUp className="w-5 h-5 text-emerald-400/50 shrink-0 mt-0.5" />
-                <div>
+              <motion.div {...m(0.55)} className="relative overflow-hidden flex items-start gap-3 px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.02]"
+                {...(isExporting ? {} : { whileHover: { borderColor: 'hsl(160 65% 45% / 0.2)', scale: 1.01 } })}>
+                {!isExporting && (
+                  <motion.div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(160 65% 60% / 0.06) 50%, transparent 65%)' }}
+                    animate={{ x: ['-150%', '250%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5 }} />
+                )}
+                <TrendingUp className="w-5 h-5 text-emerald-400/50 shrink-0 mt-0.5 relative" />
+                <div className="relative">
                   <p className="text-[9px] text-white/25 uppercase tracking-wider font-bold mb-1">Key Takeaway</p>
                   <p className="text-xs text-white/45 leading-relaxed">
                     No necesitas dominar <span className="text-white/70 font-semibold">todas</span> las herramientas.
