@@ -1,31 +1,52 @@
 import { motion } from 'framer-motion';
-import { Rocket, BarChart3, Terminal, Database, Code2, BookOpen, Video, Presentation, ArrowRight, Palette, Zap } from 'lucide-react';
+import { Rocket, BarChart3, Terminal, Database, Code2, BookOpen, Video, Presentation, ArrowRight, Palette, Zap, CheckCircle2, Sparkles, Star, TrendingUp } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
-const TOOLS = [
-  { icon: BarChart3, name: 'Canvas', accent: S3_ACCENT.cyan },
-  { icon: BookOpen, name: 'NotebookLM', accent: S3_ACCENT.cyan },
-  { icon: Presentation, name: 'Gamma', accent: S3_ACCENT.violet },
-  { icon: Terminal, name: 'Claude Code', accent: S3_ACCENT.violet },
-  { icon: Database, name: 'CRM+MCP', accent: S3_ACCENT.amber },
-  { icon: Code2, name: 'Cursor', accent: S3_ACCENT.amber },
-  { icon: Video, name: 'Krea.ai', accent: S3_ACCENT.rose },
-  { icon: Palette, name: 'Coolors', accent: S3_ACCENT.rose },
+const TOOLS_LEARNED = [
+  { icon: BarChart3, name: 'Canvas', what: 'Datos → Visual', accent: S3_ACCENT.cyan },
+  { icon: BookOpen, name: 'NotebookLM', what: 'PDFs → Audio', accent: S3_ACCENT.cyan },
+  { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
+  { icon: Terminal, name: 'Claude Code', what: 'Desktop AI', accent: S3_ACCENT.violet },
+  { icon: Database, name: 'CRM+MCP', what: 'Datos live', accent: S3_ACCENT.amber },
+  { icon: Code2, name: 'Cursor', what: 'IDE + AI', accent: S3_ACCENT.amber },
+  { icon: Video, name: 'Krea.ai', what: 'Img → Video', accent: S3_ACCENT.rose },
+  { icon: Palette, name: 'Coolors', what: 'Paletas', accent: S3_ACCENT.rose },
 ];
 
 const MISSIONS = [
-  { task: 'Dashboard con datos reales', detail: 'Sube tu CSV a Canvas → comparte', icon: BarChart3, accent: S3_ACCENT.cyan },
-  { task: 'Claude Code + 2 skills', detail: 'Brand Theme + Excel Controller', icon: Terminal, accent: S3_ACCENT.violet },
-  { task: 'Conecta MCP o genera video', detail: 'CRM vía MCP o clip en Krea.ai', icon: Zap, accent: S3_ACCENT.amber },
+  {
+    task: 'Dashboard con datos reales',
+    detail: 'Sube tu CSV a Canvas → exporta HTML',
+    icon: BarChart3,
+    accent: S3_ACCENT.cyan,
+    difficulty: 'Fácil',
+    time: '~15 min',
+  },
+  {
+    task: 'Claude Desktop + 2 Skills',
+    detail: 'Instala Brand Theme + Excel Controller',
+    icon: Terminal,
+    accent: S3_ACCENT.violet,
+    difficulty: 'Medio',
+    time: '~20 min',
+  },
+  {
+    task: 'MCP en acción o Video AI',
+    detail: 'Conecta tu CRM vía MCP o genera un clip en Krea',
+    icon: Zap,
+    accent: S3_ACCENT.amber,
+    difficulty: 'Desafío',
+    time: '~30 min',
+  },
 ];
 
-const FLOATING_PILLS = [
-  { label: '8+', left: '16%', top: '20%' },
-  { label: 'semana 4', left: '13%', top: '56%' },
-  { label: 'acción', left: '80%', top: '22%' },
+const WEEK_STATS = [
+  { num: '8+', label: 'herramientas' },
+  { num: '5', label: 'workflows' },
+  { num: '3', label: 'frameworks' },
 ];
 
 export function S3Slide12Closing() {
@@ -34,214 +55,210 @@ export function S3Slide12Closing() {
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
+      {/* Layered background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(150_60%_50%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(185_70%_50%_/_0.06),_transparent_55%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_55%_/_0.08)_50%,_transparent_65%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={15} primaryHue={150} secondaryHue={185} tertiaryHue={330} />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_10%,_hsl(263_60%_55%_/_0.05),_transparent_50%)]" />
+        <S3Atmosphere isExporting={isExporting} particleCount={20} primaryHue={150} secondaryHue={185} tertiaryHue={263} />
       </div>
 
-      {/* Floating decorative pills */}
-      {!isExporting && FLOATING_PILLS.map((pill, i) => (
-        <motion.div
-          key={pill.label}
-          className="absolute z-0 px-3 py-1.5 rounded-full border text-[10px] font-bold pointer-events-none"
-          style={{
-            borderColor: 'hsl(160 65% 50% / 0.25)',
-            background: 'hsl(160 65% 50% / 0.06)',
-            color: 'hsl(160 65% 65% / 0.95)',
-            left: pill.left,
-            top: pill.top,
-          }}
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2.4 + i * 0.4, repeat: Infinity, ease: S3_EASE }}
-        >
-          {pill.label}
-        </motion.div>
-      ))}
+      {/* Animated corner accents */}
+      {!isExporting && (
+        <>
+          <motion.div
+            className="absolute top-0 left-0 w-80 h-80 pointer-events-none"
+            style={{ background: 'conic-gradient(from 180deg at 0% 0%, hsl(160 65% 50% / 0.08), transparent 25%)' }}
+            animate={{ opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute bottom-0 right-0 w-80 h-80 pointer-events-none"
+            style={{ background: 'conic-gradient(from 0deg at 100% 100%, hsl(263 60% 55% / 0.06), transparent 25%)' }}
+            animate={{ opacity: [0.3, 0.7, 0.3] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </>
+      )}
 
-      <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
-        <motion.div {...m(0)} className="mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.emerald.border, background: S3_ACCENT.emerald.bg }}>
-            <Rocket className="w-3.5 h-3.5" style={{ color: S3_ACCENT.emerald.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.emerald.text }}>Cierre · Semana 3</span>
+      <div className="relative z-10 max-w-[1400px] mx-auto w-full">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <motion.div {...m(0)} className="flex items-center gap-3 mb-3">
+              <div className="w-1.5 h-10 rounded-full" style={{ background: `linear-gradient(180deg, ${S3_ACCENT.emerald.text}, ${S3_ACCENT.cyan.text})` }} />
+              <div>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30">Cierre · Semana 3</span>
+                <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight leading-none">
+                  La diferencia es la{' '}
+                  <span style={{
+                    background: 'linear-gradient(135deg, hsl(160 65% 55%), hsl(185 70% 60%), hsl(263 60% 65%))',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}>
+                    acción
+                  </span>
+                </h1>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-7xl font-black text-white tracking-tight mb-3">
-          La diferencia es la{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, hsl(160 65% 55%), hsl(185 70% 60%), hsl(263 60% 65%))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 35px hsl(160 65% 50% / 0.4)) drop-shadow(0 0 50px hsl(263 60% 55% / 0.25))',
-            }}
-          >
-            acción
-          </span>
-        </motion.h1>
-        <motion.div
-          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
-          style={{ background: 'linear-gradient(90deg, transparent, hsl(160 65% 50% / 0.5), hsl(185 70% 55% / 0.5), hsl(263 60% 60% / 0.5), transparent)' }}
-          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-        />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-12 max-w-md mx-auto">
-          8+ herramientas · 5 workflows · 3 frameworks
-        </motion.p>
-
-        {/* Tool icon grid with orbital ring + wave animation */}
-        <motion.div {...m(0.2)} className="relative flex items-center justify-center gap-3 mb-10 flex-wrap">
-          {!isExporting && (
-            <motion.div
-              className="absolute -inset-8 rounded-[40px] pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse at center, hsl(160 70% 55% / 0.14), transparent 70%)', filter: 'blur(30px)' }}
-              animate={{ opacity: [0.35, 0.65, 0.35], scale: [0.98, 1.02, 0.98] }}
-              transition={{ duration: 5.5, repeat: Infinity, ease: S3_EASE }}
-            />
-          )}
-          {/* Orbital ring around tool grid */}
-          {!isExporting && (
-            <>
-              <motion.div
-                className="absolute rounded-3xl pointer-events-none"
-                style={{
-                  width: 'calc(100% + 3rem)',
-                  height: 100,
-                  border: '1px solid hsl(185 70% 50% / 0.12)',
-                  borderStyle: 'dashed',
-                }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute rounded-3xl pointer-events-none"
-                style={{
-                  width: 'calc(100% + 4rem)',
-                  height: 120,
-                  border: '1px solid hsl(263 60% 55% / 0.08)',
-                  borderStyle: 'dashed',
-                }}
-                animate={{ rotate: -360 }}
-                transition={{ duration: 38, repeat: Infinity, ease: 'linear' }}
-              />
-            </>
-          )}
-
-          {TOOLS.map((tool, i) => {
-            const Icon = tool.icon;
-            return (
-              <motion.div
-                key={i}
-                {...(isExporting ? {} : {
-                  initial: { opacity: 0, scale: 0.7 },
-                  animate: {
-                    opacity: 1,
-                    scale: 1,
-                    y: [0, -6, 0],
-                  },
-                  transition: {
-                    opacity: { delay: 0.25 + i * 0.04, type: 'spring', stiffness: 200 },
-                    scale: { delay: 0.25 + i * 0.04, type: 'spring', stiffness: 200 },
-                    y: {
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: S3_EASE,
-                      delay: i * 0.12,
-                    },
-                  },
-                })}
-                className="group w-14 h-14 rounded-2xl border flex items-center justify-center relative"
-                style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.15, y: -3 } })}>
-                <Icon className="w-6 h-6" style={{ color: tool.accent.text }} />
-                {/* Tooltip on hover */}
-                <div className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <span className="text-[8px] font-bold text-white/40 whitespace-nowrap">{tool.name}</span>
-                </div>
+          {/* Stats pills */}
+          <motion.div {...m(0.1)} className="flex items-center gap-3">
+            {WEEK_STATS.map((s, i) => (
+              <motion.div key={i} {...m(0.12 + i * 0.04)} className="text-center px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                <p className="text-xl font-black" style={{ color: S3_ACCENT.emerald.text }}>{s.num}</p>
+                <p className="text-[8px] text-white/25 uppercase tracking-wider font-bold">{s.label}</p>
               </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* Missions with shimmer */}
-        <motion.p {...m(0.35)} className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold mb-4">Misiones esta semana</motion.p>
-        <div className="flex items-center justify-center gap-4 mb-10">
-          {MISSIONS.map((mission, i) => {
-            const Icon = mission.icon;
-            return (
-              <motion.div
-                key={i}
-                {...m(0.4 + i * 0.08)}
-                className="relative flex items-center gap-3 px-5 py-3 rounded-xl border overflow-hidden"
-                style={{ borderColor: mission.accent.border, background: mission.accent.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.04 } })}>
-                {/* Shimmer on mission cards */}
-                {!isExporting && (
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: 'linear-gradient(105deg, transparent 35%, hsl(185 70% 60% / 0.1) 50%, transparent 65%)',
-                    }}
-                    animate={{ x: ['-150%', '250%'] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.6 }}
-                  />
-                )}
-                <div className="relative w-7 h-7 rounded-lg flex items-center justify-center"
-                  style={{ background: `${mission.accent.text}12`, border: `1px solid ${mission.accent.text}20` }}>
-                  <Icon className="w-4 h-4" style={{ color: mission.accent.text }} />
-                </div>
-                <span className="relative text-sm text-white/55 font-medium">{mission.task}</span>
-                <span className="relative text-[9px] text-white/25 ml-auto">{mission.detail}</span>
-              </motion.div>
-            );
-          })}
+            ))}
+          </motion.div>
         </div>
 
-        {/* Next week CTA with stronger glow */}
-        <motion.div
-          {...m(0.6)}
-          className="relative overflow-hidden inline-flex items-center gap-4 px-6 py-4 rounded-xl border"
-          style={{
-            borderColor: S3_ACCENT.cyan.border,
-            background: S3_ACCENT.cyan.bg,
-            boxShadow: isExporting ? undefined : `0 0 40px ${S3_ACCENT.cyan.glow}, 0 0 80px hsl(185 70% 50% / 0.15)`,
-          }}
-          {...(isExporting ? {} : { whileHover: { scale: 1.03 } })}>
-          {!isExporting && (
-            <motion.div
-              className="absolute -inset-6 rounded-2xl pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse at center, hsl(185 70% 60% / 0.18), transparent 72%)', filter: 'blur(20px)' }}
-              animate={{ opacity: [0.35, 0.8, 0.35] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          )}
-          {!isExporting && (
-            <>
-              <motion.div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 60% 70% / 0.08) 50%, transparent 65%)' }}
-                animate={{ x: ['-150%', '250%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
-              />
-              <div
-                className="absolute -inset-1 rounded-xl opacity-60 pointer-events-none"
-                style={{
-                  background: `radial-gradient(ellipse 80% 50% at 50% 50%, ${S3_ACCENT.cyan.glow}, transparent 70%)`,
-                }}
-              />
-            </>
-          )}
-          <div className="relative z-10">
-            <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Próxima Semana</p>
-            <p className="text-base font-bold text-white">S4: <span style={{ color: S3_ACCENT.cyan.text }}>VibeCoding</span> — Tu primera app en 90 min</p>
-          </div>
-          <motion.div className="relative z-10" {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
-            <ArrowRight className="w-5 h-5" style={{ color: `${S3_ACCENT.cyan.text}70` }} />
+        {/* Main content: 2 columns */}
+        <div className="grid grid-cols-5 gap-6">
+          {/* Left: Tools mastered - 2 cols */}
+          <motion.div {...m(0.15)} className="col-span-2 rounded-2xl border border-white/[0.06] bg-white/[0.015] p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="w-4 h-4 text-amber-400/60" />
+              <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Tu Arsenal</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {TOOLS_LEARNED.map((tool, i) => {
+                const Icon = tool.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    {...(isExporting ? {} : {
+                      initial: { opacity: 0, scale: 0.8 },
+                      animate: { opacity: 1, scale: 1 },
+                      transition: { delay: 0.2 + i * 0.04, type: 'spring', stiffness: 200 },
+                    })}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border group"
+                    style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ background: `${tool.accent.text}15`, border: `1px solid ${tool.accent.text}20` }}>
+                      <Icon className="w-4 h-4" style={{ color: tool.accent.text }} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-white/70 leading-tight">{tool.name}</p>
+                      <p className="text-[9px] text-white/25 leading-tight">{tool.what}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
-        </motion.div>
+
+          {/* Right: Missions + CTA - 3 cols */}
+          <div className="col-span-3 flex flex-col gap-4">
+            {/* Missions */}
+            <motion.div {...m(0.25)} className="flex-1 rounded-2xl border p-5"
+              style={{ borderColor: 'hsl(160 40% 25% / 0.3)', background: 'hsl(160 30% 8% / 0.5)' }}>
+              <div className="flex items-center gap-2 mb-4">
+                <Rocket className="w-4 h-4" style={{ color: S3_ACCENT.emerald.text }} />
+                <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Misiones esta semana</span>
+                <span className="ml-auto text-[9px] text-white/20 font-medium">Elige al menos 1</span>
+              </div>
+
+              <div className="space-y-2.5">
+                {MISSIONS.map((mission, i) => {
+                  const Icon = mission.icon;
+                  return (
+                    <motion.div
+                      key={i}
+                      {...m(0.3 + i * 0.06)}
+                      className="relative flex items-center gap-4 px-4 py-3.5 rounded-xl border overflow-hidden"
+                      style={{ borderColor: mission.accent.border, background: mission.accent.bg }}
+                    >
+                      {/* Shimmer */}
+                      {!isExporting && (
+                        <motion.div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 70% 60% / 0.08) 50%, transparent 65%)' }}
+                          animate={{ x: ['-150%', '250%'] }}
+                          transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.8 }}
+                        />
+                      )}
+
+                      {/* Number */}
+                      <div className="relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                        style={{ background: `${mission.accent.text}15`, border: `1px solid ${mission.accent.text}25` }}>
+                        <span className="text-sm font-black" style={{ color: mission.accent.text }}>{i + 1}</span>
+                      </div>
+
+                      <div className="relative flex-1 min-w-0">
+                        <p className="text-sm font-bold text-white/70">{mission.task}</p>
+                        <p className="text-[10px] text-white/30 mt-0.5">{mission.detail}</p>
+                      </div>
+
+                      <div className="relative flex items-center gap-2 shrink-0">
+                        <span className="text-[9px] px-2 py-0.5 rounded-full border font-bold"
+                          style={{ borderColor: `${mission.accent.text}25`, color: `${mission.accent.text}90`, background: `${mission.accent.text}08` }}>
+                          {mission.difficulty}
+                        </span>
+                        <span className="text-[9px] text-white/20 font-mono">{mission.time}</span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* Bottom row: CTA + Tip */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Next week CTA */}
+              <motion.div
+                {...m(0.5)}
+                className="relative overflow-hidden flex items-center gap-3 px-5 py-4 rounded-xl border"
+                style={{
+                  borderColor: S3_ACCENT.cyan.border,
+                  background: S3_ACCENT.cyan.bg,
+                  boxShadow: isExporting ? undefined : `0 0 40px ${S3_ACCENT.cyan.glow}, 0 0 60px hsl(185 70% 50% / 0.1)`,
+                }}
+              >
+                {!isExporting && (
+                  <>
+                    <motion.div
+                      className="absolute -inset-4 rounded-2xl pointer-events-none"
+                      style={{ background: 'radial-gradient(ellipse at center, hsl(185 70% 60% / 0.15), transparent 72%)', filter: 'blur(15px)' }}
+                      animate={{ opacity: [0.3, 0.7, 0.3] }}
+                      transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 60% 70% / 0.08) 50%, transparent 65%)' }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                    />
+                  </>
+                )}
+                <div className="relative z-10 flex-1 min-w-0">
+                  <p className="text-[9px] text-white/25 uppercase tracking-wider font-bold">Próxima Semana</p>
+                  <p className="text-sm font-bold text-white leading-tight mt-0.5">
+                    S4: <span style={{ color: S3_ACCENT.cyan.text }}>VibeCoding</span>
+                  </p>
+                  <p className="text-[10px] text-white/30 mt-0.5">Tu primera app en 90 min</p>
+                </div>
+                <motion.div className="relative z-10" {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
+                  <ArrowRight className="w-5 h-5" style={{ color: `${S3_ACCENT.cyan.text}70` }} />
+                </motion.div>
+              </motion.div>
+
+              {/* Key takeaway */}
+              <motion.div {...m(0.55)} className="relative overflow-hidden flex items-start gap-3 px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                <TrendingUp className="w-5 h-5 text-emerald-400/50 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-[9px] text-white/25 uppercase tracking-wider font-bold mb-1">Key Takeaway</p>
+                  <p className="text-xs text-white/45 leading-relaxed">
+                    No necesitas dominar <span className="text-white/70 font-semibold">todas</span> las herramientas.
+                    Domina <span style={{ color: S3_ACCENT.emerald.text }} className="font-bold">2-3</span> que resuelvan <span className="text-white/70 font-semibold">tu</span> problema.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <S3Footer sectionLabel="CIERRE" hue={150} />
