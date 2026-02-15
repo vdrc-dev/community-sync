@@ -26,7 +26,7 @@ export default function ModulePresentationView() {
       }
 
       try {
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await (supabase as any)
           .from('module_presentations')
           .select('*')
           .eq('module_number', moduleNumber)

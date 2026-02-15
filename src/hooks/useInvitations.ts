@@ -31,13 +31,13 @@ export function useInvitations() {
   } = useQuery({
     queryKey: ['invitations'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('invitations')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as Invitation[];
+      return (data ?? []) as Invitation[];
     },
     enabled: !!session,
   });

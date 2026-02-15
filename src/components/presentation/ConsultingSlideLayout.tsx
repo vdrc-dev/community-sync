@@ -16,7 +16,7 @@ interface ConsultingSlideLayoutProps {
   className?: string;
 }
 
-const premiumEase = [0.22, 1, 0.36, 1];
+const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const containerVariants = {
   hidden: { 
@@ -52,7 +52,7 @@ export const itemVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 120,
       damping: 20,
     },
