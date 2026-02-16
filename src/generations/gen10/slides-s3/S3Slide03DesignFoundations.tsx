@@ -28,7 +28,7 @@ export function S3Slide03DesignFoundations() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgDesign} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.1]" />
+        <img src={bgDesign} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.04]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_25%,_hsl(330_65%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_65%,_hsl(280_60%_55%_/_0.06),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_50%_55%,_hsl(263_60%_55%_/_0.04),_transparent_70%)]" />

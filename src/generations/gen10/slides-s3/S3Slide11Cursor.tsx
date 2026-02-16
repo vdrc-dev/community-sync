@@ -26,7 +26,7 @@ export function S3Slide11Cursor() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgCursor} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
+        <img src={bgCursor} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.04]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_25%_25%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.06),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(38_90%_60%_/_0.07)_50%,_transparent_65%)]" />
