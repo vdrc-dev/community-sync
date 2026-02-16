@@ -16,13 +16,6 @@ const TOOLS = [
   { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)', hue: 150 },
 ];
 
-const FLOATING_TAGS = [
-  { label: 'Gamma', x: '78%', y: '15%', delay: 0, hue: 263 },
-  { label: 'Coolors', x: '88%', y: '40%', delay: 1.5, hue: 185 },
-  { label: 'Fontjoy', x: '74%', y: '65%', delay: 3, hue: 330 },
-  { label: 'Napkin', x: '92%', y: '75%', delay: 2, hue: 150 },
-];
-
 const STATS = [
   { icon: Wrench, value: '8+', label: 'herramientas', color: S3_ACCENT.cyan.text },
   { icon: Workflow, value: '5', label: 'workflows', color: S3_ACCENT.emerald.text },
@@ -67,15 +60,13 @@ export function S3Slide01Cover() {
         <div className="absolute inset-0 bg-[linear-gradient(110deg,_transparent_35%,_hsl(330_70%_58%_/_0.1)_50%,_transparent_65%)]" />
         <S3Atmosphere
           isExporting={isExporting}
-          particleCount={45}
+          particleCount={40}
           primaryHue={330}
           secondaryHue={263}
           tertiaryHue={185}
           showOrbs
           showLightSweep
           showAurora
-          showLightRays
-          intensity={1.3}
         />
       </div>
 
@@ -87,21 +78,13 @@ export function S3Slide01Cover() {
         <div className="flex items-center gap-3.5">
           <div className="relative">
             <div className="absolute inset-0 rounded-full blur-xl scale-[2.5]" style={{ background: 'hsl(330 60% 50% / 0.18)' }} />
-            {!isExporting && (
-              <motion.div
-                className="absolute inset-0 rounded-full blur-2xl scale-[3]"
-                style={{ background: 'hsl(330 70% 55% / 0.12)' }}
-                animate={{ scale: [3, 3.5, 3], opacity: [0.1, 0.2, 0.1] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
             <img src={logoVdrc} alt="VDRC" className="relative h-9 w-auto" />
           </div>
           <div className="flex flex-col">
             <span className="text-white/90 font-bold tracking-wider text-sm">
               VDRC <span className="text-rose-400/30">·</span> GEN {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
             </span>
-            <span className="text-white/30 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
+            <span className="text-white/35 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
           </div>
         </div>
       </motion.div>
@@ -156,15 +139,6 @@ export function S3Slide01Cover() {
             onMouseLeave={() => setIsHovered(false)}
             className="relative"
           >
-            {/* Title breathing glow behind */}
-            {!isExporting && (
-              <motion.div
-                className="absolute -inset-8 rounded-3xl blur-[80px] pointer-events-none"
-                style={{ background: 'hsl(330 65% 45% / 0.15)' }}
-                animate={{ opacity: [0.08, 0.2, 0.08], scale: [0.98, 1.02, 0.98] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
             <h1
               className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] text-white leading-[0.88] transition-all duration-700 relative"
               style={{ textShadow: isHovered ? '0 0 120px hsl(330 70% 55% / 0.5)' : '0 0 60px hsl(330 70% 55% / 0.08)' }}
@@ -305,7 +279,7 @@ export function S3Slide01Cover() {
 
             <div className="flex items-center gap-4">
               <div className="h-px w-10" style={{ background: 'linear-gradient(90deg, hsl(330 50% 50% / 0.3), transparent)' }} />
-              <p className="text-white/35 text-xs font-medium uppercase tracking-[0.2em]">
+              <p className="text-white/40 text-xs font-medium uppercase tracking-[0.2em]">
                 {gen?.config?.date || '17 de febrero de 2026'} · {gen?.config?.instructor || 'Vicente Donoso R.'}
               </p>
             </div>
@@ -324,46 +298,6 @@ export function S3Slide01Cover() {
           {/* Deep layered glow */}
           <div className="absolute -inset-24 rounded-full blur-[180px] opacity-55"
             style={{ background: 'radial-gradient(circle, hsl(330 70% 50% / 0.4), hsl(280 55% 42% / 0.15) 50%, transparent 70%)' }} />
-          {!isExporting && (
-            <>
-              <motion.div
-                className="absolute -inset-20 rounded-[48px] pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse at center, hsl(185 80% 65% / 0.1), transparent 70%)' }}
-                animate={{ opacity: [0.15, 0.45, 0.15], scale: [0.97, 1.04, 0.97] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <motion.div
-                className="absolute -inset-28 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, hsl(330 60% 50% / 0.08), transparent 60%)' }}
-                animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.15, 0.05] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              />
-            </>
-          )}
-
-          {/* Rotating orbital rings */}
-          {!isExporting && (
-            <>
-              <motion.div
-                className="absolute -inset-8 rounded-[36px] border opacity-20"
-                style={{ borderColor: 'hsl(330 50% 55% / 0.4)', borderStyle: 'dashed' }}
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute -inset-14 rounded-[44px] border opacity-[0.08]"
-                style={{ borderColor: 'hsl(185 60% 55% / 0.4)' }}
-                animate={{ rotate: [360, 0] }}
-                transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute -inset-20 rounded-[52px] border opacity-[0.04]"
-                style={{ borderColor: 'hsl(263 50% 55% / 0.3)', borderStyle: 'dashed' }}
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-              />
-            </>
-          )}
 
           {/* Holographic frame */}
           <div className="relative p-[2px] rounded-[28px]"
@@ -428,27 +362,6 @@ export function S3Slide01Cover() {
             </div>
           </div>
 
-          {/* Floating keyword chips with individual hues */}
-          {!isExporting && FLOATING_TAGS.map((tag) => (
-            <motion.div
-              key={tag.label}
-              className="absolute px-3 py-1.5 rounded-full border backdrop-blur-md text-[10px] font-mono uppercase tracking-wider"
-              style={{
-                left: tag.x,
-                top: tag.y,
-                background: `hsl(${tag.hue} 50% 20% / 0.7)`,
-                borderColor: `hsl(${tag.hue} 50% 55% / 0.2)`,
-                color: `hsl(${tag.hue} 50% 75% / 0.7)`,
-                boxShadow: `0 0 20px hsl(${tag.hue} 50% 50% / 0.1)`,
-              }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: [0, 0.8, 0.8, 0], y: [0, -10, -10, 0], scale: [0.8, 1, 1, 0.8] }}
-              transition={{ duration: 8, repeat: Infinity, delay: tag.delay, ease: 'easeInOut' }}
-            >
-              {tag.label}
-            </motion.div>
-          ))}
-
           {/* Bottom-left badge */}
           <motion.div {...m(0.85)}
             className="absolute -bottom-4 -left-5 px-4 py-2.5 rounded-xl border backdrop-blur-xl"
@@ -482,7 +395,7 @@ export function S3Slide01Cover() {
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-mono text-rose-400/65 tracking-wider uppercase">2026</span>
               <div className="w-px h-3" style={{ background: 'hsl(0 0% 100% / 0.08)' }} />
-              <span className="text-[10px] font-mono text-white/30">S3</span>
+              <span className="text-[10px] font-mono text-white/35">S3</span>
             </div>
           </motion.div>
         </motion.div>

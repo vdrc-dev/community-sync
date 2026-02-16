@@ -48,14 +48,13 @@ export function S3SlideDivider({
         <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 40% 35% at 20% 30%, hsl(${(accentHue + 80) % 360} 45% 45% / 0.06), transparent 50%)` }} />
         <S3Atmosphere
           isExporting={isExporting}
-          particleCount={16}
+          particleCount={12}
           primaryHue={accentHue}
           secondaryHue={(accentHue + 60) % 360}
           tertiaryHue={(accentHue + 120) % 360}
           showOrbs
           showLightSweep
           showAurora
-          intensity={1.1}
         />
       </div>
 
@@ -87,17 +86,9 @@ export function S3SlideDivider({
 
         {/* Module badge with breathing glow */}
         <motion.div {...me(0.08)} className="mb-5 -mt-12">
-          <div className="relative inline-flex items-center gap-2 px-5 py-2 rounded-full border" style={{ borderColor: accentBorder, background: accentDim }}>
-            {!isExporting && (
-              <motion.div
-                className="absolute -inset-1 rounded-full blur-lg pointer-events-none"
-                style={{ background: `hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.15)` }}
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
-            <Icon className="w-4 h-4 relative" style={{ color: accentText }} />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase relative" style={{ color: accentText }}>MÓDULO {moduleNum}</span>
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border" style={{ borderColor: accentBorder, background: accentDim }}>
+            <Icon className="w-4 h-4" style={{ color: accentText }} />
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: accentText }}>MÓDULO {moduleNum}</span>
           </div>
         </motion.div>
 
@@ -182,30 +173,6 @@ export function S3SlideDivider({
               );
             })}
           </motion.div>
-        )}
-
-        {/* Orbital decorative rings */}
-        {!isExporting && (
-          <>
-            <motion.div
-              className="absolute left-1/2 top-[32%] -translate-x-1/2 w-[520px] h-[520px] rounded-full border pointer-events-none"
-              style={{ borderColor: `${accent}15`, borderStyle: 'dashed' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
-            />
-            <motion.div
-              className="absolute left-1/2 top-[32%] -translate-x-1/2 w-[640px] h-[640px] rounded-full border pointer-events-none"
-              style={{ borderColor: `hsl(${(accentHue + 60) % 360} 50% 50% / 0.06)` }}
-              animate={{ rotate: -360 }}
-              transition={{ duration: 75, repeat: Infinity, ease: 'linear' }}
-            />
-            <motion.div
-              className="absolute left-1/2 top-[32%] -translate-x-1/2 w-[750px] h-[750px] rounded-full border pointer-events-none"
-              style={{ borderColor: `hsl(${(accentHue + 120) % 360} 40% 45% / 0.03)`, borderStyle: 'dashed' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
-            />
-          </>
         )}
       </div>
 

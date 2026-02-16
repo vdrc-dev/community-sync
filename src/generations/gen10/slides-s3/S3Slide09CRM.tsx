@@ -4,18 +4,11 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
-import bgCRM from '@/assets/gen10-s3/bg-crm-pipeline.jpg';
 
 const PIPELINE = [
   { label: 'CRM', sub: 'HubSpot · Salesforce · Notion', icon: Database, accent: S3_ACCENT.amber },
   { label: 'MCP', sub: '200+ servidores · Plug & Play', icon: Plug, accent: S3_ACCENT.violet },
   { label: 'Análisis', sub: 'Dashboard + Insights', icon: BarChart3, accent: S3_ACCENT.cyan },
-];
-
-const FLOATING_PILLS = [
-  { label: 'datos', left: '14%', top: '24%', delay: 0 },
-  { label: 'MCP', left: '83%', top: '28%', delay: 0.35 },
-  { label: 'insights', left: '80%', top: '64%', delay: 0.7 },
 ];
 
 export function S3Slide09CRM() {
@@ -25,34 +18,15 @@ export function S3Slide09CRM() {
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <img src={bgCRM} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.15]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_25%_30%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_65%,_hsl(263_60%_55%_/_0.06),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(38_90%_60%_/_0.07)_50%,_transparent_65%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={38} secondaryHue={263} tertiaryHue={185} showAurora />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_65%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_15%,_hsl(185_70%_45%_/_0.05),_transparent_50%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={38} secondaryHue={263} tertiaryHue={185} showAurora />
       </div>
 
-      {/* Floating decorative pills */}
-      {!isExporting && FLOATING_PILLS.map((pill, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full border px-3 py-1 text-[10px] font-bold tracking-wider pointer-events-none"
-          style={{
-            borderColor: 'hsl(38 90% 55% / 0.25)',
-            background: 'hsl(38 90% 55% / 0.06)',
-            color: 'hsl(38 85% 65%)',
-            left: pill.left,
-            top: pill.top,
-          }}
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 3.2 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: pill.delay }}
-        >
-          {pill.label}
-        </motion.div>
-      ))}
-
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
-        <motion.div {...m(0)} className="mb-6">
+        <motion.div {...m(0)} className="mb-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}>
             <Database className="w-3.5 h-3.5" style={{ color: S3_ACCENT.amber.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.amber.text }}>Conexiones y Datos</span>
@@ -60,7 +34,7 @@ export function S3Slide09CRM() {
         </motion.div>
 
         <motion.div {...m(0.08)}>
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Conecta tu{' '}
             <span
               style={{
@@ -75,79 +49,58 @@ export function S3Slide09CRM() {
             </span>
           </h1>
           <motion.div
-            className="h-0.5 rounded-full mx-auto mt-1 max-w-[140px] origin-center"
+            className="h-[2px] rounded-full mx-auto mt-1.5 max-w-[100px] origin-center"
             style={{ background: 'linear-gradient(90deg, transparent, hsl(38 90% 65% / 0.8), hsl(280 60% 60% / 0.8), transparent)' }}
             initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
           />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 mb-8 max-w-md mx-auto">
           Trae tus datos reales a la IA — clientes, acuerdos y métricas
         </motion.p>
 
         {/* Visual pipeline flow: CRM → MCP → Analysis */}
         <div className="relative flex items-center justify-center gap-4">
-          {!isExporting && (
-            <motion.div
-              className="absolute -inset-8 rounded-[32px] pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse at center, hsl(38 90% 60% / 0.12), transparent 72%)', filter: 'blur(26px)' }}
-              animate={{ opacity: [0.2, 0.4, 0.2] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          )}
           {PIPELINE.map((step, i) => {
             const Icon = step.icon;
             const shimmerHue = step.accent === S3_ACCENT.amber ? 38 : step.accent === S3_ACCENT.violet ? 263 : 185;
             return (
               <motion.div key={i} className="flex items-center gap-4" {...m(0.2 + i * 0.1)}>
                 <motion.div
-                  className="relative group w-52 p-6 rounded-2xl border flex flex-col items-center gap-3 overflow-hidden"
+                  className="relative group w-48 p-5 rounded-2xl border flex flex-col items-center gap-2 overflow-hidden"
                   style={{ borderColor: step.accent.border, background: step.accent.bg }}
                   {...(isExporting ? {} : { whileHover: { scale: 1.06, y: -4 } })}>
-                  {/* Shimmer sweep */}
+                  {/* Shimmer */}
                   {!isExporting && (
                     <motion.div
                       className="absolute inset-0 pointer-events-none z-[1]"
                       style={{
-                        background: `linear-gradient(105deg, transparent 35%, hsl(${shimmerHue} 60% 60% / 0.1) 50%, transparent 65%)`,
+                        background: `linear-gradient(105deg, transparent 35%, hsl(${shimmerHue} 60% 60% / 0.08) 50%, transparent 65%)`,
                       }}
                       animate={{ x: ['-150%', '250%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5 }}
                     />
                   )}
-                  {!isExporting && (
-                    <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                      style={{ background: step.accent.glow }} />
-                  )}
-                  <div className="relative flex flex-col items-center gap-3">
-                    {/* Orbital ring around icon */}
-                    <div className="relative w-16 h-16 flex items-center justify-center">
+                  <div className="relative flex flex-col items-center gap-2">
+                    <div className="relative w-14 h-14 flex items-center justify-center">
                       {!isExporting && (
                         <motion.div
-                          className="absolute inset-0 rounded-2xl border"
-                          style={{ borderColor: `${step.accent.text}20`, borderWidth: 1 }}
+                          className="absolute inset-[-3px] rounded-xl border border-dashed"
+                          style={{ borderColor: `${step.accent.text}25` }}
                           animate={{ rotate: [0, 360] }}
-                          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
                         />
                       )}
-                      {!isExporting && (
-                        <motion.div
-                          className="absolute inset-[-4px] rounded-2xl border"
-                          style={{ borderColor: `${step.accent.text}12`, borderWidth: 1 }}
-                          animate={{ rotate: [360, 0] }}
-                          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-                        />
-                      )}
-                      <div className="w-16 h-16 rounded-2xl border flex items-center justify-center relative z-10"
+                      <div className="w-14 h-14 rounded-xl border flex items-center justify-center relative z-10"
                         style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
-                        <Icon className="w-8 h-8" style={{ color: step.accent.text }} />
+                        <Icon className="w-7 h-7" style={{ color: step.accent.text }} />
                       </div>
                     </div>
                   </div>
                   <div className="relative">
-                    <p className="text-lg font-black text-white">{step.label}</p>
-                    <p className="text-[11px] text-white/40 mt-0.5">{step.sub}</p>
+                    <p className="text-base font-black text-white">{step.label}</p>
+                    <p className="text-[11px] text-white/45 mt-0.5">{step.sub}</p>
                   </div>
                 </motion.div>
 
@@ -191,7 +144,7 @@ export function S3Slide09CRM() {
         </div>
 
         {/* Example prompts */}
-        <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+        <motion.div {...m(0.55)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
           {[
             { tip: '"¿Cuántos deals cerré este mes?"', detail: 'Claude consulta HubSpot vía MCP y te da el número exacto' },
             { tip: '"Hazme un pipeline visual"', detail: 'Combina datos del CRM con Canvas para un dashboard' },
@@ -203,9 +156,9 @@ export function S3Slide09CRM() {
           ))}
         </motion.div>
 
-        <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-amber-400/50">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span> → usa como alternativa</span>
+        <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-white/45">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400/60" />
+          <span>¿Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span> → usa como alternativa</span>
         </motion.div>
       </div>
 

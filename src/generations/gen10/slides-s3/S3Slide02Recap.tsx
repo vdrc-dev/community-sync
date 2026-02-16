@@ -23,23 +23,12 @@ export function S3Slide02Recap() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_30%,_hsl(185_70%_50%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.06),_transparent_70%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
       </div>
 
-      {/* Floating decorative pills */}
-      {!isExporting && (
-        <>
-          <motion.div className="absolute left-[12%] top-[38%] text-[10px] font-bold tracking-wider text-white/40"
-            animate={{ y: [0, -8, 0], opacity: [0.4, 0.6, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>75%</motion.div>
-          <motion.div className="absolute right-[18%] top-[35%] text-[10px] font-bold tracking-wider text-white/35"
-            animate={{ y: [0, 6, 0], opacity: [0.35, 0.5, 0.35] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}>S3</motion.div>
-          <motion.div className="absolute left-[22%] bottom-[32%] text-[10px] font-semibold tracking-widest text-white/35 uppercase"
-            animate={{ y: [0, -5, 0], opacity: [0.35, 0.5, 0.35] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}>4 semanas</motion.div>
-        </>
-      )}
-
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
-        <motion.div {...m(0)} className="mb-6">
+        <motion.div {...m(0)} className="mb-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
             <ChevronRight className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Tu Progreso</span>
@@ -56,7 +45,7 @@ export function S3Slide02Recap() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
-        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-9 max-w-lg mx-auto">
+        <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-7 max-w-lg mx-auto">
           Semana 3 de 4 - 75% del programa completado
         </motion.p>
         <motion.div
@@ -135,7 +124,7 @@ export function S3Slide02Recap() {
                 {/* Label */}
                 <div>
                   <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-1" style={{ color: isFuture ? `${week.accent.text}35` : `${week.accent.text}80` }}>Semana {week.num}</p>
-                  <p className={`text-base font-black ${isFuture ? 'text-white/30' : 'text-white'}`}>{week.title}</p>
+                  <p className={`text-base font-black ${isFuture ? 'text-white/35' : 'text-white'}`}>{week.title}</p>
                   {isCurrent && (
                     <span className="inline-block mt-1.5 relative overflow-hidden rounded-full">
                       {!isExporting && (

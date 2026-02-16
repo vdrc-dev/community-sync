@@ -5,7 +5,6 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
-import bgClaude from '@/assets/gen10-s3/bg-claude-code.jpg';
 
 /* ── Desktop superpowers ── */
 const DESKTOP_POWERS = [
@@ -29,14 +28,6 @@ const SETUP_STEPS = [
   { step: '4', text: 'Conecta tu primer MCP', icon: Cable },
 ];
 
-/* ── Floating keyword chips ── */
-const FLOATING_TAGS = [
-  { label: 'MCP', x: '-10%', y: '18%', delay: 0 },
-  { label: 'Skills', x: '104%', y: '10%', delay: 1.2 },
-  { label: 'Local', x: '-6%', y: '72%', delay: 2.4 },
-  { label: 'Agentes', x: '106%', y: '65%', delay: 0.6 },
-];
-
 export function S3Slide06ClaudeCode() {
   const { isExporting } = useExportContext();
   const [hoveredCard, setHoveredCard] = useState<'desktop' | 'web' | null>(null);
@@ -47,19 +38,19 @@ export function S3Slide06ClaudeCode() {
 
       {/* ── Atmospheric Background ── */}
       <div className="absolute inset-0">
-        <img src={bgClaude} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.08]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_25%_20%,_hsl(263_65%_55%_/_0.12),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_75%,_hsl(280_55%_50%_/_0.08),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_25%_20%,_hsl(263_65%_55%_/_0.1),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_75%,_hsl(280_55%_50%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_50%,_hsl(263_50%_45%_/_0.05),_transparent_50%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora />
       </div>
 
       {/* ── Content ── */}
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
 
         {/* Badge */}
-        <motion.div {...m(0)} className="mb-5">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border backdrop-blur-sm"
+        <motion.div {...m(0)} className="mb-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border"
             style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
             <Terminal className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Claude Code</span>
@@ -88,7 +79,7 @@ export function S3Slide06ClaudeCode() {
         />
 
         {/* Subtitle */}
-        <motion.p {...m(0.15)} className="text-white/50 text-lg mt-4 mb-10 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 mb-7 max-w-md mx-auto">
           La IA que vive en tu computador, no en la nube
         </motion.p>
 
@@ -223,23 +214,6 @@ export function S3Slide06ClaudeCode() {
               </div>
             </div>
 
-            {/* Floating keyword chips */}
-            {!isExporting && FLOATING_TAGS.map((tag) => (
-              <motion.div
-                key={tag.label}
-                className="absolute px-2.5 py-1 rounded-full border backdrop-blur-md text-[10px] font-mono uppercase tracking-wider pointer-events-none"
-                style={{
-                  left: tag.x, top: tag.y,
-                  background: 'hsl(263 40% 8% / 0.75)',
-                  borderColor: S3_ACCENT.violet.border,
-                  color: `hsl(263 50% 72% / 0.65)`,
-                }}
-                animate={{ y: [0, -6, 0], opacity: [0.4, 0.7, 0.4] }}
-                transition={{ duration: 4 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut', delay: tag.delay }}
-              >
-                {tag.label}
-              </motion.div>
-            ))}
           </motion.div>
 
           {/* ── RIGHT: Claude Web (dimmed) ── */}
@@ -247,13 +221,13 @@ export function S3Slide06ClaudeCode() {
             onMouseEnter={() => setHoveredCard('web')}
             onMouseLeave={() => setHoveredCard(null)}>
 
-            <div className="h-full p-6 rounded-2xl border border-white/[0.08] bg-white/[0.015] flex flex-col"
+            <div className="h-full p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex flex-col"
               style={{ opacity: hoveredCard === 'web' ? 0.75 : 0.55, transition: 'opacity 0.4s ease' }}>
 
               {/* Icon */}
               <div className="flex justify-center mb-4 mt-4">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ background: 'hsl(0 0% 100% / 0.02)', border: '1px solid hsl(0 0% 100% / 0.06)' }}>
+                  style={{ background: 'hsl(0 0% 100% / 0.02)', border: '1px solid hsl(0 0% 100% / 0.08)' }}>
                   <Globe className="w-7 h-7 text-white/30" />
                 </div>
               </div>
@@ -263,11 +237,11 @@ export function S3Slide06ClaudeCode() {
               {/* Missing features */}
               <div className="space-y-2 flex-1">
                 {WEB_LIMITS.map((l, i) => (
-                  <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.01]">
+                  <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/[0.08]">
                       <X className="w-3.5 h-3.5 text-white/30" />
                     </div>
-                    <span className="text-sm text-white/35">{l.label}</span>
+                    <span className="text-sm text-white/40">{l.label}</span>
                   </div>
                 ))}
               </div>
@@ -334,10 +308,10 @@ export function S3Slide06ClaudeCode() {
         </motion.div>
 
         {/* ── Pricing hint ── */}
-        <motion.div {...m(0.75)} className="mt-5 inline-flex items-center gap-2.5 px-4 py-2 rounded-full border backdrop-blur-sm"
-          style={{ borderColor: 'hsl(38 60% 50% / 0.15)', background: 'hsl(38 50% 50% / 0.04)' }}>
-          <Sparkles className="w-3.5 h-3.5 text-amber-400/50" />
-          <span className="text-xs text-amber-400/45">
+        <motion.div {...m(0.75)} className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full border"
+          style={{ borderColor: 'hsl(38 60% 50% / 0.2)', background: 'hsl(38 50% 50% / 0.06)' }}>
+          <Sparkles className="w-3.5 h-3.5 text-amber-400/60" />
+          <span className="text-xs text-white/50">
             Free disponible · <span className="text-amber-400/80 font-semibold">Pro $20/mes</span> · Max $100/mes para uso intensivo
           </span>
         </motion.div>

@@ -135,7 +135,7 @@ function PresentationContent() {
               thumbnails: true,
               keyboardShortcuts: true,
               fullscreen: true,
-              progressBar: true,
+              progressBar: false,
             }}
           />
         </SlideListProvider>

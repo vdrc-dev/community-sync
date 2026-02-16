@@ -79,7 +79,7 @@ export const s3GradientTextMulti = (hues: number[], glowHue?: number) => {
     WebkitBackgroundClip: 'text' as const,
     WebkitTextFillColor: 'transparent' as const,
     backgroundClip: 'text' as const,
-    filter: `drop-shadow(0 0 35px hsl(${glowHue ?? hues[0]} 80% 60% / 0.5))`,
+    filter: `drop-shadow(0 0 35px hsl(${glowHue ?? hues[0]} 80% 60% / 0.45))`,
   };
 };
 
