@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { SEED_WORKFLOWS } from '@/data/seedWorkflows';
 
 export interface WorkflowStep {
   step: number;
@@ -41,7 +42,7 @@ export function useWorkflows() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch all published workflows
+  // Fetch published workflows from Supabase and merge with seed data
   const { data: workflows, isLoading: workflowsLoading } = useQuery({
     queryKey: ['workflows'],
     queryFn: async () => {
@@ -53,12 +54,29 @@ export function useWorkflows() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return (data || []).map(w => ({
+
+      const dbWorkflows = (data || []).map(w => ({
         ...w,
         steps: (w.steps as unknown as WorkflowStep[]) || [],
         tools_used: w.tools_used || [],
         tags: w.tags || [],
       })) as Workflow[];
+
+      // Merge: DB workflows take priority; add seed workflows whose title doesn't exist in DB
+      const dbTitles = new Set(dbWorkflows.map(w => w.title.toLowerCase()));
+      const newSeedWorkflows = SEED_WORKFLOWS.filter(
+        sw => !dbTitles.has(sw.title.toLowerCase())
+      );
+
+      // Sort: featured first, then by date descending
+      const merged = [...dbWorkflows, ...newSeedWorkflows];
+      merged.sort((a, b) => {
+        if (a.is_featured && !b.is_featured) return -1;
+        if (!a.is_featured && b.is_featured) return 1;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+
+      return merged;
     },
   });
 

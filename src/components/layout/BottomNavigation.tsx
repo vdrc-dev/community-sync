@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Home, BookOpen, Users, MessageCircle, MoreHorizontal,
   Wrench, Workflow, Sparkles, Presentation, Trophy,
-  Calendar, PenLine, Calculator, MessageSquare
+  Calendar, PenLine, Calculator, MessageSquare, Layers, Download
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
@@ -29,13 +29,15 @@ const moreCategories = [
     links: [
       { label: 'Herramientas', href: '/tools', icon: Wrench },
       { label: 'Workflows', href: '/workflows', icon: Workflow },
-      { label: 'Presentaciones', href: '/presentations', icon: Presentation },
+      { label: 'Diccionario', href: '/dictionary', icon: BookOpen },
+      { label: 'Guia Instalacion', href: '/guia-instalacion', icon: Download },
     ],
   },
   {
     title: 'IA & Productividad',
     links: [
       { label: 'Lab IA', href: '/playground', icon: Sparkles },
+      { label: 'Personalizar IA', href: '/personalizacion-ia', icon: Layers },
       { label: 'Prompts', href: '/prompts', icon: MessageSquare },
       { label: 'Mi Stack', href: '/my-tools', icon: Wrench },
       { label: 'Calculadora ROI', href: '/roi-calculator', icon: Calculator },

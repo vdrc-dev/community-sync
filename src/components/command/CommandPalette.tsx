@@ -261,6 +261,18 @@ export function CommandPalette() {
             <Calculator className="mr-2 h-4 w-4" />
             <span>Calculadora de ROI</span>
           </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/dictionary'))}>
+            <BookOpen className="mr-2 h-4 w-4" />
+            <span>Diccionario Digital</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/personalizacion-ia'))}>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Guia Personalizacion IA</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => navigate('/guia-instalacion'))}>
+            <Wrench className="mr-2 h-4 w-4" />
+            <span>Guia de Instalacion</span>
+          </CommandItem>
           <CommandItem onSelect={() => runCommand(() => navigate('/my-tools'))}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Mi Stack de Herramientas</span>

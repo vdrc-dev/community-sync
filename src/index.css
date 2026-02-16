@@ -532,3 +532,249 @@ body {
     0 4px 16px hsl(var(--glass-shadow) / 0.2),
     0 1px 3px hsl(var(--glass-shadow) / 0.1);
 }
+
+/* ═══════════════════════════════════════════
+   UX enhancements
+   ═══════════════════════════════════════════ */
+
+/* Focus-visible ring — accessible keyboard navigation */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Better link focus in cards */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.5);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+}
+
+img.loaded,
+img:not([loading="lazy"]) {
+  opacity: 1;
+}
+
+/* Active tap feedback for mobile */
+@media (hover: none) {
+  .card-interactive:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  button:active,
+  a:active {
+    opacity: 0.8;
+    transition: opacity 0.1s ease;
+  }
+}
+
+/* Smooth toast appearance */
+[data-sonner-toast] {
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+/* External links — subtle arrow on hover */
+a[target="_blank"]:not(.no-external-icon)::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+/* Smooth image reveal */
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.image-reveal {
+  animation: imageReveal 0.4s ease-out forwards;
+}
+
+/* Better text selection */
+p::selection,
+span::selection,
+h1::selection,
+h2::selection,
+h3::selection {
+  background: hsl(var(--primary) / 0.25);
+  color: hsl(var(--foreground));
+}
+
+/* Loading skeleton pulse for cards */
+@keyframes cardPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.card-loading {
+  animation: cardPulse 1.5s ease-in-out infinite;
+}
+
+/* ────────────────────────────────────────────
+   POWER-UPS: Enhanced micro-interactions
+   ──────────────────────────────────────────── */
+
+/* Skeleton shimmer effect */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted) / 0.3) 25%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted) / 0.3) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 1rem;
+}
+
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Badge pulse for active indicators */
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.3); }
+  50% { box-shadow: 0 0 0 6px hsl(var(--primary) / 0); }
+}
+
+.badge-pulse {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* Card hover glow */
+.glow-hover {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.15);
+  border-color: hsl(var(--primary) / 0.2);
+}
+
+/* Number count-up visual style */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Smooth hover lift for interactive cards */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -12px hsl(var(--primary) / 0.15);
+}
+
+/* Pulse ring around active elements */
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 hsl(142 70% 45% / 0.3); }
+  70% { box-shadow: 0 0 0 8px hsl(142 70% 45% / 0); }
+  100% { box-shadow: 0 0 0 0 hsl(142 70% 45% / 0); }
+}
+
+.ring-pulse {
+  animation: ringPulse 2s infinite;
+}
+
+/* Glass card tinted variant */
+.glass-tinted {
+  background: hsl(var(--primary) / 0.03);
+  border: 1px solid hsl(var(--primary) / 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Keyboard shortcut pills */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.625rem;
+  font-family: var(--font-mono, monospace);
+  background: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 0.375rem;
+  line-height: 1;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.3);
+}
+
+/* Hide scrollbar for specific containers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Counter animation for numbers */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+  animation: countUp 0.5s ease-out forwards;
+}

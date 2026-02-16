@@ -28,6 +28,7 @@ const platformSections: NavSection[] = [
       { href: '/tools', label: 'Herramientas', icon: Wrench },
       { href: '/workflows', label: 'Workflows', icon: Workflow },
       { href: '/playground', label: 'Lab IA', icon: Sparkles },
+      { href: '/dictionary', label: 'Diccionario', icon: BookOpen },
     ],
   },
   {
@@ -65,22 +66,22 @@ export function CommunitySidebar() {
     <aside className="w-64 h-[calc(100vh-4rem)] sticky top-16 border-r border-sidebar-border bg-sidebar overflow-y-auto hidden md:flex flex-col">
       {/* User card */}
       <div className="p-4 border-b border-sidebar-border">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9 ring-2 ring-primary/20">
+        <Link to="/profile" className="flex items-center gap-3 group">
+          <Avatar className="h-9 w-9 ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
             <AvatarImage src={user.user_metadata?.avatar_url} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm font-mono">
               {user.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground truncate">
+            <p className="text-sm font-medium text-sidebar-foreground truncate group-hover:text-primary transition-colors">
               {user.user_metadata?.full_name || 'Participante'}
             </p>
             <div className="scale-75 origin-left">
               <PointsDisplay compact />
             </div>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* Spaces section */}
@@ -165,13 +166,25 @@ export function CommunitySidebar() {
         ))}
       </div>
 
-      {/* Bottom branding */}
-      <div className="p-3 border-t border-sidebar-border">
-        <div className="flex items-center gap-2 px-2">
-          <div className="w-6 h-6 rounded-md overflow-hidden">
+      {/* Bottom branding + quick nav */}
+      <div className="p-3 border-t border-sidebar-border space-y-2">
+        <Link
+          to="/community"
+          className={cn(
+            'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200',
+            location.pathname === '/community'
+              ? 'bg-primary/10 text-primary font-medium'
+              : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+          )}
+        >
+          <Users className="h-4 w-4 shrink-0" />
+          <span>Inicio comunidad</span>
+        </Link>
+        <div className="flex items-center gap-2 px-2 pt-1">
+          <div className="w-5 h-5 rounded-md overflow-hidden">
             <img src="/logos/vdrc-icon.png" alt="VDRC" className="w-full h-full object-cover" />
           </div>
-          <span className="text-xs text-muted-foreground font-mono">VDRC Community</span>
+          <span className="text-[10px] text-muted-foreground/50 font-mono">VDRC Community</span>
         </div>
       </div>
     </aside>

@@ -331,6 +331,39 @@ export default function Tools() {
 
         {user && <ToolsHeroStats />}
 
+        {/* Educational Tips Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-8"
+        >
+          {(() => {
+            const tips = [
+              { icon: '🎯', title: 'Regla de oro', text: 'Usa Perplexity para investigar, ChatGPT para crear, y Claude para analizar codigo y textos complejos.' },
+              { icon: '🔄', title: 'Stack minimo viable', text: 'ChatGPT + Claude + Perplexity + Cursor = puedes hacer practicamente cualquier cosa con IA.' },
+              { icon: '💡', title: 'Automatiza lo repetitivo', text: 'Si haces algo mas de 3 veces, automatizalo con Make o Zapier. Tu tiempo vale mas.' },
+              { icon: '🧪', title: 'Compara siempre', text: 'Antes de adoptar una herramienta, prueba la tarea en 2-3 alternativas. Cada una tiene su superpoder.' },
+              { icon: '📐', title: 'CROP en todo', text: 'El framework CROP (Contexto, Rol, Objetivo, Pasos) funciona en CUALQUIER herramienta de IA, no solo en ChatGPT.' },
+            ];
+            const todayTip = tips[new Date().getDate() % tips.length];
+            return (
+              <div className="glass rounded-2xl p-4 flex items-start gap-3 border-yellow-500/10 bg-yellow-500/[0.02]">
+                <span className="text-xl">{todayTip.icon}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] font-mono text-yellow-400/60 uppercase tracking-wider">Tip del dia</span>
+                  <p className="text-sm text-foreground/80 mt-0.5">
+                    <span className="font-semibold text-foreground">{todayTip.title}:</span> {todayTip.text}
+                  </p>
+                </div>
+                <Link to="/dictionary" className="shrink-0 text-xs text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+                  Diccionario <ArrowUpRight className="w-3 h-3" />
+                </Link>
+              </div>
+            );
+          })()}
+        </motion.div>
+
         {/* Search & Filters */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

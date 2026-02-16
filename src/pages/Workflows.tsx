@@ -23,7 +23,16 @@ import {
   Filter,
   TrendingUp,
   Clock,
-  Target
+  Target,
+  ArrowRight,
+  BookOpen,
+  Lightbulb,
+  Zap,
+  Shield,
+  Brain,
+  Palette,
+  Code2,
+  BarChart3,
 } from 'lucide-react';
 
 export default function Workflows() {
@@ -159,7 +168,7 @@ export default function Workflows() {
       <div className="page-container section-py">
         <PageHeader
           title={<>Workflows <span className="text-gradient">Interactivos</span></>}
-          description="Automatiza tareas complejas paso a paso con guías interactivas"
+          description="Guias paso a paso con prompts listos para ejecutar. Cada workflow incluye plantillas IA, ejercicios practicos, y tracking de progreso."
           badge={{ 
             label: `${workflows?.length || 0} workflows`, 
             icon: <Workflow className="w-3 h-3" /> 
@@ -220,6 +229,65 @@ export default function Workflows() {
             ))}
           </motion.div>
         )}
+
+        {/* Category Quick Access */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-6"
+        >
+          {[
+            { label: 'Higiene Digital', icon: Shield, hue: 200, cat: 'Higiene Digital' },
+            { label: 'IA & Productividad', icon: Brain, hue: 263, cat: 'IA & Productividad' },
+            { label: 'Presentaciones', icon: Palette, hue: 340, cat: 'Presentaciones' },
+            { label: 'Vibe Coding', icon: Code2, hue: 160, cat: 'Vibe Coding' },
+            { label: 'Automatizacion', icon: Zap, hue: 45, cat: 'Automatizacion' },
+            { label: 'Todas', icon: Workflow, hue: 0, cat: 'all' },
+          ].map((c, i) => {
+            const isActive = categoryFilter === c.cat || (c.cat === 'all' && categoryFilter === 'all');
+            return (
+              <motion.button
+                key={c.label}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.12 + i * 0.03 }}
+                onClick={() => setCategoryFilter(c.cat === 'all' ? 'all' : (categoryFilter === c.cat ? 'all' : c.cat))}
+                className="flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-mono transition-all"
+                style={{
+                  background: isActive ? `hsl(${c.hue} 40% 50% / 0.12)` : 'hsl(0 0% 100% / 0.02)',
+                  borderColor: isActive ? `hsl(${c.hue} 50% 50% / 0.25)` : 'hsl(0 0% 100% / 0.06)',
+                  color: isActive ? `hsl(${c.hue} 60% 65%)` : undefined,
+                }}
+              >
+                <c.icon className="w-3.5 h-3.5" />
+                <span className="truncate">{c.label}</span>
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* Educational Context */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="glass rounded-2xl p-4 mb-6 border-primary/5"
+        >
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <Lightbulb className="w-4 h-4 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-mono text-primary/50 uppercase tracking-wider mb-0.5">Como funcionan los workflows</p>
+              <p className="text-sm text-foreground/70">
+                Cada workflow tiene <strong className="text-foreground">prompts con variables</strong> que tu completas con tus datos reales. 
+                Marca los pasos completados para trackear tu progreso. 
+                Los workflows con <Sparkles className="w-3 h-3 inline text-yellow-400" /> son los mas recomendados para empezar.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Search & Filters */}
         <motion.div 

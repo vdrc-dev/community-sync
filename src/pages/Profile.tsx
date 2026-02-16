@@ -33,9 +33,15 @@ import {
   Save,
   Shield,
   Star,
-  Target
+  Target,
+  GraduationCap,
+  Calendar,
+  ArrowRight,
+  Wrench,
+  BookOpen
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -176,7 +182,7 @@ export default function Profile() {
               <div className="flex items-center gap-2 flex-wrap">
                 {profile?.generation_code && (
                   <Badge variant="outline" className="bg-primary/5 border-primary/20">
-                    <GraduationCapIcon className="w-3 h-3 mr-1" />
+                    <GraduationCap className="w-3 h-3 mr-1" />
                     {profile.generation_code}
                   </Badge>
                 )}
@@ -232,6 +238,75 @@ export default function Profile() {
                 </div>
               </div>
             </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Level Progress */}
+        {userPoints && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-8 glass glass-specular rounded-2xl p-5"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Star className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm font-mono font-semibold">Nivel {userPoints.level}</span>
+              </div>
+              <span className="text-xs text-muted-foreground font-mono">
+                {userPoints.points} / {(userPoints.level || 1) * 100} XP
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
+              <motion.div
+                className="h-full rounded-full bg-gradient-to-r from-primary via-primary to-accent"
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min(((userPoints.points % 100) / 100) * 100, 100)}%` }}
+                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-2 font-mono">
+              {Math.max(0, ((userPoints.level || 1) * 100) - (userPoints.points || 0))} XP para nivel {(userPoints.level || 1) + 1}
+            </p>
+          </motion.div>
+        )}
+
+        {/* Quick Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-2"
+        >
+          {[
+            { href: '/bookmarks', label: 'Mis Favoritos', icon: Bookmark, count: bookmarks?.length || 0, hue: 200 },
+            { href: '/my-tools', label: 'Mi Stack', icon: Wrench, count: null, hue: 45 },
+            { href: '/quick-notes', label: 'Notas', icon: Calendar, count: null, hue: 160 },
+            { href: '/dictionary', label: 'Diccionario', icon: BookOpen, count: null, hue: 263 },
+          ].map((link, i) => (
+            <Link
+              key={link.href}
+              to={link.href}
+              className="group flex items-center gap-3 p-3 rounded-xl glass hover:border-white/[0.1] transition-all duration-300 active:scale-[0.98]"
+            >
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                style={{
+                  background: `hsl(${link.hue} 70% 55% / 0.08)`,
+                  border: `1px solid hsl(${link.hue} 70% 55% / 0.15)`,
+                }}
+              >
+                <link.icon className="w-3.5 h-3.5" style={{ color: `hsl(${link.hue} 70% 55%)` }} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-xs font-medium truncate block">{link.label}</span>
+                {link.count !== null && (
+                  <span className="text-[10px] text-muted-foreground font-mono">{link.count}</span>
+                )}
+              </div>
+              <ArrowRight className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+            </Link>
           ))}
         </motion.div>
 
@@ -380,46 +455,100 @@ export default function Profile() {
           </TabsContent>
 
           <TabsContent value="stats">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Card className="glass border-border/30">
-                <CardHeader>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
-                    Workflows
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {[
-                    { label: 'Completados', value: workflowStats.completed, color: 'text-green-400' },
-                    { label: 'En progreso', value: workflowStats.inProgress, color: 'text-blue-400' },
-                    { label: 'Iniciados', value: workflowStats.started, color: 'text-foreground' },
-                  ].map((item) => (
-                    <div key={item.label} className="flex justify-between items-center py-1">
-                      <span className="text-muted-foreground">{item.label}</span>
-                      <span className={`font-mono font-bold ${item.color}`}>{item.value}</span>
-                    </div>
-                  ))}
+            <div className="space-y-4">
+              {/* Learning Journey Summary */}
+              <Card className="glass border-border/30 border-primary/10 bg-primary/[0.02]">
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <GraduationCap className="w-4 h-4 text-primary" />
+                    <h3 className="font-mono font-semibold text-sm">Tu viaje de aprendizaje</h3>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[
+                      { label: 'Dias activo', value: (streak?.current_streak || 0) + (workflowStats.completed * 2), emoji: '📅' },
+                      { label: 'Acciones', value: (userPoints?.points || 0), emoji: '⚡' },
+                      { label: 'Completados', value: workflowStats.completed, emoji: '✅' },
+                      { label: 'Herramientas', value: bookmarks?.length || 0, emoji: '🔧' },
+                    ].map(s => (
+                      <div key={s.label} className="text-center p-2 rounded-xl bg-background/50">
+                        <span className="text-sm">{s.emoji}</span>
+                        <p className="text-lg font-mono font-bold text-foreground mt-1">{s.value}</p>
+                        <p className="text-[9px] text-muted-foreground">{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
 
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Card className="glass border-border/30">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-primary" />
+                      Workflows
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {[
+                      { label: 'Completados', value: workflowStats.completed, color: 'text-green-400' },
+                      { label: 'En progreso', value: workflowStats.inProgress, color: 'text-blue-400' },
+                      { label: 'Iniciados', value: workflowStats.started, color: 'text-foreground' },
+                    ].map((item) => (
+                      <div key={item.label} className="flex justify-between items-center py-1">
+                        <span className="text-muted-foreground">{item.label}</span>
+                        <span className={`font-mono font-bold ${item.color}`}>{item.value}</span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                <Card className="glass border-border/30">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-accent" />
+                      Actividad
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {[
+                      { label: 'Favoritos guardados', value: bookmarks?.length || 0, color: 'text-foreground' },
+                      { label: 'Insignias', value: userBadges?.length || 0, color: 'text-yellow-400' },
+                      { label: 'Nivel', value: userPoints?.level || 1, color: 'text-primary' },
+                    ].map((item) => (
+                      <div key={item.label} className="flex justify-between items-center py-1">
+                        <span className="text-muted-foreground">{item.label}</span>
+                        <span className={`font-mono font-bold ${item.color}`}>{item.value}</span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Next steps suggestion */}
               <Card className="glass border-border/30">
-                <CardHeader>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-accent" />
-                    Actividad
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {[
-                    { label: 'Favoritos guardados', value: bookmarks?.length || 0, color: 'text-foreground' },
-                    { label: 'Insignias', value: userBadges?.length || 0, color: 'text-yellow-400' },
-                    { label: 'Nivel', value: userPoints?.level || 1, color: 'text-primary' },
-                  ].map((item) => (
-                    <div key={item.label} className="flex justify-between items-center py-1">
-                      <span className="text-muted-foreground">{item.label}</span>
-                      <span className={`font-mono font-bold ${item.color}`}>{item.value}</span>
-                    </div>
-                  ))}
+                <CardContent className="p-4">
+                  <p className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-wider mb-2">Sugerencias</p>
+                  <div className="space-y-2">
+                    {workflowStats.completed === 0 && (
+                      <Link to="/workflows" className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary/50" />
+                        Completa tu primer workflow para ganar XP extra
+                        <ArrowRight className="w-3 h-3 ml-auto" />
+                      </Link>
+                    )}
+                    {(bookmarks?.length || 0) === 0 && (
+                      <Link to="/tools" className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors">
+                        <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/50" />
+                        Guarda tus herramientas favoritas en Mi Stack
+                        <ArrowRight className="w-3 h-3 ml-auto" />
+                      </Link>
+                    )}
+                    <Link to="/dictionary" className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400/50" />
+                      Explora el Diccionario Digital — 73 conceptos con ejercicios practicos
+                      <ArrowRight className="w-3 h-3 ml-auto" />
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -430,11 +559,3 @@ export default function Profile() {
   );
 }
 
-// Small helper to avoid importing GraduationCap twice
-function GraduationCapIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-    </svg>
-  );
-}

@@ -30,7 +30,7 @@ export const WORKSHOP_MODULES = [
   {
     number: 3,
     title: "Presentaciones con IA",
-    description: "Gama, Beautiful.ai, Napkin, Canva, Coolors y Font Joy. De idea a presentación profesional."
+    description: "Gamma, Beautiful.ai, Napkin, Canva, Coolors y Font Joy. De idea a presentación profesional."
   },
   {
     number: 4,

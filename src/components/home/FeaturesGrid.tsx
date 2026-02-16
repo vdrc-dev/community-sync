@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Calendar, Wrench, ChevronRight, Workflow,
-  Calculator, Sparkles, MessageSquare, Code2
+  Calculator, Sparkles, MessageSquare, Code2, Library
 } from 'lucide-react';
 
 const features = [
   { icon: Workflow, title: 'Workflows con IA', description: 'PRD → MVP → Deploy. CROP, metaprompting, chunking, auditoría cruzada, GPTs personalizados — flujos probados en vivo con casos reales de participantes desde Gen 004.', href: '/workflows', featured: true, hue: 160 },
-  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Arquitectos, enólogos, retail Sodimac, family offices, pasteleros, fundaciones educativas, consultoras de energía, cannabis medicinal — 150+ profesionales aprendiendo juntos.', href: '/community', hue: 200 },
+  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Arquitectos, enólogos, retail, family offices, pasteleros, fundaciones educativas, consultoras de energía — 150+ profesionales de 20+ industrias aprendiendo juntos.', href: '/community', hue: 200 },
   { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, slides y transcripciones de +44 sesiones. Cada generación es distinta — el contenido se actualiza cada semana porque la tecnología cambia demasiado rápido.', href: '/generations', hue: 263 },
-  { icon: Wrench, title: 'Stack de +35 Herramientas', description: 'ChatGPT para estrategia, Claude para Excel, Perplexity reemplazando Google, Cursor como profesor particular, Gama para slides, Zapier para automatizar. Cada una tiene su rol.', href: '/tools', hue: 45 },
-  { icon: Calculator, title: 'Calculadora de ROI', description: 'Uno de la Gen 004 transformó 300 páginas en 20. Otro eliminó 7 planillas Excel. Mide cuánto ahorras delegando en tecnología.', href: '/roi-calculator', hue: 120 },
+  { icon: Wrench, title: 'Stack de +35 Herramientas', description: 'ChatGPT para estrategia, Claude para Excel, Perplexity reemplazando Google, Cursor como profesor particular, Gamma para slides, Make para automatizar. Cada una tiene su rol.', href: '/tools', hue: 45 },
+  { icon: Library, title: 'Diccionario Digital', description: '73+ términos, herramientas y conceptos explicados. Desde CROP hasta MCP, de Vibe Coding a RAG — todo el vocabulario del taller en un glosario vivo.', href: '/dictionary', hue: 195 },
   { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con Canvas, Operator, modelos O3 vs Auto, y genera contenido profesional. Siempre audita: "como validar el trabajo de un practicante."', href: '/playground', hue: 340 },
-  { icon: Code2, title: 'Vibe Coding', description: 'PRD en GPT personalizado → Lovable → Supabase → GitHub → Codex. El Wall Street Journal dice que construir software propio es más barato que pagar SaaS.', href: '/workflows', hue: 280 },
+  { icon: Code2, title: 'Vibe Coding', description: 'PRD en GPT personalizado → Lovable → Supabase → GitHub → Deploy. El Wall Street Journal dice que construir software propio es más barato que pagar SaaS.', href: '/workflows', hue: 280 },
   { icon: Calendar, title: 'Calendario de Sesiones', description: 'Gen 11 arranca el 3 de marzo 2026. Jaime ya lleva 5 repeticiones — "va cambiando tanto que me interesa mucho estar al día." Cada martes a las 19h.', href: '/calendar', hue: 185 },
 ];
 

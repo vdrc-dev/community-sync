@@ -2,7 +2,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Home, ArrowLeft, Terminal, AlertTriangle } from "lucide-react";
+import { Home, ArrowLeft, Search, BookOpen, Wrench, Users, Workflow, Sparkles, Calculator } from "lucide-react";
 
 function GlitchText({ text, className = '' }: { text: string; className?: string }) {
   return (
@@ -44,6 +44,15 @@ function TerminalLine({ text, delay, className = '' }: { text: string; delay: nu
   );
 }
 
+const quickLinks = [
+  { href: '/generations', label: 'Generaciones', icon: BookOpen, hue: 263 },
+  { href: '/tools', label: 'Herramientas', icon: Wrench, hue: 45 },
+  { href: '/workflows', label: 'Workflows', icon: Workflow, hue: 160 },
+  { href: '/community', label: 'Comunidad', icon: Users, hue: 200 },
+  { href: '/playground', label: 'Lab IA', icon: Sparkles, hue: 340 },
+  { href: '/dictionary', label: 'Diccionario', icon: BookOpen, hue: 195 },
+];
+
 const NotFound = () => {
   const location = useLocation();
 
@@ -53,10 +62,9 @@ const NotFound = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background relative overflow-hidden">
-      {/* Subtle grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
-      <div className="relative z-10 w-full max-w-lg mx-auto px-4">
+      <div className="relative z-10 w-full max-w-2xl mx-auto px-4">
         {/* Error code */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -89,35 +97,15 @@ const NotFound = () => {
             <span className="text-muted-foreground/60 text-xs ml-2 font-mono">vdrc://error</span>
           </div>
           <div className="space-y-1.5">
-            <TerminalLine
-              text={`$ cd ${location.pathname}`}
-              delay={400}
-              className="text-muted-foreground"
-            />
-            <TerminalLine
-              text="[ERROR] Ruta no encontrada"
-              delay={900}
-              className="text-red-400"
-            />
-            <TerminalLine
-              text={`> La ruta "${location.pathname}" no existe en el portal`}
-              delay={1400}
-              className="text-yellow-400"
-            />
-            <TerminalLine
-              text="> Sugerencia: vuelve al inicio o navega usando el menu"
-              delay={1900}
-              className="text-muted-foreground"
-            />
-            <TerminalLine
-              text="$ _"
-              delay={2400}
-              className="text-primary"
-            />
+            <TerminalLine text={`$ cd ${location.pathname}`} delay={400} className="text-muted-foreground" />
+            <TerminalLine text="[ERROR] Ruta no encontrada" delay={900} className="text-red-400" />
+            <TerminalLine text={`> La ruta "${location.pathname}" no existe en el portal`} delay={1400} className="text-yellow-400" />
+            <TerminalLine text="> Sugerencia: vuelve al inicio o navega usando el menu" delay={1900} className="text-muted-foreground" />
+            <TerminalLine text="$ _" delay={2400} className="text-primary" />
           </div>
         </motion.div>
 
-        {/* Message */}
+        {/* Message + actions */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -144,6 +132,46 @@ const NotFound = () => {
                 PAGINA ANTERIOR
               </a>
             </Button>
+          </div>
+        </motion.div>
+
+        {/* Quick links */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          className="mt-10"
+        >
+          <p className="text-[10px] font-mono tracking-[0.3em] uppercase text-muted-foreground/60 text-center mb-4">
+            PAGINAS POPULARES
+          </p>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {quickLinks.map((link, i) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 + i * 0.06 }}
+              >
+                <Link
+                  to={link.href}
+                  className="group flex flex-col items-center gap-2 p-3 rounded-xl glass hover:border-white/[0.1] transition-all duration-300"
+                >
+                  <div
+                    className="w-9 h-9 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                    style={{
+                      background: `hsl(${link.hue} 70% 55% / 0.08)`,
+                      border: `1px solid hsl(${link.hue} 70% 55% / 0.15)`,
+                    }}
+                  >
+                    <link.icon className="w-4 h-4" style={{ color: `hsl(${link.hue} 70% 55%)` }} />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground group-hover:text-foreground transition-colors text-center">
+                    {link.label}
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>

@@ -44,13 +44,13 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
     staleTime: 1000 * 60 * 3,
   });
 
-  // Fetch spaces count
+  // Fetch spaces with slug
   const { data: spacesData } = useQuery({
     queryKey: ['home-spaces-count'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('spaces')
-        .select('id, name, icon_emoji, post_count')
+        .select('id, name, slug, icon_emoji, post_count')
         .order('post_count', { ascending: false })
         .limit(6);
       if (error) throw error;
@@ -83,8 +83,8 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
             Aprende con{' '}
             <span className="text-gradient">otros</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Startups de 550 empleados, family offices, profesores universitarios, arquitectos, consultores de energía, content managers, abogados y cromañones tecnológicos — todos aprendiendo juntos.
+          <p className="text-muted-foreground max-w-xl text-lg mt-2 leading-relaxed">
+            Startups, family offices, profesores, arquitectos, consultores, abogados y cromañones tecnologicos — todos aprendiendo IA juntos. 150+ profesionales de 11 generaciones.
           </p>
         </motion.div>
 
@@ -139,11 +139,11 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                   {spacesData.map((space) => (
                     <Link
                       key={space.id}
-                      to={isAuthenticated ? `/community/${space.name.toLowerCase().replace(/\s+/g, '-')}` : '/auth'}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] transition-all text-sm"
+                      to={isAuthenticated ? `/community/${space.slug}` : '/auth'}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-pill hover:border-primary/15 hover:bg-white/[0.06] active:scale-[0.97] transition-all text-sm group"
                     >
-                      <span>{space.icon_emoji || '💬'}</span>
-                      <span className="text-xs">{space.name}</span>
+                      <span className="group-hover:scale-110 transition-transform">{space.icon_emoji || '💬'}</span>
+                      <span className="text-xs group-hover:text-primary transition-colors">{space.name}</span>
                       {space.post_count > 0 && (
                         <span className="text-[10px] text-muted-foreground">({space.post_count})</span>
                       )}
@@ -213,12 +213,23 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                 ))}
               </div>
             ) : (
-              <div className="glass glass-specular p-8 rounded-2xl text-center">
-                <Zap className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-sm font-medium mb-1">La comunidad te espera</p>
-                <p className="text-xs text-muted-foreground">
-                  Comparte, pregunta y colabora con otros participantes.
-                </p>
+              <div className="glass glass-specular p-8 rounded-2xl text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
+                <div className="relative">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
+                    <Zap className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-sm font-semibold mb-1">La comunidad te espera</h3>
+                  <p className="text-xs text-muted-foreground max-w-xs mx-auto leading-relaxed">
+                    Se el primero en compartir un descubrimiento, pregunta o proyecto con IA. Gana puntos y sube en el ranking.
+                  </p>
+                  <Link
+                    to={isAuthenticated ? '/community' : '/auth'}
+                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Empezar a participar <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
               </div>
             )}
           </div>

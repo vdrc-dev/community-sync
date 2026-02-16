@@ -10,6 +10,8 @@ import { QuickNoteButton } from "@/components/quick-notes/QuickNoteButton";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { GlobalNotificationListener } from "@/components/notifications/GlobalNotificationListener";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
 
 // ─────────────────────────────────────────────────────────────
 // Lazy-loaded pages — grouped by domain
@@ -36,6 +38,9 @@ const WorkflowDetail = lazy(() => import("./pages/WorkflowDetail"));
 const Playground = lazy(() => import("./pages/Playground"));
 const Prompts = lazy(() => import("./pages/Prompts"));
 const ROICalculatorPage = lazy(() => import("./pages/ROICalculator"));
+const Dictionary = lazy(() => import("./pages/Dictionary"));
+const AIPersonalizationGuide = lazy(() => import("./pages/AIPersonalizationGuide"));
+const SetupGuide = lazy(() => import("./pages/SetupGuide"));
 
 // Community & Interaction
 const Community = lazy(() => import("./pages/Community"));
@@ -86,6 +91,8 @@ const App = () => (
           <QuickNoteButton />
           <OnboardingTour />
           <GlobalNotificationListener />
+          <ScrollRestoration />
+          <ScrollToTop />
           <Suspense fallback={<LoadingSpinner fullScreen />}>
             <Routes>
               {/* ── Core ─────────────────────────────── */}
@@ -107,6 +114,9 @@ const App = () => (
               <Route path="/playground" element={<Playground />} />
               <Route path="/prompts" element={<Prompts />} />
               <Route path="/roi-calculator" element={<ROICalculatorPage />} />
+              <Route path="/dictionary" element={<Dictionary />} />
+              <Route path="/personalizacion-ia" element={<AIPersonalizationGuide />} />
+              <Route path="/guia-instalacion" element={<SetupGuide />} />
 
               {/* ── Community & Interaction ───────────── */}
               <Route path="/community" element={<Community />} />

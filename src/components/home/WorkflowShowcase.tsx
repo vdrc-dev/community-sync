@@ -63,7 +63,7 @@ const showcaseWorkflows = [
     realCase: 'Análisis inmobiliario Santiago — Gen 10',
   },
   {
-    title: 'Cloud Code + Playwright: Agente en Chrome',
+    title: 'Claude Code + Playwright: Agente en Chrome',
     icon: Database,
     steps: 5,
     timeSaved: '2 días',
@@ -171,6 +171,7 @@ export function WorkflowShowcase() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15 }}
+                  onClick={() => window.location.href = '/workflows'}
                   className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-300 cursor-pointer overflow-hidden relative"
                 >
                   {/* Subtle accent left bar */}
@@ -239,7 +240,7 @@ export function WorkflowShowcase() {
               to="/workflows"
               className="group block p-4 rounded-2xl border border-dashed border-white/[0.06] text-center text-primary/70 hover:text-primary hover:border-primary/20 hover:bg-primary/5 transition-all duration-300"
             >
-              <span className="text-sm font-mono">Ver todos los workflows del taller</span>
+              <span className="text-sm font-mono">Ver los 19 workflows interactivos con prompts listos</span>
               <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>

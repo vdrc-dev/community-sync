@@ -26,7 +26,7 @@ const steps = [
     number: '03',
     icon: Presentation,
     title: 'Storytelling con IA',
-    description: 'Gama y Beautiful.ai para slides automáticas, Napkin para infografías McKinsey, Canva para kits de marca, Coolors para paletas. ChatGPT arma la estrategia → Gama pone el diseño. PowerPoint full automatizable.',
+    description: 'Gamma y Beautiful.ai para slides automáticas, Napkin para infografías McKinsey, Canva para kits de marca, Coolors para paletas. ChatGPT arma la estrategia → Gamma pone el diseño. PowerPoint full automatizable.',
     gradient: 'from-purple-500 to-pink-500',
     glowColor: 'hsl(270, 70%, 50%)',
     realExample: '"Ustedes agregan valor en la estrategia, no en mover la burbujita del PowerPoint." — Vicente',
@@ -35,10 +35,10 @@ const steps = [
     number: '04',
     icon: Code2,
     title: 'Vibe Coding',
-    description: 'Gemini para diseñar la UI → Lovable para el full stack → Supabase para backend con Postgres → GitHub para versionar → Cloud Code + Playwright como agente en Chrome. De una idea a software funcional con login, CRUD, y deploy.',
+    description: 'Gemini para diseñar la UI → Lovable para el full stack → Supabase para backend con Postgres → GitHub para versionar → Claude Code + Playwright como agente en Chrome. De una idea a software funcional con login, CRUD, y deploy.',
     gradient: 'from-orange-500 to-yellow-500',
     glowColor: 'hsl(30, 90%, 50%)',
-    realExample: '"Cloud Code me hizo una integración CRM + ERP que costó 100 lucas en tokens, pero habría costado millones." — Vicente, Gen 010',
+    realExample: '"Claude Code me hizo una integración CRM + ERP que costó 100 lucas en tokens, pero habría costado millones." — Vicente, Gen 010',
   },
 ];
 
@@ -62,13 +62,13 @@ export function HowItWorks() {
             viewport={{ once: true }}
             className="inline-block px-4 py-1.5 rounded-full text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 mb-6"
           >
-            4 SESIONES INTENSIVAS
+            4 SESIONES INTENSIVAS // 100% PRACTICO
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-4">
             De cero a <span className="text-gradient">productivo con IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Cada generación cubre 4 módulos — de "mi higiene digital era reguleque" a crear software propio con IA
+            Cada generacion cubre 4 modulos progresivos. Sin teoria vacia — solo herramientas reales aplicadas a tu trabajo profesional.
           </p>
         </motion.div>
 

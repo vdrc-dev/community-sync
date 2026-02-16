@@ -50,7 +50,7 @@ const testimonials = [
     rating: 5,
   },
   {
-    quote: "El conocimiento que se enseñó hoy costaría unos 20 millones de pesos si contrataban a un profesional. Lo que ustedes pueden hacer ahora con Lovable, Supabase y Cloud Code es realmente épico.",
+    quote: "El conocimiento que se enseñó hoy costaría unos 20 millones de pesos si contrataban a un profesional. Lo que ustedes pueden hacer ahora con Lovable, Supabase y Claude Code es realmente épico.",
     author: "Vicente Donoso R.",
     role: "Instructor VDRC · Gen 009",
     generation: "Presentaciones",

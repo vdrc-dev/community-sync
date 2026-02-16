@@ -26,9 +26,11 @@ import {
   Presentation,
   Sparkles,
   ChevronRight,
+  ChevronDown,
   Home,
   Calendar,
-  CheckCircle2
+  CheckCircle2,
+  ArrowLeft
 } from 'lucide-react';
 
 /* ── Google Drive folders per generation ── */
@@ -159,9 +161,10 @@ export default function GenerationDetail() {
         
         {/* ─── Breadcrumb ─── */}
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground mb-6">
-          <Link to="/" className="hover:text-foreground transition-colors"><Home className="w-4 h-4" /></Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <Link to="/generations" className="hover:text-foreground transition-colors">Generaciones</Link>
+          <Link to="/generations" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors group">
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Generaciones</span>
+          </Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-foreground font-medium">{generation.code}</span>
         </nav>
@@ -223,18 +226,41 @@ export default function GenerationDetail() {
 
         {/* Content */}
         {!user ? (
-          <Card className="glass border-border/50">
-            <CardContent className="py-16 text-center">
-              <Lock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Contenido exclusivo</h3>
-              <p className="text-muted-foreground mb-6">
-                Inicia sesion para acceder a los recursos de esta generacion
-              </p>
-              <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link to="/auth">Iniciar sesion</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Card className="glass border-border/50 overflow-hidden">
+              <CardContent className="py-16 text-center relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                  className="relative mb-6"
+                >
+                  <div className="absolute inset-0 rounded-2xl bg-primary/10 blur-xl mx-auto w-16 h-16" />
+                  <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 flex items-center justify-center mx-auto">
+                    <Lock className="w-7 h-7 text-primary/70" />
+                  </div>
+                </motion.div>
+                <h3 className="text-xl font-mono font-semibold mb-2 relative">Contenido exclusivo</h3>
+                <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-6 relative">
+                  Slides interactivos, grabaciones, materiales y notas personales.
+                  Inicia sesion para desbloquear todo.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
+                  <Button asChild className="bg-primary hover:bg-primary/90 font-mono">
+                    <Link to="/auth">Iniciar sesion</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="border-primary/30 hover:border-primary/50 hover:bg-primary/5 font-mono">
+                    <Link to="/auth?mode=signup">Crear cuenta gratis</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ) : (
           <div className="space-y-10">
 
@@ -363,14 +389,27 @@ export default function GenerationDetail() {
                               </div>
                               <div className="flex-1 min-w-0">
                                 <h3 className="font-semibold text-sm sm:text-base truncate">{cls.title}</h3>
-                                {cls.class_date && (
-                                  <p className="text-xs text-muted-foreground">
-                                    {new Date(cls.class_date).toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
-                                  </p>
-                                )}
+                                <div className="flex items-center gap-2 mt-0.5">
+                                  {cls.class_date && (
+                                    <p className="text-xs text-muted-foreground">
+                                      {new Date(cls.class_date).toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                    </p>
+                                  )}
+                                  {(cls.recording_url || cls.drive_folder_url || cls.slides_url) && (
+                                    <span className="text-[10px] text-primary/60 font-medium hidden sm:inline">
+                                      · Recursos disponibles
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
                                 <ClassProgressCheckbox classId={cls.id} />
+                                <motion.div
+                                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                                </motion.div>
                               </div>
                             </div>
 

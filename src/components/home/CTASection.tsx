@@ -38,7 +38,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 <div className="flex flex-wrap justify-center gap-3 mb-6">
                   {[
                     { icon: Zap, text: 'Workflows', to: '/workflows' },
-                    { icon: BarChart3, text: 'ROI Calculator', to: '/roi-calculator' },
+                    { icon: BookOpen, text: 'Diccionario', to: '/dictionary' },
+                    { icon: Brain, text: 'Lab IA', to: '/playground' },
                     { icon: Users, text: 'Comunidad', to: '/community' },
                   ].map((item, i) => (
                     <motion.div

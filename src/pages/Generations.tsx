@@ -72,7 +72,7 @@ export default function Generations() {
       <div className="page-container section-py">
         <PageHeader
           title={<>Las <span className="text-gradient">11 Generaciones</span></>}
-          description="Desde abril 2025 — cada generación es un grupo de profesionales que transformaron su productividad con IA. Explora los recursos de cada una."
+          description="Desde abril 2025 — cada generación es un grupo unico de profesionales que transformaron su productividad digital con IA. 4 modulos intensivos, herramientas reales, y una comunidad que sigue creciendo."
           badge={{ 
             label: `${generations?.length || 0} generaciones`, 
             icon: <GraduationCap className="w-3 h-3" /> 
@@ -126,11 +126,37 @@ export default function Generations() {
         >
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar generación..."
+            placeholder="Buscar por nombre, codigo o descripcion..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 pr-16"
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground transition-colors font-mono px-1.5 py-0.5 rounded bg-muted/50 border border-border/30 hover:border-primary/30"
+            >
+              Limpiar
+            </button>
+          )}
+        </motion.div>
+
+        {/* Educational context */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="glass rounded-2xl p-4 mb-8 border-primary/5"
+        >
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <BookOpen className="w-4 h-4 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-mono text-primary/50 uppercase tracking-wider mb-0.5">Como funciona</p>
+              <p className="text-sm text-foreground/70">Cada generacion cubre <span className="font-semibold text-foreground">4 modulos</span>: Higiene Digital, IA & Productividad, Presentaciones con IA, y Vibe Coding. Haz clic en cualquier generacion para ver sus clases, materiales y presentaciones.</p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Generations Grid */}

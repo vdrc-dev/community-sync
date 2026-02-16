@@ -8,7 +8,7 @@ const footerLinks = {
     { label: 'Herramientas', href: '/tools' },
     { label: 'Workflows', href: '/workflows' },
     { label: 'Lab IA', href: '/playground' },
-    { label: 'Prompts', href: '/prompts' },
+    { label: 'Diccionario Digital', href: '/dictionary' },
   ],
   comunidad: [
     { label: 'Espacios', href: '/community' },

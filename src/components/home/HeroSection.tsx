@@ -188,7 +188,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               className="px-4 py-2 border-white/[0.06] bg-white/[0.04] backdrop-blur-xl font-mono text-xs tracking-wider rounded-xl"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse mr-2 inline-block" />
-              10 GENERACIONES // +122 PROFESIONALES
+              11 GENERACIONES // +150 PROFESIONALES
             </Badge>
           </motion.div>
 
@@ -299,19 +299,42 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             )}
           </motion.div>
 
-          {/* Cross-site links */}
+          {/* Quick value props */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
-            className="mt-6 flex items-center justify-center gap-3 text-xs text-muted-foreground font-mono flex-wrap"
+            className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-2xl mx-auto"
+          >
+            {[
+              { label: 'Gratuito', desc: 'Contenido abierto', icon: '✦' },
+              { label: '100% Practico', desc: 'Casos reales', icon: '⚡' },
+              { label: 'En Español', desc: 'Hecho en Chile', icon: '🇨🇱' },
+              { label: 'Actualizado', desc: 'Cada semana', icon: '🔄' },
+            ].map((prop, i) => (
+              <motion.div
+                key={prop.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.9 + i * 0.08 }}
+                className="text-center p-2 rounded-xl"
+              >
+                <span className="text-sm">{prop.icon}</span>
+                <p className="text-[10px] font-mono font-semibold text-foreground/80 mt-1">{prop.label}</p>
+                <p className="text-[9px] text-muted-foreground/60">{prop.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Cross-site link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.2 }}
+            className="mt-4 flex items-center justify-center gap-3 text-xs text-muted-foreground font-mono flex-wrap"
           >
             <a href="https://vdrc.cl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-primary/5">
               vdrc.cl <ExternalLink className="w-3 h-3" />
-            </a>
-            <span className="text-border">|</span>
-            <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/5">
-              Talleres <ExternalLink className="w-3 h-3" />
             </a>
           </motion.div>
         </motion.div>
@@ -336,8 +359,8 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               <TypingLine text="11 generaciones, 150+ profesionales, 30+ herramientas" delay={3500} className="text-accent" prefix="> " />
               <TypingLine text="S1: Higiene digital — Inbox Zero, Bitwarden, perfiles" delay={4200} className="text-green-400" prefix="✓ " />
               <TypingLine text="S2: IA avanzada — CROP, context engineering, Canvas" delay={4800} className="text-green-400" prefix="✓ " />
-              <TypingLine text="S3: Presentaciones — Gama, Napkin, Beautiful.ai, Canva" delay={5300} className="text-green-400" prefix="✓ " />
-              <TypingLine text="S4: Apps con IA — Lovable + Supabase + GitHub + Cloud Code" delay={5800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S3: Presentaciones — Gamma, Napkin, Beautiful.ai, Canva" delay={5300} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S4: Apps con IA — Lovable + Supabase + GitHub + Claude Code" delay={5800} className="text-green-400" prefix="✓ " />
               <TypingLine text="Delega en tecnología. Afila tu sierra." delay={6800} className="text-primary font-bold" prefix="> " />
               <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8.5 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>

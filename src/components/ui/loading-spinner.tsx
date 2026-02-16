@@ -51,32 +51,37 @@ export function LoadingSpinner({
   if (fullScreen) {
     return (
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Clean background */}
         <div className="absolute inset-0 bg-background" />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="relative flex flex-col items-center gap-5"
+          className="relative flex flex-col items-center gap-6"
         >
+          {/* Logo mark */}
+          <motion.div
+            className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <span className="text-primary font-bold text-lg font-mono">V</span>
+          </motion.div>
+
           {spinner}
-          <div className="flex flex-col items-center gap-1">
+
+          <div className="flex flex-col items-center gap-2">
             <p className="text-sm font-mono text-primary/80 tracking-wider">
-              {message || 'Cargando...'}
+              {message || 'Preparando tu espacio'}
             </p>
             <motion.div
-              className="flex gap-1"
-              animate={{ opacity: [0.3, 1, 0.3] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-32 h-[2px] rounded-full bg-primary/10 overflow-hidden"
             >
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-1 h-1 rounded-full bg-primary/60"
-                  animate={{ scale: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-                />
-              ))}
+              <motion.div
+                className="h-full bg-primary/50 rounded-full"
+                animate={{ x: ['-100%', '200%'] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ width: '40%' }}
+              />
             </motion.div>
           </div>
         </motion.div>

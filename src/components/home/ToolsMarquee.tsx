@@ -16,7 +16,7 @@ const tools = [
   { name: 'Claude Code', emoji: '⌨️' },
   { name: 'Codex', emoji: '🔧' },
   // Presentaciones & Diseño
-  { name: 'Gama', emoji: '📊' },
+  { name: 'Gamma', emoji: '📊' },
   { name: 'Beautiful.ai', emoji: '🎯' },
   { name: 'Napkin', emoji: '🗒️' },
   { name: 'Canva', emoji: '🖼️' },

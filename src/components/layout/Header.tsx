@@ -138,6 +138,7 @@ export function Header() {
 
   const quickLinks = useMemo(() => [
     { href: '/profile', label: 'Mi Perfil', icon: User },
+    { href: '/dictionary', label: 'Diccionario', icon: BookOpen },
     { href: '/bookmarks', label: 'Favoritos', icon: Bookmark },
     { href: '/my-tools', label: 'Mi Stack IA', icon: Wrench },
     { href: '/quick-notes', label: 'Notas Rápidas', icon: PenLine },
@@ -190,12 +191,13 @@ export function Header() {
             <Button
               variant="ghost"
               size="sm"
-              className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-all h-8 px-2.5"
+              className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-all h-8 px-2.5 group"
               onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+              title="Buscar en todo el portal (⌘K)"
             >
-              <Command className="w-3.5 h-3.5" />
+              <Command className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
               <span className="text-xs hidden lg:inline">Buscar</span>
-              <kbd className="hidden lg:inline ml-1 px-1.5 py-0.5 text-[10px] font-mono bg-muted/50 rounded border border-border/40">⌘K</kbd>
+              <kbd className="hidden lg:inline ml-1 px-1.5 py-0.5 text-[10px] font-mono bg-muted/50 rounded border border-border/40 group-hover:bg-primary/10 group-hover:border-primary/30 group-hover:text-primary transition-colors">⌘K</kbd>
             </Button>
 
             {user ? (

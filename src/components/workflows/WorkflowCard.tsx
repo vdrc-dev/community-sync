@@ -126,20 +126,18 @@ export function WorkflowCard({ workflow, progress, onStart }: WorkflowCardProps)
           </p>
 
           {/* Stats row */}
-          <div className="flex items-center gap-3 text-sm">
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <Clock className="h-3.5 w-3.5" />
-              <span>{workflow.time_to_setup_minutes}m</span>
+          <div className="flex items-center gap-2 text-xs flex-wrap">
+            <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-muted/50 text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span>{workflow.time_to_setup_minutes}m setup</span>
             </div>
-            <div className="w-px h-4 bg-border" />
-            <div className="flex items-center gap-1.5 text-green-400">
-              <Zap className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-green-500/10 text-green-400">
+              <Zap className="h-3 w-3" />
               <span>-{weeklyTimeSaved}m/sem</span>
             </div>
-            <div className="w-px h-4 bg-border" />
-            <div className="flex items-center gap-1.5">
-              <div className={`w-2 h-2 rounded-full ${difficulty.dot}`} />
-              <span className="text-xs text-muted-foreground">{difficulty.label}</span>
+            <div className={`flex items-center gap-1 px-2 py-1 rounded-md ${difficulty.color}`}>
+              <div className={`w-1.5 h-1.5 rounded-full ${difficulty.dot}`} />
+              <span>{difficulty.label}</span>
             </div>
           </div>
 
