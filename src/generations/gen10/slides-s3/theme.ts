@@ -1,7 +1,7 @@
 /**
- * Gen10 S3 — Tema visual unificado.
- * Fondo, grid, ruido y paleta de acentos para coherencia en todas las slides.
- * Identidad visual: rosa/magenta como color primario de sesión.
+ * Gen10 S3 — Epic visual theme.
+ * Background, grid, noise, accent palette, motion helpers, and gradient utilities.
+ * Identity: rose/magenta primary with cinematic dark UI.
  */
 
 export const S3_THEME = {
@@ -18,7 +18,7 @@ export const S3_THEME = {
   },
 } as const;
 
-/** Paleta de acentos en HSL — usar en badges, bordes, texto destacado */
+/** Accent palette in HSL — use for badges, borders, highlighted text */
 export const S3_ACCENT = {
   rose:    { border: 'hsl(330 65% 55% / 0.35)', bg: 'hsl(330 65% 55% / 0.08)', text: 'hsl(330 65% 70%)', glow: 'hsl(330 65% 55% / 0.25)', dot: 'hsl(330 65% 58%)' },
   violet:  { border: 'hsl(263 60% 55% / 0.35)', bg: 'hsl(263 60% 55% / 0.08)', text: 'hsl(263 60% 75%)', glow: 'hsl(263 60% 55% / 0.25)', dot: 'hsl(263 60% 60%)' },
@@ -28,17 +28,20 @@ export const S3_ACCENT = {
   blue:    { border: 'hsl(210 70% 55% / 0.35)', bg: 'hsl(210 70% 55% / 0.08)', text: 'hsl(210 70% 70%)', glow: 'hsl(210 70% 55% / 0.2)', dot: 'hsl(210 70% 58%)' },
 } as const;
 
-/** Clase base del contenedor raíz de cada slide */
+/** Root class for every slide container */
 export const S3_ROOT_CLASS =
   'h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-rose-500/30';
 
-/** Clase estándar del contenedor de contenido (padding horizontal) */
+/** Standard content padding */
 export const S3_CONTENT_PADDING = 'px-16 2xl:px-20';
 
-/** Easing premium para animaciones (cúbica suave S2-style) */
+/** Premium cubic easing for animations */
 export const S3_EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Helper: genera props de motion para entrada escalonada */
+/** Snappier ease for micro-interactions */
+export const S3_EASE_SNAP = [0.34, 1.56, 0.64, 1] as const;
+
+/** Staggered entry motion helper */
 export const s3Motion = (delay: number, isExporting: boolean, overrides?: object) =>
   isExporting ? {} : {
     initial: { opacity: 0, y: 30 },
@@ -47,5 +50,47 @@ export const s3Motion = (delay: number, isExporting: boolean, overrides?: object
     ...overrides,
   };
 
-/** Hues para partículas — rotación cíclica */
+/** Epic entry: larger Y offset with scale for dramatic reveals */
+export const s3MotionEpic = (delay: number, isExporting: boolean, overrides?: object) =>
+  isExporting ? {} : {
+    initial: { opacity: 0, y: 50, scale: 0.95, filter: 'blur(8px)' },
+    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    transition: { delay, duration: 1.1, ease: S3_EASE },
+    ...overrides,
+  };
+
+/** Particle hues — cyclic rotation */
 export const S3_PARTICLE_HUES = [330, 263, 185, 38] as const;
+
+/** Gradient text style generator */
+export const s3GradientText = (from: string, to: string, glowHue = 330) => ({
+  background: `linear-gradient(135deg, ${from}, ${to})`,
+  WebkitBackgroundClip: 'text' as const,
+  WebkitTextFillColor: 'transparent' as const,
+  backgroundClip: 'text' as const,
+  filter: `drop-shadow(0 0 30px hsl(${glowHue} 80% 60% / 0.45))`,
+});
+
+/** Multi-stop gradient text for ultra-epic titles */
+export const s3GradientTextMulti = (hues: number[], glowHue?: number) => {
+  const stops = hues.map((h, i) => `hsl(${h} 80% 65%) ${Math.round((i / (hues.length - 1)) * 100)}%`).join(', ');
+  return {
+    background: `linear-gradient(135deg, ${stops})`,
+    WebkitBackgroundClip: 'text' as const,
+    WebkitTextFillColor: 'transparent' as const,
+    backgroundClip: 'text' as const,
+    filter: `drop-shadow(0 0 35px hsl(${glowHue ?? hues[0]} 80% 60% / 0.5))`,
+  };
+};
+
+/** Shimmer sweep animation props for Framer Motion */
+export const s3Shimmer = (isExporting: boolean, delay = 0) =>
+  isExporting ? {} : {
+    animate: { x: ['-150%', '250%'] },
+    transition: { duration: 3, repeat: Infinity, ease: 'linear' as const, repeatDelay: 4, delay },
+  };
+
+/** Accent line style for section dividers */
+export const s3AccentLine = (hue1: number, hue2: number) => ({
+  background: `linear-gradient(90deg, transparent, hsl(${hue1} 80% 60% / 0.6), hsl(${hue2} 70% 58% / 0.6), transparent)`,
+});

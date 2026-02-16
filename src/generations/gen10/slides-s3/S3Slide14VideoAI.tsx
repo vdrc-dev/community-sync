@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Video, Film, Mic, Wand2, Play, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import bgVideo from '@/assets/gen10-s3/bg-video-ai.jpg';
@@ -35,7 +35,7 @@ export function S3Slide14VideoAI() {
         <img src={bgVideo} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora intensity={1.1} />
       </div>
 
       {/* Floating decorative pills */}
@@ -65,7 +65,7 @@ export function S3Slide14VideoAI() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
           <a
             href="https://www.krea.ai"
             target="_blank"
@@ -75,15 +75,7 @@ export function S3Slide14VideoAI() {
             Krea.ai
           </a>
           :{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 25px hsl(330 85% 60% / 0.4))',
-            }}
-          >
+          <span style={s3GradientText('hsl(330 85% 68%)', 'hsl(263 60% 70%)', 330)}>
             Centro de Mando
           </span>
         </motion.h1>

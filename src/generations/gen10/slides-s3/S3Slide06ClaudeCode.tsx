@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Monitor, Globe, Terminal, FolderOpen, Plug, Sparkles, Check, X, Download, LogIn, FileUp, Cable } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import bgClaude from '@/assets/gen10-s3/bg-claude-code.jpg';
@@ -51,7 +51,7 @@ export function S3Slide06ClaudeCode() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_25%_20%,_hsl(263_65%_55%_/_0.12),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_75%,_hsl(280_55%_50%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_50%,_hsl(263_50%_45%_/_0.05),_transparent_50%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora />
       </div>
 
       {/* ── Content ── */}

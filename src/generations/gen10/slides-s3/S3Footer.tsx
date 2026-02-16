@@ -1,38 +1,56 @@
 /**
- * S3Footer — Pie de página reutilizable para todas las slides de S3.
+ * S3Footer — Epic footer with progress bar, glow accents, and session badge.
  */
+import { motion } from 'framer-motion';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
+import { useExportContext } from '@/contexts/ExportContext';
+import { S3_EASE } from './theme';
 
 interface S3FooterProps {
-  /** Etiqueta de sección (ej. "APERTURA", "CREACIÓN DIGITAL") */
   sectionLabel?: string;
-  /** Hue para la línea gradiente (default 330 = rose) */
   hue?: number;
-  /** Mostrar barra de progreso (default true) */
   showProgress?: boolean;
-  /** Texto contextual opcional en el lado izquierdo */
   contextHint?: string;
 }
 
-export function S3Footer({ sectionLabel, hue = 330, showProgress = false, contextHint }: S3FooterProps) {
+export function S3Footer({ sectionLabel, hue = 330, showProgress = true, contextHint }: S3FooterProps) {
   const slideNum = useSlideNumber();
+  const { isExporting } = useExportContext();
   const progress = slideNum
     ? Math.min(100, Math.max(0, (slideNum.current / Math.max(slideNum.total, 1)) * 100))
     : 0;
 
   return (
     <div className="absolute bottom-0 left-0 right-0 z-20">
-      <div className="px-12 py-4 backdrop-blur-[2px]">
+      <div className="px-12 py-4 backdrop-blur-[3px]">
+        {/* Progress bar — always visible */}
         {showProgress && (
-          <div className="mb-3 h-px w-full overflow-hidden rounded-full bg-white/5">
-            <div
-              className="h-full rounded-full transition-all duration-700"
+          <div className="mb-3 h-[2px] w-full overflow-hidden rounded-full bg-white/[0.04] relative">
+            <motion.div
+              className="h-full rounded-full"
               style={{
                 width: `${progress}%`,
-                background: `linear-gradient(90deg, hsl(${hue} 75% 62% / 0.8), hsl(${(hue + 40) % 360} 80% 62% / 0.65))`,
-                boxShadow: `0 0 20px hsl(${hue} 70% 55% / 0.35)`,
+                background: `linear-gradient(90deg, hsl(${hue} 75% 62% / 0.85), hsl(${(hue + 40) % 360} 80% 62% / 0.7))`,
+                boxShadow: `0 0 24px hsl(${hue} 70% 55% / 0.4), 0 0 6px hsl(${hue} 80% 60% / 0.3)`,
               }}
+              initial={isExporting ? undefined : { width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 1.2, ease: S3_EASE }}
             />
+            {/* Traveling glow dot on progress */}
+            {!isExporting && progress > 5 && (
+              <motion.div
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-[2px] rounded-full"
+                style={{
+                  background: `hsl(${hue} 90% 75%)`,
+                  boxShadow: `0 0 8px hsl(${hue} 90% 75% / 0.9)`,
+                  left: `${progress}%`,
+                  transform: 'translate(-100%, -50%)',
+                }}
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
           </div>
         )}
         <div className="flex items-center justify-between">
@@ -50,12 +68,12 @@ export function S3Footer({ sectionLabel, hue = 330, showProgress = false, contex
               <>
                 <div className="w-px h-2.5" style={{ background: `hsl(${hue} 40% 50% / 0.15)` }} />
                 <span
-                  className="text-[10px] tracking-[0.2em] px-2 py-0.5 rounded-full border"
+                  className="text-[10px] tracking-[0.2em] px-2.5 py-0.5 rounded-full border relative"
                   style={{
                     color: `hsl(${hue} 75% 72% / 0.85)`,
                     borderColor: `hsl(${hue} 70% 58% / 0.3)`,
                     background: `hsl(${hue} 65% 55% / 0.08)`,
-                    boxShadow: `0 0 20px hsl(${hue} 70% 55% / 0.2)`,
+                    boxShadow: `0 0 22px hsl(${hue} 70% 55% / 0.2)`,
                   }}
                 >
                   S3
@@ -64,12 +82,12 @@ export function S3Footer({ sectionLabel, hue = 330, showProgress = false, contex
             )}
           </div>
           <div
-            className="text-[11px] font-bold tabular-nums tracking-wider px-3 py-1 rounded-lg border"
+            className="text-[11px] font-bold tabular-nums tracking-wider px-3.5 py-1.5 rounded-lg border relative overflow-hidden"
             style={{
               color: `hsl(${hue} 80% 76% / 0.88)`,
-              borderColor: `hsl(${hue} 70% 55% / 0.22)`,
-              background: `linear-gradient(135deg, hsl(${hue} 65% 50% / 0.08), hsl(${hue} 65% 50% / 0.03))`,
-              boxShadow: `0 0 26px hsl(${hue} 75% 52% / 0.18)`,
+              borderColor: `hsl(${hue} 70% 55% / 0.25)`,
+              background: `linear-gradient(135deg, hsl(${hue} 65% 50% / 0.1), hsl(${hue} 65% 50% / 0.04))`,
+              boxShadow: `0 0 28px hsl(${hue} 75% 52% / 0.2)`,
             }}
           >
             {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}

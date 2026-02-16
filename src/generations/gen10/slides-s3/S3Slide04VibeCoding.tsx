@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Wand2, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import bgVibeCoding from '@/assets/gen10-s3/bg-vibe-coding.jpg';
@@ -21,16 +21,17 @@ const FLOATING_PILLS = [
 export function S3Slide04VibeCoding() {
   const { isExporting } = useExportContext();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
+  const me = (d: number, overrides?: object) => s3MotionEpic(d, isExporting, overrides);
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       {/* Atmosphere */}
       <div className="absolute inset-0">
-        <img src={bgVibeCoding} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,_hsl(185_70%_50%_/_0.12),_transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(280_70%_60%_/_0.08),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_60%_/_0.07)_50%,_transparent_65%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={280} tertiaryHue={38} />
+        <img src={bgVibeCoding} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.14]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,_hsl(185_70%_50%_/_0.14),_transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(280_70%_60%_/_0.1),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(185_70%_60%_/_0.08)_50%,_transparent_65%)]" />
+        <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={185} secondaryHue={280} tertiaryHue={38} showAurora />
       </div>
 
       {/* Floating pills */}
@@ -62,28 +63,29 @@ export function S3Slide04VibeCoding() {
         </motion.div>
 
         {/* Title with gradient text */}
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+        <motion.h1 {...me(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
           Diseña con{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, hsl(185 70% 65%), hsl(280 60% 65%))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 25px hsl(185 70% 55% / 0.4))',
-            }}
-          >
+          <span style={s3GradientText('hsl(185 70% 65%)', 'hsl(280 60% 65%)', 185)}>
             Palabras
           </span>
         </motion.h1>
-        {/* Accent line */}
+        {/* Accent line with traveling light */}
         <motion.div
-          className="h-0.5 rounded-full mx-auto max-w-[120px] origin-center"
+          className="h-[2px] rounded-full mx-auto max-w-[140px] origin-center relative overflow-hidden"
           style={{ background: 'linear-gradient(90deg, transparent, hsl(185 70% 55% / 0.6), hsl(280 60% 60% / 0.6), transparent)' }}
           initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-        />
+        >
+          {!isExporting && (
+            <motion.div
+              className="absolute top-0 h-full w-6 rounded-full"
+              style={{ background: 'hsl(185 85% 72%)', boxShadow: '0 0 10px hsl(185 85% 72% / 0.8)' }}
+              animate={{ left: ['-10%', '110%'] }}
+              transition={{ delay: 1.5, duration: 2, repeat: Infinity, ease: 'easeInOut', repeatDelay: 3 }}
+            />
+          )}
+        </motion.div>
         <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-lg mx-auto">
           Un prompt transforma toda la estética de tu app
         </motion.p>

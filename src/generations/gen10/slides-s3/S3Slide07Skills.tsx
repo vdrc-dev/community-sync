@@ -28,7 +28,7 @@ export function S3Slide07Skills() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_35%_30%,_hsl(263_60%_55%_/_0.09),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_40%_at_70%_65%,_hsl(280_55%_50%_/_0.06),_transparent_55%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={263} secondaryHue={280} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">

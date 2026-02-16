@@ -69,7 +69,7 @@ export function S3Slide07PresentationAI() {
           className="absolute inset-0 opacity-[0.03]"
           style={{ background: 'linear-gradient(135deg, transparent 30%, hsl(263 60% 60% / 0.5) 50%, transparent 70%)' }}
         />
-        <S3Atmosphere isExporting={isExporting} particleCount={5} primaryHue={263} secondaryHue={38} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-16">

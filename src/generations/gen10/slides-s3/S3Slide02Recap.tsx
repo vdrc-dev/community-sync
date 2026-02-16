@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -15,14 +15,15 @@ const WEEKS = [
 export function S3Slide02Recap() {
   const { isExporting } = useExportContext();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
+  const me = (d: number, overrides?: object) => s3MotionEpic(d, isExporting, overrides);
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_30%,_hsl(185_70%_50%_/_0.08),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.06),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.04),_transparent_70%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_30%,_hsl(185_70%_50%_/_0.1),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.08),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.06),_transparent_70%)]" />
+        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
       </div>
 
       {/* Floating decorative pills */}
@@ -45,15 +46,8 @@ export function S3Slide02Recap() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
-          El Camino Hasta <span
-            style={{
-              background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(280 70% 65%))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
-            }}>Aquí</span>
+        <motion.h1 {...me(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
+          El Camino Hasta <span style={s3GradientText('hsl(330 85% 68%)', 'hsl(280 70% 65%)', 330)}>Aquí</span>
         </motion.h1>
         <motion.div
           className="h-0.5 rounded-full mx-auto max-w-[96px] origin-center"

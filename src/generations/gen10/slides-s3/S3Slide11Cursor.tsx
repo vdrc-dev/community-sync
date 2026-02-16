@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Code2, Eye, FolderTree, Layers, Terminal, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import bgCursor from '@/assets/gen10-s3/bg-cursor-ide.jpg';
@@ -30,7 +30,7 @@ export function S3Slide11Cursor() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_25%_25%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.06),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_transparent_35%,_hsl(38_90%_60%_/_0.07)_50%,_transparent_65%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={38} secondaryHue={263} tertiaryHue={185} />
+        <S3Atmosphere isExporting={isExporting} particleCount={12} primaryHue={38} secondaryHue={263} tertiaryHue={185} showAurora />
       </div>
 
       {/* Floating decorative pills */}
@@ -60,17 +60,9 @@ export function S3Slide11Cursor() {
           </div>
         </motion.div>
 
-        <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
+        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
           Cursor:{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, hsl(38 90% 65%), hsl(185 70% 60%))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 25px hsl(38 90% 55% / 0.4))',
-            }}
-          >
+          <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(185 70% 60%)', 38)}>
             IDE con IA
           </span>
         </motion.h1>
