@@ -79,7 +79,7 @@ function TypingLine({
 }
 
 // Rotating text effect for features — now with actual class content
-const rotatingWords = ['context engineering', 'metaprompts CROP', 'vibe coding', 'Lovable + Supabase', 'inbox zero', 'Gamma + Napkin', 'bases de datos relacionales', 'agentes en Chrome', 'afilar la sierra', 'PRD → MVP → deploy'];
+const rotatingWords = ['context engineering', 'metaprompts CROP', 'vibe coding', 'Lovable + Supabase', 'inbox zero', 'Gamma + Napkin', 'bases de datos relacionales', 'agentes en Chrome', 'afilar la sierra', 'PRD → MVP → deploy', 'Claude Code + Playwright', 'Notebook LM', 'chunking de contexto', 'Claude en Excel', 'delegar en tecnología'];
 
 function RotatingText() {
   const [index, setIndex] = useState(0);
@@ -230,9 +230,9 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 mb-10 font-mono"
           >
             {[
-              { value: '+122', label: 'Profesionales', icon: Users, hue: 160 },
-              { value: '10', label: 'Generaciones', icon: Sparkles, hue: 263 },
-              { value: '+50', label: 'Clases', icon: BookOpen, hue: 200 },
+              { value: '+150', label: 'Profesionales', icon: Users, hue: 160 },
+              { value: '11', label: 'Generaciones', icon: Sparkles, hue: 263 },
+              { value: '+44', label: 'Clases', icon: BookOpen, hue: 200 },
               { value: '+30', label: 'Herramientas', icon: Wrench, hue: 340 },
             ].map((stat, idx, arr) => (
               <motion.div key={stat.label} className="flex items-center gap-2 sm:gap-4 md:gap-6">
@@ -333,11 +333,11 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </div>
             <div className="space-y-1 min-h-[140px]">
               <TypingLine text=" vdrc --afila-sierra --gen=11" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
-              <TypingLine text="10 generaciones, 122+ profesionales, 30+ herramientas" delay={3500} className="text-accent" prefix="> " />
+              <TypingLine text="11 generaciones, 150+ profesionales, 30+ herramientas" delay={3500} className="text-accent" prefix="> " />
               <TypingLine text="S1: Higiene digital — Inbox Zero, Bitwarden, perfiles" delay={4200} className="text-green-400" prefix="✓ " />
               <TypingLine text="S2: IA avanzada — CROP, context engineering, Canvas" delay={4800} className="text-green-400" prefix="✓ " />
-              <TypingLine text="S3: Storytelling — Gama, Napkin, identidad visual con IA" delay={5300} className="text-green-400" prefix="✓ " />
-              <TypingLine text="S4: Vibe coding — Lovable + Supabase + GitHub (full stack)" delay={5800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S3: Presentaciones — Gama, Napkin, Beautiful.ai, Canva" delay={5300} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S4: Apps con IA — Lovable + Supabase + GitHub + Cloud Code" delay={5800} className="text-green-400" prefix="✓ " />
               <TypingLine text="Delega en tecnología. Afila tu sierra." delay={6800} className="text-primary font-bold" prefix="> " />
               <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8.5 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>

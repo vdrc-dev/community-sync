@@ -91,7 +91,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
 
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-4">
                 4 sesiones intensivas. +35 herramientas. Desde Inbox Zero hasta crear software con IA.
-                El taller que ya transformó a +122 profesionales en 10 generaciones.
+                El taller que ya transformó a +150 profesionales en 11 generaciones.
               </p>
 
               <p className="text-sm text-foreground/50 max-w-xl mx-auto mb-8 italic">

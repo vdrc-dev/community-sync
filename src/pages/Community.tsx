@@ -98,7 +98,7 @@ export default function Community() {
             Tu espacio para <span className="text-gradient">conectar</span>
           </h1>
           <p className="text-muted-foreground mt-1 max-w-xl">
-            Comparte descubrimientos, pide ayuda, muestra tus proyectos y aprende de las 10 generaciones del taller.
+            Comparte descubrimientos, pide ayuda, muestra tus proyectos y aprende de las 11 generaciones del taller.
           </p>
         </motion.div>
 
@@ -160,7 +160,7 @@ export default function Community() {
             <div className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground mt-1">Generaciones</div>
           </div>
           <div className="glass glass-specular p-4 rounded-2xl text-center">
-            <div className="text-2xl font-mono font-bold text-primary">+200</div>
+            <div className="text-2xl font-mono font-bold text-primary">+150</div>
             <div className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground mt-1">Participantes</div>
           </div>
         </motion.div>

@@ -17,7 +17,7 @@ const testimonials = [
   {
     quote: "Hay un tipo cortando un árbol con una sierra oxidada. Covey le dice: '¿Por qué no parás y afilás la sierra?' — 'No tengo tiempo.' Eso es lo que le pasa a toda la gente. Lo que ustedes están haciendo hoy es afilar la sierra.",
     author: "Vicente Donoso R.",
-    role: "Instructor VDRC · Gen 009",
+    role: "Instructor VDRC · Gen 002",
     generation: "Filosofía",
     rating: 5,
   },
@@ -45,14 +45,14 @@ const testimonials = [
   {
     quote: "Conozco demasiada gente que pasa de largo los domingos preparando un directorio, pero nunca pasarían de largo un domingo automatizando el PowerPoint. Tienen que aprender a delegar en tecnología antes que en personas.",
     author: "Vicente Donoso R.",
-    role: "Instructor VDRC · Gen 008",
+    role: "Instructor VDRC · Gen 010",
     generation: "Acción",
     rating: 5,
   },
   {
-    quote: "Si vendiera una clase prepaquetizada sería millonario — la podría haber grabado una vez y venderla. Pero no puedo, todo cambia demasiado rápido. Estamos en el mismo punto que cuando salió ChatGPT en noviembre 2022.",
+    quote: "El conocimiento que se enseñó hoy costaría unos 20 millones de pesos si contrataban a un profesional. Lo que ustedes pueden hacer ahora con Lovable, Supabase y Cloud Code es realmente épico.",
     author: "Vicente Donoso R.",
-    role: "Instructor VDRC · Gen 004",
+    role: "Instructor VDRC · Gen 009",
     generation: "Presentaciones",
     rating: 5,
   },
@@ -203,6 +203,24 @@ export function TestimonialsSection() {
                 author: "Jaime Loayza",
                 role: "Ing. Civil, Inversiones · Gen 004",
                 generation: "Productividad",
+              },
+              {
+                quote: "Actualicé Chat GPT, pagué Cloud y configuré mi correo. No me demoré nada y la reacción es la misma: qué agradable dominar el correo. Son esos pequeños hacks de la vida.",
+                author: "Nicolás Nazar",
+                role: "Enólogo, Gerente Comercial · Gen 010",
+                generation: "Productividad",
+              },
+              {
+                quote: "Hoy día el agente de Claude en Chrome me hizo una plantilla en HubSpot que hace un par de años pagué un millón de pesos para que alguien la hiciera. Impresionante.",
+                author: "Vicente Donoso R.",
+                role: "Instructor VDRC · Gen 009",
+                generation: "Descubrimiento",
+              },
+              {
+                quote: "Cargué un libro entero en Notebook LM y le pido cuestionarios sobre capítulos específicos. Es increíble para el aprendizaje — como tener un tutor privado.",
+                author: "Jaime Loayza",
+                role: "Ing. Civil, Inversiones · Gen 010",
+                generation: "Descubrimiento",
               },
             ].map((t, i) => {
               const accent = CATEGORY_ACCENTS[t.generation] || { hue: 180, icon: Users };

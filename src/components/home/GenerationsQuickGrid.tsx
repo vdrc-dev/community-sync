@@ -48,7 +48,7 @@ export function GenerationsQuickGrid() {
               <span className="text-gradient">una comunidad</span>
             </h2>
             <p className="text-muted-foreground max-w-xl text-lg mt-2">
-              +200 profesionales en 10 generaciones. Explora los recursos, presentaciones y compañeros de cada una.
+              +150 profesionales en 11 generaciones. Explora los recursos, presentaciones y compañeros de cada una.
             </p>
           </div>
           <Link

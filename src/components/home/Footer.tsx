@@ -54,7 +54,7 @@ export function Footer() {
             </Link>
 
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-              10 generaciones. +200 participantes. Tu hub para dominar la productividad digital con IA.
+              11 generaciones. +150 participantes. Tu hub para dominar la productividad digital con IA.
             </p>
 
             <div className="flex items-center gap-3 pt-2">

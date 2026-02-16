@@ -63,7 +63,7 @@ export default function Home() {
           SECCIONES COMPARTIDAS — flujo limpio
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
 
-      {/* ━━━ GENERACIONES ━━━ Las 10 generaciones */}
+      {/* ━━━ GENERACIONES ━━━ Las 11 generaciones */}
       <GenerationsQuickGrid />
 
       {/* ━━━ COMUNIDAD ━━━ Interacción entre participantes */}

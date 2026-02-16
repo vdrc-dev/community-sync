@@ -3,8 +3,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { ExternalLink, X, Rocket, Clock, ArrowRight, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Gen 11 starts March 1, 2026
-const GEN11_DATE = new Date('2026-03-01T00:00:00-03:00');
+// Gen 11 starts March 3, 2026
+const GEN11_DATE = new Date('2026-03-03T00:00:00-03:00');
 
 function useCountdown(targetDate: Date) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
@@ -182,8 +182,8 @@ export function Gen11Banner() {
                     transition={{ delay: 0.4 }}
                     className="text-lg text-foreground/80 max-w-lg"
                   >
-                    De Inbox Zero a crear software con IA en 4 sesiones. Desde Gen 003 cada clase es distinta — "si vendiera una clase prepaquetizada sería millonario, pero no puedo, todo cambia demasiado rápido."
-                    Arranca en <span className="text-primary font-semibold">marzo 2026</span>.
+                    De Inbox Zero a crear apps con IA en 4 sesiones. Higiene Digital, Productividad con IA, Presentaciones Automatizadas y Apps y Webs con IA. 11 generaciones, +150 profesionales y cada clase es distinta.
+                    Arranca el <span className="text-primary font-semibold">3 de marzo 2026</span>.
                   </motion.p>
 
                   {/* Countdown */}

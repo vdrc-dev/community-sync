@@ -71,8 +71,8 @@ export default function Generations() {
     <Layout>
       <div className="page-container section-py">
         <PageHeader
-          title={<>Las <span className="text-gradient">10 Generaciones</span></>}
-          description="Cada generación es un grupo de profesionales que transformaron su productividad. Explora los recursos de cada una."
+          title={<>Las <span className="text-gradient">11 Generaciones</span></>}
+          description="Desde abril 2025 — cada generación es un grupo de profesionales que transformaron su productividad con IA. Explora los recursos de cada una."
           badge={{ 
             label: `${generations?.length || 0} generaciones`, 
             icon: <GraduationCap className="w-3 h-3" /> 
@@ -102,7 +102,7 @@ export default function Generations() {
             </div>
             <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
               <Users className="w-4 h-4 text-accent" />
-              <span className="text-sm font-medium">+200 participantes</span>
+              <span className="text-sm font-medium">+150 participantes</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-pill">
               <Presentation className="w-4 h-4 text-purple-400" />
@@ -195,8 +195,8 @@ export default function Generations() {
                             Generación <span className="text-gradient">11</span>
                           </h3>
                           <p className="text-sm text-muted-foreground mt-2 max-w-lg">
-                            El Taller de Productividad Digital con IA vuelve en <span className="text-accent font-semibold">marzo 2026</span>.
-                            Nuevos módulos, workflows actualizados y herramientas de última generación.
+                            El Taller de Productividad Digital con IA vuelve el <span className="text-accent font-semibold">3 de marzo 2026</span>.
+                            Higiene Digital, Productividad con IA, Presentaciones Automatizadas y Apps y Webs con IA.
                           </p>
                         </div>
                       </div>

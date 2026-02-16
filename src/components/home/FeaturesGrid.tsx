@@ -7,13 +7,13 @@ import {
 
 const features = [
   { icon: Workflow, title: 'Workflows con IA', description: 'PRD → MVP → Deploy. CROP, metaprompting, chunking, auditoría cruzada, GPTs personalizados — flujos probados en vivo con casos reales de participantes desde Gen 004.', href: '/workflows', featured: true, hue: 160 },
-  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Arquitectos, enólogos, startups de 550 empleados, ingenieros agrónomos, pasteleros, profesores, consultores de energía — 122+ profesionales aprendiendo juntos.', href: '/community', hue: 200 },
-  { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, slides y transcripciones de +50 sesiones. Cada generación es distinta — "así son estos temas tecnológicos, por eso no son clases prepaquetizadas."', href: '/generations', hue: 263 },
+  { icon: MessageSquare, title: 'Comunidad Activa', description: 'Arquitectos, enólogos, retail Sodimac, family offices, pasteleros, fundaciones educativas, consultoras de energía, cannabis medicinal — 150+ profesionales aprendiendo juntos.', href: '/community', hue: 200 },
+  { icon: BookOpen, title: 'Clases por Generación', description: 'Grabaciones, slides y transcripciones de +44 sesiones. Cada generación es distinta — el contenido se actualiza cada semana porque la tecnología cambia demasiado rápido.', href: '/generations', hue: 263 },
   { icon: Wrench, title: 'Stack de +35 Herramientas', description: 'ChatGPT para estrategia, Claude para Excel, Perplexity reemplazando Google, Cursor como profesor particular, Gama para slides, Zapier para automatizar. Cada una tiene su rol.', href: '/tools', hue: 45 },
   { icon: Calculator, title: 'Calculadora de ROI', description: 'Uno de la Gen 004 transformó 300 páginas en 20. Otro eliminó 7 planillas Excel. Mide cuánto ahorras delegando en tecnología.', href: '/roi-calculator', hue: 120 },
   { icon: Sparkles, title: 'Playground IA', description: 'Experimenta con Canvas, Operator, modelos O3 vs Auto, y genera contenido profesional. Siempre audita: "como validar el trabajo de un practicante."', href: '/playground', hue: 340 },
   { icon: Code2, title: 'Vibe Coding', description: 'PRD en GPT personalizado → Lovable → Supabase → GitHub → Codex. El Wall Street Journal dice que construir software propio es más barato que pagar SaaS.', href: '/workflows', hue: 280 },
-  { icon: Calendar, title: 'Calendario de Sesiones', description: 'Gen 11 arranca marzo 2026. Jaime ya lleva 5 repeticiones — "va cambiando tanto que me interesa mucho estar al día." Cada martes a las 19h.', href: '/calendar', hue: 185 },
+  { icon: Calendar, title: 'Calendario de Sesiones', description: 'Gen 11 arranca el 3 de marzo 2026. Jaime ya lleva 5 repeticiones — "va cambiando tanto que me interesa mucho estar al día." Cada martes a las 19h.', href: '/calendar', hue: 185 },
 ];
 
 export function FeaturesGrid() {
@@ -32,7 +32,7 @@ export function FeaturesGrid() {
             Todo lo que necesitas para <span className="text-gradient">dominar la IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Desde la higiene digital hasta crear ERPs con IA — un ecosistema forjado en 10 generaciones de casos reales
+            Desde la higiene digital hasta crear ERPs con IA — un ecosistema forjado en 11 generaciones de casos reales
           </p>
         </motion.div>
 

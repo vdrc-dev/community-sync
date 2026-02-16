@@ -48,6 +48,13 @@ const tools = [
   { name: 'Crea AI', emoji: '🖌️' },
   { name: 'Bolt', emoji: '⚡' },
   { name: 'Plotly', emoji: '📉' },
+  { name: 'Playwright', emoji: '🎭' },
+  { name: 'Clean Email', emoji: '🧹' },
+  { name: 'Notion', emoji: '📝' },
+  { name: 'Figma', emoji: '🎨' },
+  { name: 'Krea.ai', emoji: '🖼️' },
+  { name: 'Fontjoy', emoji: '🔤' },
+  { name: 'Realtime Colors', emoji: '🎨' },
 ];
 
 const doubledTools = [...tools, ...tools];

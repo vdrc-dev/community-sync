@@ -73,11 +73,11 @@ export function StatsSection() {
   const dynamic = useDynamicStats();
 
   const stats = [
-    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'De Gen 003 a Gen 010 — nunca la misma clase', hue: 160 },
-    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas con transcripción completa', hue: 263 },
-    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'ChatGPT, Claude, Cursor, Lovable, Gama y más', hue: 200 },
+    { numericValue: 11, suffix: '', label: 'Generaciones', icon: Award, description: 'Desde abril 2025 — Gen 001 a Gen 011', hue: 160 },
+    { numericValue: 44, suffix: '+', label: 'Clases', icon: BookOpen, description: '4 sesiones por generación con grabación y transcripción', hue: 263 },
+    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'ChatGPT, Claude, Cursor, Lovable, Supabase, Gamma y más', hue: 200 },
     { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'PRD, CROP, chunking, metaprompts, vibe coding', hue: 45 },
-    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Startups, family offices, universidades, energía', hue: 340 },
+    { numericValue: 150, suffix: '+', label: 'Participantes', icon: Users, description: 'Retail, inmobiliario, finanzas, energía, cannabis, educación', hue: 340 },
     { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: '300 páginas en 20, 7 planillas en 0 — caso real', hue: 120 },
   ];
 
@@ -99,7 +99,7 @@ export function StatsSection() {
             Impacto <span className="text-gradient">real</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Desde julio 2025, profesionales de 20+ industrias transformando su productividad con IA
+            Desde abril 2025, profesionales de 20+ industrias transformando su productividad con IA
           </p>
         </motion.div>
 

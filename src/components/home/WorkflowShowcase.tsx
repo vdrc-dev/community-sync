@@ -69,7 +69,25 @@ const showcaseWorkflows = [
     timeSaved: '2 días',
     category: 'Agentes',
     hue: 280,
-    realCase: 'Integración CRM + ERP — Gen 10',
+    realCase: 'Integración CRM + ERP en HubSpot — Gen 10',
+  },
+  {
+    title: 'Gemini UI → Lovable → Supabase: App Full Stack',
+    icon: Code2,
+    steps: 7,
+    timeSaved: '1 semana',
+    category: 'Desarrollo',
+    hue: 50,
+    realCase: 'Gestión de colegios para Fundación Trabun — Gen 9',
+  },
+  {
+    title: 'Inbox Zero + Bitwarden + Perfiles Chrome',
+    icon: Zap,
+    steps: 3,
+    timeSaved: '30 min/día',
+    category: 'Higiene',
+    hue: 180,
+    realCase: 'Implementado en cada generación desde Gen 001',
   },
 ];
 
@@ -105,12 +123,14 @@ export function WorkflowShowcase() {
             
             <div className="space-y-4 mb-8">
               {[
-                'PRD con GPT personalizado → MVP en Lovable → Supabase → Deploy',
+                'PRD con GPT personalizado → MVP en Lovable → Supabase → GitHub → Deploy',
                 '5 capas ChatGPT: instrucciones, memoria, proyectos, GPTs, acciones',
                 'Metaprompting + CROP: la IA mejora tu prompt antes de ejecutar',
                 'Context Engineering: PDFs, normativas, planes de cuenta → respuesta precisa',
                 'Chunking: resumen exhaustivo → nueva conversación sin pérdida de contexto',
-                'Validación cruzada: O3 analiza, otro chat audita — como un practicante senior',
+                'Claude en Excel: modelos financieros con fórmulas, escenarios y riesgo',
+                'Notebook LM: cargar libros, podcasts, estudios → conversar con tu data',
+                'Inbox Zero + perfiles de navegador + Bitwarden = higiene digital base',
               ].map((feature, i) => (
                 <motion.div
                   key={i}
