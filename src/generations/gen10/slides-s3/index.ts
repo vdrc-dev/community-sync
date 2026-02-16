@@ -1,10 +1,10 @@
-// Gen 10 - Semana 3: Comunicación y Creación Digital
+// Gen 10 - Semana 3: Presentaciones con IA y creación digital
 // Componentes resueltos dinámicamente vía SLIDE_REGISTRY + base de datos
 //
 // Orden lógico de presentación (15 slides):
 //  01  Cover
 //  02  Recap del camino
-//  03  Colores y Tipografía
+//  03  Fundamentos de diseño
 //  04  Canvas Dashboards
 //  05  Vibe Coding
 //  06  NotebookLM

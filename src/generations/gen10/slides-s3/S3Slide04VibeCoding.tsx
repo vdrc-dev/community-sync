@@ -153,8 +153,8 @@ export function S3Slide04VibeCoding() {
         {/* Pro tips */}
         <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
           {[
-            { tip: '💡 Sé específico con adjetivos', detail: '"Elegante y tech" > "bonito". Los modelos entienden estética.' },
-            { tip: '🎨 Pega tu HEX', detail: 'Dale tu color principal y pide variaciones complementarias.' },
+            { tip: 'Sé específico con adjetivos', detail: '"Elegante y tech" > "bonito". Los modelos entienden estética.' },
+            { tip: 'Pega tu HEX principal', detail: 'Dale tu color base y pide variaciones complementarias.' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
@@ -165,11 +165,16 @@ export function S3Slide04VibeCoding() {
 
         <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span><span className="text-amber-400/80 font-semibold">Coolors.co</span> para paletas · <span className="text-amber-400/80 font-semibold">Fontjoy</span> para tipografías</span>
+          <span>
+            <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
+            {' '}para paletas ·{' '}
+            <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
+            {' '}para tipografías
+          </span>
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} />
+      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} contextHint="diseñar interfaces desde prompts" />
     </div>
   );
 }

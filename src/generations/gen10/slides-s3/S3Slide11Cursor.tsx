@@ -218,7 +218,7 @@ export function S3Slide11Cursor() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="DESARROLLO" hue={38} />
+      <S3Footer sectionLabel="DESARROLLO" hue={38} contextHint="de idea a feature en Cursor" />
     </div>
   );
 }

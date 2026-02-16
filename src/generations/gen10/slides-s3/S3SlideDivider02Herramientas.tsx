@@ -9,7 +9,13 @@ export function S3SlideDivider02Herramientas() {
       subtitle="Sintetiza, presenta y automatiza con IA"
       icon={Wrench}
       accentHue={263}
-      tools={['NotebookLM', 'Claude Code', 'Skills', 'Gamma', 'Napkin']}
+      tools={[
+        { label: 'NotebookLM', href: 'https://notebooklm.google.com' },
+        { label: 'Claude Code', href: 'https://claude.ai/download' },
+        'Skills',
+        { label: 'Gamma', href: 'https://gamma.app' },
+        { label: 'Napkin', href: 'https://napkin.ai' },
+      ]}
     />
   );
 }

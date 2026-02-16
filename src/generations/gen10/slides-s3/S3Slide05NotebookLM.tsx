@@ -210,7 +210,7 @@ export function S3Slide05NotebookLM() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="HERRAMIENTAS" hue={263} />
+      <S3Footer sectionLabel="HERRAMIENTAS" hue={263} contextHint="investigación con NotebookLM" />
     </div>
   );
 }

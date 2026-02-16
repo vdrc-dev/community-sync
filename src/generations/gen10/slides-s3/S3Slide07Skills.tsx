@@ -137,7 +137,7 @@ export function S3Slide07Skills() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CLAUDE CODE" hue={263} />
+      <S3Footer sectionLabel="CLAUDE CODE" hue={263} contextHint="skills reutilizables por tarea" />
     </div>
   );
 }

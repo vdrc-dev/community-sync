@@ -173,11 +173,18 @@ export function S3Slide03DesignFoundations() {
 
         <motion.div {...m(0.7)} className="mt-6 inline-flex items-center gap-2 text-xs text-amber-400/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span><span className="text-amber-400/80 font-semibold">Coolors.co</span> para paletas · <span className="text-amber-400/80 font-semibold">Fontjoy</span> para pares · <span className="text-amber-400/80 font-semibold">Realtime Colors</span> para preview</span>
+          <span>
+            <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
+            {' '}para paletas ·{' '}
+            <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
+            {' '}para pares ·{' '}
+            <a href="https://realtimecolors.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Realtime Colors</a>
+            {' '}para preview
+          </span>
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="FUNDAMENTOS VISUALES" />
+      <S3Footer sectionLabel="FUNDAMENTOS VISUALES" contextHint="color, tipografía y jerarquía" />
     </div>
   );
 }

@@ -226,7 +226,7 @@ export function S3Slide07PresentationAI() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CREACIÓN DIGITAL" hue={263} />
+      <S3Footer sectionLabel="CREACIÓN DIGITAL" hue={263} contextHint="slides con Gamma y Beautiful.ai" />
     </div>
   );
 }

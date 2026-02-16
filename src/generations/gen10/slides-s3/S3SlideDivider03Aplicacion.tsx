@@ -10,7 +10,12 @@ export function S3SlideDivider03Aplicacion() {
       icon={Plug}
       accentHue={38}
       accentSat={85}
-      tools={['CRM + MCP', 'MCP vs API', 'Cursor', 'Krea.ai']}
+      tools={[
+        'CRM + MCP',
+        'MCP vs API',
+        { label: 'Cursor', href: 'https://cursor.com' },
+        { label: 'Krea.ai', href: 'https://www.krea.ai' },
+      ]}
     />
   );
 }

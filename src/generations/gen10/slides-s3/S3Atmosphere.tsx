@@ -18,7 +18,7 @@ interface S3AtmosphereProps {
   tertiaryHue?: number;
   /** Mostrar orbes respirantes (default true) */
   showOrbs?: boolean;
-  /** Mostrar light sweep animado (default false, solo cover) */
+  /** Mostrar light sweep animado (default false, recomendado en slides hero) */
   showLightSweep?: boolean;
 }
 
@@ -29,7 +29,7 @@ export function S3Atmosphere({
   secondaryHue = 263,
   tertiaryHue = 185,
   showOrbs = true,
-  showLightSweep = true,
+  showLightSweep = false,
 }: S3AtmosphereProps) {
   const particles = useMemo(
     () =>

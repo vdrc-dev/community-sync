@@ -7,6 +7,7 @@ import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useGeneration } from '@/contexts/GenerationContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
+import { S3Footer } from './S3Footer';
 
 /* ── Tool badges ── */
 const TOOLS = [
@@ -397,29 +398,11 @@ export function S3Slide01Cover() {
         </motion.div>
       </div>
 
-      {/* ═══════════════════════════════════ */}
-      {/* ── BOTTOM BAR ─────────────────── */}
-      {/* ═══════════════════════════════════ */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="flex items-center justify-between px-12 py-4 backdrop-blur-[2px]">
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
-              VDRC · Gen {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
-            </span>
-          </div>
-          <div
-            className="text-[11px] font-bold tabular-nums tracking-wider px-3 py-1 rounded-lg border"
-            style={{
-              color: 'hsl(330 80% 76% / 0.88)',
-              borderColor: 'hsl(330 70% 55% / 0.22)',
-              background: 'linear-gradient(135deg, hsl(330 65% 50% / 0.08), hsl(330 65% 50% / 0.03))',
-              boxShadow: '0 0 26px hsl(330 75% 52% / 0.18)',
-            }}
-          >
-            {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : '01 / 19'}
-          </div>
-        </div>
-      </div>
+      <S3Footer
+        sectionLabel={`VDRC · Gen ${gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}`}
+        hue={330}
+        contextHint="Apertura"
+      />
 
       {/* Cinematic vignette provided by S3Atmosphere */}
     </div>

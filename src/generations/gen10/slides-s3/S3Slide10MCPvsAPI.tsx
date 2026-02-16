@@ -217,7 +217,7 @@ export function S3Slide10MCPvsAPI() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CONEXIONES Y DATOS" hue={38} />
+      <S3Footer sectionLabel="CONEXIONES Y DATOS" hue={38} contextHint="cuándo usar MCP vs API" />
     </div>
   );
 }

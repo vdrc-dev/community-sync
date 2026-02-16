@@ -9,7 +9,12 @@ export function S3SlideDivider01Fundamentos() {
       subtitle="Colores, tipografía y diseño con propósito"
       icon={Palette}
       accentHue={330}
-      tools={['Coolors.co', 'Fontjoy', 'Canvas', 'VibeCoding']}
+      tools={[
+        { label: 'Coolors.co', href: 'https://coolors.co' },
+        { label: 'Fontjoy', href: 'https://fontjoy.com' },
+        'Canvas',
+        'VibeCoding',
+      ]}
     />
   );
 }

@@ -287,7 +287,7 @@ export function S3Slide12Closing() {
         </div>
       </div>
 
-      <S3Footer sectionLabel="CIERRE" hue={150} />
+      <S3Footer sectionLabel="CIERRE" hue={150} contextHint="próximos pasos accionables" />
     </div>
   );
 }

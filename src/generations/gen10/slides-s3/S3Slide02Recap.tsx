@@ -7,9 +7,9 @@ import { S3Footer } from './S3Footer';
 
 const WEEKS = [
   { num: 1, title: 'Higiene Digital', icon: Shield, accent: S3_ACCENT.cyan, skills: ['Inbox Zero', 'Navegadores', 'Bitwarden', 'Context Eng.'], done: true, current: false },
-  { num: 2, title: 'Era Agéntica', icon: Brain, accent: S3_ACCENT.violet, skills: ['C.R.O.P.', 'Modelos', 'Agentes', 'MCP'], done: true, current: false },
-  { num: 3, title: 'Comunicación', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Canvas', 'Claude Code', 'CRM', 'Cursor'], done: false, current: true },
-  { num: 4, title: 'VibeCoding', icon: Code2, accent: S3_ACCENT.emerald, skills: ['App en 90 min', 'Deploy', 'GitHub', 'Proyecto Final'], done: false, current: false },
+  { num: 2, title: 'IA Avanzada', icon: Brain, accent: S3_ACCENT.violet, skills: ['C.R.O.P.', 'Modelos', 'Agentes', 'MCP'], done: true, current: false },
+  { num: 3, title: 'Presentaciones con IA', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Canvas', 'Claude Code', 'CRM', 'Cursor'], done: false, current: true },
+  { num: 4, title: 'Vibe Coding', icon: Code2, accent: S3_ACCENT.emerald, skills: ['App en 90 min', 'Deploy', 'GitHub', 'Proyecto Final'], done: false, current: false },
 ];
 
 export function S3Slide02Recap() {
@@ -63,7 +63,7 @@ export function S3Slide02Recap() {
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mb-9 max-w-lg mx-auto">
-          Semana 3 de 4 — 75% del programa completado
+          Semana 3 de 4 - 75% del programa completado
         </motion.p>
         <motion.div
           {...m(0.18)}
@@ -92,7 +92,7 @@ export function S3Slide02Recap() {
           {/* Progress fill */}
           <motion.div className="absolute top-1/2 left-[8%] h-[2px] -translate-y-1/2 rounded-full"
             style={{ background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' }}
-            {...(isExporting ? { style: { width: '40%', background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' } } : { initial: { width: '0%' }, animate: { width: '40%' }, transition: { delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] } })}
+            {...(isExporting ? { style: { width: '63%', background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' } } : { initial: { width: '0%' }, animate: { width: '63%' }, transition: { delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] } })}
           />
 
           {WEEKS.map((week, i) => {
@@ -177,7 +177,7 @@ export function S3Slide02Recap() {
         </div>
       </div>
 
-      <S3Footer sectionLabel="APERTURA" />
+      <S3Footer sectionLabel="APERTURA" contextHint="de dónde venimos y hacia dónde vamos" />
     </div>
   );
 }

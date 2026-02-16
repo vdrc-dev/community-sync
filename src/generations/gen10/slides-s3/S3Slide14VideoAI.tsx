@@ -66,7 +66,15 @@ export function S3Slide14VideoAI() {
         </motion.div>
 
         <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
-          Krea.ai:{' '}
+          <a
+            href="https://www.krea.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-rose-300/90 transition-colors underline-offset-4 hover:underline"
+          >
+            Krea.ai
+          </a>
+          :{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(263 60% 70%))',
@@ -260,7 +268,7 @@ export function S3Slide14VideoAI() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="VIDEO GENERATIVO" hue={330} />
+      <S3Footer sectionLabel="VIDEO GENERATIVO" hue={330} contextHint="narrativas visuales con control" />
     </div>
   );
 }

@@ -190,14 +190,25 @@ export function S3Slide06ClaudeCode() {
         {/* Setup steps */}
         <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto flex items-center justify-center gap-3">
           {[
-            { step: '1', text: 'Descarga claude.ai/download' },
+            { step: '1', text: 'Descarga Claude Desktop', href: 'https://claude.ai/download' },
             { step: '2', text: 'Login con tu cuenta' },
             { step: '3', text: 'Arrastra archivos al chat' },
             { step: '4', text: 'Conecta tu primer MCP' },
           ].map((s, i) => (
             <motion.div key={i} {...m(0.58 + i * 0.04)} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
               <span className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style={{ background: S3_ACCENT.violet.bg, color: S3_ACCENT.violet.text, border: `1px solid ${S3_ACCENT.violet.border}` }}>{s.step}</span>
-              <span className="text-[10px] text-white/45 font-medium">{s.text}</span>
+              {s.href ? (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-white/60 font-medium hover:text-white underline-offset-2 hover:underline"
+                >
+                  {s.text}
+                </a>
+              ) : (
+                <span className="text-[10px] text-white/45 font-medium">{s.text}</span>
+              )}
             </motion.div>
           ))}
         </motion.div>
@@ -208,7 +219,7 @@ export function S3Slide06ClaudeCode() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CLAUDE CODE" hue={263} />
+      <S3Footer sectionLabel="CLAUDE CODE" hue={263} contextHint="pair-programming con IA" />
     </div>
   );
 }

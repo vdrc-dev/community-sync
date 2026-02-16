@@ -209,7 +209,7 @@ export function S3Slide09CRM() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CONEXIONES Y DATOS" hue={38} />
+      <S3Footer sectionLabel="CONEXIONES Y DATOS" hue={38} contextHint="CRM conectado por MCP/API" />
     </div>
   );
 }

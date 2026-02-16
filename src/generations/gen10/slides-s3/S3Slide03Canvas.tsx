@@ -177,7 +177,7 @@ export function S3Slide03Canvas() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} />
+      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} contextHint="Canvas para análisis visual" />
     </div>
   );
 }

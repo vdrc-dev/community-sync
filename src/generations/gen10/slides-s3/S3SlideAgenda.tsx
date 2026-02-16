@@ -18,7 +18,7 @@ const MODULES = [
   {
     num: '02',
     title: 'Herramientas de Creación',
-    tools: ['NotebookLM', 'Claude Code', 'Gamma'],
+    tools: ['NotebookLM', 'Claude Code', 'Presentaciones IA'],
     icon: Wrench,
     accent: S3_ACCENT.violet,
     time: '~35 min',
@@ -80,7 +80,7 @@ export function S3SlideAgenda() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-md mx-auto">
-          4 módulos · ~95 minutos · De la teoría a la práctica
+          4 módulos · ~95 minutos · de la teoría a la práctica
         </motion.p>
 
         {/* Module cards with connecting line */}
@@ -168,7 +168,7 @@ export function S3SlideAgenda() {
         </div>
       </div>
 
-      <S3Footer sectionLabel="AGENDA" />
+      <S3Footer sectionLabel="AGENDA" contextHint="ruta de la sesión de hoy" />
     </div>
   );
 }

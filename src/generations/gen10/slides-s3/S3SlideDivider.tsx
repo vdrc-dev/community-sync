@@ -5,9 +5,9 @@
 import { motion } from 'framer-motion';
 import { type LucideIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { S3_THEME, S3_ROOT_CLASS, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
+import { S3Footer } from './S3Footer';
 
 interface S3SlideDividerProps {
   moduleNum: string;
@@ -17,7 +17,7 @@ interface S3SlideDividerProps {
   accentHue: number;
   accentSat?: number;
   accentLight?: number;
-  tools?: string[];
+  tools?: Array<string | { label: string; href?: string }>;
 }
 
 export function S3SlideDivider({
@@ -31,14 +31,12 @@ export function S3SlideDivider({
   tools = [],
 }: S3SlideDividerProps) {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
 
   const accent = `hsl(${accentHue} ${accentSat}% ${accentLight}%)`;
   const accentDim = `hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.12)`;
   const accentBorder = `hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.3)`;
   const accentText = `hsl(${accentHue} ${accentSat}% ${accentLight + 15}%)`;
-  const accentGlow = `hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.25)`;
 
   return (
     <div className={S3_ROOT_CLASS + ' flex items-center justify-center'} style={{ background: S3_THEME.background }}>
@@ -103,21 +101,41 @@ export function S3SlideDivider({
         {/* Tool pills */}
         {tools.length > 0 && (
           <motion.div {...m(0.35)} className="flex items-center justify-center gap-3 flex-wrap">
-            {tools.map((tool, i) => (
-              <motion.div
-                key={tool}
-                className="px-4 py-2 rounded-xl border backdrop-blur-sm"
-                style={{ borderColor: accentBorder, background: accentDim }}
-                {...(isExporting ? {} : {
-                  whileHover: { scale: 1.06, borderColor: accent },
-                  initial: { opacity: 0, y: 16 },
-                  animate: { opacity: 1, y: 0 },
-                  transition: { delay: 0.4 + i * 0.08, duration: 0.6, ease: S3_EASE },
-                })}
-              >
-                <span className="text-sm font-bold" style={{ color: accentText }}>{tool}</span>
-              </motion.div>
-            ))}
+            {tools.map((tool, i) => {
+              const label = typeof tool === 'string' ? tool : tool.label;
+              const href = typeof tool === 'string' ? undefined : tool.href;
+              return (
+                <motion.div
+                  key={label}
+                  className="px-4 py-2 rounded-xl border backdrop-blur-sm"
+                  style={{ borderColor: accentBorder, background: accentDim }}
+                  {...(isExporting
+                    ? {}
+                    : {
+                        whileHover: { scale: 1.06, borderColor: accent },
+                        initial: { opacity: 0, y: 16 },
+                        animate: { opacity: 1, y: 0 },
+                        transition: { delay: 0.4 + i * 0.08, duration: 0.6, ease: S3_EASE },
+                      })}
+                >
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-bold hover:underline underline-offset-2"
+                      style={{ color: accentText }}
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <span className="text-sm font-bold" style={{ color: accentText }}>
+                      {label}
+                    </span>
+                  )}
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
 
@@ -140,34 +158,18 @@ export function S3SlideDivider({
         )}
       </div>
 
-      {/* Bottom bar with slide number + siguiente */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="flex items-center justify-between px-12 py-4 backdrop-blur-[2px]">
-          {/* Siguiente CTA */}
-          <motion.div
-            {...m(0.5)}
-            className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase"
-            style={{ color: `${accentText}50` }}
-          >
-            <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentBorder})` }} />
-            <span>Siguiente →</span>
-            <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, ${accentBorder}, transparent)` }} />
-          </motion.div>
+      {/* Micro-cue de navegación */}
+      <motion.div
+        {...m(0.5)}
+        className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase"
+        style={{ color: `${accentText}50` }}
+      >
+        <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentBorder})` }} />
+        <span>Siguiente</span>
+        <div className="w-8 h-px" style={{ background: `linear-gradient(90deg, ${accentBorder}, transparent)` }} />
+      </motion.div>
 
-          {/* Slide number */}
-          <div
-            className="text-[11px] font-bold tabular-nums tracking-wider px-3 py-1 rounded-lg border"
-            style={{
-              color: `${accentText}dd`,
-              borderColor: `${accent}36`,
-              background: `linear-gradient(135deg, ${accent}14, ${accent}08)`,
-              boxShadow: `0 0 26px ${accentGlow}`,
-            }}
-          >
-            {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}
-          </div>
-        </div>
-      </div>
+      <S3Footer sectionLabel={`Módulo ${moduleNum}`} hue={accentHue} contextHint={title} />
     </div>
   );
 }

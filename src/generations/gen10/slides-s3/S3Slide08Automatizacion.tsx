@@ -54,7 +54,7 @@ export function S3Slide08Automatizacion() {
         <motion.div {...m(0)} className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
             <Repeat className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Claude Code</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Automatización</span>
           </div>
         </motion.div>
 
@@ -173,7 +173,7 @@ export function S3Slide08Automatizacion() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CLAUDE CODE" hue={263} />
+      <S3Footer sectionLabel="AUTOMATIZACIÓN" hue={263} contextHint="de tareas repetitivas a flujos automáticos" />
     </div>
   );
 }
