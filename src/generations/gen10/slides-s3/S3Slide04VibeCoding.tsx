@@ -6,7 +6,7 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const EXAMPLES = [
-  { prompt: '"Estética agencia boutique"', result: 'Serif + espaciado', detail: 'Playfair Display + 40px padding', color: S3_ACCENT.violet },
+  { prompt: '"Agencia boutique de San Francisco, un millón de dólares"', result: 'Glassmorphism + editorial', detail: 'Cinzel + backdrop-blur + floating cards', color: S3_ACCENT.violet },
   { prompt: '"Mi paleta corporativa #2B5EA7"', result: 'Colores en 3s', detail: 'Genera 5 tonos armónicos', color: S3_ACCENT.cyan },
   { prompt: '"Más minimalista, solo datos"', result: 'Foco en datos', detail: 'Elimina decoración, agranda KPIs', color: S3_ACCENT.amber },
 ];

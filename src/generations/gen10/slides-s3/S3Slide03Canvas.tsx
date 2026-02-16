@@ -54,7 +54,7 @@ export function S3Slide03Canvas() {
         <motion.div {...m(0.16)} className="flex items-center justify-center gap-8 mb-6">
           {[
             { stat: '30 seg', desc: 'CSV → gráfico' },
-            { stat: '12+', desc: 'tipos de chart' },
+            { stat: '15+', desc: 'tipos de chart' },
             { stat: '$0', desc: 'gratis en Gemini' },
           ].map((s, i) => (
             <div key={i} className="text-center">
@@ -131,8 +131,8 @@ export function S3Slide03Canvas() {
         <motion.div {...m(0.5)} className="max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left mb-4">
           {[
             { tip: 'Pide "hazme un dashboard interactivo"', detail: 'Canvas genera HTML+JS que puedes exportar' },
-            { tip: 'Itera en tiempo real', detail: '"Cambia a barras horizontales y agrega tooltip"' },
-            { tip: 'Copia el código', detail: 'Pega el HTML en tu sitio o comparte como link' },
+            { tip: 'Itera en tiempo real', detail: '"Repiensa la UI como agencia boutique de SF" — Canvas lo entiende' },
+            { tip: 'Copia el código', detail: 'Exporta HTML, pega en tu sitio, o abre en Cursor para iterar' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.54 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]"
               {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.cyan.border } })}>

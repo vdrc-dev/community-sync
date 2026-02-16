@@ -16,7 +16,7 @@ const TOOLS = [
     speed: '30s',
     price: 'Free / $8',
     output: 'PPTX / PDF / Slides',
-    highlight: '50M+ usuarios · Embeds interactivos',
+    highlight: 'Agente IA · API (Zapier/Make) · Diagramas inteligentes',
   },
   {
     name: 'Napkin AI',
@@ -28,7 +28,7 @@ const TOOLS = [
     speed: '15s',
     price: 'Free / $9',
     output: 'SVG / PNG / PPT',
-    highlight: '500 créditos/sem gratis',
+    highlight: 'Flowcharts + diagramas · Exporta SVG/PNG',
   },
   {
     name: 'Beautiful.ai',
@@ -40,11 +40,12 @@ const TOOLS = [
     speed: '45s',
     price: '$12/mes',
     output: 'PPTX / PDF',
-    highlight: '300+ Smart Slides · Brand kit',
+    highlight: 'Plantillas auto-ajustables · Brand kit integrado',
   },
 ];
 
 const WORKFLOW = [
+  { tool: 'Coolors', action: 'Paleta', accent: S3_ACCENT.rose },
   { tool: 'Claude', action: 'Outline', accent: S3_ACCENT.emerald },
   { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber },
   { tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet },

@@ -9,13 +9,13 @@ const POWERS = [
   { title: '4K 60fps Nativo', icon: Play, accent: S3_ACCENT.rose },
   { title: 'Audio + Video', icon: Film, accent: S3_ACCENT.violet },
   { title: 'Img → Video', icon: Wand2, accent: S3_ACCENT.cyan },
-  { title: 'Multi-Cámara', icon: Mic, accent: S3_ACCENT.amber },
+  { title: 'Lip-sync IA', icon: Mic, accent: S3_ACCENT.amber },
 ];
 
 const ENGINES = [
   { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot', accent: S3_ACCENT.rose },
   { name: 'Veo 3.1', provider: 'Google', detail: '4K · Audio integrado', accent: S3_ACCENT.violet },
-  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · 15s · Multi-cam', accent: S3_ACCENT.cyan },
+  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · Lip-sync · Multi-cam', accent: S3_ACCENT.cyan },
 ];
 
 export function S3Slide14VideoAI() {

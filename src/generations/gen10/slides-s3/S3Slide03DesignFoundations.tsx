@@ -18,6 +18,7 @@ const FONTS = [
   { name: 'Sans Serif', example: 'Inter', style: 'font-sans', use: 'Pantalla' },
   { name: 'Serif', example: 'Playfair', style: 'font-serif', use: 'Títulos' },
   { name: 'Display', example: 'Bebas Neue', style: 'font-sans font-black uppercase', use: 'Impacto' },
+  { name: 'Variable', example: 'Inter Variable', style: 'font-sans', use: 'Futuro' },
 ];
 
 export function S3Slide03DesignFoundations() {
@@ -99,7 +100,7 @@ export function S3Slide03DesignFoundations() {
                 <div className="w-4 h-4 rounded" style={{ background: '#2ECC71' }} />
                 <div className="w-4 h-4 rounded" style={{ background: '#F5F5F5' }} />
               </div>
-              <p className="text-[11px] text-white/50 relative">Primario + Acento + Neutro = <span className="text-white/80 font-semibold">máx 3-5</span></p>
+              <p className="text-[11px] text-white/50 relative">HEX = receta digital exacta. Primario + Acento + Neutro = <span className="text-white/80 font-semibold">máx 3-5</span></p>
             </motion.div>
           </motion.div>
 
@@ -134,7 +135,7 @@ export function S3Slide03DesignFoundations() {
         <motion.div {...m(0.5)} className="grid grid-cols-3 gap-3 max-w-3xl mx-auto text-left mb-3">
           {[
             { icon: Target, rule: 'Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.', accent: S3_ACCENT.rose },
-            { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo para texto normal (WCAG AA). Verifica en webaim.org/contrast', accent: S3_ACCENT.emerald },
+            { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo WCAG AA para texto normal. Usa webaim.org y Realtime Colors para verificar.', accent: S3_ACCENT.emerald },
             { icon: Type, rule: 'Máx 2 fuentes', detail: 'Una display para títulos + una body para texto. Nunca más de 3.', accent: S3_ACCENT.violet },
           ].map((t, i) => {
             const RuleIcon = t.icon;
@@ -169,7 +170,9 @@ export function S3Slide03DesignFoundations() {
             <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
             {' '}para pares ·{' '}
             <a href="https://realtimecolors.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Realtime Colors</a>
-            {' '}para preview
+            {' '}para preview ·{' '}
+            <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Google Fonts</a>
+            {' '}1500+ gratis
           </span>
         </motion.div>
       </div>
