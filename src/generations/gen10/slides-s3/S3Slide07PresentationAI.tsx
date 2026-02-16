@@ -60,7 +60,7 @@ export function S3Slide07PresentationAI() {
     <div className={S3_ROOT_CLASS + ' flex flex-col ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       {/* Background */}
       <div className="absolute inset-0">
-        <img src={bgPresentation} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" />
+        <img src={bgPresentation} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.04]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_25%,_hsl(263_55%_50%_/_0.12),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_70%,_hsl(38_80%_50%_/_0.06),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_85%_20%,_hsl(185_70%_45%_/_0.05),_transparent_55%)]" />
