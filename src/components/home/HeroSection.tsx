@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket, ExternalLink, Clock } from 'lucide-react';
+import { Sparkles, ArrowRight, Terminal, Zap, Brain, Rocket, ExternalLink, Clock, Users, BookOpen, Wrench } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
@@ -79,7 +79,7 @@ function TypingLine({
 }
 
 // Rotating text effect for features — now with actual class content
-const rotatingWords = ['ChatGPT & Claude', 'vibe coding', 'metaprompts', 'Lovable + Supabase', 'Zapier & App Script', 'Gama & Beautiful.ai', 'Airtable & datos'];
+const rotatingWords = ['context engineering', 'metaprompts CROP', 'vibe coding', 'Lovable + Supabase', 'inbox zero', 'Gamma + Napkin', 'bases de datos relacionales', 'agentes en Chrome', 'afilar la sierra', 'PRD → MVP → deploy'];
 
 function RotatingText() {
   const [index, setIndex] = useState(0);
@@ -227,27 +227,30 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.3 }}
-            className="flex items-center justify-center gap-6 mb-10 font-mono"
+            className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 mb-10 font-mono"
           >
-            <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">+122</div>
-              <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Profesionales</div>
-            </div>
-            <div className="w-px h-10 bg-primary/20" />
-            <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">10</div>
-              <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Generaciones</div>
-            </div>
-            <div className="w-px h-10 bg-primary/20" />
-            <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">+50</div>
-              <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Clases</div>
-            </div>
-            <div className="w-px h-10 bg-primary/20" />
-            <div className="text-center px-3">
-              <div className="text-2xl md:text-3xl font-bold text-primary">+30</div>
-              <div className="text-[11px] tracking-wider uppercase text-muted-foreground/80 mt-0.5">Herramientas</div>
-            </div>
+            {[
+              { value: '+122', label: 'Profesionales', icon: Users, hue: 160 },
+              { value: '10', label: 'Generaciones', icon: Sparkles, hue: 263 },
+              { value: '+50', label: 'Clases', icon: BookOpen, hue: 200 },
+              { value: '+30', label: 'Herramientas', icon: Wrench, hue: 340 },
+            ].map((stat, idx, arr) => (
+              <motion.div key={stat.label} className="flex items-center gap-2 sm:gap-4 md:gap-6">
+                <motion.div
+                  className="text-center px-2 sm:px-3 py-2 rounded-xl transition-all duration-300 cursor-default group/stat"
+                  whileHover={{ scale: 1.06, y: -2 }}
+                >
+                  <div className="flex items-center justify-center gap-1.5 mb-1">
+                    <stat.icon className="w-3.5 h-3.5 hidden sm:block" style={{ color: `hsl(${stat.hue} 70% 55% / 0.6)` }} />
+                    <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
+                  </div>
+                  <div className="text-[10px] sm:text-[11px] tracking-wider uppercase text-muted-foreground/80">{stat.label}</div>
+                </motion.div>
+                {idx < arr.length - 1 && (
+                  <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-transparent via-primary/25 to-transparent" />
+                )}
+              </motion.div>
+            ))}
           </motion.div>
 
           {/* CTA Buttons */}
@@ -310,10 +313,6 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/5">
               Talleres <ExternalLink className="w-3 h-3" />
             </a>
-            <span className="text-border">|</span>
-            <Link to="/presentations" className="hover:text-purple-400 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-purple-500/5">
-              Presentaciones
-            </Link>
           </motion.div>
         </motion.div>
 
@@ -334,12 +333,12 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             </div>
             <div className="space-y-1 min-h-[140px]">
               <TypingLine text=" vdrc --afila-sierra --gen=11" prefix="$ " delay={2000} isCommand className="text-muted-foreground" />
-              <TypingLine text="Stack: ChatGPT + Claude + Perplexity + Gemini + 26 más..." delay={3500} className="text-accent" prefix="> " />
-              <TypingLine text="Higiene digital (Inbox Zero, Bitwarden): OK" delay={4200} className="text-green-400" prefix="✓ " />
-              <TypingLine text="IA avanzada (metaprompts, agentes, Canvas): OK" delay={4800} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Presentaciones (Gama, Beautiful.ai, Napkin): OK" delay={5300} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Vibe coding (Lovable + Supabase + GitHub): OK" delay={5800} className="text-green-400" prefix="✓ " />
-              <TypingLine text="Bienvenido a tus años más productivos." delay={6800} className="text-primary font-bold" prefix="> " />
+              <TypingLine text="10 generaciones, 122+ profesionales, 30+ herramientas" delay={3500} className="text-accent" prefix="> " />
+              <TypingLine text="S1: Higiene digital — Inbox Zero, Bitwarden, perfiles" delay={4200} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S2: IA avanzada — CROP, context engineering, Canvas" delay={4800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S3: Storytelling — Gama, Napkin, identidad visual con IA" delay={5300} className="text-green-400" prefix="✓ " />
+              <TypingLine text="S4: Vibe coding — Lovable + Supabase + GitHub (full stack)" delay={5800} className="text-green-400" prefix="✓ " />
+              <TypingLine text="Delega en tecnología. Afila tu sierra." delay={6800} className="text-primary font-bold" prefix="> " />
               <motion.p className="text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 8.5 }}>
                 <span className="text-primary">$</span> <span className="cursor-blink">_</span>
               </motion.p>

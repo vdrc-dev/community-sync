@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink, Heart, ArrowUpRight, Globe, Presentation, ChevronUp } from 'lucide-react';
+import { ExternalLink, Heart, ArrowUpRight, Globe, ChevronUp } from 'lucide-react';
 
 const footerLinks = {
   aprendizaje: [
     { label: 'Generaciones', href: '/generations' },
-    { label: 'Presentaciones', href: '/presentations' },
     { label: 'Herramientas', href: '/tools' },
     { label: 'Workflows', href: '/workflows' },
     { label: 'Lab IA', href: '/playground' },
@@ -63,10 +62,6 @@ export function Footer() {
                 <Globe className="w-3 h-3" />
                 vdrc.cl
               </a>
-              <Link to="/presentations" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-purple-400 transition-colors px-2.5 py-1.5 rounded-xl glass-pill hover:border-purple-500/15">
-                <Presentation className="w-3 h-3" />
-                Presentaciones
-              </Link>
             </div>
           </motion.div>
 
@@ -84,7 +79,7 @@ export function Footer() {
                 {title}
                 <span className="block h-0.5 w-8 bg-gradient-to-r from-primary to-transparent mt-2 rounded-full" />
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.href + link.label}>
                     {'external' in link && link.external ? (
@@ -92,18 +87,18 @@ export function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        className="group/link flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-300 py-1 px-2 -mx-2 rounded-lg hover:bg-white/[0.03]"
                       >
                         {link.label}
-                        <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 transition-all duration-300" />
                       </a>
                     ) : (
                       <Link
                         to={link.href}
-                        className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        className="group/link flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-300 py-1 px-2 -mx-2 rounded-lg hover:bg-white/[0.03]"
                       >
                         {link.label}
-                        <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                        <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 transition-all duration-300 text-primary" />
                       </Link>
                     )}
                   </li>
@@ -113,30 +108,38 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Separator */}
-        <div className="relative h-px w-full mb-6 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        {/* Separator — animated gradient */}
+        <div className="relative h-px w-full mb-8 overflow-hidden">
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(90deg, transparent 0%, hsl(160 70% 55% / 0.25) 30%, hsl(263 70% 55% / 0.25) 50%, hsl(340 70% 55% / 0.25) 70%, transparent 100%)' }}
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         </div>
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground font-mono">
-            &copy; {new Date().getFullYear()} <span className="text-foreground">VDRC</span> &middot; Todos los derechos reservados
+            &copy; {new Date().getFullYear()} <span className="text-foreground font-semibold">VDRC</span> &middot; Todos los derechos reservados
           </p>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground group/heart cursor-default">
               <span>Hecho con</span>
-              <Heart className="w-3 h-3 text-red-500 fill-red-500" />
+              <Heart className="w-3 h-3 text-red-500 fill-red-500 group-hover/heart:scale-125 transition-transform duration-300" />
               <span>en Chile</span>
             </div>
-            <button
+            <motion.button
               onClick={scrollToTop}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors px-2 py-1.5 rounded-md hover:bg-primary/5 min-h-[36px]"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-all px-3 py-2 rounded-xl hover:bg-primary/5 border border-transparent hover:border-primary/10 min-h-[36px]"
               aria-label="Volver arriba"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
               <ChevronUp className="w-3.5 h-3.5" />
               Arriba
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>

@@ -75,8 +75,8 @@ export function GenerationTimeline({ classes, isLoading }: GenerationTimelinePro
   const moduleNames = [
     'Higiene Digital',
     'IA & Productividad', 
-    'Comunicación',
-    'Desarrollo'
+    'Presentaciones con IA',
+    'Vibe Coding'
   ];
 
   return (

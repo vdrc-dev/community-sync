@@ -78,38 +78,48 @@ export function GenerationsQuickGrid() {
                   to={`/generations/${gen.code}`}
                   className="group block"
                 >
-                  <div className="glass glass-specular relative p-4 rounded-2xl transition-all duration-500 hover:scale-[1.04] h-full">
-                    {/* Active indicator */}
+                  <div className="glass glass-specular relative p-4 rounded-2xl transition-all duration-500 hover:scale-[1.04] h-full overflow-hidden">
+                    {/* Shimmer sweep on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                      style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.04) 50%, transparent 65%)' }} />
+
+                    {/* Active indicator — enhanced */}
                     {gen.is_active && (
-                      <div className="absolute -top-px left-1/2 -translate-x-1/2 w-12 h-1 rounded-b-full bg-green-500" />
+                      <div className="absolute -top-px left-1/2 -translate-x-1/2 w-16 h-1 rounded-b-full bg-gradient-to-r from-green-500/60 via-green-400 to-green-500/60" />
                     )}
 
                     <div className="flex items-center justify-between mb-3">
-                      <div className={`w-10 h-10 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center`}>
-                        <span className="font-mono font-bold text-sm ${colors.text}">
+                      <div className={`w-10 h-10 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
+                        <span className={`font-mono font-bold text-sm ${colors.text}`}>
                           {String(genNum).padStart(2, '0')}
                         </span>
                       </div>
                       {gen.is_active && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
                           <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                          <span className="text-[9px] font-mono text-green-400">ACTIVO</span>
+                          <span className="text-[9px] font-mono text-green-400 font-bold">ACTIVO</span>
                         </div>
                       )}
                     </div>
 
-                    <h3 className="text-sm font-semibold group-hover:text-primary transition-colors mb-1">
+                    <h3 className="text-sm font-semibold group-hover:text-primary transition-colors mb-0.5">
                       Gen {String(genNum).padStart(2, '0')}
                     </h3>
 
+                    {gen.name && (
+                      <p className="text-[11px] text-muted-foreground/70 truncate mb-1">
+                        {gen.name}
+                      </p>
+                    )}
+
                     {gen.start_date && (
-                      <p className="text-[10px] text-muted-foreground font-mono">
+                      <p className="text-[10px] text-muted-foreground/50 font-mono">
                         {new Date(gen.start_date).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' })}
                       </p>
                     )}
 
                     {/* Hover arrow */}
-                    <ChevronRight className="absolute bottom-3 right-3 w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                    <ChevronRight className="absolute bottom-3 right-3 w-4 h-4 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300" />
                   </div>
                 </Link>
               </motion.div>

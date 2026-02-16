@@ -112,7 +112,7 @@ export function S3Slide01Cover() {
             <div className="relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full border backdrop-blur-sm"
               style={{ background: S3_ACCENT.rose.bg, borderColor: S3_ACCENT.rose.border }}>
               <Sparkles className="w-3.5 h-3.5 text-rose-400/70" />
-              <span className="text-rose-300/80 font-semibold uppercase tracking-[0.2em] text-[10px]">Sesión 3 · Comunicación Digital</span>
+              <span className="text-rose-300/80 font-semibold uppercase tracking-[0.2em] text-[10px]">Sesión 3 · Presentaciones con IA</span>
               <div className="flex gap-1.5 ml-2">
                 {[false, false, true, false].map((active, i) => (
                   <div key={i} className="w-1.5 h-1.5 rounded-full transition-all"

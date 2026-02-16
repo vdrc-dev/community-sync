@@ -182,9 +182,8 @@ export function Gen11Banner() {
                     transition={{ delay: 0.4 }}
                     className="text-lg text-foreground/80 max-w-lg"
                   >
-                    El Taller de Productividad Digital con IA vuelve en{' '}
-                    <span className="text-primary font-semibold">marzo 2026</span>.
-                    Nuevos workflows, herramientas y comunidad te esperan.
+                    De Inbox Zero a crear software con IA en 4 sesiones. Desde Gen 003 cada clase es distinta — "si vendiera una clase prepaquetizada sería millonario, pero no puedo, todo cambia demasiado rápido."
+                    Arranca en <span className="text-primary font-semibold">marzo 2026</span>.
                   </motion.p>
 
                   {/* Countdown */}

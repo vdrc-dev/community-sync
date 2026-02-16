@@ -8,33 +8,37 @@ const steps = [
     number: '01',
     icon: Shield,
     title: 'Higiene Digital',
-    description: 'Inbox Zero, filtros y reglas en Gmail/Outlook, Bitwarden para contraseñas, perfiles de navegador por cuenta, y Granola para notas de reunión automáticas.',
+    description: 'Inbox Zero: tu bandeja de entrada es tu gestor de trabajo. Perfiles de navegador separados por cuenta, Bitwarden para contraseñas, Granola para transcripciones. La clase "fome" que te cambia la vida digital.',
     gradient: 'from-primary to-emerald-400',
     glowColor: 'hsl(142, 76%, 50%)',
+    realExample: '"Es un cambio de hábito difícil pero poderoso — mi higiene digital era bastante reguleque." — Jaime R., Gen 004',
   },
   {
     number: '02',
     icon: Brain,
-    title: 'Domina la IA',
-    description: 'ChatGPT (O3, Canvas, GPTs), Claude, Perplexity, Gemini y Manus. Metaprompts, proyectos, memoria personalizada, App Script y Zapier para automatizar.',
+    title: 'Productividad con IA',
+    description: '5 capas de personalización en ChatGPT, metodología CROP para prompts, Context Engineering, metaprompting. ChatGPT para estrategia, Claude para Excel, Perplexity como reemplazo de Google, Notebook LM para investigación profunda.',
     gradient: 'from-accent to-blue-400',
     glowColor: 'hsl(180, 100%, 45%)',
+    realExample: '"Un practicante con tres doctorados que no conoce tu empresa — eso es ChatGPT sin contexto." — Vicente',
   },
   {
     number: '03',
     icon: Presentation,
-    title: 'Presenta con IA',
-    description: 'Gama para slides rápidas, Beautiful.ai para diagramas paramétricos, Napkin para infografías, Canva para kits de marca y Colors + Font Joy para identidad visual.',
+    title: 'Storytelling con IA',
+    description: 'Gama y Beautiful.ai para slides automáticas, Napkin para infografías McKinsey, Canva para kits de marca, Coolors para paletas. ChatGPT arma la estrategia → Gama pone el diseño. PowerPoint full automatizable.',
     gradient: 'from-purple-500 to-pink-500',
     glowColor: 'hsl(270, 70%, 50%)',
+    realExample: '"Ustedes agregan valor en la estrategia, no en mover la burbujita del PowerPoint." — Vicente',
   },
   {
     number: '04',
     icon: Code2,
     title: 'Vibe Coding',
-    description: 'Lovable + Supabase + GitHub: la triada para crear ERPs, portales, dashboards y landing pages. Airtable para datos relacionales, Faces App para prototipos rápidos.',
+    description: 'PRD en ChatGPT → MVP en Lovable → Supabase para backend → GitHub para versionar → Codex para optimizar. De una idea a software funcional con login, DB relacional y deploy. El SaaS está muerto.',
     gradient: 'from-orange-500 to-yellow-500',
     glowColor: 'hsl(30, 90%, 50%)',
+    realExample: '"Es como haber agarrado ChatGPT en noviembre 2022 — el que se sube ahora, surfea la ola." — Vicente, Gen 004',
   },
 ];
 
@@ -64,7 +68,7 @@ export function HowItWorks() {
             De cero a <span className="text-gradient">productivo con IA</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Cada generación cubre 4 módulos que te transforman de principiante a experto en productividad digital
+            Cada generación cubre 4 módulos — de "mi higiene digital era reguleque" a crear software propio con IA
           </p>
         </motion.div>
 
@@ -118,9 +122,14 @@ export function HowItWorks() {
                   <h3 className="text-lg font-bold mb-3 group-hover:text-primary transition-colors">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-3">
                     {step.description}
                   </p>
+                  {step.realExample && (
+                    <p className="text-xs italic text-primary/50 leading-relaxed border-t border-white/[0.04] pt-3">
+                      {step.realExample}
+                    </p>
+                  )}
                 </div>
               </motion.div>
             ))}

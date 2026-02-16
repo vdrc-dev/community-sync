@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Users, Rocket, BarChart3, BookOpen, Brain, Code2, Shield } from 'lucide-react';
+import { ArrowRight, Zap, Users, Rocket, BarChart3, BookOpen, Brain, Code2, Shield } from 'lucide-react';
 
 interface CTASectionProps {
   isAuthenticated: boolean;
@@ -59,14 +59,6 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     </motion.div>
                   ))}
                 </div>
-                <Link
-                  to="/presentations"
-                  className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Sparkles className="w-3 h-3" />
-                  Ver presentaciones del taller
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
               </div>
             </div>
           </motion.div>
@@ -97,16 +89,21 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 <span className="text-gradient">sierra digital</span>
               </h2>
 
-              <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-                4 sesiones intensivas. +30 herramientas. Desde Inbox Zero hasta crear software con IA.
+              <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-4">
+                4 sesiones intensivas. +35 herramientas. Desde Inbox Zero hasta crear software con IA.
                 El taller que ya transformó a +122 profesionales en 10 generaciones.
+              </p>
+
+              <p className="text-sm text-foreground/50 max-w-xl mx-auto mb-8 italic">
+                "El Wall Street Journal dice que las empresas se están dando cuenta que desarrollar software propio es más rápido y más barato que pagar suscripciones. Ustedes se están subiendo al carro ahora." — Vicente, Gen 004
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 font-mono">
                 {[
-                  { icon: Shield, text: 'Higiene digital' },
-                  { icon: Brain, text: 'ChatGPT, Claude & más' },
-                  { icon: Code2, text: 'Vibe coding' },
+                  { icon: Shield, text: 'S1: Higiene digital' },
+                  { icon: Brain, text: 'S2: IA avanzada' },
+                  { icon: BookOpen, text: 'S3: Storytelling' },
+                  { icon: Code2, text: 'S4: Vibe coding' },
                 ].map((item, i) => (
                   <motion.div
                     key={i}

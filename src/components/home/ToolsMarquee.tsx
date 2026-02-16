@@ -38,6 +38,16 @@ const tools = [
   { name: 'Vercel', emoji: '▲' },
   { name: 'Mistral AI', emoji: '🌀' },
   { name: 'Read.ai', emoji: '👂' },
+  { name: 'Miro', emoji: '🧩' },
+  { name: 'Coolors', emoji: '🎨' },
+  { name: 'Nivo Charts', emoji: '📊' },
+  { name: 'Resend', emoji: '📨' },
+  { name: 'React PDF', emoji: '📄' },
+  { name: 'Power Apps', emoji: '⚡' },
+  { name: 'Opus Clip', emoji: '🎬' },
+  { name: 'Crea AI', emoji: '🖌️' },
+  { name: 'Bolt', emoji: '⚡' },
+  { name: 'Plotly', emoji: '📉' },
 ];
 
 const doubledTools = [...tools, ...tools];
@@ -60,7 +70,7 @@ export function ToolsMarquee() {
           viewport={{ once: true }}
           className="text-center text-sm font-mono text-muted-foreground uppercase tracking-widest"
         >
-          +30 herramientas que dominarás en el taller
+          +40 herramientas cubiertas desde Gen 003 — cada una tiene su rol, desde USD $0 hasta USD $25/mes
         </motion.p>
       </div>
 

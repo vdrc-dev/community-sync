@@ -8,57 +8,68 @@ import {
   Zap, 
   Clock, 
   CheckCircle2,
-  Workflow
+  Workflow,
+  Brain,
+  Code2,
+  BarChart3,
+  Globe,
+  Database
 } from 'lucide-react';
 
 const showcaseWorkflows = [
   {
-    title: 'Metaprompt + Investigación a Fondo',
-    emoji: '🧠',
+    title: 'CROP → Metaprompt → Investigar a Fondo',
+    icon: Brain,
     steps: 4,
     timeSaved: '45 min',
     category: 'Investigación',
-    color: 'from-purple-500/20 to-pink-500/10',
+    hue: 263,
+    realCase: 'Estudio de mercado agrícola — Gen 10',
   },
   {
-    title: 'Vibe Coding: App con Lovable + Supabase',
-    emoji: '💻',
+    title: 'PRD → Lovable + Supabase + GitHub + Codex',
+    icon: Code2,
     steps: 6,
     timeSaved: '4 hrs',
     category: 'Desarrollo',
-    color: 'from-primary/20 to-accent/10',
+    hue: 160,
+    realCase: 'ERP para administrar talleres VDRC — Clase Gratuita',
   },
   {
-    title: 'Dashboard Power BI con Canvas + CSV',
-    emoji: '📊',
+    title: 'O3 + Canvas: De CSV a Dashboard interactivo',
+    icon: BarChart3,
     steps: 3,
     timeSaved: '2 hrs',
     category: 'Análisis',
-    color: 'from-blue-500/20 to-cyan-500/10',
+    hue: 200,
+    realCase: 'Tabla de ventas compleja analizada en clase — Gen 4',
   },
   {
-    title: 'Automatización con Zapier',
-    emoji: '⚡',
+    title: 'Claude en Excel: Modelo Financiero desde cero',
+    icon: Zap,
     steps: 4,
-    timeSaved: '1 hr',
-    category: 'Automatización',
-    color: 'from-orange-500/20 to-yellow-500/10',
+    timeSaved: '1.5 hrs',
+    category: 'Finanzas',
+    hue: 45,
+    realCase: 'Evaluación proyecto agrícola — Gen 10',
   },
   {
-    title: 'Landing Page con Faces App',
-    emoji: '🏠',
+    title: 'Notebook LM: Conversar con tus documentos',
+    icon: Globe,
     steps: 3,
     timeSaved: '3 hrs',
-    category: 'Marketing',
-    color: 'from-green-500/20 to-emerald-500/10',
+    category: 'Aprendizaje',
+    hue: 120,
+    realCase: 'Análisis inmobiliario Santiago — Gen 10',
   },
   {
-    title: 'Base de Datos Relacional en Airtable',
-    emoji: '📋',
+    title: 'Cloud Code + Playwright: Agente en Chrome',
+    icon: Database,
     steps: 5,
-    timeSaved: '2 hrs',
-    category: 'Datos',
-    color: 'from-indigo-500/20 to-violet-500/10',
+    timeSaved: '2 días',
+    category: 'Agentes',
+    hue: 280,
+    realCase: 'Integración CRM + ERP — Gen 10',
   },
 ];
 
@@ -94,12 +105,12 @@ export function WorkflowShowcase() {
             
             <div className="space-y-4 mb-8">
               {[
-                'Metaprompts: pide a la IA que escriba el prompt perfecto',
-                'Separar investigación de estrategia en dos flujos distintos',
-                'Comparar resultados en ChatGPT, Claude, Gemini y Manus',
-                'Automatizar tareas recurrentes con Zapier y App Script',
-                'De CSV a dashboard interactivo con Canvas de ChatGPT',
-                'De prompt a software funcional con Lovable + Supabase',
+                'PRD con GPT personalizado → MVP en Lovable → Supabase → Deploy',
+                '5 capas ChatGPT: instrucciones, memoria, proyectos, GPTs, acciones',
+                'Metaprompting + CROP: la IA mejora tu prompt antes de ejecutar',
+                'Context Engineering: PDFs, normativas, planes de cuenta → respuesta precisa',
+                'Chunking: resumen exhaustivo → nueva conversación sin pérdida de contexto',
+                'Validación cruzada: O3 analiza, otro chat audita — como un practicante senior',
               ].map((feature, i) => (
                 <motion.div
                   key={i}
@@ -131,42 +142,78 @@ export function WorkflowShowcase() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4"
           >
-            {showcaseWorkflows.map((workflow, i) => (
-              <motion.div
-                key={workflow.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${workflow.color} border border-primary/20 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                    {workflow.emoji}
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">
-                      {workflow.title}
-                    </h3>
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Zap className="w-3 h-3" />
-                        {workflow.steps} pasos
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        -{workflow.timeSaved}
-                      </span>
+            {showcaseWorkflows.map((workflow, i) => {
+              const WfIcon = workflow.icon;
+              return (
+                <motion.div
+                  key={workflow.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                  className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-300 cursor-pointer overflow-hidden relative"
+                >
+                  {/* Subtle accent left bar */}
+                  <div
+                    className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500"
+                    style={{ background: `hsl(${workflow.hue} 70% 55%)` }}
+                  />
+
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300"
+                      style={{
+                        background: `linear-gradient(135deg, hsl(${workflow.hue} 70% 55% / 0.12), hsl(${workflow.hue} 70% 55% / 0.04))`,
+                        border: `1px solid hsl(${workflow.hue} 70% 55% / 0.2)`,
+                      }}
+                    >
+                      <WfIcon className="w-6 h-6" style={{ color: `hsl(${workflow.hue} 70% 55%)` }} />
+                    </div>
+                    
+                    <div className="flex-1">
+                      <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">
+                        {workflow.title}
+                      </h3>
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <Zap className="w-3 h-3" style={{ color: `hsl(${workflow.hue} 70% 55% / 0.6)` }} />
+                          {workflow.steps} pasos
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" style={{ color: `hsl(${workflow.hue} 70% 55% / 0.6)` }} />
+                          -{workflow.timeSaved}
+                        </span>
+                        <span
+                          className="text-[10px] font-mono px-2 py-0.5 rounded-full"
+                          style={{
+                            color: `hsl(${workflow.hue} 70% 55%)`,
+                            background: `hsl(${workflow.hue} 70% 55% / 0.08)`,
+                            border: `1px solid hsl(${workflow.hue} 70% 55% / 0.12)`,
+                          }}
+                        >
+                          {workflow.category}
+                        </span>
+                      </div>
+                      {workflow.realCase && (
+                        <p className="text-[10px] text-muted-foreground/50 mt-1.5 font-mono italic">
+                          Caso real: {workflow.realCase}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center opacity-30 group-hover:opacity-100 transition-all duration-300"
+                      style={{
+                        background: `hsl(${workflow.hue} 70% 55% / 0.08)`,
+                        border: `1px solid hsl(${workflow.hue} 70% 55% / 0.15)`,
+                      }}
+                    >
+                      <Play className="w-4 h-4" style={{ color: `hsl(${workflow.hue} 70% 55%)` }} />
                     </div>
                   </div>
-                  
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center opacity-30 group-hover:opacity-100 group-hover:bg-primary/20 transition-all duration-300">
-                    <Play className="w-4 h-4 text-primary" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
             
             <Link
               to="/workflows"

@@ -73,12 +73,12 @@ export function StatsSection() {
   const dynamic = useDynamicStats();
 
   const stats = [
-    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'Grupos de taller completados' },
-    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas disponibles' },
-    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'Apps de IA cubiertas en el taller' },
-    { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'Automatizaciones listas' },
-    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Profesionales activos' },
-    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: 'Estimado por la comunidad' },
+    { numericValue: dynamic.generations, suffix: '', label: 'Generaciones', icon: Award, description: 'De Gen 003 a Gen 010 — nunca la misma clase', hue: 160 },
+    { numericValue: 50, suffix: '+', label: 'Clases', icon: BookOpen, description: 'Sesiones grabadas con transcripción completa', hue: 263 },
+    { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'ChatGPT, Claude, Cursor, Lovable, Gama y más', hue: 200 },
+    { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'PRD, CROP, chunking, metaprompts, vibe coding', hue: 45 },
+    { numericValue: 122, suffix: '+', label: 'Participantes', icon: Users, description: 'Startups, family offices, universidades, energía', hue: 340 },
+    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: '300 páginas en 20, 7 planillas en 0 — caso real', hue: 120 },
   ];
 
   return (
@@ -99,7 +99,7 @@ export function StatsSection() {
             Impacto <span className="text-gradient">real</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            Números que demuestran el poder de la productividad con IA
+            Desde julio 2025, profesionales de 20+ industrias transformando su productividad con IA
           </p>
         </motion.div>
 
@@ -117,14 +117,26 @@ export function StatsSection() {
             >
               {/* No neon glow on hover */}
 
-              <div className="glass glass-specular relative p-5 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 text-center">
+              <div className="glass glass-specular relative p-5 rounded-2xl group-hover:border-white/[0.1] transition-all duration-500 text-center overflow-hidden">
+                {/* Subtle accent top line */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-500"
+                  style={{ background: `linear-gradient(90deg, transparent, hsl(${stat.hue} 70% 55%), transparent)` }}
+                />
+
                 {/* Icon */}
-                <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-primary/8 border border-primary/12 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
-                  <stat.icon className="w-5 h-5 text-primary" />
+                <div
+                  className="w-10 h-10 mx-auto mb-3 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+                  style={{
+                    background: `hsl(${stat.hue} 70% 55% / 0.08)`,
+                    border: `1px solid hsl(${stat.hue} 70% 55% / 0.12)`,
+                  }}
+                >
+                  <stat.icon className="w-5 h-5" style={{ color: `hsl(${stat.hue} 70% 55%)` }} />
                 </div>
 
                 {/* Value */}
-                <div className="text-2xl font-mono font-bold text-primary mb-1">
+                <div className="text-2xl font-mono font-bold mb-1" style={{ color: `hsl(${stat.hue} 70% 55%)` }}>
                   <AnimatedCounter value={stat.numericValue} suffix={stat.suffix} duration={2} delay={index * 0.15} />
                 </div>
 

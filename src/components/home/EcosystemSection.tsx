@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Globe, Users, Presentation, Zap } from 'lucide-react';
+import { ExternalLink, Globe, Users, BookOpen, Zap } from 'lucide-react';
 
 const ecosystemNodes = [
   {
@@ -30,18 +30,17 @@ const ecosystemNodes = [
     isCurrent: true,
   },
   {
-    id: 'presentations',
-    label: 'Presentaciones',
-    title: 'Slides Interactivas',
-    description: 'Slides interactivas de los 4 módulos: Higiene Digital, IA & Productividad, Presentaciones con IA y Vibe Coding — navegables y exportables.',
-    href: '/presentations',
-    isCurrent: true,
-    icon: Presentation,
+    id: 'talleres',
+    label: 'Talleres',
+    title: 'Sitio de Talleres',
+    description: 'Inscripciones, programa detallado de los 4 módulos, preguntas frecuentes y testimonios de participantes de las 10 generaciones.',
+    href: 'https://vdrc.cl/talleres',
+    icon: BookOpen,
     color: 'purple',
     gradient: 'from-purple-500/20 to-purple-500/5',
     borderColor: 'border-purple-500/30 hover:border-purple-500/60',
     glowColor: 'shadow-purple-500/20',
-    badges: ['Slides', '4 Módulos', 'Interactivas'],
+    badges: ['Inscripciones', 'Programa', 'Gen 11'],
   },
 ];
 
@@ -75,7 +74,7 @@ export function EcosystemSection() {
             <span className="text-gradient">conectado</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Tres plataformas que trabajan juntas — como Lovable + Supabase + GitHub, pero para tu aprendizaje
+            Tres plataformas sincronizadas — como Lovable + Supabase + GitHub, pero para tu aprendizaje en productividad digital
           </p>
         </motion.div>
 

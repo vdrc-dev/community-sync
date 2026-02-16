@@ -84,7 +84,7 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
             <span className="text-gradient">otros</span>
           </h2>
           <p className="text-muted-foreground max-w-xl text-lg mt-2">
-            La comunidad donde +200 participantes comparten descubrimientos, piden ayuda y muestran sus proyectos.
+            Startups de 550 empleados, family offices, profesores universitarios, arquitectos, consultores de energía, content managers, abogados y cromañones tecnológicos — todos aprendiendo juntos.
           </p>
         </motion.div>
 

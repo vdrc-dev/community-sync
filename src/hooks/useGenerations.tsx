@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import type { Tables, TablesInsert } from '@/integrations/supabase/types';
-import { addDays, nextTuesday, format } from 'date-fns';
+import { addDays, nextTuesday, isTuesday, format } from 'date-fns';
 
 export type Generation = Tables<'generations'>;
 export type ClassRow = Tables<'classes'>;
@@ -20,28 +20,28 @@ export const WORKSHOP_MODULES = [
   {
     number: 1,
     title: "Higiene Digital",
-    description: "Fundamentos de productividad y organización digital"
+    description: "Inbox Zero, Bitwarden, perfiles de navegador, Granola y rutinas digitales productivas."
   },
   {
     number: 2,
     title: "IA & Productividad",
-    description: "Herramientas de inteligencia artificial para el trabajo"
+    description: "ChatGPT, Claude, Gemini, Perplexity, Manus. Metaprompts, automatización con Zapier y App Script."
   },
   {
     number: 3,
-    title: "Comunicación Digital",
-    description: "Escritura efectiva y comunicación profesional"
+    title: "Presentaciones con IA",
+    description: "Gama, Beautiful.ai, Napkin, Canva, Coolors y Font Joy. De idea a presentación profesional."
   },
   {
     number: 4,
-    title: "Desarrollo Personal",
-    description: "Crecimiento profesional y planificación de carrera"
+    title: "Vibe Coding",
+    description: "Lovable + Supabase + GitHub. Airtable, Faces App, Codex y Cursor. De prompt a software funcional."
   }
 ] as const;
 
 // Calcular fechas de clases (martes consecutivos)
 export function calculateClassDates(startDate: Date): Date[] {
-  const firstTuesday = nextTuesday(startDate);
+  const firstTuesday = isTuesday(startDate) ? startDate : nextTuesday(startDate);
   return [
     firstTuesday,
     addDays(firstTuesday, 7),
