@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Input } from '@/components/ui/input';
+import { SearchInput } from '@/components/ui/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -374,15 +375,13 @@ export default function Tools() {
           <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-primary/10 via-transparent to-accent/10 opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
           
           <div className="flex flex-col lg:flex-row gap-4">
-            <div className="relative flex-1 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-              <Input
-                placeholder="Buscar herramientas, categorías, funciones..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 bg-background/50 border-border/50 focus:border-primary/30 text-base rounded-xl transition-all"
-              />
-            </div>
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Buscar herramientas, categorias, funciones..."
+              className="flex-1"
+              inputClassName="pl-12 h-12 bg-background/50 border-border/50 focus:border-primary/30 text-base rounded-xl"
+            />
             
             <div className="flex items-center gap-2">
               <Button

@@ -133,9 +133,19 @@ export default function WorkflowDetail() {
   if (!workflow) {
     return (
       <Layout>
-        <div className="page-container section-py text-center">
-          <h1 className="text-2xl font-bold mb-4">Workflow no encontrado</h1>
-          <Button onClick={() => navigate('/workflows')}>Volver a Workflows</Button>
+        <div className="page-container section-py flex items-center justify-center min-h-[50vh]">
+          <div className="text-center space-y-4 max-w-md">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-muted/30 border border-white/[0.06] mx-auto">
+              <FileText className="w-8 h-8 text-muted-foreground/40" />
+            </div>
+            <h1 className="text-xl font-mono font-bold">Workflow no encontrado</h1>
+            <p className="text-sm text-muted-foreground">
+              Este workflow no existe o fue removido. Explora otros workflows disponibles.
+            </p>
+            <Button onClick={() => navigate('/workflows')} className="gap-2">
+              Ver todos los workflows
+            </Button>
+          </div>
         </div>
       </Layout>
     );
@@ -161,6 +171,7 @@ export default function WorkflowDetail() {
             { label: 'Workflows', href: '/workflows' },
             { label: workflow.title }
           ]}
+          showBack
           actions={
             <div className="flex items-center gap-2">
               {isCompleted && (

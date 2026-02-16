@@ -195,9 +195,14 @@ export function CommandPalette() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Buscar páginas, herramientas, clases..." />
+      <CommandInput placeholder="Buscar paginas, herramientas, clases..." />
       <CommandList>
-        <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+        <CommandEmpty>
+          <div className="py-6 text-center">
+            <p className="text-sm text-muted-foreground">No se encontraron resultados.</p>
+            <p className="text-xs text-muted-foreground/60 mt-1">Intenta con otro termino de busqueda</p>
+          </div>
+        </CommandEmpty>
 
         {/* Contextual Actions (when logged in) */}
         {user && contextualActions.length > 0 && (
@@ -341,6 +346,26 @@ export function CommandPalette() {
           </CommandGroup>
         )}
       </CommandList>
+
+      {/* Footer with keyboard navigation hints */}
+      <div className="flex items-center justify-between border-t border-white/[0.06] px-3 py-2 text-[10px] text-muted-foreground/50 font-mono">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1">
+            <kbd className="kbd text-[10px] min-w-[16px] text-center">↑</kbd>
+            <kbd className="kbd text-[10px] min-w-[16px] text-center">↓</kbd>
+            navegar
+          </span>
+          <span className="flex items-center gap-1">
+            <kbd className="kbd text-[10px] min-w-[16px] text-center">↵</kbd>
+            seleccionar
+          </span>
+          <span className="flex items-center gap-1">
+            <kbd className="kbd text-[10px] min-w-[28px] text-center">esc</kbd>
+            cerrar
+          </span>
+        </div>
+        <span className="hidden sm:inline">? para ver mas atajos</span>
+      </div>
     </CommandDialog>
   );
 }

@@ -19,14 +19,14 @@ const ecosystemNodes = [
     id: 'community',
     label: 'Comunidad',
     title: 'Portal Comunidad',
-    description: 'Workflows interactivos, catálogo de +30 herramientas IA, foro, calculadora de ROI, playground y recursos exclusivos de las 11 generaciones.',
+    description: '19 workflows interactivos, +35 herramientas, diccionario digital, guias de personalizacion e instalacion, y recursos de las 11 generaciones.',
     href: '/',
     icon: Users,
     color: 'accent',
     gradient: 'from-accent/20 to-accent/5',
     borderColor: 'border-accent/30 hover:border-accent/60',
     glowColor: 'shadow-accent/20',
-    badges: ['Workflows', 'Herramientas', 'Comunidad'],
+    badges: ['19 Workflows', '+35 Herramientas', 'Guias'],
     isCurrent: true,
   },
   {
@@ -74,7 +74,7 @@ export function EcosystemSection() {
             <span className="text-gradient">conectado</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl text-lg mt-2">
-            Tres plataformas sincronizadas — como Lovable + Supabase + GitHub, pero para tu aprendizaje en productividad digital
+            Dos plataformas sincronizadas — el sitio principal para inscripciones y este portal para aprender, practicar y conectar
           </p>
         </motion.div>
 

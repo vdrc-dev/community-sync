@@ -6,15 +6,15 @@ interface PageTransitionProps {
 }
 
 /**
- * Wraps page content with a subtle fade-in animation.
+ * Wraps page content with a polished fade-in animation.
  * Use inside each page's top-level return, or wrap <Routes>.
  */
 export function PageTransition({ children }: PageTransitionProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 10, filter: 'blur(2px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 0.35, ease: [0.2, 0, 0, 1] }}
     >
       {children}
     </motion.div>

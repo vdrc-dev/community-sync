@@ -77,7 +77,7 @@ export function ToolsMarquee() {
           viewport={{ once: true }}
           className="text-center text-sm font-mono text-muted-foreground uppercase tracking-widest"
         >
-          +40 herramientas cubiertas desde Gen 003 — cada una tiene su rol, desde USD $0 hasta USD $25/mes
+          +35 herramientas cubiertas desde Gen 003 — cada una tiene su rol, desde USD $0 hasta USD $25/mes
         </motion.p>
       </div>
 

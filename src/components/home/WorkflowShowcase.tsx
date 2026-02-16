@@ -111,9 +111,9 @@ export function WorkflowShowcase() {
               Casos Reales del Taller
             </Badge>
             
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold mb-6">
               Workflows que<br />
-              <span className="text-gradient">usamos en clase</span>
+              <span className="text-shimmer">usamos en clase</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">

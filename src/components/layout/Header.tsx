@@ -36,6 +36,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { StreakDisplay } from '@/components/streaks/StreakDisplay';
@@ -69,40 +70,61 @@ function PrefetchLink({
   );
 }
 
-// Clean navigation item — text-focused, minimal
+// Clean navigation item — text-focused with premium hover + tooltip shortcut
 function NavItem({ 
   to, 
   label, 
-  isActive 
+  isActive,
+  shortcut 
 }: { 
   to: string; 
   label: string; 
   isActive: boolean;
+  shortcut?: string;
 }) {
   const { onMouseEnter, onFocus } = useLinkPrefetch(to);
   
-  return (
+  const linkEl = (
     <Link
       to={to}
       onMouseEnter={onMouseEnter}
       onFocus={onFocus}
       className={`
-        relative px-3.5 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+        relative px-3.5 py-1.5 text-sm font-medium rounded-lg transition-all duration-250
         ${isActive 
-          ? 'text-primary bg-primary/10' 
-          : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
+          ? 'text-primary' 
+          : 'text-muted-foreground hover:text-foreground'
         }
       `}
     >
-      {label}
       {isActive && (
         <motion.div
           layoutId="nav-active-pill"
-          className="absolute inset-0 rounded-lg bg-primary/10 -z-10"
-          transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+          className="absolute inset-0 rounded-lg bg-primary/10 border border-primary/15 shadow-[0_0_12px_-2px_rgba(34,197,94,0.15)] -z-10"
+          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
         />
       )}
+      {!isActive && (
+        <span className="absolute inset-0 rounded-lg bg-transparent hover:bg-white/[0.04] transition-colors duration-200 -z-10" />
+      )}
+      {label}
     </Link>
+  );
+
+  if (!shortcut) return linkEl;
+
+  return (
+    <Tooltip delayDuration={400}>
+      <TooltipTrigger asChild>{linkEl}</TooltipTrigger>
+      <TooltipContent side="bottom" className="flex items-center gap-2">
+        <span>{label}</span>
+        <div className="flex items-center gap-0.5">
+          {shortcut.split(' ').map((k) => (
+            <kbd key={k} className="kbd text-[10px] min-w-[18px] text-center">{k}</kbd>
+          ))}
+        </div>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -129,11 +151,11 @@ export function Header() {
   }, []);
 
   const navLinks = useMemo(() => [
-    { href: '/generations', label: 'Generaciones', icon: BookOpen },
-    { href: '/tools', label: 'Herramientas', icon: Wrench },
-    { href: '/workflows', label: 'Workflows', icon: Workflow },
-    { href: '/playground', label: 'Lab IA', icon: Sparkles },
-    { href: '/community', label: 'Comunidad', icon: Users },
+    { href: '/generations', label: 'Generaciones', icon: BookOpen, shortcut: 'G G' },
+    { href: '/tools', label: 'Herramientas', icon: Wrench, shortcut: 'G T' },
+    { href: '/workflows', label: 'Workflows', icon: Workflow, shortcut: 'G W' },
+    { href: '/playground', label: 'Lab IA', icon: Sparkles, shortcut: 'G P' },
+    { href: '/community', label: 'Comunidad', icon: Users, shortcut: 'G C' },
   ], []);
 
   const quickLinks = useMemo(() => [
@@ -173,14 +195,15 @@ export function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation — clean pill bar */}
-          <nav className="hidden md:flex items-center gap-0.5 p-1 rounded-xl bg-muted/30 border border-border/20">
+          {/* Desktop Navigation — glass pill bar */}
+          <nav className="hidden md:flex items-center gap-0.5 p-1 rounded-xl bg-muted/20 border border-white/[0.06] backdrop-blur-sm shadow-[inset_0_0.5px_0_rgba(255,255,255,0.04)]">
             {navLinks.map((link) => (
               <NavItem
                 key={link.href}
                 to={link.href}
                 label={link.label}
                 isActive={location.pathname.startsWith(link.href)}
+                shortcut={link.shortcut}
               />
             ))}
           </nav>

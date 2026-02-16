@@ -11,7 +11,11 @@ import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { GlobalNotificationListener } from "@/components/notifications/GlobalNotificationListener";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { KeyboardShortcutsHint } from "@/components/ui/keyboard-shortcuts-hint";
 import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
+import { useKeyboardNav } from "@/hooks/useKeyboardNav";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 
 // ─────────────────────────────────────────────────────────────
 // Lazy-loaded pages — grouped by domain
@@ -76,6 +80,12 @@ const queryClient = new QueryClient({
   },
 });
 
+// Hook wrapper — needs Router context
+function KeyboardNavProvider() {
+  useKeyboardNav();
+  return null;
+}
+
 // ─────────────────────────────────────────────────────────────
 // App
 // ─────────────────────────────────────────────────────────────
@@ -87,12 +97,16 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <KeyboardNavProvider />
+          <ScrollProgress />
           <CommandPalette />
           <QuickNoteButton />
+          <KeyboardShortcutsHint />
           <OnboardingTour />
           <GlobalNotificationListener />
           <ScrollRestoration />
           <ScrollToTop />
+          <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner fullScreen />}>
             <Routes>
               {/* ── Core ─────────────────────────────── */}
@@ -142,6 +156,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          </ErrorBoundary>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

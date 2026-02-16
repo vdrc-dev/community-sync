@@ -7,6 +7,7 @@ import { WorkflowCard } from '@/components/workflows/WorkflowCard';
 import { useWorkflows } from '@/hooks/useWorkflows';
 import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/input';
+import { SearchInput } from '@/components/ui/search-input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -296,15 +297,13 @@ export default function Workflows() {
           transition={{ delay: 0.15 }}
           className="flex items-center gap-3 mb-6"
         >
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar workflows..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50"
-            />
-          </div>
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Buscar workflows..."
+            className="flex-1"
+            inputClassName="bg-muted/50 border-border/50 focus:border-primary/50"
+          />
 
           <div className="hidden sm:flex gap-2">
             <FilterControls />
@@ -329,6 +328,29 @@ export default function Workflows() {
             </SheetContent>
           </Sheet>
         </motion.div>
+
+        {/* Active filter summary */}
+        {hasActiveFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="flex items-center gap-2 text-xs text-muted-foreground mb-4 font-mono"
+          >
+            <span>{filteredWorkflows.length} resultado{filteredWorkflows.length !== 1 ? 's' : ''}</span>
+            {searchQuery && (
+              <Badge variant="outline" className="text-[10px] py-0 px-1.5 gap-1">
+                &ldquo;{searchQuery}&rdquo;
+              </Badge>
+            )}
+            <button
+              onClick={clearFilters}
+              className="text-primary hover:text-primary/80 transition-colors ml-auto"
+            >
+              Limpiar todo
+            </button>
+          </motion.div>
+        )}
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">

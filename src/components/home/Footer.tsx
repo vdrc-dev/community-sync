@@ -7,20 +7,18 @@ const footerLinks = {
     { label: 'Generaciones', href: '/generations' },
     { label: 'Herramientas', href: '/tools' },
     { label: 'Workflows', href: '/workflows' },
-    { label: 'Lab IA', href: '/playground' },
     { label: 'Diccionario Digital', href: '/dictionary' },
+    { label: 'Lab IA', href: '/playground' },
   ],
-  comunidad: [
-    { label: 'Espacios', href: '/community' },
-    { label: 'Chat', href: '/chat' },
-    { label: 'Foro', href: '/forum' },
-    { label: 'Leaderboard', href: '/leaderboard' },
+  guias: [
+    { label: 'Personalizacion IA', href: '/personalizacion-ia' },
+    { label: 'Guia de Instalacion', href: '/guia-instalacion' },
+    { label: 'Comunidad', href: '/community' },
     { label: 'Calendario', href: '/calendar' },
   ],
   ecosistema: [
     { label: 'vdrc.cl', href: 'https://vdrc.cl', external: true },
-    { label: 'Talleres', href: 'https://vdrc.cl/talleres', external: true },
-    { label: 'Gen 11 — Inscríbete', href: 'https://vdrc.cl/talleres', external: true },
+    { label: 'Gen 11 — Inscribete', href: 'https://vdrc.cl/talleres', external: true },
     { label: 'Contacto', href: 'mailto:contacto@vdrc.cl', external: true },
   ],
 };
@@ -31,7 +29,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-white/[0.04] overflow-hidden">
+    <footer className="relative border-t border-white/[0.04] overflow-hidden section-glow">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
 
       <div className="container relative mx-auto px-4 py-16">

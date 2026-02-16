@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight, Home, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
@@ -19,8 +19,10 @@ interface PageHeaderProps {
   };
   breadcrumbs?: BreadcrumbItem[];
   actions?: ReactNode;
+  meta?: ReactNode;
   className?: string;
   gradient?: boolean;
+  showBack?: boolean;
 }
 
 // Minimal floating dots for header ambiance
@@ -40,10 +42,13 @@ export function PageHeader({
   badge,
   breadcrumbs,
   actions,
+  meta,
   className,
   gradient = true,
+  showBack = false,
 }: PageHeaderProps) {
   const dots = useMemo(() => generateDots(8), []);
+  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -81,9 +86,19 @@ export function PageHeader({
         </div>
       )}
 
-      {/* Breadcrumbs */}
-      {breadcrumbs && breadcrumbs.length > 0 && (
-        <nav className="relative flex items-center gap-1 text-sm text-muted-foreground mb-4 overflow-x-auto scrollbar-hide">
+      {/* Breadcrumbs with optional back button */}
+      {(breadcrumbs && breadcrumbs.length > 0) && (
+        <nav className="relative flex items-center gap-1.5 text-sm text-muted-foreground mb-4 overflow-x-auto scrollbar-hide">
+          {showBack && (
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-1 hover:text-foreground transition-colors shrink-0 mr-1 px-1.5 py-0.5 rounded-md hover:bg-white/[0.04] active:scale-95"
+              aria-label="Volver atras"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="text-xs hidden sm:inline">Volver</span>
+            </button>
+          )}
           <Link
             to="/"
             className="flex items-center hover:text-foreground transition-colors shrink-0"
@@ -92,7 +107,7 @@ export function PageHeader({
           </Link>
           {breadcrumbs.map((item, index) => (
             <span key={index} className="flex items-center gap-1 shrink-0">
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50" />
               {item.href ? (
                 <Link
                   to={item.href}
@@ -126,30 +141,42 @@ export function PageHeader({
             </motion.div>
           )}
           <motion.h1
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.05 }}
+            initial={{ opacity: 0, x: -10, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.05, duration: 0.4, ease: [0.2, 0, 0, 1] }}
             className="text-3xl sm:text-4xl lg:text-5xl font-mono font-bold mb-2"
           >
             {title}
           </motion.h1>
           {description && (
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.15 }}
-              className="text-muted-foreground text-base sm:text-lg max-w-2xl"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.35 }}
+              className="text-muted-foreground text-base sm:text-lg max-w-2xl leading-relaxed"
             >
               {description}
             </motion.p>
           )}
 
+          {/* Meta info (reading time, etc.) */}
+          {meta && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="mt-3"
+            >
+              {meta}
+            </motion.div>
+          )}
+
           {/* Gradient underline accent */}
           <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="h-[2px] w-24 mt-4 rounded-full bg-gradient-to-r from-primary via-accent to-transparent origin-left"
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.7, ease: [0.2, 0, 0, 1] }}
+            className="h-[2px] w-28 mt-4 rounded-full bg-gradient-to-r from-primary via-accent/80 to-transparent origin-left"
           />
         </div>
         {actions && (

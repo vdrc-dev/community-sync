@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Input } from '@/components/ui/input';
+import { SearchInput } from '@/components/ui/search-input';
 import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useQuery } from '@tanstack/react-query';
@@ -122,23 +123,14 @@ export default function Generations() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="relative max-w-md mb-8"
+          className="max-w-md mb-8"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
+          <SearchInput
             placeholder="Buscar por nombre, codigo o descripcion..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 pr-16"
+            onChange={setSearchQuery}
+            onClear={() => setSearchQuery('')}
           />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground transition-colors font-mono px-1.5 py-0.5 rounded bg-muted/50 border border-border/30 hover:border-primary/30"
-            >
-              Limpiar
-            </button>
-          )}
         </motion.div>
 
         {/* Educational context */}

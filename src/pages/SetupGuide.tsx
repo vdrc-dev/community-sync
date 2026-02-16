@@ -10,7 +10,7 @@ import {
   Search, ExternalLink, ChevronDown, CheckCircle2, Copy, Check,
   Sparkles, Lightbulb, Zap, Shield, Star, Globe, Wrench,
   Code2, Palette, Brain, Lock, CreditCard, Gift, Filter,
-  Monitor, Smartphone, BookOpen, ArrowRight, X, Layers,
+  Monitor, Smartphone, BookOpen, ArrowRight, X, Layers, Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -694,6 +694,13 @@ export default function SetupGuide() {
             { label: 'Inicio', href: '/' },
             { label: 'Guia de Instalacion' },
           ]}
+          showBack
+          meta={
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> ~15 min de lectura</span>
+              <span>18 herramientas</span>
+            </div>
+          }
         />
 
         {/* Stats bar */}

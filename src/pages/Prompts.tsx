@@ -6,6 +6,7 @@ import { PromptCard } from '@/components/prompts/PromptCard';
 import { usePrompts } from '@/hooks/usePrompts';
 import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/input';
+import { SearchInput } from '@/components/ui/search-input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -106,15 +107,13 @@ export default function Prompts() {
           className="space-y-4 mb-6"
         >
           <div className="flex items-center gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="Buscar prompts..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50"
-              />
-            </div>
+            <SearchInput
+              placeholder="Buscar prompts..."
+              value={search}
+              onChange={setSearch}
+              onClear={() => setSearch('')}
+              className="flex-1"
+            />
 
             <Sheet>
               <SheetTrigger asChild>
@@ -175,6 +174,23 @@ export default function Prompts() {
             ))}
           </div>
         </motion.div>
+
+        {/* Active filter indicator */}
+        {hasActiveFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="flex items-center gap-2 text-xs text-muted-foreground mb-4 font-mono"
+          >
+            <span>{filteredPrompts.length} resultado{filteredPrompts.length !== 1 ? 's' : ''}</span>
+            <button
+              onClick={clearFilters}
+              className="text-primary hover:text-primary/80 transition-colors ml-auto"
+            >
+              Limpiar filtros
+            </button>
+          </motion.div>
+        )}
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">

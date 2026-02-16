@@ -13,7 +13,7 @@ export function Layout({ children }: LayoutProps) {
       {/* Skip to content — accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:font-mono focus:text-sm"
+        className="skip-to-content"
       >
         Saltar al contenido
       </a>

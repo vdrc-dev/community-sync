@@ -715,6 +715,7 @@ export default function Dictionary() {
             icon: <BookOpen className="w-3 h-3" />,
           }}
           breadcrumbs={[{ label: 'Diccionario' }]}
+          showBack
         />
 
         {/* ─── Concept of the Day ─── */}

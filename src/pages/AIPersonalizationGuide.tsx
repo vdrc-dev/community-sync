@@ -9,7 +9,7 @@ import {
   Layers, Lock, Brain, Bot, Code2, Cpu, ChevronDown, ChevronRight,
   Sparkles, CheckCircle2, Copy, Check, ExternalLink, ArrowRight,
   Lightbulb, Zap, Shield, Star, Settings, MessageSquare, Database,
-  User, Target, BookOpen, Rocket,
+  User, Target, BookOpen, Rocket, Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -486,6 +486,13 @@ export default function AIPersonalizationGuide() {
             { label: 'Inicio', href: '/' },
             { label: 'Personalizacion IA' },
           ]}
+          showBack
+          meta={
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> ~12 min de lectura</span>
+              <span>5 capas interactivas</span>
+            </div>
+          }
         />
 
         {/* Hero visual */}

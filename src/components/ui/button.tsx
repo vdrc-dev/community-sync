@@ -5,13 +5,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.97]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_2px_8px_rgba(34,197,94,0.15)]",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_2px_8px_rgba(239,68,68,0.15)]",
-        outline: "border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:bg-white/[0.08] hover:border-white/[0.12] text-foreground",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_2px_8px_rgba(34,197,94,0.15)] hover:shadow-[0_4px_16px_rgba(34,197,94,0.25)] btn-shine",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_2px_8px_rgba(239,68,68,0.15)] hover:shadow-[0_4px_16px_rgba(239,68,68,0.25)]",
+        outline: "border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:bg-white/[0.08] hover:border-white/[0.14] text-foreground hover:shadow-[0_0_16px_-4px_rgba(255,255,255,0.06)]",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-white/[0.06] hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
