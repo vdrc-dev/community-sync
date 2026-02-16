@@ -94,7 +94,7 @@ export function S3Slide10MCPvsAPI() {
             transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
           />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-14 max-w-md mx-auto">
           Dos formas de conectar — una para agentes, otra para sistemas
         </motion.p>
 
@@ -126,7 +126,7 @@ export function S3Slide10MCPvsAPI() {
             </div>
             <div>
               <p className="text-lg font-black" style={{ color: S3_ACCENT.violet.text }}>MCP</p>
-              <p className="text-[10px] text-white/25">Model Context Protocol</p>
+              <p className="text-[10px] text-white/40">Model Context Protocol</p>
             </div>
           </div>
 
@@ -134,7 +134,7 @@ export function S3Slide10MCPvsAPI() {
           <div className="flex flex-col items-center gap-2">
             <div className="w-px h-8" style={{ background: 'linear-gradient(to bottom, transparent, hsl(0 0% 100% / 0.1), transparent)' }} />
             <motion.span
-              className="text-xs font-black text-white/15"
+              className="text-xs font-black text-white/30"
               {...(isExporting ? {} : { animate: { scale: [1, 1.08, 1] }, transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' } })}
             >
               VS
@@ -168,7 +168,7 @@ export function S3Slide10MCPvsAPI() {
             </div>
             <div>
               <p className="text-lg font-black" style={{ color: S3_ACCENT.amber.text }}>API</p>
-              <p className="text-[10px] text-white/25">Application Interface</p>
+              <p className="text-[10px] text-white/40">Application Interface</p>
             </div>
           </div>
         </motion.div>
@@ -178,10 +178,10 @@ export function S3Slide10MCPvsAPI() {
           {ROWS.map((row, i) => (
             <motion.div key={i} {...m(0.3 + i * 0.06)}
               className="grid grid-cols-[140px_1fr_1fr] gap-2 group">
-              <div className="p-3 rounded-lg border border-white/[0.04] bg-white/[0.02] flex items-center">
+              <div className="p-3 rounded-lg border border-white/[0.08] bg-white/[0.02] flex items-center">
                 <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">{row.cat}</span>
               </div>
-              <div className="p-3 rounded-lg border transition-colors group-hover:border-violet-500/20 group-hover:bg-violet-500/[0.03] border-white/[0.04] bg-white/[0.02] relative overflow-hidden">
+              <div className="p-3 rounded-lg border transition-colors group-hover:border-violet-500/20 group-hover:bg-violet-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden">
                 {!isExporting && (
                   <motion.div
                     className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -194,7 +194,7 @@ export function S3Slide10MCPvsAPI() {
                 )}
                 <span className="text-sm text-white/55 relative z-10">{row.mcp}</span>
               </div>
-              <div className="p-3 rounded-lg border transition-colors group-hover:border-amber-500/20 group-hover:bg-amber-500/[0.03] border-white/[0.04] bg-white/[0.02] relative overflow-hidden">
+              <div className="p-3 rounded-lg border transition-colors group-hover:border-amber-500/20 group-hover:bg-amber-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden">
                 {!isExporting && (
                   <motion.div
                     className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -211,7 +211,7 @@ export function S3Slide10MCPvsAPI() {
           ))}
         </div>
 
-        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-white/25">
+        <motion.div {...m(0.6)} className="mt-10 inline-flex items-center gap-2 text-xs text-white/40">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Agente necesita datos → <span style={{ color: S3_ACCENT.violet.text }} className="font-semibold">MCP</span> · Sistema envía datos → <span style={{ color: S3_ACCENT.amber.text }} className="font-semibold">API</span></span>
         </motion.div>

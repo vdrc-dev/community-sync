@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Presentation, Code2, Cpu, GitBranch, Sparkles, Zap, ChevronRight, Wrench, Workflow } from 'lucide-react';
+import { Presentation, Palette, BarChart3, Layers, Sparkles, Zap, ChevronRight, Wrench, Workflow } from 'lucide-react';
 const logoVdrc = '/logos/vdrc-white.png';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
@@ -11,18 +11,18 @@ import { S3Footer } from './S3Footer';
 
 /* ── Tool badges ── */
 const TOOLS = [
-  { name: 'Canvas', icon: Presentation, color: 'hsl(185 70% 50%)' },
-  { name: 'Claude Code', icon: Cpu, color: 'hsl(280 70% 60%)' },
-  { name: 'Cursor', icon: Code2, color: 'hsl(38 90% 55%)' },
-  { name: 'GitHub', icon: GitBranch, color: 'hsl(150 60% 50%)' },
+  { name: 'Gamma', icon: Presentation, color: 'hsl(263 70% 60%)' },
+  { name: 'Coolors', icon: Palette, color: 'hsl(185 70% 50%)' },
+  { name: 'Canvas', icon: BarChart3, color: 'hsl(38 90% 55%)' },
+  { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)' },
 ];
 
 /* ── Floating keyword chips ── */
 const FLOATING_TAGS = [
-  { label: 'Canvas', x: '78%', y: '15%', delay: 0 },
-  { label: 'MCP', x: '88%', y: '40%', delay: 1.5 },
-  { label: 'Cursor', x: '74%', y: '65%', delay: 3 },
-  { label: 'Skills', x: '92%', y: '75%', delay: 2 },
+  { label: 'Gamma', x: '78%', y: '15%', delay: 0 },
+  { label: 'Coolors', x: '88%', y: '40%', delay: 1.5 },
+  { label: 'Fontjoy', x: '74%', y: '65%', delay: 3 },
+  { label: 'Napkin', x: '92%', y: '75%', delay: 2 },
 ];
 
 /* ── Stat pills ── */
@@ -45,14 +45,14 @@ export function S3Slide01Cover() {
   const [isHovered, setIsHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
 
-  const subtitle = 'De consumir contenido a crear soluciones';
+  const subtitle = 'De ideas a presentaciones profesionales con IA';
 
   /* Typewriter effect */
   useEffect(() => {
     if (isExporting) { setTypedCount(subtitle.length); return; }
     const t = setTimeout(() => {
       if (typedCount < subtitle.length) setTypedCount(c => c + 1);
-    }, 40);
+    }, 50);
     return () => clearTimeout(t);
   }, [typedCount, isExporting]);
 
@@ -94,7 +94,7 @@ export function S3Slide01Cover() {
             <span className="text-white/90 font-bold tracking-wider text-sm">
               VDRC <span className="text-rose-400/30">·</span> GEN {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
             </span>
-            <span className="text-white/15 text-[9px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
+            <span className="text-white/30 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
           </div>
         </div>
 
@@ -135,13 +135,13 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[6.5rem] lg:text-[8.5rem] font-black tracking-[-0.055em] text-white leading-[0.82] transition-all duration-700"
-              style={{ textShadow: isHovered ? '0 0 120px hsl(330 70% 55% / 0.5)' : '0 0 60px hsl(330 70% 55% / 0.06)' }}
+              className="text-[6.5rem] lg:text-[8.5rem] font-black tracking-[-0.055em] text-white leading-[0.9] transition-all duration-700"
+              style={{ textShadow: isHovered ? '0 0 100px hsl(330 70% 55% / 0.4)' : '0 0 60px hsl(330 70% 55% / 0.06)' }}
             >
-              COMUNI
+              PRESEN
             </h1>
             <h1
-              className="text-[6.5rem] lg:text-[8.5rem] font-black tracking-[-0.055em] leading-[0.82] mt-1"
+              className="text-[6.5rem] lg:text-[8.5rem] font-black tracking-[-0.055em] leading-[0.9] mt-1"
               style={{
                 background: 'linear-gradient(135deg, hsl(330 85% 68%) 0%, hsl(280 70% 60%) 40%, hsl(185 70% 55%) 75%, hsl(38 80% 60%) 100%)',
                 WebkitBackgroundClip: 'text',
@@ -151,7 +151,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              CACIÓN
+              TACIÓN
             </h1>
 
             {/* Animated accent line */}
@@ -184,8 +184,8 @@ export function S3Slide01Cover() {
             <div className="absolute -left-0 top-0 bottom-0 w-[3px] rounded-full"
               style={{ background: 'linear-gradient(to bottom, hsl(330 55% 55%), hsl(280 50% 50% / 0.3), transparent)' }} />
             <div className="pl-5 py-2">
-              <p className="text-[14px] text-white/35 font-light leading-relaxed italic">
-                "De <span className="text-rose-400/80 font-medium not-italic">consumir contenido</span> a crear soluciones — Canvas, Claude Code, Cursor y GitHub convierten ideas en productos."
+              <p className="text-[15px] text-white/40 font-light leading-relaxed italic">
+                "De <span className="text-rose-400/80 font-medium not-italic">diseño con propósito</span> a presentaciones profesionales — Gamma, Napkin, Canvas y Coolors convierten ideas en comunicación visual."
               </p>
             </div>
           </motion.div>
@@ -194,12 +194,12 @@ export function S3Slide01Cover() {
           <motion.div {...m(0.8)} className="mt-10 flex items-center gap-5">
             <motion.div
               className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border backdrop-blur-sm"
-              style={{ background: 'hsl(0 0% 100% / 0.02)', borderColor: 'hsl(0 0% 100% / 0.06)' }}
+              style={{ background: 'hsl(0 0% 100% / 0.02)', borderColor: 'hsl(0 0% 100% / 0.08)' }}
               {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.rose.text, scale: 1.04 } })}
             >
               <Sparkles className="w-4 h-4" style={{ color: S3_ACCENT.rose.text }} />
               <span className="text-white/90 font-bold text-sm tabular-nums">{slideNum?.total ?? 15}</span>
-              <span className="text-white/30 text-xs uppercase tracking-wider">slides</span>
+              <span className="text-white/40 text-xs uppercase tracking-wider">slides</span>
             </motion.div>
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -207,12 +207,12 @@ export function S3Slide01Cover() {
                 <motion.div
                   key={i}
                   className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border backdrop-blur-sm"
-                  style={{ background: 'hsl(0 0% 100% / 0.02)', borderColor: 'hsl(0 0% 100% / 0.06)' }}
+                  style={{ background: 'hsl(0 0% 100% / 0.02)', borderColor: 'hsl(0 0% 100% / 0.08)' }}
                   {...(isExporting ? {} : { whileHover: { borderColor: stat.color, scale: 1.04 } })}
                 >
                   <Icon className="w-4 h-4" style={{ color: stat.color }} />
                   <span className="text-white/90 font-bold text-sm tabular-nums">{stat.value}</span>
-                  <span className="text-white/30 text-xs uppercase tracking-wider">{stat.label}</span>
+                  <span className="text-white/40 text-xs uppercase tracking-wider">{stat.label}</span>
                 </motion.div>
               );
             })}
@@ -245,8 +245,8 @@ export function S3Slide01Cover() {
 
             <div className="flex items-center gap-4">
               <div className="h-px w-10" style={{ background: 'linear-gradient(90deg, hsl(330 50% 50% / 0.3), transparent)' }} />
-              <p className="text-white/20 text-xs font-medium uppercase tracking-[0.2em]">
-                {gen?.config?.date || '24 de febrero de 2026'} · {gen?.config?.instructor || 'Vicente Donoso R.'}
+              <p className="text-white/35 text-xs font-medium uppercase tracking-[0.2em]">
+                {gen?.config?.date || '17 de febrero de 2026'} · {gen?.config?.instructor || 'Vicente Donoso R.'}
               </p>
             </div>
           </motion.div>
@@ -302,7 +302,7 @@ export function S3Slide01Cover() {
               transition: 'background 0.6s ease',
             }}>
             <div className="rounded-[27px] aspect-[4/3] overflow-hidden relative"
-              style={{ background: 'hsl(0 0% 2%)', boxShadow: '0 50px 120px hsl(330 60% 30% / 0.4), 0 0 0 1px hsl(0 0% 100% / 0.03)' }}>
+              style={{ background: 'hsl(0 0% 2%)', boxShadow: '0 50px 120px hsl(330 60% 30% / 0.4), 0 0 0 1px hsl(0 0% 100% / 0.08)' }}>
               {/* Abstract tool grid inside frame */}
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,_hsl(330_65%_55%_/_0.15),_transparent_70%)]" />
               <div className="absolute inset-0">
@@ -343,7 +343,7 @@ export function S3Slide01Cover() {
           {!isExporting && FLOATING_TAGS.map((tag) => (
             <motion.div
               key={tag.label}
-              className="absolute px-3 py-1.5 rounded-full border backdrop-blur-md text-[9px] font-mono uppercase tracking-wider"
+              className="absolute px-3 py-1.5 rounded-full border backdrop-blur-md text-[10px] font-mono uppercase tracking-wider"
               style={{
                 left: tag.x,
                 top: tag.y,

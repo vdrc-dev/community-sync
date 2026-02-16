@@ -79,7 +79,7 @@ export function S3SlideAgenda() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-md mx-auto">
           4 módulos · ~95 minutos · de la teoría a la práctica
         </motion.p>
 
@@ -141,7 +141,7 @@ export function S3SlideAgenda() {
                       {/* Tool pills */}
                       <div className="flex flex-wrap justify-center gap-1.5">
                         {mod.tools.map((tool, j) => (
-                          <span key={j} className="px-2 py-0.5 rounded-full text-[9px] font-semibold border"
+                          <span key={j} className="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
                             style={{ borderColor: `${mod.accent.text}20`, color: `${mod.accent.text}70`, background: `${mod.accent.text}05` }}>
                             {tool}
                           </span>

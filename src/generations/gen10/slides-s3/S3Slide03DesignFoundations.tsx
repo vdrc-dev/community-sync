@@ -38,11 +38,11 @@ export function S3Slide03DesignFoundations() {
       {/* Floating decorative pills */}
       {!isExporting && (
         <>
-          <motion.div className="absolute left-[14%] top-[42%] text-[9px] font-mono font-bold tracking-wider text-white/20"
+          <motion.div className="absolute left-[14%] top-[42%] text-[10px] font-mono font-bold tracking-wider text-white/40"
             animate={{ y: [0, -6, 0], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}>HEX</motion.div>
-          <motion.div className="absolute right-[16%] top-[45%] text-[9px] font-mono font-bold tracking-wider text-white/20"
+          <motion.div className="absolute right-[16%] top-[45%] text-[10px] font-mono font-bold tracking-wider text-white/40"
             animate={{ y: [0, 5, 0], opacity: [0.2, 0.35, 0.2] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}>RGB</motion.div>
-          <motion.div className="absolute right-[20%] bottom-[28%] text-[9px] font-mono font-bold tracking-wider text-white/25"
+          <motion.div className="absolute right-[20%] bottom-[28%] text-[10px] font-mono font-bold tracking-wider text-white/40"
             animate={{ y: [0, -4, 0], opacity: [0.25, 0.4, 0.25] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}>WOFF2</motion.div>
         </>
       )}
@@ -72,7 +72,7 @@ export function S3Slide03DesignFoundations() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-14 max-w-md mx-auto">
           Colores + Tipografía = Comunicación visual profesional
         </motion.p>
 
@@ -85,7 +85,7 @@ export function S3Slide03DesignFoundations() {
                 animate={{ background: ['#E74C3C', '#2ECC71', '#3498DB', '#F1C40F', '#9B59B6', '#1ABC9C', '#E74C3C'] }}
                 transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
             )}
-            <p className="text-[10px] text-white/25 uppercase tracking-widest font-bold mb-4">Paleta de Colores</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-4">Paleta de Colores</p>
             <div className="grid grid-cols-6 gap-2 mb-4">
               {PALETTE.map((c, i) => (
                 <motion.div key={i} {...m(0.25 + i * 0.04)}
@@ -94,8 +94,8 @@ export function S3Slide03DesignFoundations() {
                   <div className="w-full aspect-square rounded-xl transition-shadow duration-300"
                     style={{ background: c.hex, boxShadow: `0 8px 24px ${c.hex}44` }} />
                   <div>
-                    <p className="text-[9px] font-mono font-bold text-white/50">{c.hex}</p>
-                    <p className="text-[8px] text-white/25">{c.name}</p>
+                    <p className="text-[10px] font-mono font-bold text-white/50">{c.hex}</p>
+                    <p className="text-[10px] text-white/40">{c.name}</p>
                   </div>
                 </motion.div>
               ))}
@@ -118,11 +118,11 @@ export function S3Slide03DesignFoundations() {
 
           {/* RIGHT: Typography visual */}
           <motion.div {...m(0.3)} className="text-left">
-            <p className="text-[10px] text-white/25 uppercase tracking-widest font-bold mb-4">Tipografía</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-4">Tipografía</p>
             <div className="space-y-3">
               {FONTS.map((f, i) => (
                 <motion.div key={i} {...m(0.35 + i * 0.06)}
-                  className="relative p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] flex items-center justify-between overflow-hidden group"
+                  className="relative p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-between overflow-hidden group"
                   {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.violet.border, scale: 1.02 } })}>
                   {!isExporting && (
                     <motion.div className="absolute inset-0 pointer-events-none"
@@ -132,9 +132,9 @@ export function S3Slide03DesignFoundations() {
                   )}
                   <div className="relative">
                     <p className={`text-2xl text-white/80 ${f.style}`}>{f.name}</p>
-                    <p className="text-[10px] text-white/25 font-mono mt-0.5">{f.example}</p>
+                    <p className="text-[10px] text-white/40 font-mono mt-0.5">{f.example}</p>
                   </div>
-                  <span className="relative text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border"
+                  <span className="relative text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border"
                     style={{ borderColor: S3_ACCENT.violet.border, color: S3_ACCENT.violet.text, background: S3_ACCENT.violet.bg }}>{f.use}</span>
                 </motion.div>
               ))}
@@ -151,7 +151,7 @@ export function S3Slide03DesignFoundations() {
           ].map((t, i) => {
             const RuleIcon = t.icon;
             return (
-              <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] group relative overflow-hidden"
+              <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] group relative overflow-hidden"
                 {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border, scale: 1.02 } })}>
                 {!isExporting && (
                   <motion.div className="absolute inset-0 pointer-events-none"
@@ -163,7 +163,7 @@ export function S3Slide03DesignFoundations() {
                   <RuleIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: t.accent.text }} />
                   <div>
                     <p className="text-[11px] text-white/60 font-semibold mb-1">{t.rule}</p>
-                    <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+                    <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
                   </div>
                 </div>
               </motion.div>

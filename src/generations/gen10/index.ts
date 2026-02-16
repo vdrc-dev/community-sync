@@ -36,5 +36,5 @@ export { Slide29Closing } from './slides/Slide29Closing';
 // Semana 2: La Era Agéntica
 export * from './slides-s2';
 
-// Semana 3: Comunicación y Creación Digital
+// Semana 3: Presentaciones con IA
 export * from './slides-s3';

@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { GenerationConfig, SlideData, SlideSection } from '@/generations/types';
+import { WORKSHOP_MODULES } from '@/hooks/useGenerations';
+
 
 interface GenerationRow {
   id: number;
@@ -49,12 +51,20 @@ export function parseGenUrl(genId: string): { generation: number; week?: number 
   };
 }
 
+// Canonical section title corrections (DB values may be outdated)
+const SECTION_TITLE_OVERRIDES: Record<string, string> = {
+  'Pair Programming con IA': 'Herramientas de Creación',
+  'Comunicación y Creación Digital': 'Presentaciones con IA',
+};
+
 /**
  * Computes sections dynamically by grouping slides by section_id
  */
 function computeSectionsFromSlides(slides: SlideData[], sections: SectionRow[]): SlideSection[] {
   const sectionOrderMap = new Map(sections.map(s => [s.id, s.display_order]));
-  const sectionTitleMap = new Map(sections.map(s => [s.id, s.title]));
+  const sectionTitleMap = new Map(
+    sections.map(s => [s.id, SECTION_TITLE_OVERRIDES[s.title] || s.title])
+  );
   
   // Group slide numbers by section_id
   const groups = new Map<string, number[]>();
@@ -129,20 +139,42 @@ async function fetchGenerationData(
   const previousWeeks = weeks.filter(w => w.week < displayWeek);
 
   const sections = (sectionsData || []) as SectionRow[];
-  const sectionMap = new Map(sections.map(s => [s.id, s.title]));
+  const sectionMap = new Map(
+    sections.map(s => [s.id, SECTION_TITLE_OVERRIDES[s.title] || s.title])
+  );
+
+  // Calculate the correct class date using the generation start_date from the main generations table
+  // Build the generation code (e.g. "GEN-010") to find the start date
+  const genCode = `GEN-${String(generationNumber).padStart(3, '0')}`;
+  const { data: mainGen } = await supabase
+    .from('generations')
+    .select('start_date')
+    .eq('code', genCode)
+    .maybeSingle();
+
+  let dateStr: string;
+  if (mainGen?.start_date) {
+    // Calculate class date from start_date + (week - 1) * 7 days
+    const startDate = new Date(mainGen.start_date + 'T12:00:00');
+    const classDate = new Date(startDate);
+    classDate.setDate(classDate.getDate() + (displayWeek - 1) * 7);
+    dateStr = classDate.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+  } else {
+    dateStr = new Date(generation.date + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Use canonical module names from WORKSHOP_MODULES, falling back to DB data
+  const canonicalModule = WORKSHOP_MODULES.find(m => m.number === displayWeek);
+  const weekName = canonicalModule?.title || currentWeekData?.name || generation.name;
 
   // Build config with the specific week's data
   const config: GenerationConfig = {
     generation: generation.generation_number,
-    name: currentWeekData?.name || generation.name,
+    name: weekName,
     module: generation.module,
     week: displayWeek,
     totalWeeks: generation.total_weeks,
-    date: new Date(generation.date + 'T12:00:00').toLocaleDateString('es-CL', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }),
+    date: dateStr,
     instructor: generation.instructor,
     stack: currentWeekData?.stack || generation.stack,
     previousWeeks: previousWeeks.map(w => ({

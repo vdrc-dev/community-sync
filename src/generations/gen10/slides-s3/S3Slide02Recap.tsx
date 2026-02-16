@@ -28,12 +28,12 @@ export function S3Slide02Recap() {
       {/* Floating decorative pills */}
       {!isExporting && (
         <>
-          <motion.div className="absolute left-[12%] top-[38%] text-[10px] font-bold tracking-wider text-white/25"
-            animate={{ y: [0, -8, 0], opacity: [0.25, 0.5, 0.25] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>75%</motion.div>
-          <motion.div className="absolute right-[18%] top-[35%] text-[10px] font-bold tracking-wider text-white/20"
-            animate={{ y: [0, 6, 0], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}>S3</motion.div>
-          <motion.div className="absolute left-[22%] bottom-[32%] text-[9px] font-semibold tracking-widest text-white/20 uppercase"
-            animate={{ y: [0, -5, 0], opacity: [0.2, 0.35, 0.2] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}>4 semanas</motion.div>
+          <motion.div className="absolute left-[12%] top-[38%] text-[10px] font-bold tracking-wider text-white/40"
+            animate={{ y: [0, -8, 0], opacity: [0.4, 0.6, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>75%</motion.div>
+          <motion.div className="absolute right-[18%] top-[35%] text-[10px] font-bold tracking-wider text-white/35"
+            animate={{ y: [0, 6, 0], opacity: [0.35, 0.5, 0.35] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}>S3</motion.div>
+          <motion.div className="absolute left-[22%] bottom-[32%] text-[10px] font-semibold tracking-widest text-white/35 uppercase"
+            animate={{ y: [0, -5, 0], opacity: [0.35, 0.5, 0.35] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}>4 semanas</motion.div>
         </>
       )}
 
@@ -62,7 +62,7 @@ export function S3Slide02Recap() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-9 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-9 max-w-lg mx-auto">
           Semana 3 de 4 - 75% del programa completado
         </motion.p>
         <motion.div
@@ -149,7 +149,7 @@ export function S3Slide02Recap() {
                           style={{ background: 'linear-gradient(105deg, transparent 0%, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%, transparent 100%)', width: '60%' }}
                           animate={{ x: ['-150%', '250%'] }} transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 3, ease: 'linear' }} />
                       )}
-                      <motion.span className="relative inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider"
+                      <motion.span className="relative inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider"
                         style={{ background: week.accent.bg, color: week.accent.text, border: `1px solid ${week.accent.border}` }}
                         {...(isExporting ? {} : { animate: { scale: [1, 1.05, 1] }, transition: { duration: 2, repeat: Infinity } })}>
                         HOY
@@ -157,7 +157,7 @@ export function S3Slide02Recap() {
                     </span>
                   )}
                   {isFuture && (
-                    <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[8px] font-bold tracking-wider border"
+                    <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider border"
                       style={{ borderColor: `${week.accent.text}15`, color: `${week.accent.text}30`, background: `${week.accent.text}05` }}>
                       PRÓXIMA
                     </span>
@@ -167,7 +167,7 @@ export function S3Slide02Recap() {
                 {/* Mini skill pills */}
                 <div className="flex flex-wrap justify-center gap-1.5 max-w-[140px]">
                   {week.skills.map((s, j) => (
-                    <span key={j} className="px-2 py-0.5 rounded-full text-[8px] font-semibold border"
+                    <span key={j} className="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
                       style={{ borderColor: `${week.accent.text}${isFuture ? '08' : '15'}`, color: `${week.accent.text}${isFuture ? '30' : '60'}`, background: `${week.accent.text}05` }}>{s}</span>
                   ))}
                 </div>

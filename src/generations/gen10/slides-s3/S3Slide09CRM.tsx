@@ -82,7 +82,7 @@ export function S3Slide09CRM() {
             transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
           />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-14 max-w-md mx-auto">
           Trae tus datos reales a la IA — clientes, acuerdos y métricas
         </motion.p>
 
@@ -92,7 +92,7 @@ export function S3Slide09CRM() {
             <motion.div
               className="absolute -inset-8 rounded-[32px] pointer-events-none"
               style={{ background: 'radial-gradient(ellipse at center, hsl(38 90% 60% / 0.12), transparent 72%)', filter: 'blur(26px)' }}
-              animate={{ opacity: [0.28, 0.55, 0.28] }}
+              animate={{ opacity: [0.2, 0.4, 0.2] }}
               transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
             />
           )}
@@ -147,7 +147,7 @@ export function S3Slide09CRM() {
                   </div>
                   <div className="relative">
                     <p className="text-lg font-black text-white">{step.label}</p>
-                    <p className="text-[11px] text-white/30 mt-0.5">{step.sub}</p>
+                    <p className="text-[11px] text-white/40 mt-0.5">{step.sub}</p>
                   </div>
                 </motion.div>
 
@@ -193,12 +193,12 @@ export function S3Slide09CRM() {
         {/* Example prompts */}
         <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
           {[
-            { tip: '💬 "¿Cuántos deals cerré este mes?"', detail: 'Claude consulta HubSpot vía MCP y te da el número exacto' },
-            { tip: '📊 "Hazme un pipeline visual"', detail: 'Combina datos del CRM con Canvas para un dashboard' },
+            { tip: '"¿Cuántos deals cerré este mes?"', detail: 'Claude consulta HubSpot vía MCP y te da el número exacto' },
+            { tip: '"Hazme un pipeline visual"', detail: 'Combina datos del CRM con Canvas para un dashboard' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+              <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
           ))}
         </motion.div>

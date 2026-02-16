@@ -90,7 +90,7 @@ export function S3Slide12Closing() {
             <motion.div {...m(0)} className="flex items-center gap-3 mb-3">
               <div className="w-1.5 h-10 rounded-full" style={{ background: `linear-gradient(180deg, ${S3_ACCENT.emerald.text}, ${S3_ACCENT.cyan.text})` }} />
               <div>
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30">Cierre · Semana 3</span>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/35">Cierre · Semana 3</span>
                 <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight leading-none">
                   La diferencia es la{' '}
                   <span style={{
@@ -125,9 +125,9 @@ export function S3Slide12Closing() {
             </motion.div>
             <div className="w-px h-6" style={{ background: 'hsl(0 0% 100% / 0.06)' }} />
             {WEEK_STATS.map((s, i) => (
-              <motion.div key={i} {...m(0.12 + i * 0.04)} className="text-center px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <motion.div key={i} {...m(0.12 + i * 0.04)} className="text-center px-4 py-2 rounded-xl border border-white/[0.08] bg-white/[0.02]">
                 <p className="text-xl font-black" style={{ color: S3_ACCENT.emerald.text }}>{s.num}</p>
-                <p className="text-[8px] text-white/25 uppercase tracking-wider font-bold">{s.label}</p>
+                <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold">{s.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -136,7 +136,7 @@ export function S3Slide12Closing() {
         {/* Main content: 2 columns */}
         <div className="grid grid-cols-5 gap-6">
           {/* Left: Tools mastered - 2 cols */}
-          <motion.div {...m(0.15)} className="col-span-2 rounded-2xl border border-white/[0.06] bg-white/[0.015] p-5">
+          <motion.div {...m(0.15)} className="col-span-2 rounded-2xl border border-white/[0.08] bg-white/[0.015] p-5">
             <div className="flex items-center gap-2 mb-4">
               <Star className="w-4 h-4 text-amber-400/60" />
               <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Tu Arsenal</span>
@@ -161,7 +161,7 @@ export function S3Slide12Closing() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-white/70 leading-tight">{tool.name}</p>
-                      <p className="text-[9px] text-white/25 leading-tight">{tool.what}</p>
+                      <p className="text-[10px] text-white/40 leading-tight">{tool.what}</p>
                     </div>
                   </motion.div>
                 );
@@ -177,7 +177,7 @@ export function S3Slide12Closing() {
               <div className="flex items-center gap-2 mb-4">
                 <Rocket className="w-4 h-4" style={{ color: S3_ACCENT.emerald.text }} />
                 <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Misiones esta semana</span>
-                <span className="ml-auto text-[9px] text-white/20 font-medium">Elige al menos 1</span>
+                <span className="ml-auto text-[10px] text-white/35 font-medium">Elige al menos 1</span>
               </div>
 
               <div className="space-y-2.5">
@@ -208,15 +208,15 @@ export function S3Slide12Closing() {
 
                       <div className="relative flex-1 min-w-0">
                         <p className="text-sm font-bold text-white/70">{mission.task}</p>
-                        <p className="text-[10px] text-white/30 mt-0.5">{mission.detail}</p>
+                        <p className="text-[10px] text-white/35 mt-0.5">{mission.detail}</p>
                       </div>
 
                       <div className="relative flex items-center gap-2 shrink-0">
-                        <span className="text-[9px] px-2 py-0.5 rounded-full border font-bold"
+                        <span className="text-[10px] px-2 py-0.5 rounded-full border font-bold"
                           style={{ borderColor: `${mission.accent.text}25`, color: `${mission.accent.text}90`, background: `${mission.accent.text}08` }}>
                           {mission.difficulty}
                         </span>
-                        <span className="text-[9px] text-white/20 font-mono">{mission.time}</span>
+                        <span className="text-[10px] text-white/35 font-mono">{mission.time}</span>
                       </div>
                     </motion.div>
                   );
@@ -253,11 +253,11 @@ export function S3Slide12Closing() {
                   </>
                 )}
                 <div className="relative z-10 flex-1 min-w-0">
-                  <p className="text-[9px] text-white/25 uppercase tracking-wider font-bold">Próxima Semana</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold">Próxima Semana</p>
                   <p className="text-sm font-bold text-white leading-tight mt-0.5">
                     S4: <span style={{ color: S3_ACCENT.cyan.text }}>VibeCoding</span>
                   </p>
-                  <p className="text-[10px] text-white/30 mt-0.5">Tu primera app en 90 min</p>
+                  <p className="text-[10px] text-white/35 mt-0.5">Tu primera app en 90 min</p>
                 </div>
                 <motion.div className="relative z-10" {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
                   <ArrowRight className="w-5 h-5" style={{ color: `${S3_ACCENT.cyan.text}70` }} />
@@ -265,7 +265,7 @@ export function S3Slide12Closing() {
               </motion.div>
 
               {/* Key takeaway */}
-              <motion.div {...m(0.55)} className="relative overflow-hidden flex items-start gap-3 px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.02]"
+              <motion.div {...m(0.55)} className="relative overflow-hidden flex items-start gap-3 px-5 py-4 rounded-xl border border-white/[0.08] bg-white/[0.02]"
                 {...(isExporting ? {} : { whileHover: { borderColor: 'hsl(160 65% 45% / 0.2)', scale: 1.01 } })}>
                 {!isExporting && (
                   <motion.div className="absolute inset-0 pointer-events-none"
@@ -275,7 +275,7 @@ export function S3Slide12Closing() {
                 )}
                 <TrendingUp className="w-5 h-5 text-emerald-400/50 shrink-0 mt-0.5 relative" />
                 <div className="relative">
-                  <p className="text-[9px] text-white/25 uppercase tracking-wider font-bold mb-1">Key Takeaway</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold mb-1">Key Takeaway</p>
                   <p className="text-xs text-white/45 leading-relaxed">
                     No necesitas dominar <span className="text-white/70 font-semibold">todas</span> las herramientas.
                     Domina <span style={{ color: S3_ACCENT.emerald.text }} className="font-bold">2-3</span> que resuelvan <span className="text-white/70 font-semibold">tu</span> problema.

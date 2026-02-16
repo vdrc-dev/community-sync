@@ -87,7 +87,7 @@ export function S3Slide05NotebookLM() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-md mx-auto">
           Dos superpoderes en una sola herramienta
         </motion.p>
 
@@ -95,7 +95,7 @@ export function S3Slide05NotebookLM() {
         <div className="flex items-center justify-center gap-6">
           {/* Inputs column */}
           <motion.div {...m(0.2)} className="flex flex-col gap-2.5">
-            <p className="text-[10px] text-white/25 uppercase tracking-widest font-bold mb-2">Sube</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-2">Sube</p>
             {INPUTS.map((input, i) => (
               <motion.div
                 key={input}
@@ -117,7 +117,7 @@ export function S3Slide05NotebookLM() {
 
           {/* Arrow */}
           <motion.div {...m(0.35)} className="flex flex-col items-center gap-3">
-            <ArrowRight className="w-5 h-5 text-white/15" />
+            <ArrowRight className="w-5 h-5 text-white/30" />
           </motion.div>
 
           {/* Central engine with orbital ring + shimmer */}
@@ -156,18 +156,18 @@ export function S3Slide05NotebookLM() {
             <div className="relative">
               <BookOpen className="w-10 h-10 mb-3" style={{ color: S3_ACCENT.cyan.text }} />
               <p className="text-sm font-black text-white">NotebookLM</p>
-              <p className="text-[10px] text-white/30 mt-1">Chat + Citas</p>
+              <p className="text-[10px] text-white/35 mt-1">Chat + Citas</p>
             </div>
           </motion.div>
 
           {/* Arrow */}
           <motion.div {...m(0.4)} className="flex flex-col items-center gap-3">
-            <ArrowRight className="w-5 h-5 text-white/15" />
+            <ArrowRight className="w-5 h-5 text-white/30" />
           </motion.div>
 
           {/* Outputs column */}
           <motion.div {...m(0.35)} className="flex flex-col gap-2.5">
-            <p className="text-[10px] text-white/25 uppercase tracking-widest font-bold mb-2">Genera</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-2">Genera</p>
             {OUTPUTS.map((output, i) => {
               const Icon = output.icon;
               return (
@@ -187,7 +187,7 @@ export function S3Slide05NotebookLM() {
                   <Icon className="w-4 h-4 relative" style={{ color: output.color.text }} />
                   <div className="text-left relative">
                     <span className="text-sm text-white/60 font-medium block">{output.label}</span>
-                    <span className="text-[9px] text-white/25">{output.detail}</span>
+                    <span className="text-[10px] text-white/40">{output.detail}</span>
                   </div>
                 </motion.div>
               );
@@ -198,13 +198,13 @@ export function S3Slide05NotebookLM() {
         {/* Pro tips + limitation */}
         <motion.div {...m(0.55)} className="mt-8 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
-            { tip: '📚 50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
-            { tip: '🎙️ 3 audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
-            { tip: '🆓 Incluido en Google', detail: 'Free con cuenta Google · Plus con AI Premium' },
+            { tip: '50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
+            { tip: '3 audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
+            { tip: 'Incluido en Google', detail: 'Free con cuenta Google · Plus con AI Premium' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+              <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
           ))}
         </motion.div>

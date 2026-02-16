@@ -57,7 +57,7 @@ export function S3Slide04VibeCoding() {
         <motion.div {...m(0)} className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
             <Wand2 className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Comunicación Visual</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Fundamentos Visuales</span>
           </div>
         </motion.div>
 
@@ -84,7 +84,7 @@ export function S3Slide04VibeCoding() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-lg mx-auto">
           Un prompt transforma toda la estética de tu app
         </motion.p>
 
@@ -156,9 +156,9 @@ export function S3Slide04VibeCoding() {
             { tip: 'Sé específico con adjetivos', detail: '"Elegante y tech" > "bonito". Los modelos entienden estética.' },
             { tip: 'Pega tu HEX principal', detail: 'Dale tu color base y pide variaciones complementarias.' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+              <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -174,7 +174,7 @@ export function S3Slide04VibeCoding() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} contextHint="diseñar interfaces desde prompts" />
+      <S3Footer sectionLabel="FUNDAMENTOS VISUALES" hue={185} contextHint="diseñar interfaces desde prompts" />
     </div>
   );
 }

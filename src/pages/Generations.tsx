@@ -11,7 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { 
   Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, 
   Users, Sparkles, Rocket, ExternalLink, Clock, Presentation, 
-  Play, ArrowRight
+  Play, ArrowRight, FolderOpen
 } from 'lucide-react';
 
 // Module color map for presentation badges
@@ -24,6 +24,21 @@ const MODULE_COLORS = [
 
 const MODULE_NAMES = ['Higiene Digital', 'IA & Productividad', 'Presentaciones con IA', 'Vibe Coding'];
 const MODULE_ICONS = ['🛡️', '🤖', '🎨', '💻'];
+
+/* ── Google Drive folders per generation ── */
+const GENERATION_MATERIALS: Record<number, string> = {
+  1: 'https://drive.google.com/drive/folders/1IqjBJpjB9KlnK2e0BIfJfLesaLDVGA1H?usp=sharing',
+  2: 'https://drive.google.com/drive/folders/1NRo-U33wBnZTHoJyIGRIGB5ztbA4favv?usp=sharing',
+  3: 'https://drive.google.com/drive/folders/1i5oQqKjoKm3qqB8SAlSuCeKVRvB38EHp?usp=sharing',
+  4: 'https://drive.google.com/drive/folders/1cZr5P7gh25_67SY00zdHIQNjDsRzMHg4?usp=sharing',
+  5: 'https://drive.google.com/drive/folders/1UHXOV2jRs1yPi2LMMPqX-NkxcukF-FXM?usp=sharing',
+  6: 'https://drive.google.com/drive/folders/1otjBivaxa61t4a5PQ-s94j4Afu2iZvLZ?usp=sharing',
+  7: 'https://drive.google.com/drive/folders/10oFF5FIsI4upeWLNwt1XPpEqIExR4yrP?usp=sharing',
+  8: 'https://drive.google.com/drive/folders/1-tuuQTeD9ljfsIdn1MEvPPbg6vPHJ0mC?usp=sharing',
+  9: 'https://drive.google.com/drive/folders/1zRkGMNafdrrM0iJruJ94L0Q1gF8Iktqr?usp=sharing',
+  10: 'https://drive.google.com/drive/folders/1gNQ9AVsZIB0OM7FYSTCVazC4Xc-wZiwi?usp=sharing',
+  11: 'https://drive.google.com/drive/folders/1PxXlr9RoGd9ZtZQvB52LsQCHVDB0K5dx?usp=sharing',
+};
 
 export default function Generations() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -258,6 +273,21 @@ export default function Generations() {
                           <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-2 leading-relaxed">
                             {gen.description}
                           </p>
+                        )}
+
+                        {/* Materials link */}
+                        {GENERATION_MATERIALS[genNum] && (
+                          <a
+                            href={GENERATION_MATERIALS[genNum]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1.5 text-[11px] font-medium text-yellow-400/80 hover:text-yellow-400 mb-3 transition-colors"
+                          >
+                            <FolderOpen className="w-3.5 h-3.5" />
+                            Materiales
+                            <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                          </a>
                         )}
 
                         {/* Module presentations mini-badges */}

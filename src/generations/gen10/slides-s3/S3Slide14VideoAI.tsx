@@ -94,7 +94,7 @@ export function S3Slide14VideoAI() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-lg mx-auto">
           Orquesta Sora 2, Veo 3.1 y Kling 3.0 desde una interfaz
         </motion.p>
 
@@ -189,7 +189,7 @@ export function S3Slide14VideoAI() {
 
         {/* Engine pills */}
         <motion.div {...m(0.5)} className="flex items-center justify-center gap-3">
-          <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold mr-2">Motores:</p>
+          <p className="text-[10px] text-white/35 uppercase tracking-widest font-bold mr-2">Motores:</p>
           {ENGINES.map((e, i) => (
             <motion.div key={i} {...m(0.55 + i * 0.06)}
               className="relative px-4 py-2.5 rounded-xl border overflow-hidden"
@@ -203,9 +203,9 @@ export function S3Slide14VideoAI() {
               )}
               <div className="relative flex items-center gap-2">
                 <span className="text-sm font-bold text-white">{e.name}</span>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-md" style={{ color: `${e.accent.text}90`, background: `${e.accent.text}10` }}>{e.provider}</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md" style={{ color: `${e.accent.text}90`, background: `${e.accent.text}10` }}>{e.provider}</span>
               </div>
-              <p className="relative text-[9px] text-white/30 mt-0.5">{e.detail}</p>
+              <p className="relative text-[10px] text-white/40 mt-0.5">{e.detail}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -242,7 +242,7 @@ export function S3Slide14VideoAI() {
           ].map((t, i) => {
             const TipIcon = t.icon;
             return (
-              <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] relative overflow-hidden group"
+              <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] relative overflow-hidden group"
                 {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border, scale: 1.02 } })}>
                 {!isExporting && (
                   <motion.div className="absolute inset-0 pointer-events-none"
@@ -254,7 +254,7 @@ export function S3Slide14VideoAI() {
                   <TipIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: t.accent.text }} />
                   <div>
                     <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-                    <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+                    <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
                   </div>
                 </div>
               </motion.div>

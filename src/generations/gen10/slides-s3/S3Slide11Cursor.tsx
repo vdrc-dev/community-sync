@@ -81,7 +81,7 @@ export function S3Slide11Cursor() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mt-4 mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mt-4 mb-14 max-w-md mx-auto">
           Tu estudio de desarrollo para proyectos largos y consistentes
         </motion.p>
 
@@ -127,22 +127,22 @@ export function S3Slide11Cursor() {
               {/* Chrome */}
               <div className="relative px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(38 80% 55% / 0.08)' }}>
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
-                <span className="text-[9px] text-white/20 font-mono ml-2">cursor — dashboard/</span>
+                <span className="text-[10px] text-white/35 font-mono ml-2">cursor — dashboard/</span>
               </div>
               <div className="flex">
                 {/* File tree */}
                 <div className="w-[120px] border-r p-3 space-y-0.5" style={{ borderColor: 'hsl(0 0% 100% / 0.03)' }}>
                   {['├── src/', '│ ├── App.tsx', '│ ├── Dashboard.tsx', '│ └── Charts.tsx', '├── data/', '│ └── sales.csv', '└── styles.css'].map((f, i) => (
-                    <p key={i} className={`text-[9px] font-mono ${i === 2 ? 'text-amber-400/60' : 'text-white/20'}`}>{f}</p>
+                    <p key={i} className={`text-[10px] font-mono ${i === 2 ? 'text-amber-400/60' : 'text-white/30'}`}>{f}</p>
                   ))}
                 </div>
                 {/* Code editor with pulsing cursor in code area */}
                 <div className="flex-1 p-3 font-mono text-[10px] space-y-0.5 relative">
-                  <p><span className="text-violet-400/50">import</span> <span className="text-white/25">{'{ useState }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'react'</span></p>
-                  <p><span className="text-violet-400/50">import</span> <span className="text-white/25">{'{ BarChart }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'recharts'</span></p>
-                  <p className="text-white/10">&nbsp;</p>
-                  <p><span className="text-violet-400/50">export function </span><span className="text-amber-300/70">Dashboard</span><span className="text-white/25">{'() {'}</span></p>
-                  <p className="ml-3"><span className="text-white/25">const data = </span><span className="text-amber-300/70">useCSV</span><span className="text-white/25">{'("sales.csv")'}</span></p>
+                  <p><span className="text-violet-400/50">import</span> <span className="text-white/40">{'{ useState }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'react'</span></p>
+                  <p><span className="text-violet-400/50">import</span> <span className="text-white/40">{'{ BarChart }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'recharts'</span></p>
+                  <p className="text-white/30">&nbsp;</p>
+                  <p><span className="text-violet-400/50">export function </span><span className="text-amber-300/70">Dashboard</span><span className="text-white/40">{'() {'}</span></p>
+                  <p className="ml-3"><span className="text-white/40">const data = </span><span className="text-amber-300/70">useCSV</span><span className="text-white/40">{'("sales.csv")'}</span></p>
                   <p className="ml-3 relative inline">
                     <span className="text-emerald-400/50">{'  return <BarChart data={data} />'}</span>
                     {!isExporting && (
@@ -154,15 +154,15 @@ export function S3Slide11Cursor() {
                       />
                     )}
                   </p>
-                  <p><span className="text-white/25">{'}'}</span></p>
+                  <p><span className="text-white/40">{'}'}</span></p>
                 </div>
               </div>
               {/* Terminal */}
               <div className="border-t px-3 py-2" style={{ borderColor: 'hsl(0 0% 100% / 0.03)' }}>
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] font-mono text-emerald-400/40">$ npm run dev</span>
-                  <span className="text-[9px] font-mono text-white/15">→</span>
-                  <span className="text-[9px] font-mono text-emerald-400/60">localhost:3000 ✓</span>
+                  <span className="text-[10px] font-mono text-emerald-400/40">$ npm run dev</span>
+                  <span className="text-[10px] font-mono text-white/30">→</span>
+                  <span className="text-[10px] font-mono text-emerald-400/60">localhost:3000 ✓</span>
                   {!isExporting && <motion.span className="w-[5px] h-3 bg-emerald-400/40 ml-1" animate={{ opacity: [1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} />}
                 </div>
               </div>
@@ -201,13 +201,13 @@ export function S3Slide11Cursor() {
         {/* Workflow tip */}
         <motion.div {...m(0.55)} className="mt-6 max-w-3xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
-            { tip: '⌨️ Cmd+K = Editar', detail: 'Selecciona código y pide cambios inline' },
-            { tip: '💬 Chat = Planear', detail: 'Abre el chat lateral para cambios multi-archivo' },
-            { tip: '🤖 Agent = Crear', detail: 'Genera features completas con contexto del proyecto' },
+            { tip: 'Cmd+K = Editar', detail: 'Selecciona código y pide cambios inline' },
+            { tip: 'Chat = Planear', detail: 'Abre el chat lateral para cambios multi-archivo' },
+            { tip: 'Agent = Crear', detail: 'Genera features completas con contexto del proyecto' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+              <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
           ))}
         </motion.div>

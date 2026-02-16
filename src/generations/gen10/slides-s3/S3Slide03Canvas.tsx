@@ -43,7 +43,7 @@ export function S3Slide03Canvas() {
         <motion.div {...m(0)} className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
             <BarChart3 className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Comunicación Visual</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Fundamentos Visuales</span>
           </div>
         </motion.div>
 
@@ -64,7 +64,7 @@ export function S3Slide03Canvas() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-lg mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-10 max-w-lg mx-auto">
           Transforma cualquier dataset en visualizaciones interactivas sin código
         </motion.p>
 
@@ -77,7 +77,7 @@ export function S3Slide03Canvas() {
           ].map((s, i) => (
             <div key={i} className="text-center px-4">
               <p className="text-xl font-black" style={{ color: S3_ACCENT.cyan.text }}>{s.stat}</p>
-              <p className="text-[10px] text-white/25 uppercase tracking-wider mt-0.5">{s.desc}</p>
+              <p className="text-[10px] text-white/40 uppercase tracking-wider mt-0.5">{s.desc}</p>
             </div>
           ))}
         </motion.div>
@@ -94,7 +94,7 @@ export function S3Slide03Canvas() {
               <FileSpreadsheet className="w-10 h-10" style={{ color: S3_ACCENT.cyan.text }} />
               <div>
                 <p className="text-sm font-black text-white">Tu Dataset</p>
-                <p className="text-[10px] text-white/30 mt-0.5">CSV · Captura · Texto</p>
+                <p className="text-[10px] text-white/35 mt-0.5">CSV · Captura · Texto</p>
               </div>
             </div>
           </motion.div>
@@ -113,7 +113,7 @@ export function S3Slide03Canvas() {
             {!isExporting && (
               <motion.div className="absolute -inset-4 rounded-3xl pointer-events-none z-0"
                 style={{ background: `radial-gradient(ellipse 80% 70% at 50% 50%, ${S3_ACCENT.cyan.glow}, transparent 70%)`, opacity: 0.5 }}
-                animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }} />
+                animate={{ opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }} />
             )}
             {!isExporting && (
               <motion.div
@@ -132,15 +132,15 @@ export function S3Slide03Canvas() {
               {/* Browser chrome (shimmer layer is above this) */}
               <div className="relative px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(185 70% 50% / 0.1)' }}>
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
-                <span className="text-[9px] text-white/20 font-mono ml-2">dashboard.html</span>
+                <span className="text-[10px] text-white/40 font-mono ml-2">dashboard.html</span>
               </div>
               {/* Metrics row */}
               <div className="p-4">
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   {[{ v: '$2.4M', d: '+12%' }, { v: '1,847', d: '+8%' }, { v: '$1.3K', d: '+3%' }].map((mt, i) => (
-                    <div key={i} className="p-2 rounded-lg border border-white/[0.04] bg-white/[0.02] text-center">
+                    <div key={i} className="p-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-center">
                       <p className="text-sm font-black text-white">{mt.v}</p>
-                      <p className="text-[9px] text-emerald-400/70 font-bold">{mt.d}</p>
+                      <p className="text-[10px] text-emerald-400/70 font-bold">{mt.d}</p>
                     </div>
                   ))}
                 </div>
@@ -160,13 +160,13 @@ export function S3Slide03Canvas() {
         {/* Pro tips */}
         <motion.div {...m(0.55)} className="mt-10 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
-            { tip: '📊 Pide "hazme un dashboard interactivo"', detail: 'Canvas genera HTML+JS que puedes exportar' },
-            { tip: '🔄 Itera en tiempo real', detail: '"Cambia a barras horizontales y agrega tooltip"' },
-            { tip: '📋 Copia el código', detail: 'Pega el HTML en tu sitio o comparte como link' },
+            { tip: 'Pide "hazme un dashboard interactivo"', detail: 'Canvas genera HTML+JS que puedes exportar' },
+            { tip: 'Itera en tiempo real', detail: '"Cambia a barras horizontales y agrega tooltip"' },
+            { tip: 'Copia el código', detail: 'Pega el HTML en tu sitio o comparte como link' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <motion.div key={i} {...m(0.58 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-              <p className="text-[10px] text-white/25 leading-relaxed">{t.detail}</p>
+              <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -177,7 +177,7 @@ export function S3Slide03Canvas() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="COMUNICACIÓN VISUAL" hue={185} contextHint="Canvas para análisis visual" />
+      <S3Footer sectionLabel="FUNDAMENTOS VISUALES" hue={185} contextHint="Canvas para análisis visual" />
     </div>
   );
 }

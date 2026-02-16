@@ -94,7 +94,7 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   'S2Slide22Closing': lazy(() => import('@/generations/gen10/slides-s2/S2Slide22Closing').then(m => ({ default: m.S2Slide22Closing }))),
 
   // ============================================
-  // Gen 10 - Semana 3 (Comunicación y Creación Digital)
+  // Gen 10 - Semana 3 (Presentaciones con IA)
   // Orden: Cover → Recap → Agenda → Divider01 → Design → Canvas → VibeCoding →
   //   Divider02 → NotebookLM → ClaudeCode → Skills → PresentationAI → Automatizacion →
   //   Divider03 → CRM → MCPvsAPI → Cursor → VideoAI → Closing

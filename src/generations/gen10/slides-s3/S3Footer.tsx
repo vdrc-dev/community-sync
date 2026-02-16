@@ -43,14 +43,14 @@ export function S3Footer({ sectionLabel, hue = 330, showProgress = false, contex
             {contextHint && (
               <>
                 <div className="w-px h-2.5 bg-white/10" />
-                <span className="text-[9px] tracking-[0.18em] uppercase text-white/25">{contextHint}</span>
+                <span className="text-[10px] tracking-[0.18em] uppercase text-white/35">{contextHint}</span>
               </>
             )}
             {sectionLabel && (
               <>
                 <div className="w-px h-2.5" style={{ background: `hsl(${hue} 40% 50% / 0.15)` }} />
                 <span
-                  className="text-[9px] tracking-[0.2em] px-2 py-0.5 rounded-full border"
+                  className="text-[10px] tracking-[0.2em] px-2 py-0.5 rounded-full border"
                   style={{
                     color: `hsl(${hue} 75% 72% / 0.85)`,
                     borderColor: `hsl(${hue} 70% 58% / 0.3)`,

@@ -81,15 +81,15 @@ export function S3Slide08Automatizacion() {
             transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
           />
         </motion.div>
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-10 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-10 max-w-md mx-auto">
           Horas de trabajo repetitivo → minutos de supervisión
         </motion.p>
 
         {/* Before → After visual */}
         <motion.div {...m(0.2)} className="flex items-center justify-center gap-5 mb-12">
-          <div className="px-6 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] relative overflow-hidden">
+          <div className="px-6 py-3 rounded-xl border border-white/[0.08] bg-white/[0.02] relative overflow-hidden">
             {/* Strikethrough line that animates across "2h" */}
-            <p className="text-3xl font-black text-white/25 relative inline-block">
+            <p className="text-3xl font-black text-white/40 relative inline-block">
               2h
               {!isExporting && (
                 <motion.span
@@ -101,7 +101,7 @@ export function S3Slide08Automatizacion() {
                 />
               )}
             </p>
-            <p className="text-[10px] text-white/20 uppercase tracking-wider mt-1">manual</p>
+            <p className="text-[10px] text-white/35 uppercase tracking-wider mt-1">manual</p>
           </div>
           <motion.div {...(isExporting ? {} : { animate: { x: [0, 6, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
             <ArrowRight className="w-6 h-6" style={{ color: S3_ACCENT.violet.text }} />
@@ -150,7 +150,7 @@ export function S3Slide08Automatizacion() {
                     <Icon className="w-7 h-7" style={{ color: c.accent.text }} />
                   </div>
                   <p className="text-base font-black text-white">{c.title}</p>
-                  <p className="text-[9px] text-white/25 font-mono italic mt-1 leading-relaxed">{c.detail}</p>
+                  <p className="text-[10px] text-white/40 font-mono italic mt-1 leading-relaxed">{c.detail}</p>
                   <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
                     style={{ borderColor: `${c.accent.text}15`, background: `${c.accent.text}05` }}>
                     <Clock className="w-3 h-3" style={{ color: c.accent.text }} />

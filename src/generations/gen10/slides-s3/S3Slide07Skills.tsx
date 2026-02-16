@@ -57,7 +57,7 @@ export function S3Slide07Skills() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
         />
-        <motion.p {...m(0.15)} className="text-white/35 text-lg mb-14 max-w-md mx-auto">
+        <motion.p {...m(0.15)} className="text-white/45 text-lg mb-14 max-w-md mx-auto">
           Paquetes de instrucciones que multiplican a Claude
         </motion.p>
 
@@ -67,7 +67,7 @@ export function S3Slide07Skills() {
           {!isExporting && FLOATING_PILLS.map((pill, i) => (
             <motion.div
               key={pill.label}
-              className="absolute px-2.5 py-1 rounded-full text-[9px] font-semibold border pointer-events-none"
+              className="absolute px-2.5 py-1 rounded-full text-[10px] font-semibold border pointer-events-none"
               style={{
                 borderColor: S3_ACCENT.violet.border,
                 background: S3_ACCENT.violet.bg,
@@ -121,7 +121,7 @@ export function S3Slide07Skills() {
                   <div>
                     <p className="text-sm font-black text-white mb-1">{skill.name}</p>
                     <p className="text-[11px] text-white/35 leading-relaxed">{skill.tip}</p>
-                    <p className="text-[9px] text-white/20 font-mono mt-1 italic">{skill.example}</p>
+                    <p className="text-[10px] text-white/30 font-mono mt-1 italic">{skill.example}</p>
                   </div>
                 </div>
               </motion.div>

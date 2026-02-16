@@ -31,6 +31,21 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+/* ── Google Drive folders per generation ── */
+const GENERATION_MATERIALS: Record<number, string> = {
+  1: 'https://drive.google.com/drive/folders/1IqjBJpjB9KlnK2e0BIfJfLesaLDVGA1H?usp=sharing',
+  2: 'https://drive.google.com/drive/folders/1NRo-U33wBnZTHoJyIGRIGB5ztbA4favv?usp=sharing',
+  3: 'https://drive.google.com/drive/folders/1i5oQqKjoKm3qqB8SAlSuCeKVRvB38EHp?usp=sharing',
+  4: 'https://drive.google.com/drive/folders/1cZr5P7gh25_67SY00zdHIQNjDsRzMHg4?usp=sharing',
+  5: 'https://drive.google.com/drive/folders/1UHXOV2jRs1yPi2LMMPqX-NkxcukF-FXM?usp=sharing',
+  6: 'https://drive.google.com/drive/folders/1otjBivaxa61t4a5PQ-s94j4Afu2iZvLZ?usp=sharing',
+  7: 'https://drive.google.com/drive/folders/10oFF5FIsI4upeWLNwt1XPpEqIExR4yrP?usp=sharing',
+  8: 'https://drive.google.com/drive/folders/1-tuuQTeD9ljfsIdn1MEvPPbg6vPHJ0mC?usp=sharing',
+  9: 'https://drive.google.com/drive/folders/1zRkGMNafdrrM0iJruJ94L0Q1gF8Iktqr?usp=sharing',
+  10: 'https://drive.google.com/drive/folders/1gNQ9AVsZIB0OM7FYSTCVazC4Xc-wZiwi?usp=sharing',
+  11: 'https://drive.google.com/drive/folders/1PxXlr9RoGd9ZtZQvB52LsQCHVDB0K5dx?usp=sharing',
+};
+
 const MODULE_COLORS = [
   { gradient: 'from-blue-500/20 to-blue-500/5', text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/10', ring: 'ring-blue-500/20' },
   { gradient: 'from-primary/20 to-primary/5', text: 'text-primary', border: 'border-primary/20', bg: 'bg-primary/10', ring: 'ring-primary/20' },
@@ -171,6 +186,18 @@ export default function GenerationDetail() {
                   <Calendar className="w-3.5 h-3.5" />
                   <span className="font-mono">{dateRange}</span>
                 </div>
+              )}
+              {GENERATION_MATERIALS[genNumber] && (
+                <a
+                  href={GENERATION_MATERIALS[genNumber]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 mt-4 px-5 py-2.5 rounded-xl bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 text-sm font-medium hover:bg-yellow-500/20 hover:border-yellow-500/30 transition-all duration-300 hover:scale-[1.02]"
+                >
+                  <Folder className="w-4 h-4" />
+                  Materiales y Grabaciones
+                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                </a>
               )}
             </div>
             

@@ -13,7 +13,7 @@ const TOOLS = [
     icon: Presentation,
     hue: 263,
     accent: S3_ACCENT.violet,
-    badge: '⭐ TOP',
+    badge: 'TOP',
     speed: '30s',
     price: 'Free / $8',
     output: 'PPTX / PDF / Slides',
@@ -75,8 +75,8 @@ export function S3Slide07PresentationAI() {
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-16">
         {/* Header */}
         <motion.div {...m(0)} className="text-center mb-12">
-          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/25 block mb-3">
-            Creación Digital
+          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 block mb-3">
+            Herramientas de Creación
           </span>
           <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-3">
             Presentaciones con{' '}
@@ -99,7 +99,7 @@ export function S3Slide07PresentationAI() {
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.35, duration: 0.8, ease: S3_EASE }}
           />
-          <motion.p {...m(0.1)} className="text-white/25 text-base mt-4 max-w-md mx-auto">
+          <motion.p {...m(0.1)} className="text-white/40 text-base mt-4 max-w-md mx-auto">
             De ideas a slides profesionales — sin tocar diseño
           </motion.p>
         </motion.div>
@@ -159,25 +159,25 @@ export function S3Slide07PresentationAI() {
                     <h3 className="text-xl font-black text-white">{tool.name}</h3>
                     {tool.badge && (
                       <span
-                        className="px-2 py-0.5 rounded-full text-[8px] font-black"
+                        className="px-2 py-0.5 rounded-full text-[10px] font-black"
                         style={{ background: tool.accent.dot, color: '#04030a' }}
                       >
                         {tool.badge}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-white/30 mb-5">{tool.tagline}</p>
+                  <p className="text-xs text-white/40 mb-5">{tool.tagline}</p>
 
                   {/* Key stat row */}
                   <div className="flex items-center justify-center gap-4 mb-4">
                     <div className="text-center">
                       <p className="text-lg font-black" style={{ color: tool.accent.text }}>{tool.speed}</p>
-                      <p className="text-[8px] text-white/20 uppercase tracking-wider">Genera</p>
+                      <p className="text-[10px] text-white/35 uppercase tracking-wider">Genera</p>
                     </div>
                     <div className="w-px h-8" style={{ background: `${tool.accent.text}15` }} />
                     <div className="text-center">
                       <p className="text-lg font-black" style={{ color: tool.accent.text }}>{tool.price}</p>
-                      <p className="text-[8px] text-white/20 uppercase tracking-wider">Precio</p>
+                      <p className="text-[10px] text-white/35 uppercase tracking-wider">Precio</p>
                     </div>
                   </div>
 
@@ -200,7 +200,7 @@ export function S3Slide07PresentationAI() {
         {/* Workflow Pipeline */}
         <motion.div {...m(0.45)} className="flex items-center justify-center gap-2">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/40 mr-1" />
-          <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/20 mr-3">Workflow</span>
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/35 mr-3">Workflow</span>
           {WORKFLOW.map((step, i) => (
             <div key={step.tool} className="flex items-center gap-2">
               <div
@@ -208,18 +208,18 @@ export function S3Slide07PresentationAI() {
                 style={{ borderColor: step.accent.border, background: step.accent.bg }}
               >
                 <span
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black"
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black"
                   style={{ background: `${step.accent.text}25`, color: step.accent.text }}
                 >
                   {i + 1}
                 </span>
                 <div>
                   <p className="text-xs font-bold" style={{ color: step.accent.text }}>{step.tool}</p>
-                  <p className="text-[8px] text-white/20">{step.action}</p>
+                  <p className="text-[10px] text-white/35">{step.action}</p>
                 </div>
               </div>
               {i < WORKFLOW.length - 1 && (
-                <ChevronRight className="w-3 h-3 text-white/10" />
+                <ChevronRight className="w-3 h-3 text-white/30" />
               )}
             </div>
           ))}
