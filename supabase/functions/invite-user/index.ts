@@ -27,8 +27,10 @@ serve(async (req) => {
 
     // 1. Verify the caller is an admin
     const authHeader = req.headers.get('Authorization');
+    console.log('Auth header present:', !!authHeader);
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'No autorizado' }), {
+      console.error('No Authorization header found');
+      return new Response(JSON.stringify({ error: 'No autorizado - sin token de sesión' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -38,9 +40,11 @@ serve(async (req) => {
       global: { headers: { Authorization: authHeader } },
     });
 
-    const { data: { user: callerUser } } = await supabaseClient.auth.getUser();
+    const { data: { user: callerUser }, error: userError } = await supabaseClient.auth.getUser();
+    console.log('Caller user:', callerUser?.email, 'Error:', userError?.message);
     if (!callerUser) {
-      return new Response(JSON.stringify({ error: 'No autorizado' }), {
+      console.error('Could not get user from token:', userError?.message);
+      return new Response(JSON.stringify({ error: 'Sesión expirada. Por favor recarga la página e intenta de nuevo.' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -76,59 +80,36 @@ serve(async (req) => {
     const inviterName = inviterProfile?.full_name || '';
     const origin = req.headers.get('origin') || 'https://comunidad-vdrc.lovable.app';
 
-    // Check if user already exists in auth
-    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
-    const existingUser = existingUsers?.users?.find(u => u.email === email);
-
+    // Try to invite — handle "already registered" gracefully
     let inviteData: any = null;
+    const { data: inviteResult, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+      data: {
+        full_name: full_name || null,
+        invited_role: inviteRole,
+      },
+      redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
+    });
 
-    if (existingUser) {
-      // User already exists — re-send invite (generates new confirmation email)
-      const { data: resendData, error: resendError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-        data: {
-          full_name: full_name || existingUser.user_metadata?.full_name || null,
-          invited_role: inviteRole,
-        },
-        redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
-      });
-
-      if (resendError) {
-        console.error('Resend invite error:', resendError);
-        // If truly can't re-invite, just update the DB record and inform
-        // This can happen if user is already confirmed
-        if (resendError.message?.includes('already been registered') || resendError.message?.includes('already confirmed')) {
-          return new Response(JSON.stringify({ 
-            error: 'Este usuario ya completó su registro. No necesita nueva invitación.' 
-          }), {
-            status: 409,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
-        }
-        return new Response(JSON.stringify({ error: resendError.message || 'Error al reenviar invitación' }), {
-          status: 500,
+    if (inviteError) {
+      console.error('Invite error:', inviteError.message, inviteError);
+      
+      if (inviteError.message?.includes('already been registered') || 
+          inviteError.message?.includes('already exists') ||
+          (inviteError as any)?.code === 'email_exists') {
+        return new Response(JSON.stringify({ 
+          error: 'Este usuario ya completó su registro. No necesita nueva invitación.' 
+        }), {
+          status: 409,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      inviteData = resendData;
-    } else {
-      // New user — send first invite
-      const { data: newInviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-        data: {
-          full_name: full_name || null,
-          invited_role: inviteRole,
-        },
-        redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
-      });
 
-      if (inviteError) {
-        console.error('Invite error:', inviteError);
-        return new Response(JSON.stringify({ error: inviteError.message || 'Error al enviar invitación' }), {
-          status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      }
-      inviteData = newInviteData;
+      return new Response(JSON.stringify({ error: inviteError.message || 'Error al enviar invitación' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
+    inviteData = inviteResult;
 
     // 3. Record invitation in database (upsert to handle resends)
     const { error: dbError } = await supabaseAdmin.from('invitations').upsert({
