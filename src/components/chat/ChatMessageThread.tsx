@@ -17,6 +17,9 @@ interface ChatMessageThreadProps {
   messages: ChatMessage[];
   isLoading: boolean;
   memberCount?: number;
+  onlineCount?: number;
+  showMembersPanel?: boolean;
+  onToggleMembersPanel?: () => void;
   onSendMessage: (content: string) => void;
 }
 
@@ -51,6 +54,9 @@ export function ChatMessageThread({
   messages,
   isLoading,
   memberCount,
+  onlineCount,
+  showMembersPanel,
+  onToggleMembersPanel,
   onSendMessage,
 }: ChatMessageThreadProps) {
   const { user } = useAuth();
@@ -117,6 +123,31 @@ export function ChatMessageThread({
             ) : null}
           </div>
         </div>
+
+        {/* Members toggle */}
+        {onToggleMembersPanel && channelType === 'group' && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggleMembersPanel}
+            className={cn(
+              'h-8 gap-1.5 text-xs font-mono',
+              showMembersPanel
+                ? 'bg-primary/10 text-primary hover:bg-primary/15'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+            aria-label="Mostrar miembros"
+          >
+            <Users className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">{memberCount ?? 0}</span>
+            {onlineCount !== undefined && onlineCount > 0 && (
+              <span className="flex items-center gap-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                <span className="text-green-500/80">{onlineCount}</span>
+              </span>
+            )}
+          </Button>
+        )}
       </div>
 
       {/* Messages */}

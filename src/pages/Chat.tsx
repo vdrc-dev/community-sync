@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useChat } from '@/hooks/useChat';
+import { usePresence } from '@/hooks/usePresence';
 import { Header } from '@/components/layout/Header';
 import { BottomNavigation } from '@/components/layout/BottomNavigation';
 import { ChatSidebar } from '@/components/chat/ChatSidebar';
 import { ChatMessageThread } from '@/components/chat/ChatMessageThread';
+import { ChatMembersPanel } from '@/components/chat/ChatMembersPanel';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, Hash, ArrowLeft, Sparkles } from 'lucide-react';
@@ -18,6 +20,18 @@ export default function Chat() {
   const channelIdFromUrl = searchParams.get('channel');
   const [activeChannelId, setActiveChannelId] = useState<string | undefined>(channelIdFromUrl || undefined);
   const [showSidebar, setShowSidebar] = useState(true);
+  const [showMembers, setShowMembers] = useState(false);
+  const { onlineUsers } = usePresence('chat');
+
+  const onlineUserIds = useMemo(
+    () => new Set(onlineUsers.map(u => u.id)),
+    [onlineUsers]
+  );
+
+  const onlineChannelMemberCount = useMemo(() => {
+    if (!members) return 0;
+    return members.filter(m => onlineUserIds.has(m.user_id) || m.user_id === user?.id).length;
+  }, [members, onlineUserIds, user?.id]);
 
   const {
     channels,
@@ -133,16 +147,31 @@ export default function Chat() {
           </div>
 
           {activeChannel ? (
-            <ChatMessageThread
-              channelName={activeChannel.name || 'DM'}
-              channelType={activeChannel.channel_type as 'group' | 'dm'}
-              channelEmoji={activeChannel.icon_emoji || undefined}
-              channelDescription={activeChannel.description || undefined}
-              messages={messages || []}
-              isLoading={messagesLoading}
-              memberCount={members?.length}
-              onSendMessage={(content) => sendMessage.mutate({ content })}
-            />
+            <div className="flex flex-1 min-w-0 h-full">
+              <div className="flex-1 flex flex-col min-w-0">
+                <ChatMessageThread
+                  channelName={activeChannel.name || 'DM'}
+                  channelType={activeChannel.channel_type as 'group' | 'dm'}
+                  channelEmoji={activeChannel.icon_emoji || undefined}
+                  channelDescription={activeChannel.description || undefined}
+                  messages={messages || []}
+                  isLoading={messagesLoading}
+                  memberCount={members?.length}
+                  onlineCount={onlineChannelMemberCount}
+                  showMembersPanel={showMembers}
+                  onToggleMembersPanel={() => setShowMembers(!showMembers)}
+                  onSendMessage={(content) => sendMessage.mutate({ content })}
+                />
+              </div>
+              {showMembers && activeChannel.channel_type === 'group' && members && (
+                <ChatMembersPanel
+                  members={members}
+                  onlineUserIds={onlineUserIds}
+                  currentUserId={user?.id}
+                  onStartDM={(userId) => handleCreateDM(userId)}
+                />
+              )}
+            </div>
           ) : (
             <div className="flex-1 flex items-center justify-center">
               <motion.div
