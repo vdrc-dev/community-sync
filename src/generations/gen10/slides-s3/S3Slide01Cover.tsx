@@ -122,7 +122,7 @@ export function S3Slide01Cover() {
                       <motion.div
                         className="absolute -inset-1 rounded-full"
                         style={{ background: 'hsl(330 70% 60%)' }}
-                        animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }}
+                        animate={{ scale: [1, 2.5, 1], opacity: [0.4, 0, 0.4] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                     )}
@@ -321,7 +321,7 @@ export function S3Slide01Cover() {
                       stroke="hsl(330 75% 68% / 0.4)"
                       strokeWidth="0.4"
                       strokeDasharray="1.5 1.5"
-                      {...(isExporting ? {} : { animate: { opacity: [0.2, 1, 0.2] }, transition: { duration: 3 + i * 0.8, repeat: Infinity, ease: 'easeInOut' } })}
+                      {...(isExporting ? {} : { animate: { opacity: [0.15, 0.45, 0.15] }, transition: { duration: 3 + i * 0.8, repeat: Infinity, ease: 'easeInOut' } })}
                     />
                   ))}
                   {/* Pulsing nodes at constellation intersections */}
@@ -331,7 +331,7 @@ export function S3Slide01Cover() {
                       cx={cx} cy={cy} r="1.5"
                       fill={`hsl(${[330, 263, 185, 38][i]} 70% 65%)`}
                       {...(isExporting ? {} : {
-                        animate: { r: [1.5, 2.5, 1.5], opacity: [0.4, 0.9, 0.4] },
+                        animate: { r: [1.5, 2.5, 1.5], opacity: [0.25, 0.45, 0.25] },
                         transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 },
                       })}
                     />
@@ -346,7 +346,7 @@ export function S3Slide01Cover() {
                     return (
                       <motion.div key={i} className="w-20 h-20 rounded-2xl border flex items-center justify-center relative overflow-hidden"
                         style={{ borderColor: `${tool.color}35`, background: `${tool.color}0a` }}
-                        {...(isExporting ? {} : { animate: { scale: [1, 1.08, 1], opacity: [0.6, 1, 0.6], y: [0, -3, 0] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
+                        {...(isExporting ? {} : { animate: { scale: [1, 1.06, 1], opacity: [0.4, 0.7, 0.4], y: [0, -3, 0] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
                         {!isExporting && (
                           <motion.div className="absolute inset-0 pointer-events-none"
                             style={{ background: `linear-gradient(105deg, transparent 35%, ${tool.color}18 50%, transparent 65%)` }}

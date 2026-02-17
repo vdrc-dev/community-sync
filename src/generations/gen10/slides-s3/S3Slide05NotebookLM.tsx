@@ -93,7 +93,7 @@ export function S3Slide05NotebookLM() {
 
           {/* Arrow */}
           <motion.div {...m(0.3)}>
-            <ArrowRight className="w-5 h-5 text-white/25" />
+            <ArrowRight className="w-5 h-5 text-white/35" />
           </motion.div>
 
           {/* Central engine */}
@@ -102,21 +102,12 @@ export function S3Slide05NotebookLM() {
             className="relative w-40 h-40 rounded-2xl border flex flex-col items-center justify-center overflow-hidden"
             style={{ borderColor: 'hsl(185 70% 50% / 0.2)', background: 'hsl(185 70% 50% / 0.04)' }}
           >
-            {/* Orbital ring */}
-            {!isExporting && (
-              <motion.div
-                className="absolute -inset-3 rounded-[24px] border border-dashed pointer-events-none"
-                style={{ borderColor: 'hsl(185 70% 55% / 0.15)' }}
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              />
-            )}
             {/* Breathing glow */}
             {!isExporting && (
               <motion.div
                 className="absolute inset-0 rounded-2xl pointer-events-none"
                 style={{ background: 'hsl(185 70% 50% / 0.05)' }}
-                animate={{ scale: [1, 1.06, 1], opacity: [0.4, 0.8, 0.4] }}
+                animate={{ scale: [1, 1.06, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 3, repeat: Infinity }}
               />
             )}
@@ -138,7 +129,7 @@ export function S3Slide05NotebookLM() {
 
           {/* Arrow */}
           <motion.div {...m(0.35)}>
-            <ArrowRight className="w-5 h-5 text-white/25" />
+            <ArrowRight className="w-5 h-5 text-white/35" />
           </motion.div>
 
           {/* Outputs column */}

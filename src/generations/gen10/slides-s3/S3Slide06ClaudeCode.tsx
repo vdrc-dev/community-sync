@@ -228,7 +228,7 @@ export function S3Slide06ClaudeCode() {
               <div className="flex justify-center mb-4 mt-4">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
                   style={{ background: 'hsl(0 0% 100% / 0.02)', border: '1px solid hsl(0 0% 100% / 0.08)' }}>
-                  <Globe className="w-7 h-7 text-white/30" />
+                  <Globe className="w-7 h-7 text-white/35" />
                 </div>
               </div>
 
@@ -239,7 +239,7 @@ export function S3Slide06ClaudeCode() {
                 {WEB_LIMITS.map((l, i) => (
                   <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/[0.08]">
-                      <X className="w-3.5 h-3.5 text-white/30" />
+                      <X className="w-3.5 h-3.5 text-white/35" />
                     </div>
                     <span className="text-sm text-white/40">{l.label}</span>
                   </div>
@@ -249,8 +249,8 @@ export function S3Slide06ClaudeCode() {
               {/* Capacity bar */}
               <div className="mt-4 pt-3 border-t border-white/[0.08]">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] text-white/30 font-semibold tracking-wider uppercase">Capacidad</span>
-                  <span className="text-[11px] font-black text-white/30 tabular-nums">30%</span>
+                  <span className="text-[10px] text-white/35 font-semibold tracking-wider uppercase">Capacidad</span>
+                  <span className="text-[11px] font-black text-white/35 tabular-nums">30%</span>
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden bg-white/[0.04]">
                   <motion.div className="h-full rounded-full bg-white/10"
@@ -300,7 +300,7 @@ export function S3Slide06ClaudeCode() {
                   ) : (
                     <span className="text-[10px] text-white/50 font-medium">{s.text}</span>
                   )}
-                  <StepIcon className="w-3 h-3 shrink-0 text-white/30" />
+                  <StepIcon className="w-3 h-3 shrink-0 text-white/40" />
                 </motion.div>
               );
             })}

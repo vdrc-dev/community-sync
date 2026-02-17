@@ -83,19 +83,9 @@ export function S3Slide09CRM() {
                     />
                   )}
                   <div className="relative flex flex-col items-center gap-2">
-                    <div className="relative w-14 h-14 flex items-center justify-center">
-                      {!isExporting && (
-                        <motion.div
-                          className="absolute inset-[-3px] rounded-xl border border-dashed"
-                          style={{ borderColor: `${step.accent.text}25` }}
-                          animate={{ rotate: [0, 360] }}
-                          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                        />
-                      )}
-                      <div className="w-14 h-14 rounded-xl border flex items-center justify-center relative z-10"
-                        style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
-                        <Icon className="w-7 h-7" style={{ color: step.accent.text }} />
-                      </div>
+                    <div className="w-14 h-14 rounded-xl border flex items-center justify-center"
+                      style={{ borderColor: `${step.accent.text}25`, background: `${step.accent.text}08` }}>
+                      <Icon className="w-7 h-7" style={{ color: step.accent.text }} />
                     </div>
                   </div>
                   <div className="relative">
@@ -115,7 +105,7 @@ export function S3Slide09CRM() {
                             background: `linear-gradient(90deg, ${step.accent.dot}, ${PIPELINE[i + 1].accent.dot})`,
                             filter: 'blur(2px)',
                           }}
-                          animate={{ opacity: [0.4, 0.9, 0.4] }}
+                          animate={{ opacity: [0.25, 0.45, 0.25] }}
                           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                         />
                       )}

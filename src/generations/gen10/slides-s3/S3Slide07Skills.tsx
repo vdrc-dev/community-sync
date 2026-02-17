@@ -81,7 +81,7 @@ export function S3Slide07Skills() {
                   <div>
                     <p className="text-sm font-black text-white mb-1">{skill.name}</p>
                     <p className="text-[11px] text-white/40 leading-relaxed">{skill.tip}</p>
-                    <p className="text-[10px] text-white/35 font-mono mt-1 italic">{skill.example}</p>
+                    <p className="text-[10px] text-white/40 font-mono mt-1 italic">{skill.example}</p>
                   </div>
                 </div>
               </motion.div>

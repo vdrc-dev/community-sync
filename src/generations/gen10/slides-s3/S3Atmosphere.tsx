@@ -243,7 +243,7 @@ export function S3Atmosphere({
                 x: [0, p.drift, -p.drift * 0.5, 0],
                 y: [0, -p.rise, 0],
                 scale: [0.8, 1.3, 0.8],
-                opacity: [0.03, 0.55, 0.03],
+                opacity: [0.03, 0.45, 0.03],
               }}
               transition={{
                 duration: p.duration,
