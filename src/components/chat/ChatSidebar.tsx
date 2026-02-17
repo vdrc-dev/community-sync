@@ -285,6 +285,7 @@ export function ChatSidebar({
             >
               <div className="relative">
                 <Avatar className="h-6 w-6">
+                  <AvatarImage src={(channel as any).dm_avatar_url || undefined} />
                   <AvatarFallback className="bg-accent/20 text-accent text-[10px] font-mono">
                     {(channel.name || 'DM').charAt(0).toUpperCase()}
                   </AvatarFallback>
