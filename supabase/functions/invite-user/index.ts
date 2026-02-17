@@ -1,24 +1,14 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.91.0";
 
-const ALLOWED_ORIGINS = [
-  'https://comunidad-vdrc.vercel.app',
-  'http://localhost:8080',
-  'http://localhost:5173',
-];
-
-function getCorsHeaders(req: Request) {
-  const origin = req.headers.get('origin') || '';
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  };
-}
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
+};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: getCorsHeaders(req) });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
@@ -27,7 +17,7 @@ serve(async (req) => {
     if (!email) {
       return new Response(JSON.stringify({ error: 'Email es requerido' }), {
         status: 400,
-        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
@@ -40,7 +30,7 @@ serve(async (req) => {
     if (!authHeader) {
       return new Response(JSON.stringify({ error: 'No autorizado' }), {
         status: 401,
-        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
@@ -52,7 +42,7 @@ serve(async (req) => {
     if (!callerUser) {
       return new Response(JSON.stringify({ error: 'No autorizado' }), {
         status: 401,
-        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
@@ -67,7 +57,7 @@ serve(async (req) => {
     if (!adminRole) {
       return new Response(JSON.stringify({ error: 'Solo administradores pueden invitar usuarios' }), {
         status: 403,
-        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
@@ -84,7 +74,7 @@ serve(async (req) => {
       .maybeSingle();
 
     const inviterName = inviterProfile?.full_name || '';
-    const origin = req.headers.get('origin') || 'https://comunidad-vdrc.vercel.app';
+    const origin = req.headers.get('origin') || 'https://comunidad-vdrc.lovable.app';
 
     const { data: inviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
       data: {
@@ -101,13 +91,13 @@ serve(async (req) => {
       if (inviteError.message?.includes('already been registered') || inviteError.message?.includes('already exists')) {
         return new Response(JSON.stringify({ error: 'Este email ya está registrado en la plataforma' }), {
           status: 409,
-          headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
 
       return new Response(JSON.stringify({ error: inviteError.message || 'Error al enviar invitación' }), {
         status: 500,
-        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
@@ -133,7 +123,7 @@ serve(async (req) => {
       user_id: inviteData?.user?.id,
       inviter_name: inviterName,
     }), {
-      headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
   } catch (error) {
@@ -142,7 +132,7 @@ serve(async (req) => {
       error: error instanceof Error ? error.message : 'Error desconocido',
     }), {
       status: 500,
-      headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
 });
