@@ -76,29 +76,58 @@ serve(async (req) => {
     const inviterName = inviterProfile?.full_name || '';
     const origin = req.headers.get('origin') || 'https://comunidad-vdrc.lovable.app';
 
-    const { data: inviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-      data: {
-        full_name: full_name || null,
-        invited_role: inviteRole,
-      },
-      redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
-    });
+    // Check if user already exists in auth
+    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
+    const existingUser = existingUsers?.users?.find(u => u.email === email);
 
-    if (inviteError) {
-      console.error('Invite error:', inviteError);
+    let inviteData: any = null;
 
-      // Check if user already exists
-      if (inviteError.message?.includes('already been registered') || inviteError.message?.includes('already exists')) {
-        return new Response(JSON.stringify({ error: 'Este email ya está registrado en la plataforma' }), {
-          status: 409,
+    if (existingUser) {
+      // User already exists — re-send invite (generates new confirmation email)
+      const { data: resendData, error: resendError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+        data: {
+          full_name: full_name || existingUser.user_metadata?.full_name || null,
+          invited_role: inviteRole,
+        },
+        redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
+      });
+
+      if (resendError) {
+        console.error('Resend invite error:', resendError);
+        // If truly can't re-invite, just update the DB record and inform
+        // This can happen if user is already confirmed
+        if (resendError.message?.includes('already been registered') || resendError.message?.includes('already confirmed')) {
+          return new Response(JSON.stringify({ 
+            error: 'Este usuario ya completó su registro. No necesita nueva invitación.' 
+          }), {
+            status: 409,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        return new Response(JSON.stringify({ error: resendError.message || 'Error al reenviar invitación' }), {
+          status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-
-      return new Response(JSON.stringify({ error: inviteError.message || 'Error al enviar invitación' }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      inviteData = resendData;
+    } else {
+      // New user — send first invite
+      const { data: newInviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+        data: {
+          full_name: full_name || null,
+          invited_role: inviteRole,
+        },
+        redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
       });
+
+      if (inviteError) {
+        console.error('Invite error:', inviteError);
+        return new Response(JSON.stringify({ error: inviteError.message || 'Error al enviar invitación' }), {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      inviteData = newInviteData;
     }
 
     // 3. Record invitation in database (upsert to handle resends)
