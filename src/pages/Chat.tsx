@@ -23,16 +23,6 @@ export default function Chat() {
   const [showMembers, setShowMembers] = useState(false);
   const { onlineUsers } = usePresence('chat');
 
-  const onlineUserIds = useMemo(
-    () => new Set(onlineUsers.map(u => u.id)),
-    [onlineUsers]
-  );
-
-  const onlineChannelMemberCount = useMemo(() => {
-    if (!members) return 0;
-    return members.filter(m => onlineUserIds.has(m.user_id) || m.user_id === user?.id).length;
-  }, [members, onlineUserIds, user?.id]);
-
   const {
     channels,
     channelsLoading,
@@ -47,6 +37,16 @@ export default function Chat() {
     groupChannels,
     dmChannels,
   } = useChat(activeChannelId);
+
+  const onlineUserIds = useMemo(
+    () => new Set(onlineUsers.map(u => u.id)),
+    [onlineUsers]
+  );
+
+  const onlineChannelMemberCount = useMemo(() => {
+    if (!members) return 0;
+    return members.filter(m => onlineUserIds.has(m.user_id) || m.user_id === user?.id).length;
+  }, [members, onlineUserIds, user?.id]);
 
   // Set active channel from URL or first available
   useEffect(() => {
