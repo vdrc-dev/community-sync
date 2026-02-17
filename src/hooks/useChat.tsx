@@ -51,7 +51,42 @@ export function useChat(channelId?: string) {
   const queryClient = useQueryClient();
   const seedingRef = useRef(false);
 
-  // Fetch user's channels
+  // Auto-join all group channels
+  const autoJoinRef = useRef(false);
+  useEffect(() => {
+    if (!user || autoJoinRef.current) return;
+    autoJoinRef.current = true;
+    (async () => {
+      try {
+        // Get all group channels
+        const { data: allGroupChannels } = await supabase
+          .from('chat_channels')
+          .select('id')
+          .eq('channel_type', 'group');
+        if (!allGroupChannels || allGroupChannels.length === 0) return;
+
+        // Get user's existing memberships
+        const { data: myMemberships } = await supabase
+          .from('chat_channel_members')
+          .select('channel_id')
+          .eq('user_id', user.id);
+        const memberChannelIds = new Set(myMemberships?.map(m => m.channel_id) || []);
+
+        // Join channels user isn't a member of
+        const toJoin = allGroupChannels.filter(c => !memberChannelIds.has(c.id));
+        if (toJoin.length > 0) {
+          await supabase.from('chat_channel_members').insert(
+            toJoin.map(c => ({ channel_id: c.id, user_id: user.id, role: 'member' }))
+          );
+          queryClient.invalidateQueries({ queryKey: ['chat-channels'] });
+        }
+      } catch (e) {
+        console.error('Auto-join error:', e);
+      }
+    })();
+  }, [user, queryClient]);
+
+  // Fetch user's channels (enriched with DM partner names)
   const { data: channels, isLoading: channelsLoading } = useQuery({
     queryKey: ['chat-channels', user?.id],
     queryFn: async () => {
@@ -60,6 +95,46 @@ export function useChat(channelId?: string) {
         .select('*')
         .order('last_message_at', { ascending: false });
       if (error) throw error;
+
+      // Enrich DM channels with the other user's name
+      const dmChannels = (data || []).filter(c => c.channel_type === 'dm');
+      if (dmChannels.length > 0) {
+        const dmIds = dmChannels.map(c => c.id);
+        const { data: dmMembers } = await supabase
+          .from('chat_channel_members')
+          .select('channel_id, user_id')
+          .in('channel_id', dmIds);
+
+        // Find the other user in each DM
+        const otherUserIds = new Set<string>();
+        const channelToOther = new Map<string, string>();
+        for (const m of dmMembers || []) {
+          if (m.user_id !== user!.id) {
+            otherUserIds.add(m.user_id);
+            channelToOther.set(m.channel_id, m.user_id);
+          }
+        }
+
+        if (otherUserIds.size > 0) {
+          const { data: profiles } = await supabase
+            .from('profiles')
+            .select('user_id, full_name, avatar_url')
+            .in('user_id', [...otherUserIds]);
+          const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+          for (const ch of dmChannels) {
+            const otherId = channelToOther.get(ch.id);
+            if (otherId) {
+              const profile = profileMap.get(otherId);
+              if (profile) {
+                (ch as any).name = profile.full_name || 'Usuario';
+                (ch as any).dm_avatar_url = profile.avatar_url;
+              }
+            }
+          }
+        }
+      }
+
       return data as ChatChannel[];
     },
     enabled: !!user,
