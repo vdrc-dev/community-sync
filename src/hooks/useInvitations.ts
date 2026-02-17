@@ -45,33 +45,18 @@ export function useInvitations() {
   // Invite a new user via edge function
   const inviteUser = useMutation({
     mutationFn: async ({ email, full_name, role }: InviteUserParams) => {
-      const { data: { session: currentSession } } = await supabase.auth.getSession();
-      if (!currentSession) throw new Error('No hay sesión activa');
+      const { data, error } = await supabase.functions.invoke('invite-user', {
+        body: {
+          email,
+          full_name: full_name || null,
+          role: role || 'participant',
+        },
+      });
 
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/invite-user`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${currentSession.access_token}`,
-            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          },
-          body: JSON.stringify({
-            email,
-            full_name: full_name || null,
-            role: role || 'participant',
-          }),
-        }
-      );
+      if (error) throw new Error(error.message || 'Error al enviar invitación');
+      if (data?.error) throw new Error(data.error);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Error al enviar invitación');
-      }
-
-      return result;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invitations'] });
