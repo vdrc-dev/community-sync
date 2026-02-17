@@ -55,8 +55,7 @@ function showBrowserNotification(title: string, body: string, channelId: string)
     body,
     icon: '/logos/vdrc-icon.png',
     tag: `chat-${channelId}`,
-    renotify: true,
-  });
+  } as NotificationOptions);
 
   notif.onclick = () => {
     window.focus();
