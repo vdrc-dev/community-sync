@@ -70,7 +70,7 @@ serve(async (req) => {
     const { data: inviterProfile } = await supabaseAdmin
       .from('profiles')
       .select('full_name')
-      .eq('id', callerUser.id)
+      .eq('user_id', callerUser.id)
       .maybeSingle();
 
     const inviterName = inviterProfile?.full_name || '';
@@ -101,14 +101,15 @@ serve(async (req) => {
       });
     }
 
-    // 3. Record invitation in database
-    const { error: dbError } = await supabaseAdmin.from('invitations').insert({
+    // 3. Record invitation in database (upsert to handle resends)
+    const { error: dbError } = await supabaseAdmin.from('invitations').upsert({
       email,
       role: inviteRole,
       full_name: full_name || null,
       invited_by: callerUser.id,
       status: 'pending',
-    });
+      created_at: new Date().toISOString(),
+    }, { onConflict: 'email' });
 
     if (dbError) {
       console.error('DB insert error:', dbError);
