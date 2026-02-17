@@ -1854,6 +1854,10 @@ export type Database = {
         Args: { _prompt_id: string }
         Returns: undefined
       }
+      is_chat_channel_member: {
+        Args: { _channel_id: string; _user_id: string }
+        Returns: boolean
+      }
       track_activity: {
         Args: {
           _resource_id: string
