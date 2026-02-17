@@ -67,7 +67,18 @@ export function useInvitations() {
         },
       });
 
-      if (error) throw new Error(error.message || 'Error al enviar invitación');
+      if (error) {
+        // Try to extract the actual error message from the response
+        let message = error.message || 'Error al enviar invitación';
+        try {
+          const context = (error as any)?.context;
+          if (context && typeof context.json === 'function') {
+            const body = await context.json();
+            if (body?.error) message = body.error;
+          }
+        } catch {}
+        throw new Error(message);
+      }
       if (data?.error) throw new Error(data.error);
 
       return data;
