@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useChatUnread } from '@/hooks/useChatNotifications';
 
 interface ChatSidebarProps {
   activeChannelId?: string;
@@ -31,6 +32,8 @@ export function ChatSidebar({
   onCreateDM,
 }: ChatSidebarProps) {
   const { user } = useAuth();
+  const unreadByChannel = useChatUnread((s) => s.unreadByChannel);
+  const clearChannel = useChatUnread((s) => s.clear);
   const [search, setSearch] = useState('');
   const [showNewChannel, setShowNewChannel] = useState(false);
   const [showNewDM, setShowNewDM] = useState(false);
@@ -178,12 +181,16 @@ export function ChatSidebar({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.15, delay: i * 0.02 }}
-              onClick={() => onSelectChannel(channel.id)}
+              onClick={() => {
+                onSelectChannel(channel.id);
+                clearChannel(channel.id);
+              }}
               className={cn(
                 'w-full flex items-center gap-2.5 px-3 py-2 mx-1 rounded-lg text-sm transition-all duration-200 group',
                 activeChannelId === channel.id
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground',
+                unreadByChannel[channel.id] && activeChannelId !== channel.id && 'font-semibold text-sidebar-foreground'
               )}
             >
               <span className="text-base shrink-0 w-5 text-center">
@@ -191,12 +198,17 @@ export function ChatSidebar({
               </span>
               <div className="flex-1 min-w-0 text-left">
                 <span className="truncate block">{channel.name || 'Sin nombre'}</span>
-                {channel.description && activeChannelId !== channel.id && (
+                {channel.description && activeChannelId !== channel.id && !unreadByChannel[channel.id] && (
                   <span className="text-[10px] text-muted-foreground/50 truncate block">
                     {channel.description}
                   </span>
                 )}
               </div>
+              {unreadByChannel[channel.id] && activeChannelId !== channel.id && (
+                <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold px-1 shrink-0">
+                  {unreadByChannel[channel.id] > 99 ? '99+' : unreadByChannel[channel.id]}
+                </span>
+              )}
             </motion.button>
           ))}
         </AnimatePresence>
@@ -275,12 +287,16 @@ export function ChatSidebar({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.15, delay: i * 0.02 }}
-              onClick={() => onSelectChannel(channel.id)}
+              onClick={() => {
+                onSelectChannel(channel.id);
+                clearChannel(channel.id);
+              }}
               className={cn(
                 'w-full flex items-center gap-2.5 px-3 py-2 mx-1 rounded-lg text-sm transition-all duration-200',
                 activeChannelId === channel.id
                   ? 'bg-primary/10 text-primary font-medium'
-                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground',
+                unreadByChannel[channel.id] && activeChannelId !== channel.id && 'font-semibold text-sidebar-foreground'
               )}
             >
               <div className="relative">
@@ -290,8 +306,16 @@ export function ChatSidebar({
                     {(channel.name || 'DM').charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
+                {unreadByChannel[channel.id] && activeChannelId !== channel.id && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-sidebar" />
+                )}
               </div>
               <span className="truncate flex-1 text-left">{channel.name || 'Mensaje Directo'}</span>
+              {unreadByChannel[channel.id] && activeChannelId !== channel.id && (
+                <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold px-1 shrink-0">
+                  {unreadByChannel[channel.id] > 99 ? '99+' : unreadByChannel[channel.id]}
+                </span>
+              )}
             </motion.button>
           ))}
         </AnimatePresence>

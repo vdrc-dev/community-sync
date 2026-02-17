@@ -20,26 +20,40 @@ export interface InviteUserParams {
 }
 
 export function useInvitations() {
-  const { session } = useAuth();
+  const { session, isAdmin } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch all invitations
+  // Fetch all invitations (only for admins — RLS blocks non-admins)
   const {
     data: invitations = [],
     isLoading,
     error,
+    refetch,
   } = useQuery({
-    queryKey: ['invitations'],
+    queryKey: ['invitations', isAdmin],
     queryFn: async () => {
+      // Ensure we have a fresh session token
+      const { data: { session: freshSession } } = await supabase.auth.getSession();
+      if (!freshSession) return [] as Invitation[];
+
       const { data, error } = await (supabase as any)
         .from('invitations')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.warn('Error fetching invitations:', error.message);
+        // Return empty on permission errors instead of crashing
+        if (error.message?.includes('permission') || error.code === '42501' || error.code === 'PGRST301') {
+          return [] as Invitation[];
+        }
+        throw error;
+      }
       return (data ?? []) as Invitation[];
     },
-    enabled: !!session,
+    enabled: !!session && isAdmin,
+    retry: 1,
+    retryDelay: 1000,
   });
 
   // Invite a new user via edge function
@@ -67,6 +81,7 @@ export function useInvitations() {
     invitations,
     isLoading,
     error,
+    refetch,
     inviteUser: inviteUser.mutateAsync,
     isInviting: inviteUser.isPending,
     inviteError: inviteUser.error,

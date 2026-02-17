@@ -33,7 +33,8 @@ import {
   Workflow,
   Presentation,
   Globe,
-  ExternalLink
+  ExternalLink,
+  MessageCircle
 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -42,6 +43,7 @@ import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { StreakDisplay } from '@/components/streaks/StreakDisplay';
 import { OnlineUsers } from '@/components/presence/OnlineUsers';
 import { useLinkPrefetch } from '@/hooks/usePrefetcher';
+import { useChatUnread } from '@/hooks/useChatNotifications';
 
 // Optimized NavLink with prefetch on hover
 function PrefetchLink({ 
@@ -150,6 +152,8 @@ export function Header() {
     setMobileMenuOpen(false);
   }, []);
 
+  const totalUnread = useChatUnread((s) => s.totalUnread);
+
   const navLinks = useMemo(() => [
     { href: '/generations', label: 'Generaciones', icon: BookOpen, shortcut: 'G G' },
     { href: '/tools', label: 'Herramientas', icon: Wrench, shortcut: 'G T' },
@@ -229,6 +233,29 @@ export function Header() {
                 <div className="hidden sm:block">
                   <PointsDisplay compact />
                 </div>
+
+                {/* Chat */}
+                <Tooltip delayDuration={300}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="relative h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                      onClick={() => navigate('/chat')}
+                      aria-label="Chat"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {totalUnread > 0 && (
+                        <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-bold px-1 shadow-lg shadow-red-500/30 ring-2 ring-background animate-in zoom-in-50 duration-200">
+                          {totalUnread > 99 ? '99+' : totalUnread}
+                        </span>
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    {totalUnread > 0 ? `Chat · ${totalUnread} sin leer` : 'Chat'}
+                  </TooltipContent>
+                </Tooltip>
 
                 {/* Notifications */}
                 <NotificationBell />

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { useChatUnread } from '@/hooks/useChatNotifications';
 import {
   Sheet,
   SheetContent,
@@ -61,6 +62,7 @@ export function BottomNavigation() {
   const { user } = useAuth();
   const [sheetOpen, setSheetOpen] = useState(false);
   const { recentPages } = useRecentlyVisited();
+  const totalUnread = useChatUnread((s) => s.totalUnread);
 
   if (!user) return null;
 
@@ -101,8 +103,18 @@ export function BottomNavigation() {
                 <motion.div
                   whileTap={{ scale: 0.85 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                  className="relative"
                 >
                   <item.icon className={cn('w-5 h-5 mx-auto', active && 'text-primary')} />
+                  {item.href === '/chat' && totalUnread > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-bold px-1 shadow-lg shadow-red-500/30 ring-2 ring-background"
+                    >
+                      {totalUnread > 99 ? '99+' : totalUnread}
+                    </motion.span>
+                  )}
                 </motion.div>
                 <span className={cn("text-[10px] mt-0.5 font-medium", active && "font-semibold text-primary")}>{item.label}</span>
               </Link>

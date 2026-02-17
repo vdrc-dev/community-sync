@@ -106,7 +106,7 @@ function StatCard({ icon: Icon, label, value, color, delay }: StatCardProps) {
 }
 
 export function InvitationsList() {
-  const { invitations, isLoading, error, inviteUser, isInviting } = useInvitations();
+  const { invitations, isLoading, error, refetch, inviteUser, isInviting } = useInvitations();
   const { toast } = useToast();
   const [resendingId, setResendingId] = useState<string | null>(null);
 
@@ -190,6 +190,15 @@ export function InvitationsList() {
             <div className="text-center py-12 text-muted-foreground">
               <AlertCircle className="w-8 h-8 mx-auto mb-3 text-destructive/50" />
               <p className="text-sm">Error al cargar invitaciones</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetch()}
+                className="mt-3 text-xs gap-1.5"
+              >
+                <RotateCw className="w-3 h-3" />
+                Reintentar
+              </Button>
             </div>
           ) : invitations.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
