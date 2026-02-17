@@ -67,7 +67,7 @@ export default function Auth() {
   const checkInvitation = async (emailToCheck: string): Promise<boolean> => {
     setCheckingInvite(true);
     try {
-      const { data, error } = await supabase.rpc('check_invitation_status', {
+      const { data, error } = await (supabase as any).rpc('check_invitation_status', {
         check_email: emailToCheck,
       });
       if (error) {
@@ -214,7 +214,7 @@ export default function Auth() {
       }
 
       // Submit access request via RPC (bypasses RLS)
-      const { data, error } = await supabase.rpc('submit_access_request', {
+      const { data, error } = await (supabase as any).rpc('submit_access_request', {
         req_email: email,
         req_full_name: fullName,
         req_message: message || null,

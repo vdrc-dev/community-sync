@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_requests: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          message: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          message?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       activity_log: {
         Row: {
           action: string
@@ -1862,6 +1895,10 @@ export type Database = {
         Returns: boolean
       }
       calculate_user_roi: { Args: { _user_id: string }; Returns: Json }
+      check_invitation_status: {
+        Args: { check_email: string }
+        Returns: boolean
+      }
       create_notification: {
         Args: {
           _link?: string
@@ -1890,6 +1927,10 @@ export type Database = {
       is_chat_channel_member: {
         Args: { _channel_id: string; _user_id: string }
         Returns: boolean
+      }
+      submit_access_request: {
+        Args: { req_email: string; req_full_name: string; req_message?: string }
+        Returns: Json
       }
       track_activity: {
         Args: {
