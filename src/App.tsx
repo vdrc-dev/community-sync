@@ -24,6 +24,7 @@ import { ErrorBoundary } from "@/components/ui/error-boundary";
 // Core
 const Home = lazy(() => import("./pages/Home"));
 const Auth = lazy(() => import("./pages/Auth"));
+const Welcome = lazy(() => import("./pages/Welcome"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -112,6 +113,7 @@ const App = () => (
               {/* ── Core ─────────────────────────────── */}
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/welcome" element={<Welcome />} />
               <Route path="/profile" element={<Profile />} />
 
               {/* ── Generations & Learning ────────────── */}

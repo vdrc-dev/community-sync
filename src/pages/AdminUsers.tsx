@@ -60,7 +60,7 @@ export default function AdminUsers() {
         </motion.div>
 
         {/* Content */}
-        <div className="space-y-6 max-w-4xl">
+        <div className="space-y-6 max-w-5xl">
           <InviteUserForm />
           <InvitationsList />
         </div>

@@ -386,8 +386,8 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             >
               {[
                 { label: 'Gratuito', desc: 'Contenido abierto', icon: Sparkles, hue: 160 },
-                { label: '100% Practico', desc: 'Casos reales', icon: Zap, hue: 45 },
-                { label: 'En Espanol', desc: 'Hecho en Chile', icon: Users, hue: 200 },
+                { label: '100% Práctico', desc: 'Casos reales', icon: Zap, hue: 45 },
+                { label: 'En Español', desc: 'Hecho en Chile', icon: Users, hue: 200 },
                 { label: 'Actualizado', desc: 'Cada semana', icon: Clock, hue: 263 },
               ].map((prop, i) => (
                 <motion.div

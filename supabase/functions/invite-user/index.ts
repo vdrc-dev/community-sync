@@ -76,12 +76,22 @@ serve(async (req) => {
 
     const inviteRole = role || 'participant';
 
+    // Fetch inviter name for the welcome page context
+    const { data: inviterProfile } = await supabaseAdmin
+      .from('profiles')
+      .select('full_name')
+      .eq('id', callerUser.id)
+      .maybeSingle();
+
+    const inviterName = inviterProfile?.full_name || '';
+    const origin = req.headers.get('origin') || 'https://comunidad-vdrc.vercel.app';
+
     const { data: inviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
       data: {
         full_name: full_name || null,
         invited_role: inviteRole,
       },
-      redirectTo: `${req.headers.get('origin') || 'https://comunidad-vdrc.vercel.app'}/`,
+      redirectTo: `${origin}/welcome?email=${encodeURIComponent(email)}`,
     });
 
     if (inviteError) {
@@ -121,6 +131,7 @@ serve(async (req) => {
       success: true,
       message: `Invitación enviada a ${email}`,
       user_id: inviteData?.user?.id,
+      inviter_name: inviterName,
     }), {
       headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
     });

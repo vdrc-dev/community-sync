@@ -5,14 +5,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
-import { X, ArrowRight, ArrowLeft, Sparkles, BookOpen, Calculator, Zap, FlaskConical, CheckCircle, Globe, Presentation, Users } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Sparkles, BookOpen, Calculator, Zap, FlaskConical, CheckCircle, Globe, Presentation, Users, Heart } from 'lucide-react';
 
 interface TourStep {
   id: string;
   title: string;
   description: string;
   icon: React.ReactNode;
-  target?: string; // CSS selector for highlighting
+  target?: string;
   position: 'center' | 'top' | 'bottom';
   action?: {
     label: string;
@@ -20,55 +20,74 @@ interface TourStep {
   };
 }
 
-const TOUR_STEPS: TourStep[] = [
-  {
+function buildTourSteps(inviterName?: string): TourStep[] {
+  const steps: TourStep[] = [];
+
+  if (inviterName) {
+    steps.push({
+      id: 'invited-welcome',
+      title: `Bienvenido! 🎉`,
+      description: `${inviterName} te recomendó este espacio. El Portal VDRC es tu hub central para dominar la productividad digital con IA.`,
+      icon: <Heart className="w-8 h-8 text-rose-500" />,
+      position: 'center',
+    });
+  }
+
+  steps.push({
     id: 'welcome',
     title: 'Bienvenido al Portal VDRC',
-    description: 'Este es tu hub central para el Taller de Productividad Digital con IA. Te mostramos lo esencial en 5 pasos.',
+    description: inviterName
+      ? 'Te mostramos lo esencial en unos pasos rápidos.'
+      : 'Este es tu hub central para el Taller de Productividad Digital con IA. Te mostramos lo esencial en 5 pasos.',
     icon: <Sparkles className="w-8 h-8 text-primary" />,
     position: 'center',
-  },
-  {
-    id: 'generations',
-    title: 'Clases y Materiales',
-    description: 'Accede a grabaciones, presentaciones y recursos organizados por generación. Todo el contenido del programa en un solo lugar.',
-    icon: <BookOpen className="w-8 h-8 text-blue-500" />,
-    position: 'center',
-    action: {
-      label: 'Ver Clases',
-      href: '/generations',
+  });
+
+  steps.push(
+    {
+      id: 'generations',
+      title: 'Clases y Materiales',
+      description: 'Accede a grabaciones, presentaciones y recursos organizados por generación. Todo el contenido del programa en un solo lugar.',
+      icon: <BookOpen className="w-8 h-8 text-blue-500" />,
+      position: 'center',
+      action: {
+        label: 'Ver Clases',
+        href: '/generations',
+      },
     },
-  },
-  {
-    id: 'workflows',
-    title: 'Workflows Interactivos',
-    description: 'Automatiza tareas paso a paso con workflows guiados. Personaliza cada paso con tus propios datos y ejecuta con IA.',
-    icon: <Zap className="w-8 h-8 text-yellow-500" />,
-    position: 'center',
-    action: {
-      label: 'Ver Workflows',
-      href: '/workflows',
+    {
+      id: 'workflows',
+      title: 'Workflows Interactivos',
+      description: 'Automatiza tareas paso a paso con workflows guiados. Personaliza cada paso con tus propios datos y ejecuta con IA.',
+      icon: <Zap className="w-8 h-8 text-yellow-500" />,
+      position: 'center',
+      action: {
+        label: 'Ver Workflows',
+        href: '/workflows',
+      },
     },
-  },
-  {
-    id: 'community',
-    title: 'Comunidad',
-    description: 'Conecta con otros participantes, comparte recursos y aprende junto a la comunidad en los espacios de discusión.',
-    icon: <Users className="w-8 h-8 text-accent" />,
-    position: 'center',
-    action: {
-      label: 'Ir a Comunidad',
-      href: '/community',
+    {
+      id: 'community',
+      title: 'Comunidad',
+      description: 'Conecta con otros participantes, comparte recursos y aprende junto a la comunidad en los espacios de discusión.',
+      icon: <Users className="w-8 h-8 text-accent" />,
+      position: 'center',
+      action: {
+        label: 'Ir a Comunidad',
+        href: '/community',
+      },
     },
-  },
-  {
-    id: 'complete',
-    title: '¡Listo para comenzar!',
-    description: 'Tip: usa ⌘K (o Ctrl+K) para navegar rápidamente a cualquier sección. Las presentaciones de cada módulo están integradas en el portal.',
-    icon: <CheckCircle className="w-8 h-8 text-green-500" />,
-    position: 'center',
-  },
-];
+    {
+      id: 'complete',
+      title: '¡Listo para comenzar!',
+      description: 'Tip: usa ⌘K (o Ctrl+K) para navegar rápidamente a cualquier sección. Las presentaciones de cada módulo están integradas en el portal.',
+      icon: <CheckCircle className="w-8 h-8 text-green-500" />,
+      position: 'center',
+    }
+  );
+
+  return steps;
+}
 
 const TOUR_COMPLETED_KEY = 'onboarding_tour_completed';
 
@@ -77,8 +96,9 @@ export function OnboardingTour() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
+  const [inviterName, setInviterName] = useState<string | undefined>();
 
-  // Check if tour should be shown
+  // Check if tour should be shown and fetch inviter context
   useEffect(() => {
     const checkTourStatus = async () => {
       if (!user) {
@@ -93,6 +113,25 @@ export function OnboardingTour() {
         return;
       }
 
+      // Check if user was invited and fetch inviter name
+      const { data: inviteData } = await (supabase as any)
+        .from('invitations')
+        .select('invited_by')
+        .eq('email', user.email)
+        .eq('status', 'accepted')
+        .maybeSingle();
+
+      if (inviteData?.invited_by) {
+        const { data: profile } = await (supabase as any)
+          .from('profiles')
+          .select('full_name')
+          .eq('id', inviteData.invited_by)
+          .maybeSingle();
+        if (profile?.full_name) {
+          setInviterName(profile.full_name);
+        }
+      }
+
       // Check user preferences in DB
       const { data } = await supabase
         .from('user_preferences')
@@ -104,7 +143,6 @@ export function OnboardingTour() {
       if (completedEggs.includes('onboarding_tour')) {
         localStorage.setItem(`${TOUR_COMPLETED_KEY}_${user.id}`, 'true');
       } else {
-        // Show tour for new users after letting them explore briefly
         setTimeout(() => setIsOpen(true), 4000);
       }
       
@@ -139,8 +177,10 @@ export function OnboardingTour() {
     }
   }, [user]);
 
+  const tourSteps = buildTourSteps(inviterName);
+
   const handleNext = () => {
-    if (currentStep < TOUR_STEPS.length - 1) {
+    if (currentStep < tourSteps.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
       handleComplete();
@@ -157,8 +197,8 @@ export function OnboardingTour() {
     handleComplete();
   };
 
-  const step = TOUR_STEPS[currentStep];
-  const progress = ((currentStep + 1) / TOUR_STEPS.length) * 100;
+  const step = tourSteps[currentStep];
+  const progress = ((currentStep + 1) / tourSteps.length) * 100;
 
   if (!hasCheckedStorage || !isOpen) return null;
 
@@ -195,7 +235,7 @@ export function OnboardingTour() {
               {/* Progress */}
               <div className="mb-6">
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                  <span>Paso {currentStep + 1} de {TOUR_STEPS.length}</span>
+                  <span>Paso {currentStep + 1} de {tourSteps.length}</span>
                   <button 
                     onClick={handleSkip}
                     className="hover:text-foreground transition-colors"
@@ -253,7 +293,7 @@ export function OnboardingTour() {
                   size="sm"
                   className="flex-1"
                 >
-                  {currentStep === TOUR_STEPS.length - 1 ? (
+                  {currentStep === tourSteps.length - 1 ? (
                     <>
                       ¡Comenzar!
                       <Sparkles className="ml-2 w-4 h-4" />

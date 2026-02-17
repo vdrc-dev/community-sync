@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, Sparkles } from 'lucide-react';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 
@@ -18,10 +18,16 @@ const authSchema = z.object({
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
-  const [isSignUp, setIsSignUp] = useState(searchParams.get('mode') === 'signup');
-  const [email, setEmail] = useState('');
+
+  const inviteEmail = searchParams.get('email') || '';
+  const inviteName = searchParams.get('name') || '';
+  const inviterName = searchParams.get('inviter') || '';
+  const isFromInvite = !!(inviteEmail || inviterName);
+
+  const [isSignUp, setIsSignUp] = useState(searchParams.get('mode') === 'signup' || isFromInvite);
+  const [email, setEmail] = useState(inviteEmail);
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState(inviteName);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
@@ -154,6 +160,20 @@ export default function Auth() {
                 ? 'Unete al portal de participantes VDRC' 
                 : 'Accede a tu cuenta de participante'}
             </CardDescription>
+
+            {isFromInvite && inviterName && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs"
+              >
+                <Sparkles className="w-3 h-3 text-primary" />
+                <span className="text-muted-foreground">
+                  Invitado por <span className="text-primary font-medium">{inviterName}</span>
+                </span>
+              </motion.div>
+            )}
           </CardHeader>
 
           <CardContent>
@@ -191,6 +211,7 @@ export default function Auth() {
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
                   disabled={loading}
+                  readOnly={isFromInvite && !!inviteEmail}
                 />
                 {errors.email && (
                   <p className="text-xs text-destructive">{errors.email}</p>
