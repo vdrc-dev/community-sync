@@ -20,7 +20,7 @@ const badgeVariants = {
 export function CTASection({ isAuthenticated }: CTASectionProps) {
   if (isAuthenticated) {
     return (
-      <section className="py-20 relative overflow-hidden">
+      <section className="py-14 sm:py-16 md:py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 relative">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -34,9 +34,9 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
               <div className="absolute inset-0 border-glow-animated rounded-3xl" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px] rounded-3xl" />
               <div className="relative z-10">
-                <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/70">/// SIGUE AFILANDO</span>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-mono font-bold mt-3 mb-6">
-                  Sigue <span className="text-shimmer">explorando</span>
+                <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">/// SIGUE AFILANDO</span>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-display tracking-tight mt-3 mb-6">
+                  Sigue <span className="text-gradient-live">explorando</span>
                 </h3>
                 <div className="flex flex-wrap justify-center gap-3 mb-6">
                   {[
@@ -75,7 +75,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
   }
 
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
       {/* Epic aurora background */}
       <div className="aurora-bg opacity-80" />
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background/50" />
@@ -88,7 +88,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative max-w-4xl mx-auto"
         >
-          <div className="relative p-10 sm:p-14 lg:p-20 rounded-3xl overflow-hidden">
+            <div className="relative p-6 sm:p-10 md:p-14 lg:p-20 rounded-2xl sm:rounded-3xl overflow-hidden">
             {/* Glass background */}
             <div className="absolute inset-0 glass glass-specular rounded-3xl" />
             <div className="absolute inset-0 border-glow-animated rounded-3xl" />
@@ -122,10 +122,10 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-bold mt-6 mb-8 leading-[0.9]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display tracking-tight mt-4 sm:mt-6 mb-6 sm:mb-8 leading-[0.9]"
               >
                 Afila tu<br />
-                <span className="text-shimmer text-glow-epic">sierra digital</span>
+                <span className="text-gradient-live text-glow-epic">sierra digital</span>
               </motion.h2>
 
               {/* Accent line */}
@@ -143,7 +143,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
-                className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto mb-5 leading-relaxed"
+                className="text-base sm:text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-5 leading-relaxed"
               >
                 4 sesiones intensivas. +35 herramientas. Desde Inbox Zero hasta crear software con IA.
                 El taller que ya transformo a +150 profesionales en 11 generaciones.
@@ -191,7 +191,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                 transition={{ delay: 0.7 }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-4"
               >
-                <Button asChild size="lg" className="h-16 px-12 text-lg bg-primary hover:bg-primary/90 font-mono group transition-all duration-300 hover:scale-[1.03] rounded-2xl shadow-[0_0_40px_-8px_hsl(152_70%_40%_/_0.35)] hover:shadow-[0_0_60px_-8px_hsl(152_70%_40%_/_0.5)] btn-shine">
+                <Button asChild size="lg" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-12 text-base sm:text-lg bg-primary hover:bg-primary/90 font-mono group transition-all duration-300 hover:scale-[1.03] rounded-2xl shadow-[0_0_40px_-8px_hsl(152_70%_40%_/_0.35)] hover:shadow-[0_0_60px_-8px_hsl(152_70%_40%_/_0.5)] btn-shine">
                   <Link to="/auth">
                     <span className="flex items-center">
                       INICIAR SESION
@@ -199,7 +199,7 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
                     </span>
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-16 px-10 font-mono border-white/[0.1] bg-white/[0.04] backdrop-blur-xl hover:border-accent/30 hover:bg-accent/5 group rounded-2xl hover:shadow-[0_0_30px_-10px_hsl(174_60%_45%_/_0.2)]">
+                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-10 font-mono border-white/[0.1] bg-white/[0.04] backdrop-blur-xl hover:border-accent/30 hover:bg-accent/5 group rounded-2xl hover:shadow-[0_0_30px_-10px_hsl(174_60%_45%_/_0.2)]">
                   <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
                     <Rocket className="w-4 h-4 mr-2 text-accent" />
                     GEN 11 — MARZO 2026

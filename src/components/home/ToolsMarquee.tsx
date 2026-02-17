@@ -75,7 +75,7 @@ export function ToolsMarquee() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-sm font-mono text-muted-foreground uppercase tracking-widest"
+          className="text-center text-[11px] font-mono text-muted-foreground/50 uppercase tracking-[0.25em]"
         >
           +35 herramientas cubiertas desde Gen 003 — cada una tiene su rol, desde USD $0 hasta USD $25/mes
         </motion.p>

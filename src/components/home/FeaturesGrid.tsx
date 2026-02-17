@@ -19,108 +19,118 @@ const features = [
 
 export function FeaturesGrid() {
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
       {/* Section glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       <div className="container mx-auto px-4 relative">
-        {/* Header */}
+        {/* Header — cinematic left-aligned with accent */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
+          className="mb-10 sm:mb-16 md:mb-20"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// ECOSISTEMA</span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold mt-3">
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50 block mb-4">/// ECOSISTEMA</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight">
             Todo lo que necesitas para{' '}
-            <span className="text-shimmer">dominar la IA</span>
+            <span className="text-gradient-live">dominar la IA</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl text-lg mt-3">
+          <p className="text-muted-foreground/70 max-w-2xl text-base sm:text-lg mt-3 sm:mt-4 font-light leading-relaxed">
             Desde la higiene digital hasta crear ERPs con IA — un ecosistema forjado en 11 generaciones de casos reales
           </p>
-          {/* Accent line */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-[2px] w-40 mt-6 rounded-full origin-left"
-            style={{ background: 'linear-gradient(90deg, hsl(152 70% 45%), hsl(174 60% 45%), transparent)' }}
-          />
+          {/* Accent line with diamond */}
+          <div className="mt-8 max-w-xs">
+            <div className="separator-diamond"><span /></div>
+          </div>
         </motion.div>
 
-        {/* Bento grid layout */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className={feature.featured ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : ''}
-            >
-              <Link to={feature.href} className="group relative flex flex-col h-full">
-                {/* Glow border on hover */}
-                <div
-                  className="absolute -inset-px rounded-2xl blur-lg transition-all duration-500 opacity-0 group-hover:opacity-100 pointer-events-none"
-                  style={{ background: `linear-gradient(135deg, hsl(${feature.hue} 70% 55% / 0.2), hsl(${feature.hue} 70% 55% / 0.05))` }}
-                />
-
-                <motion.div
-                  className="glass glass-specular card-edge-highlight relative flex flex-col h-full p-7 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden"
-                  whileHover={{ scale: 1.02, y: -4 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                >
-                  {/* Accent top stripe */}
+        {/* Bento grid — asymmetric, cinematic */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 max-w-7xl mx-auto auto-rows-fr">
+          {features.map((feature, index) => {
+            const isLarge = feature.featured;
+            const isAccent = index === 3 || index === 5;
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className={isLarge ? 'sm:col-span-2 lg:col-span-2' : ''}
+              >
+                <Link to={feature.href} className="group relative flex flex-col h-full">
+                  {/* Multi-layered glow border on hover */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-80 transition-opacity duration-500"
-                    style={{ background: `linear-gradient(90deg, transparent, hsl(${feature.hue} 70% 55%), transparent)` }}
+                    className="absolute -inset-px rounded-2xl blur-lg transition-all duration-700 opacity-0 group-hover:opacity-100 pointer-events-none"
+                    style={{ background: `linear-gradient(135deg, hsl(${feature.hue} 70% 55% / 0.25), hsl(${feature.hue} 70% 55% / 0.05))` }}
+                  />
+                  <div
+                    className="absolute -inset-2 rounded-3xl blur-2xl transition-all duration-700 opacity-0 group-hover:opacity-60 pointer-events-none"
+                    style={{ background: `hsl(${feature.hue} 70% 55% / 0.06)` }}
                   />
 
-                  {/* Shimmer sweep on hover */}
                   <motion.div
-                    className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                    style={{ background: `linear-gradient(105deg, transparent 30%, hsl(${feature.hue} 70% 60% / 0.04) 50%, transparent 70%)` }}
-                  />
-
-                  {/* Number label */}
-                  <span className="font-mono text-xs tracking-widest mb-3" style={{ color: `hsl(${feature.hue} 70% 55% / 0.35)` }}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-
-                  {/* Icon */}
-                  <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 relative"
-                    style={{
-                      background: `hsl(${feature.hue} 70% 55% / 0.1)`,
-                      border: `1px solid hsl(${feature.hue} 70% 55% / 0.18)`,
-                    }}
+                    className={`glass glass-specular card-edge-highlight spotlight-card relative flex flex-col h-full ${isLarge ? 'p-5 sm:p-8 lg:p-10' : 'p-5 sm:p-7'} rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden`}
+                    whileHover={{ scale: 1.02, y: -4 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                   >
-                    <feature.icon className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" style={{ color: `hsl(${feature.hue} 70% 55%)` }} />
-                    {/* Icon glow */}
+                    {/* Accent top stripe — always visible faintly */}
                     <div
-                      className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none"
-                      style={{ background: `hsl(${feature.hue} 70% 55% / 0.2)` }}
+                      className="absolute top-0 left-0 right-0 h-[2px] opacity-20 group-hover:opacity-90 transition-opacity duration-500"
+                      style={{ background: `linear-gradient(90deg, transparent, hsl(${feature.hue} 70% 55%), transparent)` }}
                     />
-                  </div>
 
-                  <h3 className="text-lg font-semibold mb-2 transition-colors duration-300 group-hover:text-primary">
-                    {feature.title}
-                  </h3>
+                    {/* Light leak sweep on hover */}
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                      style={{ background: `linear-gradient(105deg, transparent 20%, hsl(${feature.hue} 70% 60% / 0.05) 45%, transparent 65%)` }}
+                    />
 
-                  <p className="text-muted-foreground text-sm flex-grow leading-relaxed">{feature.description}</p>
+                    {/* Number label — large decorative */}
+                    <span
+                      className="font-display text-[3.5rem] leading-none absolute top-4 right-5 select-none pointer-events-none transition-opacity duration-500 opacity-[0.03] group-hover:opacity-[0.07]"
+                      style={{ color: `hsl(${feature.hue} 70% 55%)` }}
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
 
-                  <div className="flex items-center mt-5 text-sm font-medium opacity-50 group-hover:opacity-100 transition-all duration-300" style={{ color: `hsl(${feature.hue} 70% 55%)` }}>
-                    <span>Explorar</span>
-                    <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </motion.div>
-              </Link>
-            </motion.div>
-          ))}
+                    {/* Small number */}
+                    <span className="font-mono text-[10px] tracking-[0.3em] mb-4" style={{ color: `hsl(${feature.hue} 70% 55% / 0.4)` }}>
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+
+                    {/* Icon — with breathing glow */}
+                    <div
+                      className={`${isLarge ? 'w-16 h-16' : 'w-14 h-14'} rounded-xl flex items-center justify-center mb-5 transition-all duration-400 group-hover:scale-110 group-hover:rotate-2 relative`}
+                      style={{
+                        background: `linear-gradient(135deg, hsl(${feature.hue} 70% 55% / 0.12), hsl(${feature.hue} 70% 55% / 0.04))`,
+                        border: `1px solid hsl(${feature.hue} 70% 55% / 0.2)`,
+                      }}
+                    >
+                      <feature.icon className={`${isLarge ? 'w-7 h-7' : 'w-6 h-6'} transition-all duration-300 group-hover:scale-110`} style={{ color: `hsl(${feature.hue} 70% 55%)` }} />
+                      <div
+                        className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+                        style={{ background: `hsl(${feature.hue} 70% 55% / 0.25)` }}
+                      />
+                    </div>
+
+                    <h3 className={`${isLarge ? 'text-xl' : 'text-lg'} font-semibold mb-2 transition-colors duration-300 group-hover:text-foreground`}>
+                      {feature.title}
+                    </h3>
+
+                    <p className={`text-muted-foreground/70 ${isLarge ? 'text-sm' : 'text-[13px]'} flex-grow leading-relaxed font-light`}>{feature.description}</p>
+
+                    <div className="flex items-center mt-6 text-sm font-medium opacity-40 group-hover:opacity-100 transition-all duration-300" style={{ color: `hsl(${feature.hue} 70% 55%)` }}>
+                      <span className="text-xs font-mono tracking-wider uppercase">Explorar</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

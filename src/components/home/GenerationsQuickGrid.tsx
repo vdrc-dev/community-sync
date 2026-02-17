@@ -30,7 +30,7 @@ export function GenerationsQuickGrid() {
   const getGenNumber = (code: string) => parseInt(code.replace('GEN-', ''), 10);
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 sm:py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -40,14 +40,14 @@ export function GenerationsQuickGrid() {
           className="flex items-end justify-between mb-10"
         >
           <div>
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">
+            <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">
               /// 10_GENERACIONES
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mt-3">
               Cada generación,{' '}
-              <span className="text-gradient">una comunidad</span>
+              <span className="text-gradient-live">una comunidad</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl text-lg mt-2">
+            <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 font-light">
               +150 profesionales en 11 generaciones. Explora los recursos, presentaciones y compañeros de cada una.
             </p>
           </div>

@@ -170,17 +170,17 @@ export function Gen11Banner() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold leading-tight"
+                    className="text-2xl sm:text-3xl md:text-5xl font-display tracking-tight leading-tight"
                   >
                     Generacion{' '}
-                    <span className="text-gradient">11</span>
+                    <span className="text-gradient-live">11</span>
                   </motion.h2>
 
                   <motion.p
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="text-lg text-foreground/80 max-w-lg"
+                    className="text-base sm:text-lg text-foreground/80 max-w-lg"
                   >
                     De Inbox Zero a crear apps con IA en 4 sesiones. Higiene Digital, Productividad con IA, Presentaciones Automatizadas y Apps y Webs con IA. 11 generaciones, +150 profesionales y cada clase es distinta.
                     Arranca el <span className="text-primary font-semibold">3 de marzo 2026</span>.

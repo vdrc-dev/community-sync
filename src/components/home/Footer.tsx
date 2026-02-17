@@ -51,7 +51,7 @@ export function Footer() {
               </div>
             </Link>
 
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
+            <p className="text-muted-foreground/60 text-sm leading-relaxed max-w-sm font-light">
               11 generaciones. +150 participantes. Tu hub para dominar la productividad digital con IA.
             </p>
 
@@ -73,9 +73,9 @@ export function Footer() {
               transition={{ delay: sectionIdx * 0.08 }}
               className="lg:col-span-3"
             >
-              <h4 className="font-mono font-semibold text-[10px] tracking-[0.2em] uppercase mb-5 text-foreground">
+              <h4 className="font-mono font-semibold text-[10px] tracking-[0.25em] uppercase mb-6 text-foreground/80">
                 {title}
-                <span className="block h-0.5 w-8 bg-gradient-to-r from-primary to-transparent mt-2 rounded-full" />
+                <span className="block h-[1px] w-10 mt-2.5 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(152 70% 55% / 0.4), transparent)' }} />
               </h4>
               <ul className="space-y-2">
                 {links.map((link) => (

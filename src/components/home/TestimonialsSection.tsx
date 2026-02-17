@@ -60,34 +60,29 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
       {/* Subtle mesh gradient */}
       <div className="mesh-gradient opacity-20" />
 
       <div className="container mx-auto px-4 relative">
-        {/* Header — EPIC */}
+        {/* Header — cinematic */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
+          className="mb-10 sm:mb-16 md:mb-20"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// DIRECTO_DEL_TALLER</span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold mt-3">
-            Frases que <span className="text-shimmer">cambian cabezas</span>
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50 block mb-4">/// DIRECTO_DEL_TALLER</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight">
+            Frases que <span className="text-gradient-live">cambian cabezas</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl text-lg mt-3">
+          <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 sm:mt-4 font-light leading-relaxed">
             Extractos reales de sesiones con generaciones 8, 9 y 10 — sin filtro, directo del taller
           </p>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-[2px] w-40 mt-6 rounded-full origin-left"
-            style={{ background: 'linear-gradient(90deg, hsl(152 70% 45%), hsl(174 60% 45%), transparent)' }}
-          />
+          <div className="mt-8 max-w-xs">
+            <div className="separator-diamond"><span /></div>
+          </div>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl">
@@ -110,60 +105,55 @@ export function TestimonialsSection() {
                   style={{ background: `hsl(${accent.hue} 70% 55% / 0.08)` }}
                 />
 
-                <div className="glass glass-specular relative h-full p-7 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden">
-                  {/* Accent top bar */}
+                <div className="glass glass-specular card-light-leak relative h-full p-5 sm:p-7 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden border border-white/[0.04]">
+                  {/* Accent top bar — always subtly visible */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-[2px] opacity-40 group-hover:opacity-80 transition-opacity duration-500"
+                    className="absolute top-0 left-0 right-0 h-[2px] opacity-25 group-hover:opacity-90 transition-opacity duration-500"
                     style={{ background: `linear-gradient(90deg, transparent, hsl(${accent.hue} 70% 55%), transparent)` }}
                   />
 
-                  {/* Shimmer sweep */}
-                  <motion.div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{ background: `linear-gradient(105deg, transparent 30%, hsl(${accent.hue} 70% 60% / 0.04) 50%, transparent 70%)` }}
-                  />
-
-                  {/* Giant quotation mark */}
+                  {/* Giant quotation mark — Syne display font */}
                   <div
-                    className="absolute top-3 right-5 text-6xl font-serif leading-none pointer-events-none select-none"
-                    style={{ color: `hsl(${accent.hue} 70% 55% / 0.06)` }}
+                    className="absolute top-1 right-5 font-display text-7xl leading-none pointer-events-none select-none transition-opacity group-hover:opacity-[0.1]"
+                    style={{ color: `hsl(${accent.hue} 70% 55% / 0.05)` }}
                   >
                     "
                   </div>
 
-                  {/* Category icon */}
-                  <div className="mb-4 flex items-center gap-2">
+                  {/* Left accent bar */}
+                  <div
+                    className="absolute left-0 top-6 bottom-6 w-[2px] rounded-full opacity-20 group-hover:opacity-60 transition-opacity duration-500"
+                    style={{ background: `hsl(${accent.hue} 70% 55%)` }}
+                  />
+
+                  {/* Category icon + tag */}
+                  <div className="mb-5 flex items-center gap-2.5">
                     <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 relative"
-                      style={{ background: `hsl(${accent.hue} 70% 55% / 0.1)`, border: `1px solid hsl(${accent.hue} 70% 55% / 0.18)` }}
+                      className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 relative"
+                      style={{ background: `hsl(${accent.hue} 70% 55% / 0.08)`, border: `1px solid hsl(${accent.hue} 70% 55% / 0.15)` }}
                     >
-                      <CategoryIcon className="w-4 h-4" style={{ color: `hsl(${accent.hue} 70% 55%)` }} />
-                      <div
-                        className="absolute inset-0 rounded-lg blur-lg opacity-0 group-hover:opacity-50 transition-opacity pointer-events-none"
-                        style={{ background: `hsl(${accent.hue} 70% 55% / 0.15)` }}
-                      />
-                    </div>
-                  </div>
-
-                  <p className="text-foreground/85 text-sm mb-5 leading-relaxed italic relative">
-                    "{testimonial.quote}"
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-foreground text-sm">{testimonial.author}</p>
-                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                      <CategoryIcon className="w-3.5 h-3.5" style={{ color: `hsl(${accent.hue} 70% 55%)` }} />
                     </div>
                     <span
-                      className="text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-full"
-                      style={{
-                        color: `hsl(${accent.hue} 70% 55%)`,
-                        background: `hsl(${accent.hue} 70% 55% / 0.08)`,
-                        border: `1px solid hsl(${accent.hue} 70% 55% / 0.15)`,
-                      }}
+                      className="text-[10px] font-mono tracking-[0.15em] uppercase"
+                      style={{ color: `hsl(${accent.hue} 70% 55% / 0.6)` }}
                     >
                       {testimonial.generation}
                     </span>
+                  </div>
+
+                  <p className="text-foreground/80 text-[13px] mb-6 leading-[1.7] italic relative font-light">
+                    "{testimonial.quote}"
+                  </p>
+
+                  <div className="flex items-center gap-3 pt-4 border-t border-white/[0.04]">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-display font-bold" style={{ background: `hsl(${accent.hue} 70% 55% / 0.1)`, color: `hsl(${accent.hue} 70% 55%)` }}>
+                      {testimonial.author.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground text-sm">{testimonial.author}</p>
+                      <p className="text-[11px] text-muted-foreground/50 font-light">{testimonial.role}</p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -178,7 +168,7 @@ export function TestimonialsSection() {
           viewport={{ once: true }}
           className="mt-16"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-accent/60 mb-8 block">/// VOCES_PARTICIPANTES</span>
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-accent/40 mb-8 block">/// VOCES_PARTICIPANTES</span>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
             {[
               {

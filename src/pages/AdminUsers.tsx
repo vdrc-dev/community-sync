@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Users } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
@@ -7,17 +5,10 @@ import { Layout } from '@/components/layout/Layout';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { InviteUserForm } from '@/components/admin/InviteUserForm';
 import { InvitationsList } from '@/components/admin/InvitationsList';
+import { AccessRequestsList } from '@/components/admin/AccessRequestsList';
 
 export default function AdminUsers() {
-  const { user, isAdmin, loading } = useAuth();
-  const navigate = useNavigate();
-
-  // Redirect non-admins
-  useEffect(() => {
-    if (!loading && (!user || !isAdmin)) {
-      navigate('/');
-    }
-  }, [user, isAdmin, loading, navigate]);
+  const { isAdmin, loading } = useAuth();
 
   if (loading) {
     return (
@@ -55,12 +46,13 @@ export default function AdminUsers() {
             </div>
           </div>
           <p className="text-muted-foreground">
-            Invita participantes al portal y gestiona las invitaciones enviadas
+            Invita participantes, gestiona solicitudes de acceso y administra invitaciones
           </p>
         </motion.div>
 
         {/* Content */}
         <div className="space-y-6 max-w-5xl">
+          <AccessRequestsList />
           <InviteUserForm />
           <InvitationsList />
         </div>

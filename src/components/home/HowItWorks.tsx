@@ -44,7 +44,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
       {/* Subtle background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
 
@@ -54,7 +54,7 @@ export function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-10 sm:mb-16 md:mb-20"
         >
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
@@ -64,10 +64,10 @@ export function HowItWorks() {
           >
             4 SESIONES INTENSIVAS // 100% PRACTICO
           </motion.span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-4">
-            De cero a <span className="text-gradient">productivo con IA</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mb-4">
+            De cero a <span className="text-gradient-live">productivo con IA</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            <p className="text-muted-foreground/60 max-w-2xl mx-auto text-base sm:text-lg font-light">
             Cada generacion cubre 4 modulos progresivos. Sin teoria vacia — solo herramientas reales aplicadas a tu trabajo profesional.
           </p>
         </motion.div>
@@ -144,7 +144,7 @@ export function HowItWorks() {
           transition={{ delay: 0.8 }}
           className="text-center mt-16"
         >
-          <Button asChild size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-[1.02] transition-all duration-300">
+          <Button asChild size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-[1.02] transition-all duration-300">
             <Link to="/auth">
               Quiero dominar la IA
               <ArrowRight className="w-5 h-5 ml-2" />

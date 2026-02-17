@@ -67,7 +67,7 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 sm:py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -76,14 +76,14 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-accent/70">
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-accent/40">
             /// COMUNIDAD_VDRC
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mt-3">
             Aprende con{' '}
-            <span className="text-gradient">otros</span>
+            <span className="text-gradient-live">otros</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl text-lg mt-2 leading-relaxed">
+          <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 leading-relaxed font-light">
             Startups, family offices, profesores, arquitectos, consultores, abogados y cromañones tecnologicos — todos aprendiendo IA juntos. 150+ profesionales de 11 generaciones.
           </p>
         </motion.div>

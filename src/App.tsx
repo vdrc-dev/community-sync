@@ -16,6 +16,7 @@ import { KeyboardShortcutsHint } from "@/components/ui/keyboard-shortcuts-hint";
 import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
 import { useKeyboardNav } from "@/hooks/useKeyboardNav";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // ─────────────────────────────────────────────────────────────
 // Lazy-loaded pages — grouped by domain
@@ -110,49 +111,49 @@ const App = () => (
           <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner fullScreen />}>
             <Routes>
-              {/* ── Core ─────────────────────────────── */}
+              {/* ── Public ────────────────────────────── */}
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/welcome" element={<Welcome />} />
-              <Route path="/profile" element={<Profile />} />
+
+              {/* ── Authenticated ─────────────────────── */}
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
               {/* ── Generations & Learning ────────────── */}
-              <Route path="/generations" element={<Generations />} />
-              <Route path="/generations/:code" element={<GenerationDetail />} />
-
-              {/* ── Presentations (admin only) ───────── */}
+              <Route path="/generations" element={<ProtectedRoute><Generations /></ProtectedRoute>} />
+              <Route path="/generations/:code" element={<ProtectedRoute><GenerationDetail /></ProtectedRoute>} />
 
               {/* ── Tools & Productivity ──────────────── */}
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/my-tools" element={<MyToolsPage />} />
-              <Route path="/workflows" element={<Workflows />} />
-              <Route path="/workflows/:id" element={<WorkflowDetail />} />
-              <Route path="/playground" element={<Playground />} />
-              <Route path="/prompts" element={<Prompts />} />
-              <Route path="/roi-calculator" element={<ROICalculatorPage />} />
-              <Route path="/dictionary" element={<Dictionary />} />
-              <Route path="/personalizacion-ia" element={<AIPersonalizationGuide />} />
-              <Route path="/guia-instalacion" element={<SetupGuide />} />
+              <Route path="/tools" element={<ProtectedRoute><Tools /></ProtectedRoute>} />
+              <Route path="/my-tools" element={<ProtectedRoute><MyToolsPage /></ProtectedRoute>} />
+              <Route path="/workflows" element={<ProtectedRoute><Workflows /></ProtectedRoute>} />
+              <Route path="/workflows/:id" element={<ProtectedRoute><WorkflowDetail /></ProtectedRoute>} />
+              <Route path="/playground" element={<ProtectedRoute><Playground /></ProtectedRoute>} />
+              <Route path="/prompts" element={<ProtectedRoute><Prompts /></ProtectedRoute>} />
+              <Route path="/roi-calculator" element={<ProtectedRoute><ROICalculatorPage /></ProtectedRoute>} />
+              <Route path="/dictionary" element={<ProtectedRoute><Dictionary /></ProtectedRoute>} />
+              <Route path="/personalizacion-ia" element={<ProtectedRoute><AIPersonalizationGuide /></ProtectedRoute>} />
+              <Route path="/guia-instalacion" element={<ProtectedRoute><SetupGuide /></ProtectedRoute>} />
 
               {/* ── Community & Interaction ───────────── */}
-              <Route path="/community" element={<Community />} />
-              <Route path="/community/:slug" element={<CommunitySpace />} />
-              <Route path="/community/:slug/post/:postId" element={<CommunitySpace />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/forum" element={<Forum />} />
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/community" element={<ProtectedRoute><Community /></ProtectedRoute>} />
+              <Route path="/community/:slug" element={<ProtectedRoute><CommunitySpace /></ProtectedRoute>} />
+              <Route path="/community/:slug/post/:postId" element={<ProtectedRoute><CommunitySpace /></ProtectedRoute>} />
+              <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+              <Route path="/forum" element={<ProtectedRoute><Forum /></ProtectedRoute>} />
+              <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
+              <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
 
               {/* ── Personal ─────────────────────────── */}
-              <Route path="/bookmarks" element={<Bookmarks />} />
-              <Route path="/quick-notes" element={<QuickNotes />} />
+              <Route path="/bookmarks" element={<ProtectedRoute><Bookmarks /></ProtectedRoute>} />
+              <Route path="/quick-notes" element={<ProtectedRoute><QuickNotes /></ProtectedRoute>} />
 
               {/* ── Admin ────────────────────────────── */}
-              <Route path="/admin/presentations" element={<AdminPresentations />} />
-              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/presentations" element={<ProtectedRoute adminOnly><AdminPresentations /></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminUsers /></ProtectedRoute>} />
 
               {/* ── VDRC Slide Engine ─────────────────── */}
-              <Route path="/slides/:genId" element={<GenerationPage />} />
+              <Route path="/slides/:genId" element={<ProtectedRoute><GenerationPage /></ProtectedRoute>} />
 
               {/* ── Catch-all ────────────────────────── */}
               <Route path="*" element={<NotFound />} />

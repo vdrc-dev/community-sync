@@ -71,40 +71,34 @@ export function StatsSection() {
   ];
 
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
       {/* Epic background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
       <div className="mesh-gradient opacity-30" />
 
       <div className="container mx-auto px-4 relative">
-        {/* Header */}
+        {/* Header — cinematic centered */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16 text-center"
+          className="mb-10 sm:mb-16 md:mb-20 text-center"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">/// TRAYECTORIA</span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold mt-3">
-            Impacto <span className="text-shimmer">real</span>
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50 block mb-4">/// TRAYECTORIA</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight">
+            Impacto <span className="text-gradient-live">real</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg mt-3">
+          <p className="text-muted-foreground/60 max-w-xl mx-auto text-base sm:text-lg mt-3 sm:mt-4 font-light">
             Desde abril 2025, profesionales de 20+ industrias transformando su productividad con IA
           </p>
-          {/* Accent line */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-[2px] w-32 mx-auto mt-6 rounded-full"
-            style={{ background: 'linear-gradient(90deg, transparent, hsl(152 70% 45%), transparent)' }}
-          />
+          <div className="mt-8 max-w-[120px] mx-auto">
+            <div className="separator-diamond"><span /></div>
+          </div>
         </motion.div>
 
-        {/* Stats grid — EPIC cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+        {/* Stats grid — dramatic cinematic cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-5 max-w-6xl mx-auto">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -112,63 +106,48 @@ export function StatsSection() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ scale: 1.08, y: -6 }}
+              whileHover={{ scale: 1.06, y: -8 }}
               className="group relative"
             >
-              {/* Glow behind card on hover */}
+              {/* Multi-layered glow on hover */}
               <div
-                className="absolute -inset-2 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"
-                style={{ background: `hsl(${stat.hue} 70% 55% / 0.12)` }}
+                className="absolute -inset-3 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
+                style={{ background: `hsl(${stat.hue} 70% 55% / 0.1)` }}
               />
 
-              <div className="glass glass-specular relative p-6 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 text-center overflow-hidden h-full">
-                {/* Top accent line */}
-                <motion.div
-                  className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-80 transition-opacity duration-500"
+              <div className="glass glass-specular card-light-leak relative p-6 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 text-center overflow-hidden h-full border border-white/[0.04]">
+                {/* Accent top bar — always subtly visible */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px] opacity-15 group-hover:opacity-90 transition-opacity duration-500"
                   style={{ background: `linear-gradient(90deg, transparent, hsl(${stat.hue} 70% 55%), transparent)` }}
                 />
 
-                {/* Icon with glow */}
+                {/* BIG value — the star of each card */}
                 <div
-                  className="w-12 h-12 mx-auto mb-4 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 relative"
+                  className="text-3xl sm:text-5xl font-display mb-3 transition-all duration-300 tracking-tighter"
                   style={{
-                    background: `hsl(${stat.hue} 70% 55% / 0.1)`,
-                    border: `1px solid hsl(${stat.hue} 70% 55% / 0.15)`,
-                  }}
-                >
-                  <stat.icon className="w-5 h-5" style={{ color: `hsl(${stat.hue} 70% 55%)` }} />
-                  {/* Icon glow */}
-                  <div
-                    className="absolute inset-0 rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity"
-                    style={{ background: `hsl(${stat.hue} 70% 55% / 0.2)` }}
-                  />
-                </div>
-
-                {/* BIG value */}
-                <div
-                  className="text-3xl sm:text-4xl font-mono font-bold mb-2 transition-all duration-300"
-                  style={{
-                    background: `linear-gradient(180deg, hsl(${stat.hue} 70% 70%), hsl(${stat.hue} 70% 45%))`,
+                    background: `linear-gradient(180deg, hsl(${stat.hue} 70% 75%), hsl(${stat.hue} 70% 45%))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 12px hsl(${stat.hue} 70% 55% / 0.3))`,
+                    filter: `drop-shadow(0 0 16px hsl(${stat.hue} 70% 55% / 0.35))`,
                   }}
                 >
                   <AnimatedCounter value={stat.numericValue} suffix={stat.suffix} duration={2.5} delay={index * 0.15} />
                 </div>
 
-                {/* Label */}
-                <div className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground">
-                  {stat.label}
+                {/* Icon — small and subtle */}
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <stat.icon className="w-3.5 h-3.5 opacity-50 group-hover:opacity-80 transition-opacity" style={{ color: `hsl(${stat.hue} 70% 55%)` }} />
+                  <div className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-foreground/70 group-hover:text-muted-foreground transition-colors">
+                    {stat.label}
+                  </div>
                 </div>
 
-                {/* Hover description */}
-                <motion.div
-                  className="text-[10px] text-muted-foreground/50 mt-2 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500"
-                >
+                {/* Hover description with smooth reveal */}
+                <div className="text-[10px] text-muted-foreground/40 mt-2 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500 font-light leading-relaxed">
                   {stat.description}
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           ))}

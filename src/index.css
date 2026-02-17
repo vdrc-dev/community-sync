@@ -1,10 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* VDRC Workshop Portal — iOS Liquid Glass Design System */
+
+/* ─── Global responsive safeguards ─── */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Prevent long words from breaking layout on mobile */
+p, li, td, th, dd, dt, blockquote, figcaption {
+  overflow-wrap: break-word;
+}
 
 @layer base {
   :root {
@@ -83,7 +99,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     background:
       radial-gradient(ellipse 80% 50% at 50% 0%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
       radial-gradient(ellipse 60% 40% at 80% 20%, hsl(var(--accent) / 0.03) 0%, transparent 50%),
@@ -1289,4 +1305,303 @@ html {
 .card-focus-within:focus-within {
   border-color: hsl(var(--primary) / 0.2);
   box-shadow: 0 0 0 3px hsl(var(--primary) / 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PREMIUM TYPOGRAPHY — Display & Decorative
+   ═══════════════════════════════════════════════════════════════ */
+
+.font-display {
+  font-family: 'Syne', 'JetBrains Mono', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.font-body {
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC ATMOSPHERE — Depth & Texture
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Persistent film grain — subtle depth across entire page ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* ── Chromatic accent bar — subtle color sweep at top of viewport ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 9998;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(152 70% 50% / 0.5) 20%,
+    hsl(174 60% 50% / 0.4) 40%,
+    hsl(263 60% 55% / 0.3) 60%,
+    hsl(340 60% 50% / 0.2) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Dramatic section reveal ── */
+@keyframes sectionUnveil {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.section-unveil {
+  animation: sectionUnveil 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Text split-line reveal ── */
+@keyframes lineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(100%) rotateX(-80deg);
+    transform-origin: top center;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+.line-reveal {
+  overflow: hidden;
+}
+
+.line-reveal > * {
+  animation: lineReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Color-shifting gradient — living accent ── */
+@keyframes colorShift {
+  0%, 100% { filter: hue-rotate(0deg); }
+  33% { filter: hue-rotate(15deg); }
+  66% { filter: hue-rotate(-10deg); }
+}
+
+.color-shift {
+  animation: colorShift 12s ease-in-out infinite;
+}
+
+/* ── Glitch text for special moments ── */
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
+
+.text-glitch:hover {
+  animation: glitch 0.3s ease infinite;
+  text-shadow:
+    2px 0 hsl(152 70% 50% / 0.3),
+    -2px 0 hsl(340 60% 50% / 0.3);
+}
+
+/* ── Horizontal scroll ticker ── */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-scroll {
+  animation: ticker 30s linear infinite;
+}
+
+.ticker-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* ── Dramatic card with light leak ── */
+@keyframes lightLeak {
+  0%, 100% { opacity: 0; transform: translateX(-100%) rotate(-15deg); }
+  50% { opacity: 1; transform: translateX(100%) rotate(-15deg); }
+}
+
+.card-light-leak {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-light-leak::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--primary) / 0.04),
+    transparent
+  );
+  transform: rotate(-15deg);
+  animation: lightLeak 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Magnetic hover effect ── */
+.magnetic-hover {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.magnetic-hover:hover {
+  transform: perspective(800px) rotateY(var(--rx, 0deg)) rotateX(var(--ry, 0deg)) translateZ(10px);
+}
+
+/* ── Spotlight follow cursor (class for JS integration) ── */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary) / 0.06), transparent 70%);
+  transform: translate(var(--mouse-x, -999px), var(--mouse-y, -999px)) translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.15s ease;
+}
+
+/* ── Enhanced text gradient with glow pulse ── */
+@keyframes gradientPulse {
+  0%, 100% {
+    background-size: 200% auto;
+    background-position: 0% center;
+  }
+  50% {
+    background-size: 200% auto;
+    background-position: 100% center;
+  }
+}
+
+.text-gradient-live {
+  background: linear-gradient(
+    135deg,
+    hsl(152 70% 55%) 0%,
+    hsl(174 60% 50%) 25%,
+    hsl(152 70% 55%) 50%,
+    hsl(263 50% 60%) 75%,
+    hsl(152 70% 55%) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientPulse 6s ease-in-out infinite;
+}
+
+/* ── Floating glow orbs ── */
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(15px, -25px) scale(1.05); }
+  50% { transform: translate(-10px, -15px) scale(0.95); }
+  75% { transform: translate(20px, 10px) scale(1.03); }
+}
+
+.float-orb {
+  animation: floatOrb var(--float-duration, 15s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+/* ── Cinematic vignette ── */
+.vignette {
+  box-shadow: inset 0 0 120px 40px hsl(225 18% 5% / 0.4);
+}
+
+/* ── Staggered entrance for grids ── */
+@keyframes gridItemEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.grid-stagger > * {
+  opacity: 0;
+  animation: gridItemEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.grid-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.grid-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.grid-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.grid-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.grid-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.grid-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+.grid-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.grid-stagger > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* ── Quote decoration ── */
+.quote-mark::before {
+  content: '"';
+  position: absolute;
+  top: -0.15em;
+  left: -0.05em;
+  font-size: 5em;
+  font-family: 'Syne', serif;
+  font-weight: 800;
+  line-height: 1;
+  color: hsl(var(--primary) / 0.06);
+  pointer-events: none;
+}
+
+/* ── Refined separator with diamond ── */
+.separator-diamond {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.separator-diamond::before,
+.separator-diamond::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), transparent);
+}
+
+.separator-diamond > span {
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background: hsl(var(--primary) / 0.3);
+  border: 1px solid hsl(var(--primary) / 0.2);
 }

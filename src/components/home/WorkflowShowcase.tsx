@@ -93,7 +93,7 @@ const showcaseWorkflows = [
 
 export function WorkflowShowcase() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
       {/* Clean background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/10 to-transparent" />
       
@@ -106,18 +106,20 @@ export function WorkflowShowcase() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Badge variant="outline" className="mb-4 border-primary/50 bg-primary/5">
-              <Workflow className="w-3 h-3 mr-1" />
-              Casos Reales del Taller
-            </Badge>
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Workflow className="w-4 h-4 text-primary" />
+              </div>
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60">Casos Reales del Taller</span>
+            </div>
             
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-display tracking-tight mb-4 sm:mb-6">
               Workflows que<br />
-              <span className="text-shimmer">usamos en clase</span>
+              <span className="text-gradient-live">usamos en clase</span>
             </h2>
             
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              No son prompts teóricos — son <strong className="text-foreground">flujos probados en vivo</strong>{' '}
+            <p className="text-base sm:text-lg text-muted-foreground/60 mb-6 sm:mb-8 leading-relaxed font-light">
+              No son prompts teóricos — son <strong className="text-foreground font-medium">flujos probados en vivo</strong>{' '}
               durante las sesiones del taller, con casos reales de los participantes.
             </p>
             
@@ -172,7 +174,7 @@ export function WorkflowShowcase() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15 }}
                   onClick={() => window.location.href = '/workflows'}
-                  className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-300 cursor-pointer overflow-hidden relative"
+                  className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-400 cursor-pointer overflow-hidden relative border border-white/[0.04] hover:shadow-[0_8px_32px_-8px_hsl(var(--glass-shadow)_/_0.2)]"
                 >
                   {/* Subtle accent left bar */}
                   <div

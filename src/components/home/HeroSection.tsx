@@ -180,7 +180,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           initial={{ opacity: 0, y: 60, scale: 0.92 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-5xl mx-auto text-center p-8 md:p-14 rounded-3xl relative overflow-hidden"
+          className="max-w-5xl mx-auto text-center p-5 sm:p-8 md:p-14 rounded-2xl sm:rounded-3xl relative overflow-hidden"
         >
           {/* Card background with glass + glow border */}
           <div className="absolute inset-0 glass glass-specular rounded-3xl" />
@@ -205,7 +205,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center justify-center gap-2 mb-10"
+              className="flex flex-wrap items-center justify-center gap-2 mb-6 sm:mb-10"
             >
               {!isAuthenticated && (
                 <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
@@ -232,29 +232,33 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               </Badge>
             </motion.div>
 
-            {/* Main heading — EPIC size */}
+            {/* Main heading — CINEMATIC with Syne display font */}
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.85 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-mono font-bold mb-8 leading-[0.85] tracking-tighter">
-                <motion.span
-                  className="block text-foreground"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  AFILA TU
-                </motion.span>
-                <motion.span
-                  className="block text-shimmer text-glow-epic mt-2"
-                  initial={{ opacity: 0, scale: 0.7, filter: 'blur(20px)' }}
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  transition={{ duration: 1.4, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  SIERRA DIGITAL
-                </motion.span>
+              <h1 className="font-display mb-6 sm:mb-8 leading-[0.85] tracking-tighter" style={{ fontSize: 'clamp(1.75rem, 8vw, 8rem)' }}>
+                <div className="overflow-hidden">
+                  <motion.span
+                    className="block text-foreground"
+                    initial={{ opacity: 0, y: '100%' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    AFILA TU
+                  </motion.span>
+                </div>
+                <div className="overflow-hidden">
+                  <motion.span
+                    className="block text-gradient-live text-glow-epic mt-1"
+                    initial={{ opacity: 0, y: '100%', scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 1.4, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    SIERRA DIGITAL
+                  </motion.span>
+                </div>
               </h1>
             </motion.div>
 
@@ -267,16 +271,16 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               style={{ background: 'linear-gradient(90deg, transparent, hsl(152 70% 45%), hsl(174 60% 45%), transparent)' }}
             />
 
-            {/* Subheading */}
+            {/* Subheading — refined with Outfit */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-3xl mx-auto mb-10 text-center"
             >
-              <p className="text-lg sm:text-xl md:text-2xl text-foreground/70 leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground/60 leading-relaxed font-light tracking-wide">
                 Domina <RotatingText />,{' '}
-                <span className="text-accent font-bold">delega en tecnologia</span>{' '}
+                <span className="text-accent font-semibold">delega en tecnologia</span>{' '}
                 y transforma tu productividad profesional con IA.
               </p>
             </motion.div>
@@ -286,7 +290,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.5 }}
-              className="flex items-center justify-center gap-3 sm:gap-6 md:gap-8 mb-12 font-mono"
+              className="grid grid-cols-2 sm:flex sm:items-center sm:justify-center gap-3 sm:gap-6 md:gap-8 mb-10 sm:mb-12 font-mono"
             >
               {[
                 { value: '+150', label: 'Profesionales', icon: Users, hue: 160 },
@@ -308,7 +312,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                       <div className="flex items-center justify-center gap-1.5 mb-1">
                         <stat.icon className="w-4 h-4 hidden sm:block" style={{ color: `hsl(${stat.hue} 70% 55% / 0.7)` }} />
                         <div
-                          className="text-3xl md:text-4xl font-bold"
+                          className="text-2xl sm:text-3xl md:text-4xl font-bold"
                           style={{
                             background: `linear-gradient(180deg, hsl(${stat.hue} 70% 65%), hsl(${stat.hue} 70% 45%))`,
                             WebkitBackgroundClip: 'text',
@@ -325,7 +329,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                     </div>
                   </motion.div>
                   {idx < arr.length - 1 && (
-                    <div className="w-px h-10 sm:h-12 bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+                    <div className="hidden sm:block w-px h-10 sm:h-12 bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
                   )}
                 </motion.div>
               ))}
@@ -340,7 +344,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
             >
               {isAuthenticated ? (
                 <>
-                  <Button asChild size="lg" className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] shadow-[0_0_30px_-5px_hsl(152_70%_40%_/_0.3)] hover:shadow-[0_0_50px_-5px_hsl(152_70%_40%_/_0.5)] rounded-2xl btn-shine">
+                  <Button asChild size="lg" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] shadow-[0_0_30px_-5px_hsl(152_70%_40%_/_0.3)] hover:shadow-[0_0_50px_-5px_hsl(152_70%_40%_/_0.5)] rounded-2xl btn-shine">
                     <Link to="/community">
                       <span className="relative z-10 flex items-center">
                         ENTRAR A COMUNIDAD
@@ -348,7 +352,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                       </span>
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="h-16 px-10 text-lg border-white/[0.1] bg-white/[0.04] backdrop-blur-xl hover:border-primary/30 hover:bg-primary/5 font-mono transition-all duration-300 rounded-2xl hover:shadow-[0_0_30px_-10px_hsl(152_70%_40%_/_0.2)]">
+                  <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg border-white/[0.1] bg-white/[0.04] backdrop-blur-xl hover:border-primary/30 hover:bg-primary/5 font-mono transition-all duration-300 rounded-2xl hover:shadow-[0_0_30px_-10px_hsl(152_70%_40%_/_0.2)]">
                     <Link to="/workflows">
                       EXPLORAR WORKFLOWS
                     </Link>
@@ -356,7 +360,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                 </>
               ) : (
                 <>
-                  <Button asChild size="lg" className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] shadow-[0_0_30px_-5px_hsl(152_70%_40%_/_0.3)] hover:shadow-[0_0_50px_-5px_hsl(152_70%_40%_/_0.5)] rounded-2xl btn-shine">
+                  <Button asChild size="lg" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] shadow-[0_0_30px_-5px_hsl(152_70%_40%_/_0.3)] hover:shadow-[0_0_50px_-5px_hsl(152_70%_40%_/_0.5)] rounded-2xl btn-shine">
                     <Link to="/auth">
                       <span className="relative z-10 flex items-center">
                         INICIAR SESION
@@ -364,7 +368,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
                       </span>
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="h-14 px-8 text-base border-accent/30 bg-transparent hover:border-accent/60 hover:bg-accent/10 font-mono transition-all duration-300 group text-muted-foreground hover:text-foreground rounded-2xl">
+                  <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base border-accent/30 bg-transparent hover:border-accent/60 hover:bg-accent/10 font-mono transition-all duration-300 group text-muted-foreground hover:text-foreground rounded-2xl">
                     <a href="https://vdrc.cl/talleres" target="_blank" rel="noopener noreferrer">
                       <span className="flex items-center">
                         <Rocket className="w-4 h-4 mr-2 text-accent/70 group-hover:text-accent" />
@@ -418,27 +422,31 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           </div>
         </motion.div>
 
-        {/* Terminal — EPIC */}
+        {/* Terminal — CINEMATIC with perspective tilt */}
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 60, rotateX: 15 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: 1.2, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
           className="mt-14 max-w-xl mx-auto hidden sm:block"
+          style={{ perspective: '1200px' }}
         >
-          <div className="relative">
-            {/* Glow behind terminal */}
-            <div className="absolute -inset-4 rounded-3xl blur-2xl bg-primary/[0.05] pointer-events-none" />
+          <div className="relative group/terminal">
+            {/* Multi-layered glow behind terminal */}
+            <div className="absolute -inset-6 rounded-3xl blur-3xl bg-primary/[0.06] pointer-events-none group-hover/terminal:bg-primary/[0.09] transition-all duration-700" />
+            <div className="absolute -inset-3 rounded-3xl blur-xl bg-accent/[0.03] pointer-events-none" />
 
-            <div className="glass-strong rounded-2xl p-6 font-mono text-sm text-left transition-all duration-500 hover:border-white/[0.12] glow-hover card-edge-highlight relative overflow-hidden">
-              {/* Scanline effect */}
-              <div className="absolute inset-0 scanlines pointer-events-none opacity-30" />
+            <div className="glass-strong rounded-2xl p-6 font-mono text-sm text-left transition-all duration-500 group-hover/terminal:border-primary/[0.15] card-edge-highlight card-light-leak relative overflow-hidden border border-white/[0.06] group-hover/terminal:shadow-[0_20px_60px_-15px_hsl(152_70%_40%_/_0.12)]">
+              {/* Scanline + noise */}
+              <div className="absolute inset-0 scanlines pointer-events-none opacity-20" />
+              <div className="absolute inset-0 noise-overlay pointer-events-none opacity-[0.02]" />
 
               <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/[0.06]">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 shadow-[0_0_8px_rgba(239,68,68,0.4)]" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80 shadow-[0_0_8px_rgba(234,179,8,0.4)]" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                <span className="text-muted-foreground text-xs ml-2">vdrc://terminal</span>
-                <span className="text-muted-foreground/50 text-xs ml-auto">bash</span>
+                <div className="w-3 h-3 rounded-full bg-red-500/80 shadow-[0_0_8px_rgba(239,68,68,0.4)] group-hover/terminal:shadow-[0_0_12px_rgba(239,68,68,0.6)] transition-shadow" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80 shadow-[0_0_8px_rgba(234,179,8,0.4)] group-hover/terminal:shadow-[0_0_12px_rgba(234,179,8,0.6)] transition-shadow" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.4)] group-hover/terminal:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-shadow" />
+                <span className="text-muted-foreground/70 text-xs ml-2 tracking-wider">vdrc://terminal</span>
+                <span className="text-primary/30 text-[10px] ml-auto font-mono tracking-widest uppercase">live</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_6px_hsl(152_70%_40%_/_0.5)]" />
               </div>
               <div className="space-y-1.5 min-h-[150px] relative">
                 <TypingLine text=" vdrc --afila-sierra --gen=11" prefix="$ " delay={2200} isCommand className="text-muted-foreground" />

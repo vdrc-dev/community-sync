@@ -83,23 +83,23 @@ const MODULES = [
 
 export function LearningRoadmap() {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 sm:py-20 relative overflow-hidden">
       <div className="container mx-auto px-4 relative">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className="mb-10 sm:mb-14 md:mb-16"
         >
-          <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[0.3em] uppercase text-primary/70">
-            <Sparkles className="w-3.5 h-3.5 text-primary/60" />
+          <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">
+            <Sparkles className="w-3.5 h-3.5 text-primary/40" />
             /// RUTA_APRENDIZAJE
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mt-3">
             Tu camino hacia la productividad digital
           </h2>
-          <p className="text-muted-foreground max-w-2xl text-lg mt-2">
+          <p className="text-muted-foreground/60 max-w-2xl text-base sm:text-lg mt-3 font-light">
             4 módulos progresivos — cada uno construye sobre el anterior
           </p>
         </motion.div>

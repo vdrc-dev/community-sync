@@ -55,7 +55,7 @@ function ConnectionLine({ delay = 0 }: { delay?: number }) {
 
 export function EcosystemSection() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
 
       <div className="container mx-auto px-4 relative">
@@ -64,16 +64,16 @@ export function EcosystemSection() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="mb-14"
+          className="mb-10 sm:mb-14"
         >
-          <span className="font-mono text-xs tracking-[0.3em] uppercase text-primary/70">
+          <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">
             /// ECOSISTEMA_VDRC
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mt-3">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mt-3">
             Un ecosistema{' '}
-            <span className="text-gradient">conectado</span>
+            <span className="text-gradient-live">conectado</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl text-lg mt-2">
+          <p className="text-muted-foreground/60 max-w-2xl text-base sm:text-lg mt-3 font-light">
             Dos plataformas sincronizadas — el sitio principal para inscripciones y este portal para aprender, practicar y conectar
           </p>
         </motion.div>
