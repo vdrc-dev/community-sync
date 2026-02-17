@@ -39,9 +39,17 @@ export interface ChatMember {
   profile?: { full_name: string | null; avatar_url: string | null };
 }
 
+const DEFAULT_CHANNELS = [
+  { name: 'general', description: 'Conversación general del taller', icon_emoji: '💬' },
+  { name: 'recursos', description: 'Comparte herramientas, links y materiales útiles', icon_emoji: '📚' },
+  { name: 'ayuda', description: 'Preguntas y soporte entre participantes', icon_emoji: '🙋' },
+  { name: 'off-topic', description: 'Conversación libre y relajada', icon_emoji: '☕' },
+];
+
 export function useChat(channelId?: string) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const seedingRef = useRef(false);
 
   // Fetch user's channels
   const { data: channels, isLoading: channelsLoading } = useQuery({
@@ -57,6 +65,42 @@ export function useChat(channelId?: string) {
     enabled: !!user,
   });
 
+  // Auto-seed default channels if none exist
+  useEffect(() => {
+    if (!user || channelsLoading || seedingRef.current) return;
+    if (channels && channels.filter(c => c.channel_type === 'group').length === 0) {
+      seedingRef.current = true;
+      (async () => {
+        for (const ch of DEFAULT_CHANNELS) {
+          try {
+            const { data: created, error } = await supabase
+              .from('chat_channels')
+              .insert({
+                name: ch.name,
+                description: ch.description,
+                icon_emoji: ch.icon_emoji,
+                channel_type: 'group',
+                created_by: user.id,
+              })
+              .select()
+              .single();
+            if (!error && created) {
+              await supabase.from('chat_channel_members').insert({
+                channel_id: created.id,
+                user_id: user.id,
+                role: 'owner',
+              });
+            }
+          } catch {
+            // Channel may already exist via another session
+          }
+        }
+        queryClient.invalidateQueries({ queryKey: ['chat-channels'] });
+        seedingRef.current = false;
+      })();
+    }
+  }, [user, channels, channelsLoading, queryClient]);
+
   // Fetch messages for active channel
   const { data: messages, isLoading: messagesLoading } = useQuery({
     queryKey: ['chat-messages', channelId],
@@ -69,7 +113,6 @@ export function useChat(channelId?: string) {
         .limit(100);
       if (error) throw error;
 
-      // Fetch sender profiles
       const senderIds = [...new Set(data.map((m: any) => m.sender_id))];
       const { data: profiles } = await supabase
         .from('profiles')
@@ -128,7 +171,6 @@ export function useChat(channelId?: string) {
         },
         async (payload) => {
           const newMsg = payload.new as any;
-          // Fetch sender profile
           const { data: profile } = await supabase
             .from('profiles')
             .select('user_id, full_name, avatar_url')
@@ -146,7 +188,6 @@ export function useChat(channelId?: string) {
               old ? [...old, enrichedMsg] : [enrichedMsg]
           );
 
-          // Update channel's last_message_at in list
           queryClient.invalidateQueries({ queryKey: ['chat-channels'] });
         }
       )
@@ -191,7 +232,6 @@ export function useChat(channelId?: string) {
         .single();
       if (error) throw error;
 
-      // Add creator as owner
       await supabase.from('chat_channel_members').insert({
         channel_id: channel.id,
         user_id: user!.id,
@@ -208,7 +248,6 @@ export function useChat(channelId?: string) {
   // Create or get DM channel
   const createDM = useMutation({
     mutationFn: async (otherUserId: string) => {
-      // Check if DM already exists
       const { data: existingChannels } = await supabase
         .from('chat_channel_members')
         .select('channel_id')
@@ -235,7 +274,6 @@ export function useChat(channelId?: string) {
         }
       }
 
-      // Create new DM
       const { data: channel, error } = await supabase
         .from('chat_channels')
         .insert({

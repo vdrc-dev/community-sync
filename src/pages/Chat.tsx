@@ -7,9 +7,10 @@ import { ChatSidebar } from '@/components/chat/ChatSidebar';
 import { ChatMessageThread } from '@/components/chat/ChatMessageThread';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Hash, ArrowLeft } from 'lucide-react';
+import { MessageSquare, Hash, ArrowLeft, Sparkles } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 export default function Chat() {
   const { user, loading: authLoading } = useAuth();
@@ -38,7 +39,8 @@ export default function Chat() {
     if (channelIdFromUrl) {
       setActiveChannelId(channelIdFromUrl);
     } else if (!activeChannelId && channels && channels.length > 0) {
-      setActiveChannelId(channels[0].id);
+      const firstGroup = channels.find(c => c.channel_type === 'group');
+      setActiveChannelId(firstGroup?.id || channels[0].id);
     }
   }, [channelIdFromUrl, channels, activeChannelId]);
 
@@ -50,7 +52,6 @@ export default function Chat() {
   const selectChannel = (id: string) => {
     setActiveChannelId(id);
     setSearchParams({ channel: id });
-    // On mobile, hide sidebar
     if (window.innerWidth < 768) setShowSidebar(false);
   };
 
@@ -73,13 +74,20 @@ export default function Chat() {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="flex items-center justify-center min-h-[80vh]">
-          <div className="text-center space-y-4">
-            <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center space-y-4"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
+              <MessageSquare className="h-8 w-8 text-primary/60" />
+            </div>
             <h2 className="text-xl font-mono font-bold">Inicia sesión para chatear</h2>
+            <p className="text-sm text-muted-foreground">Conecta con otros participantes del taller en tiempo real</p>
             <Button asChild className="font-mono">
               <Link to="/auth">Iniciar Sesión</Link>
             </Button>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -129,6 +137,7 @@ export default function Chat() {
               channelName={activeChannel.name || 'DM'}
               channelType={activeChannel.channel_type as 'group' | 'dm'}
               channelEmoji={activeChannel.icon_emoji || undefined}
+              channelDescription={activeChannel.description || undefined}
               messages={messages || []}
               isLoading={messagesLoading}
               memberCount={members?.length}
@@ -136,14 +145,23 @@ export default function Chat() {
             />
           ) : (
             <div className="flex-1 flex items-center justify-center">
-              <div className="text-center space-y-3">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center space-y-4"
+              >
                 <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
-                  <Hash className="h-10 w-10 text-primary/40" />
+                  <Sparkles className="h-10 w-10 text-primary/40" />
                 </div>
-                <p className="font-mono text-muted-foreground">
-                  Selecciona un canal o inicia una conversación
-                </p>
-              </div>
+                <div>
+                  <p className="font-mono font-semibold text-foreground">
+                    {channelsLoading ? 'Cargando canales...' : 'Selecciona un canal'}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Elige un canal del sidebar o inicia una conversación directa
+                  </p>
+                </div>
+              </motion.div>
             </div>
           )}
         </div>
