@@ -3,8 +3,6 @@ import { Shield, Users } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Layout } from '@/components/layout/Layout';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { InviteUserForm } from '@/components/admin/InviteUserForm';
-import { InvitationsList } from '@/components/admin/InvitationsList';
 import { UserManagementPanel } from '@/components/admin/UserManagementPanel';
 
 export default function AdminUsers() {
@@ -46,15 +44,13 @@ export default function AdminUsers() {
             </div>
           </div>
           <p className="text-muted-foreground">
-            Administra usuarios, invita participantes y gestiona roles
+            Administra usuarios, modifica perfiles y gestiona roles
           </p>
         </motion.div>
 
         {/* Content */}
         <div className="space-y-6 max-w-5xl">
           <UserManagementPanel />
-          <InviteUserForm />
-          <InvitationsList />
         </div>
       </div>
     </Layout>

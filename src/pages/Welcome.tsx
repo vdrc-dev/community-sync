@@ -1,17 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { supabase } from '@/integrations/supabase/client';
-import { ArrowRight, BookOpen, Zap, Users, Wrench, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowRight, BookOpen, Zap, Users, Wrench, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-interface InvitationData {
-  email: string;
-  full_name: string | null;
-  role: string;
-  invited_by: string | null;
-  inviter_name?: string;
-}
 
 const FEATURES = [
   {
@@ -46,55 +36,11 @@ const FEATURES = [
 
 export default function Welcome() {
   const [searchParams] = useSearchParams();
-  const [invitation, setInvitation] = useState<InvitationData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const token = searchParams.get('token');
   const emailParam = searchParams.get('email');
+  const nameParam = searchParams.get('name');
 
-  useEffect(() => {
-    const fetchInvitation = async () => {
-      if (token) {
-        const { data } = await (supabase as any)
-          .from('invitations')
-          .select('email, full_name, role, invited_by')
-          .eq('id', token)
-          .maybeSingle();
-
-        if (data) {
-          let inviterName: string | undefined;
-          if (data.invited_by) {
-            const { data: profile } = await (supabase as any)
-              .from('profiles')
-              .select('full_name')
-              .eq('id', data.invited_by)
-              .maybeSingle();
-            inviterName = profile?.full_name || undefined;
-          }
-          setInvitation({ ...data, inviter_name: inviterName });
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchInvitation();
-  }, [token]);
-
-  const displayName = invitation?.full_name
-    || (invitation?.email ?? emailParam ?? '').split('@')[0]
-    || 'participante';
-  const inviterName = invitation?.inviter_name;
-  const signupEmail = invitation?.email || emailParam || '';
-
-  const signupUrl = `/auth?mode=signup${signupEmail ? `&email=${encodeURIComponent(signupEmail)}` : ''}${inviterName ? `&inviter=${encodeURIComponent(inviterName)}` : ''}${invitation?.full_name ? `&name=${encodeURIComponent(invitation.full_name)}` : ''}`;
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
-      </div>
-    );
-  }
+  const displayName = nameParam || (emailParam ? emailParam.split('@')[0] : 'participante');
+  const signupUrl = `/auth?mode=signup${emailParam ? `&email=${encodeURIComponent(emailParam)}` : ''}${nameParam ? `&name=${encodeURIComponent(nameParam)}` : ''}`;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -138,16 +84,9 @@ export default function Welcome() {
               <span className="text-primary">{displayName}</span>
               {' '}👋
             </h1>
-            {inviterName ? (
-              <p className="text-muted-foreground text-lg">
-                <span className="text-foreground font-medium">{inviterName}</span>{' '}
-                te invitó al Portal VDRC
-              </p>
-            ) : (
-              <p className="text-muted-foreground text-lg">
-                Te invitamos a unirte al Portal VDRC
-              </p>
-            )}
+            <p className="text-muted-foreground text-lg">
+              Te invitamos a unirte al Portal VDRC
+            </p>
           </motion.div>
 
           {/* Feature cards */}

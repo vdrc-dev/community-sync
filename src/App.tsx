@@ -25,6 +25,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 // Core
 const Home = lazy(() => import("./pages/Home"));
 const Auth = lazy(() => import("./pages/Auth"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Welcome = lazy(() => import("./pages/Welcome"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -114,6 +115,7 @@ const App = () => (
               {/* ── Public ────────────────────────────── */}
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/welcome" element={<Welcome />} />
 
               {/* ── Authenticated ─────────────────────── */}
