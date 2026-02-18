@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound } from 'lucide-react';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -16,7 +16,7 @@ const authSchema = z.object({
   fullName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
 });
 
-type AuthView = 'signin' | 'signup';
+type AuthView = 'signin' | 'signup' | 'forgot';
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
@@ -30,7 +30,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, resetPassword, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -104,6 +104,26 @@ export default function Auth() {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      setErrors({ email: 'Ingresa tu email' });
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await resetPassword(email);
+      if (error) {
+        toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      } else {
+        toast({ title: '¡Revisa tu email!', description: 'Te enviamos un enlace para restablecer tu contraseña.' });
+        setView('signin');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
       <div className="fixed inset-0 bg-background" />
@@ -145,12 +165,14 @@ export default function Auth() {
                 transition={{ duration: 0.2 }}
               >
                 <CardTitle className="text-2xl font-mono mt-4">
-                  {view === 'signin' ? 'Iniciar sesión' : 'Crear cuenta'}
+                  {view === 'signin' ? 'Iniciar sesión' : view === 'signup' ? 'Crear cuenta' : 'Recuperar contraseña'}
                 </CardTitle>
                 <CardDescription className="text-muted-foreground">
                   {view === 'signin'
                     ? 'Accede a tu cuenta del Portal VDRC'
-                    : 'Regístrate para unirte al Portal VDRC'}
+                    : view === 'signup'
+                      ? 'Regístrate para unirte al Portal VDRC'
+                      : 'Te enviaremos un enlace por email'}
                 </CardDescription>
               </motion.div>
             </AnimatePresence>
@@ -183,7 +205,16 @@ export default function Auth() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="font-mono text-xs tracking-wider">Contraseña</Label>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password" className="font-mono text-xs tracking-wider">Contraseña</Label>
+                      <button
+                        type="button"
+                        onClick={() => { setView('forgot'); setErrors({}); }}
+                        className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        ¿Olvidaste tu contraseña?
+                      </button>
+                    </div>
                     <div className="relative">
                       <Input
                         id="password"
@@ -214,7 +245,7 @@ export default function Auth() {
                     INICIAR SESIÓN
                   </Button>
                 </motion.form>
-              ) : (
+              ) : view === 'signup' ? (
                 <motion.form
                   key="signup"
                   initial={{ opacity: 0, x: -10 }}
@@ -284,11 +315,44 @@ export default function Auth() {
                     CREAR CUENTA
                   </Button>
                 </motion.form>
+              ) : (
+                <motion.form
+                  key="forgot"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.2 }}
+                  onSubmit={handleForgotPassword}
+                  className="space-y-4"
+                >
+                  <div className="space-y-2">
+                    <Label htmlFor="forgotEmail" className="font-mono text-xs tracking-wider">Email</Label>
+                    <Input
+                      id="forgotEmail"
+                      type="email"
+                      placeholder="tu@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
+                      disabled={loading}
+                    />
+                    {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
+                    disabled={loading || !email.trim()}
+                  >
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <KeyRound className="w-4 h-4 mr-2" />}
+                    ENVIAR ENLACE
+                  </Button>
+                </motion.form>
               )}
             </AnimatePresence>
 
             {/* View toggle */}
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-2">
               <button
                 type="button"
                 onClick={() => { setView(view === 'signin' ? 'signup' : 'signin'); setErrors({}); }}
@@ -296,8 +360,10 @@ export default function Auth() {
               >
                 {view === 'signin' ? (
                   <>¿No tienes cuenta? <span className="text-primary font-medium">Regístrate</span></>
-                ) : (
+                ) : view === 'signup' ? (
                   <>¿Ya tienes cuenta? <span className="text-primary font-medium">Inicia sesión</span></>
+                ) : (
+                  <><span className="text-primary font-medium">← Volver al login</span></>
                 )}
               </button>
             </div>
