@@ -6,15 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound, CheckCircle2, Mail } from 'lucide-react';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const authSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
-  fullName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
-});
+const emailSchema = z.string().email('Email inválido');
+const passwordSchema = z.string().min(6, 'Mínimo 6 caracteres');
+const nameSchema = z.string().min(2, 'Mínimo 2 caracteres');
 
 type AuthView = 'signin' | 'signup' | 'forgot';
 
@@ -28,40 +26,38 @@ export default function Auth() {
   const [fullName, setFullName] = useState(searchParams.get('name') || '');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [emailSent, setEmailSent] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const { signIn, signUp, resetPassword, user } = useAuth();
+  const { signIn, signUp, resetPassword, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    if (user) navigate('/');
-  }, [user, navigate]);
+    if (!authLoading && user) navigate('/');
+  }, [user, authLoading, navigate]);
 
-  const validate = () => {
-    try {
-      authSchema.parse({
-        email,
-        password,
-        fullName: view === 'signup' ? fullName : undefined,
-      });
-      setErrors({});
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: Record<string, string> = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) newErrors[err.path[0] as string] = err.message;
-        });
-        setErrors(newErrors);
-      }
-      return false;
-    }
+  // Reset state when switching views
+  const switchView = (newView: AuthView) => {
+    setView(newView);
+    setPassword('');
+    setTouched({});
+    setEmailSent(false);
   };
+
+  // Live validation helpers
+  const emailError = touched.email ? emailSchema.safeParse(email).success ? null : 'Email inválido' : null;
+  const passwordError = touched.password ? passwordSchema.safeParse(password).success ? null : 'Mínimo 6 caracteres' : null;
+  const nameError = touched.fullName && view === 'signup' ? nameSchema.safeParse(fullName).success ? null : 'Mínimo 2 caracteres' : null;
+
+  const isSignInValid = emailSchema.safeParse(email).success && passwordSchema.safeParse(password).success;
+  const isSignUpValid = isSignInValid && nameSchema.safeParse(fullName).success;
+  const isForgotValid = emailSchema.safeParse(email).success;
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    setTouched({ email: true, password: true });
+    if (!isSignInValid) return;
     setLoading(true);
     try {
       const { error } = await signIn(email, password);
@@ -71,10 +67,8 @@ export default function Auth() {
           description: 'Credenciales incorrectas. Verifica tu email y contraseña.',
           variant: 'destructive',
         });
-      } else {
-        toast({ title: '¡Hola de nuevo!', description: 'Has iniciado sesión correctamente.' });
-        navigate('/');
       }
+      // Navigation handled by useEffect when user state updates
     } finally {
       setLoading(false);
     }
@@ -82,7 +76,8 @@ export default function Auth() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    setTouched({ email: true, password: true, fullName: true });
+    if (!isSignUpValid) return;
     setLoading(true);
     try {
       const { error } = await signUp(email, password, fullName);
@@ -93,11 +88,12 @@ export default function Auth() {
             description: 'Este email ya está registrado. Intenta iniciar sesión.',
             variant: 'destructive',
           });
+          switchView('signin');
         } else {
           toast({ title: 'Error al registrarse', description: error.message, variant: 'destructive' });
         }
       } else {
-        toast({ title: '¡Revisa tu email!', description: 'Te enviamos un enlace de confirmación.' });
+        setEmailSent(true);
       }
     } finally {
       setLoading(false);
@@ -106,23 +102,69 @@ export default function Auth() {
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) {
-      setErrors({ email: 'Ingresa tu email' });
-      return;
-    }
+    setTouched({ email: true });
+    if (!isForgotValid) return;
     setLoading(true);
     try {
       const { error } = await resetPassword(email);
       if (error) {
         toast({ title: 'Error', description: error.message, variant: 'destructive' });
       } else {
-        toast({ title: '¡Revisa tu email!', description: 'Te enviamos un enlace para restablecer tu contraseña.' });
-        setView('signin');
+        setEmailSent(true);
       }
     } finally {
       setLoading(false);
     }
   };
+
+  // Email sent confirmation screen
+  if (emailSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+        <div className="fixed inset-0 bg-background" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md relative z-10"
+        >
+          <Card className="glass-strong glass-specular rounded-3xl">
+            <CardContent className="pt-8 pb-8 text-center">
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', delay: 0.1 }}>
+                <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-8 h-8 text-primary" />
+                </div>
+              </motion.div>
+              <h2 className="text-xl font-bold mb-2">
+                {view === 'forgot' ? '¡Revisa tu email!' : '¡Confirma tu cuenta!'}
+              </h2>
+              <p className="text-sm text-muted-foreground mb-2">
+                Enviamos un enlace a:
+              </p>
+              <p className="text-sm font-medium text-primary mb-6">{email}</p>
+              <p className="text-xs text-muted-foreground mb-6">
+                {view === 'forgot'
+                  ? 'Haz click en el enlace para restablecer tu contraseña.'
+                  : 'Haz click en el enlace para activar tu cuenta.'}
+              </p>
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => { setEmailSent(false); switchView('signin'); }}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Volver al login
+                </Button>
+                <p className="text-[10px] text-muted-foreground/50">
+                  ¿No lo ves? Revisa tu carpeta de spam.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
@@ -132,7 +174,7 @@ export default function Auth() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
         className="w-full max-w-md relative z-10"
       >
         <Link
@@ -148,7 +190,7 @@ export default function Auth() {
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring' }}
+              transition={{ delay: 0.15, type: 'spring' }}
               className="mx-auto"
             >
               <div className="relative w-16 h-16 rounded-xl overflow-hidden">
@@ -162,7 +204,7 @@ export default function Auth() {
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.15 }}
               >
                 <CardTitle className="text-2xl font-mono mt-4">
                   {view === 'signin' ? 'Iniciar sesión' : view === 'signup' ? 'Crear cuenta' : 'Recuperar contraseña'}
@@ -186,64 +228,37 @@ export default function Auth() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.15 }}
                   onSubmit={handleSignIn}
                   className="space-y-4"
                 >
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="font-mono text-xs tracking-wider">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="tu@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
-                      disabled={loading}
-                    />
-                    {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
-                  </div>
-
+                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} />
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password" className="font-mono text-xs tracking-wider">Contraseña</Label>
                       <button
                         type="button"
-                        onClick={() => { setView('forgot'); setErrors({}); }}
+                        onClick={() => switchView('forgot')}
                         className="text-xs text-muted-foreground hover:text-primary transition-colors"
                       >
                         ¿Olvidaste tu contraseña?
                       </button>
                     </div>
-                    <div className="relative">
-                      <Input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 pr-10 transition-all"
-                        disabled={loading}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                    {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
+                    <FieldPassword
+                      id="password"
+                      value={password}
+                      onChange={setPassword}
+                      show={showPassword}
+                      onToggle={() => setShowPassword(p => !p)}
+                      error={passwordError}
+                      disabled={loading}
+                      onBlur={() => setTouched(t => ({ ...t, password: true }))}
+                    />
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
-                    disabled={loading}
-                  >
-                    {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                  <SubmitButton loading={loading} disabled={!isSignInValid}>
                     INICIAR SESIÓN
-                  </Button>
+                  </SubmitButton>
                 </motion.form>
               ) : view === 'signup' ? (
                 <motion.form
@@ -251,7 +266,7 @@ export default function Auth() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.15 }}
                   onSubmit={handleSignUp}
                   className="space-y-4"
                 >
@@ -263,57 +278,33 @@ export default function Auth() {
                       placeholder="Tu nombre"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
+                      onBlur={() => setTouched(t => ({ ...t, fullName: true }))}
                       className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
                       disabled={loading}
+                      autoFocus
                     />
-                    {errors.fullName && <p className="text-xs text-destructive">{errors.fullName}</p>}
+                    {nameError && <p className="text-xs text-destructive">{nameError}</p>}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signupEmail" className="font-mono text-xs tracking-wider">Email</Label>
-                    <Input
-                      id="signupEmail"
-                      type="email"
-                      placeholder="tu@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
-                      disabled={loading}
-                    />
-                    {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
-                  </div>
-
+                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="signupEmail" />
+                  
                   <div className="space-y-2">
                     <Label htmlFor="signupPassword" className="font-mono text-xs tracking-wider">Contraseña</Label>
-                    <div className="relative">
-                      <Input
-                        id="signupPassword"
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 pr-10 transition-all"
-                        disabled={loading}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                    {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
+                    <FieldPassword
+                      id="signupPassword"
+                      value={password}
+                      onChange={setPassword}
+                      show={showPassword}
+                      onToggle={() => setShowPassword(p => !p)}
+                      error={passwordError}
+                      disabled={loading}
+                      onBlur={() => setTouched(t => ({ ...t, password: true }))}
+                    />
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
-                    disabled={loading}
-                  >
-                    {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                  <SubmitButton loading={loading} disabled={!isSignUpValid}>
                     CREAR CUENTA
-                  </Button>
+                  </SubmitButton>
                 </motion.form>
               ) : (
                 <motion.form
@@ -321,32 +312,15 @@ export default function Auth() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.15 }}
                   onSubmit={handleForgotPassword}
                   className="space-y-4"
                 >
-                  <div className="space-y-2">
-                    <Label htmlFor="forgotEmail" className="font-mono text-xs tracking-wider">Email</Label>
-                    <Input
-                      id="forgotEmail"
-                      type="email"
-                      placeholder="tu@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
-                      disabled={loading}
-                    />
-                    {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
-                  </div>
+                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="forgotEmail" autoFocus />
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
-                    disabled={loading || !email.trim()}
-                  >
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <KeyRound className="w-4 h-4 mr-2" />}
+                  <SubmitButton loading={loading} disabled={!isForgotValid} icon={<KeyRound className="w-4 h-4 mr-2" />}>
                     ENVIAR ENLACE
-                  </Button>
+                  </SubmitButton>
                 </motion.form>
               )}
             </AnimatePresence>
@@ -355,7 +329,7 @@ export default function Auth() {
             <div className="mt-6 text-center space-y-2">
               <button
                 type="button"
-                onClick={() => { setView(view === 'signin' ? 'signup' : 'signin'); setErrors({}); }}
+                onClick={() => switchView(view === 'signin' ? 'signup' : 'signin')}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 {view === 'signin' ? (
@@ -391,7 +365,7 @@ export default function Auth() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.6 }}
           className="mt-6 text-center"
         >
           <p className="font-mono text-xs text-muted-foreground/50">
@@ -405,5 +379,76 @@ export default function Auth() {
         </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+// ── Shared sub-components ──────────────────────────────
+
+function FieldEmail({ value, onChange, error, disabled, onBlur, id = 'email', autoFocus }: {
+  value: string; onChange: (v: string) => void; error: string | null; disabled: boolean; onBlur: () => void; id?: string; autoFocus?: boolean;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id} className="font-mono text-xs tracking-wider">Email</Label>
+      <Input
+        id={id}
+        type="email"
+        placeholder="tu@email.com"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
+        disabled={disabled}
+        autoFocus={autoFocus}
+        autoComplete="email"
+      />
+      {error && <p className="text-xs text-destructive">{error}</p>}
+    </div>
+  );
+}
+
+function FieldPassword({ id, value, onChange, show, onToggle, error, disabled, onBlur }: {
+  id: string; value: string; onChange: (v: string) => void; show: boolean; onToggle: () => void; error: string | null; disabled: boolean; onBlur: () => void;
+}) {
+  return (
+    <>
+      <div className="relative">
+        <Input
+          id={id}
+          type={show ? 'text' : 'password'}
+          placeholder="••••••••"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 pr-10 transition-all"
+          disabled={disabled}
+          autoComplete={id.includes('signup') ? 'new-password' : 'current-password'}
+        />
+        <button
+          type="button"
+          onClick={onToggle}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          tabIndex={-1}
+        >
+          {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        </button>
+      </div>
+      {error && <p className="text-xs text-destructive">{error}</p>}
+    </>
+  );
+}
+
+function SubmitButton({ loading, disabled, children, icon }: {
+  loading: boolean; disabled: boolean; children: React.ReactNode; icon?: React.ReactNode;
+}) {
+  return (
+    <Button
+      type="submit"
+      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold hover:scale-[1.01] transition-all duration-300"
+      disabled={loading || disabled}
+    >
+      {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : icon}
+      {children}
+    </Button>
   );
 }

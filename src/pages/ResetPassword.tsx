@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -6,54 +6,31 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, KeyRound } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, KeyRound, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isRecovery, setIsRecovery] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const { updatePassword } = useAuth();
+  const { updatePassword, isRecovery, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Check for recovery token in URL hash
-    const hash = window.location.hash;
-    if (hash.includes('type=recovery')) {
-      setIsRecovery(true);
-    }
-  }, []);
+  // Wait for auth to initialize
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (password.length < 6) {
-      toast({ title: 'Error', description: 'La contraseña debe tener al menos 6 caracteres.', variant: 'destructive' });
-      return;
-    }
-    if (password !== confirmPassword) {
-      toast({ title: 'Error', description: 'Las contraseñas no coinciden.', variant: 'destructive' });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await updatePassword(password);
-      if (error) {
-        toast({ title: 'Error', description: error.message, variant: 'destructive' });
-      } else {
-        toast({ title: 'Contraseña actualizada', description: 'Ya puedes iniciar sesión con tu nueva contraseña.' });
-        navigate('/');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // No recovery session detected
   if (!isRecovery) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -77,6 +54,58 @@ export default function ResetPassword() {
       </div>
     );
   }
+
+  // Success state
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md text-center">
+          <Card className="glass-strong rounded-3xl">
+            <CardContent className="pt-8 pb-8">
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', delay: 0.1 }}>
+                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              </motion.div>
+              <h2 className="text-xl font-bold mb-2">¡Contraseña actualizada!</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Ya puedes usar tu nueva contraseña para iniciar sesión.
+              </p>
+              <Button onClick={() => navigate('/')} className="gap-2">
+                Ir al inicio
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password.length < 6) {
+      toast({ title: 'Error', description: 'La contraseña debe tener al menos 6 caracteres.', variant: 'destructive' });
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast({ title: 'Error', description: 'Las contraseñas no coinciden.', variant: 'destructive' });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await updatePassword(password);
+      if (error) {
+        toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      } else {
+        setSuccess(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const passwordsMatch = password.length > 0 && confirmPassword.length > 0 && password === confirmPassword;
+  const passwordLongEnough = password.length >= 6;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
@@ -120,6 +149,9 @@ export default function ResetPassword() {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                {password.length > 0 && !passwordLongEnough && (
+                  <p className="text-xs text-destructive">Mínimo 6 caracteres</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -135,9 +167,21 @@ export default function ResetPassword() {
                   minLength={6}
                   required
                 />
+                {confirmPassword.length > 0 && !passwordsMatch && (
+                  <p className="text-xs text-destructive">Las contraseñas no coinciden</p>
+                )}
+                {passwordsMatch && passwordLongEnough && (
+                  <p className="text-xs text-green-500 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" /> Contraseñas coinciden
+                  </p>
+                )}
               </div>
 
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-semibold"
+                disabled={loading || !passwordLongEnough || !passwordsMatch}
+              >
                 {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
                 ACTUALIZAR CONTRASEÑA
               </Button>
