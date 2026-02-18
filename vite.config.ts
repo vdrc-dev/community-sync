@@ -1,10 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
-
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   define: {
     'import.meta.env.VITE_SUPABASE_URL': JSON.stringify("https://xhyzzwjjtlxhdhvauzjx.supabase.co"),
     'import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY': JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoeXp6d2pqdGx4aGRodmF1emp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNDUwNzcsImV4cCI6MjA4NDYyMTA3N30.5Us4hSmxoCykBsQi6qsRjYk3GW3ORKR03kZwMOPQFtc"),
@@ -17,7 +15,7 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -37,4 +35,4 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-}));
+});

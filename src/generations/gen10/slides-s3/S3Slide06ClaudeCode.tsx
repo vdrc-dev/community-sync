@@ -228,7 +228,7 @@ export function S3Slide06ClaudeCode() {
               <div className="flex justify-center mb-4 mt-4">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
                   style={{ background: 'hsl(0 0% 100% / 0.02)', border: '1px solid hsl(0 0% 100% / 0.08)' }}>
-                  <Globe className="w-7 h-7 text-white/35" />
+                  <Globe className="w-7 h-7 text-white/45" />
                 </div>
               </div>
 
@@ -239,7 +239,7 @@ export function S3Slide06ClaudeCode() {
                 {WEB_LIMITS.map((l, i) => (
                   <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/[0.08]">
-                      <X className="w-3.5 h-3.5 text-white/35" />
+                      <X className="w-3.5 h-3.5 text-white/45" />
                     </div>
                     <span className="text-sm text-white/40">{l.label}</span>
                   </div>
@@ -249,8 +249,8 @@ export function S3Slide06ClaudeCode() {
               {/* Capacity bar */}
               <div className="mt-4 pt-3 border-t border-white/[0.08]">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] text-white/35 font-semibold tracking-wider uppercase">Capacidad</span>
-                  <span className="text-[11px] font-black text-white/35 tabular-nums">30%</span>
+                  <span className="text-[10px] text-white/40 font-semibold tracking-wider uppercase">Capacidad</span>
+                  <span className="text-[11px] font-black text-white/40 tabular-nums">30%</span>
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden bg-white/[0.04]">
                   <motion.div className="h-full rounded-full bg-white/10"
@@ -268,21 +268,19 @@ export function S3Slide06ClaudeCode() {
         <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto">
           <div className="relative flex items-center justify-center gap-2.5">
             {/* Connecting line behind steps */}
-            {!isExporting && (
-              <motion.div
-                className="absolute top-1/2 left-[12%] right-[12%] h-px -translate-y-1/2"
-                style={{ background: `linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), hsl(263 50% 50% / 0.2), transparent)` }}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
-              />
-            )}
+            <motion.div
+              className="absolute top-1/2 left-[12%] right-[12%] h-px -translate-y-1/2"
+              style={{ background: `linear-gradient(90deg, transparent, hsl(263 50% 50% / 0.2), hsl(263 50% 50% / 0.2), transparent)` }}
+              initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
+            />
 
             {SETUP_STEPS.map((s, i) => {
               const StepIcon = s.icon;
               return (
                 <motion.div key={i} {...m(0.6 + i * 0.05)}
-                  className="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl border backdrop-blur-sm transition-all duration-300"
+                  className="relative flex items-center gap-2 px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300"
                   style={{
                     borderColor: 'hsl(263 50% 55% / 0.12)',
                     background: 'hsl(263 40% 8% / 0.5)',

@@ -153,7 +153,7 @@ export function S3Slide12Closing() {
                       animate: { opacity: 1, scale: 1, y: 0 },
                       transition: { delay: 0.2 + i * 0.05, type: 'spring', stiffness: 200 },
                     })}
-                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border group relative overflow-hidden"
+                    className="flex items-center gap-2.5 px-4 py-3 rounded-xl border group relative overflow-hidden"
                     style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
                   >
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 relative"

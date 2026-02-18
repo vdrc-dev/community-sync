@@ -95,9 +95,13 @@ export function S3SlideDivider({
         {/* Title with text glow */}
         <motion.h1
           {...me(0.15, { initial: { opacity: 0, scale: 0.88, filter: 'blur(8px)' }, animate: { opacity: 1, scale: 1, filter: 'blur(0px)' } })}
-          className="text-6xl 2xl:text-7xl font-black text-white tracking-tight mb-4"
+          className="text-6xl 2xl:text-7xl font-black tracking-tight mb-4"
           style={{
-            textShadow: `0 0 100px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.35), 0 0 40px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.15)`,
+            background: `linear-gradient(135deg, hsl(0 0% 100%) 20%, hsl(${accentHue} ${accentSat}% ${accentLight + 15}%) 70%, hsl(${(accentHue + 40) % 360} ${accentSat}% ${accentLight + 10}%) 100%)`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            filter: `drop-shadow(0 0 50px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.35))`,
           }}
         >
           {title}

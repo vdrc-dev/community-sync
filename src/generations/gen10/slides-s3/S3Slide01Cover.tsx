@@ -10,10 +10,10 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const TOOLS = [
-  { name: 'Gamma', icon: Presentation, color: 'hsl(263 70% 60%)', hue: 263 },
-  { name: 'Coolors', icon: Palette, color: 'hsl(185 70% 50%)', hue: 185 },
-  { name: 'Canvas', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38 },
-  { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)', hue: 150 },
+  { name: 'Gamma', icon: Presentation, color: 'hsl(263 70% 60%)', hue: 263, href: 'https://gamma.app' },
+  { name: 'Coolors', icon: Palette, color: 'hsl(185 70% 50%)', hue: 185, href: 'https://coolors.co' },
+  { name: 'Canvas', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38, href: 'https://chatgpt.com' },
+  { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)', hue: 150, href: 'https://napkin.ai' },
 ];
 
 const STATS = [
@@ -84,7 +84,7 @@ export function S3Slide01Cover() {
             <span className="text-white/90 font-bold tracking-wider text-sm">
               VDRC <span className="text-rose-400/30">·</span> GEN {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
             </span>
-            <span className="text-white/35 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
+            <span className="text-white/45 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
           </div>
         </div>
       </motion.div>
@@ -140,8 +140,16 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] text-white leading-[0.88] transition-all duration-700 relative"
-              style={{ textShadow: isHovered ? '0 0 120px hsl(330 70% 55% / 0.5)' : '0 0 60px hsl(330 70% 55% / 0.08)' }}
+              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.88] transition-all duration-700 relative"
+              style={{
+                ...s3GradientTextMulti([0, 330, 310], 330),
+                filter: `drop-shadow(0 0 ${isHovered ? '90' : '30'}px hsl(330 70% 50% / 0.3))`,
+                transition: 'filter 0.7s ease',
+                background: `linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(330 60% 85%) 60%, hsl(310 55% 75%) 100%)`,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
             >
               PRESEN
             </h1>
@@ -344,7 +352,8 @@ export function S3Slide01Cover() {
                   {TOOLS.map((tool, i) => {
                     const Icon = tool.icon;
                     return (
-                      <motion.div key={i} className="w-20 h-20 rounded-2xl border flex items-center justify-center relative overflow-hidden"
+                      <motion.a key={i} href={tool.href} target="_blank" rel="noopener noreferrer"
+                        className="w-20 h-20 rounded-2xl border flex items-center justify-center relative overflow-hidden cursor-pointer hover:border-opacity-60 transition-colors"
                         style={{ borderColor: `${tool.color}35`, background: `${tool.color}0a` }}
                         {...(isExporting ? {} : { animate: { scale: [1, 1.06, 1], opacity: [0.4, 0.7, 0.4], y: [0, -3, 0] }, transition: { duration: 3 + i, repeat: Infinity, delay: i * 0.5 } })}>
                         {!isExporting && (
@@ -354,7 +363,7 @@ export function S3Slide01Cover() {
                             transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.8 }} />
                         )}
                         <Icon className="w-8 h-8 relative" style={{ color: tool.color }} />
-                      </motion.div>
+                      </motion.a>
                     );
                   })}
                 </div>
@@ -395,7 +404,7 @@ export function S3Slide01Cover() {
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-mono text-rose-400/65 tracking-wider uppercase">2026</span>
               <div className="w-px h-3" style={{ background: 'hsl(0 0% 100% / 0.08)' }} />
-              <span className="text-[10px] font-mono text-white/35">S3</span>
+              <span className="text-[10px] font-mono text-white/45">S3</span>
             </div>
           </motion.div>
         </motion.div>

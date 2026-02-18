@@ -17,6 +17,7 @@ const TOOLS = [
     price: 'Free / $8',
     output: 'PPTX / PDF / Slides',
     highlight: 'Agente IA · API (Zapier/Make) · Diagramas inteligentes',
+    href: 'https://gamma.app',
   },
   {
     name: 'Napkin AI',
@@ -29,6 +30,7 @@ const TOOLS = [
     price: 'Free / $9',
     output: 'SVG / PNG / PPT',
     highlight: 'Flowcharts + diagramas · Exporta SVG/PNG',
+    href: 'https://napkin.ai',
   },
   {
     name: 'Beautiful.ai',
@@ -41,15 +43,16 @@ const TOOLS = [
     price: '$12/mes',
     output: 'PPTX / PDF',
     highlight: 'Plantillas auto-ajustables · Brand kit integrado',
+    href: 'https://beautiful.ai',
   },
 ];
 
 const WORKFLOW = [
-  { tool: 'Coolors', action: 'Paleta', accent: S3_ACCENT.rose },
-  { tool: 'Claude', action: 'Outline', accent: S3_ACCENT.emerald },
-  { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber },
-  { tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet },
-  { tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan },
+  { tool: 'Coolors', action: 'Paleta', accent: S3_ACCENT.rose, href: 'https://coolors.co' },
+  { tool: 'Claude', action: 'Outline', accent: S3_ACCENT.emerald, href: 'https://claude.ai' },
+  { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber, href: 'https://napkin.ai' },
+  { tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet, href: 'https://gamma.app' },
+  { tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan, href: 'https://canva.com' },
 ];
 
 export function S3Slide07PresentationAI() {
@@ -137,7 +140,9 @@ export function S3Slide07PresentationAI() {
 
                   {/* Name + badge */}
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-xl font-black text-white">{tool.name}</h3>
+                    <a href={tool.href} target="_blank" rel="noopener noreferrer"
+                      className="text-xl font-black text-white hover:underline underline-offset-4 decoration-1 transition-colors"
+                      style={{ textDecorationColor: tool.accent.text }}>{tool.name}</a>
                     {tool.badge && (
                       <span
                         className="px-2 py-0.5 rounded-full text-[10px] font-black"
@@ -195,7 +200,9 @@ export function S3Slide07PresentationAI() {
                   {i + 1}
                 </span>
                 <div>
-                  <p className="text-xs font-bold" style={{ color: step.accent.text }}>{step.tool}</p>
+                  <a href={step.href} target="_blank" rel="noopener noreferrer"
+                    className="text-xs font-bold hover:underline underline-offset-2 transition-colors"
+                    style={{ color: step.accent.text }}>{step.tool}</a>
                   <p className="text-[10px] text-white/40">{step.action}</p>
                 </div>
               </div>

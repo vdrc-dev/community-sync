@@ -80,7 +80,7 @@ export function S3Slide08Automatizacion() {
                 />
               )}
             </p>
-            <p className="text-[10px] text-white/35 uppercase tracking-wider mt-1">manual</p>
+            <p className="text-[10px] text-white/45 uppercase tracking-wider mt-1">manual</p>
           </div>
 
           {/* Arrow */}

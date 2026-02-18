@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock } from 'lucide-react';
+import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock, Check } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -108,8 +108,10 @@ export function S3Slide02Recap() {
                       borderStyle: isFuture ? 'dashed' : 'solid',
                     }}>
                     {week.done && (
-                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black"
-                        style={{ background: week.accent.dot, color: '#04030a' }}>✓</div>
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
+                        style={{ background: week.accent.dot, color: '#04030a' }}>
+                        <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                      </div>
                     )}
                     {isFuture && (
                       <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border"
@@ -124,7 +126,7 @@ export function S3Slide02Recap() {
                 {/* Label */}
                 <div>
                   <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-1" style={{ color: isFuture ? `${week.accent.text}35` : `${week.accent.text}80` }}>Semana {week.num}</p>
-                  <p className={`text-base font-black ${isFuture ? 'text-white/35' : 'text-white'}`}>{week.title}</p>
+                  <p className={`text-base font-black ${isFuture ? 'text-white/45' : 'text-white'}`}>{week.title}</p>
                   {isCurrent && (
                     <span className="inline-block mt-1.5 relative overflow-hidden rounded-full">
                       {!isExporting && (

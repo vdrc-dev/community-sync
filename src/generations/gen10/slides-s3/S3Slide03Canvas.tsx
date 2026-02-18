@@ -109,7 +109,7 @@ export function S3Slide03Canvas() {
               <div className="p-4">
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   {[{ v: '$2.4M', d: '+12%' }, { v: '1,847', d: '+8%' }, { v: '$1.3K', d: '+3%' }].map((mt, i) => (
-                    <div key={i} className="p-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-center">
+                    <div key={i} className="p-2.5 rounded-lg border border-white/[0.08] bg-white/[0.02] text-center">
                       <p className="text-sm font-black text-white">{mt.v}</p>
                       <p className="text-[10px] text-emerald-400/70 font-bold">{mt.d}</p>
                     </div>

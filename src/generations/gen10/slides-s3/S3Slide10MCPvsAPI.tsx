@@ -104,7 +104,7 @@ export function S3Slide10MCPvsAPI() {
           {/* VS divider */}
           <div className="flex flex-col items-center gap-1.5">
             <div className="w-px h-6" style={{ background: 'linear-gradient(to bottom, transparent, hsl(0 0% 100% / 0.1), transparent)' }} />
-            <span className="text-[11px] font-black text-white/35 tracking-wider">VS</span>
+            <span className="text-[11px] font-black text-white/45 tracking-wider">VS</span>
             <div className="w-px h-6" style={{ background: 'linear-gradient(to bottom, transparent, hsl(0 0% 100% / 0.1), transparent)' }} />
           </div>
 
@@ -151,7 +151,7 @@ export function S3Slide10MCPvsAPI() {
             {ROWS.map((row, i) => (
               <motion.div key={i} {...m(0.25 + i * 0.05)}
                 className="grid grid-cols-[120px_1fr_1fr] gap-2 group">
-                <div className="px-3 py-3 rounded-lg border border-white/[0.08] bg-white/[0.02] flex items-center">
+                <div className="px-4 py-3 rounded-lg border border-white/[0.08] bg-white/[0.02] flex items-center">
                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">{row.cat}</span>
                 </div>
                 <div className="px-4 py-3 rounded-lg border transition-colors group-hover:border-violet-500/20 group-hover:bg-violet-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden">

@@ -89,15 +89,13 @@ export function S3SlideAgenda() {
           <div className="absolute top-[60px] left-[10%] right-[10%] h-px" style={{ background: 'linear-gradient(90deg, hsl(330 65% 55% / 0.3), hsl(263 60% 55% / 0.3), hsl(38 80% 55% / 0.3), hsl(160 65% 50% / 0.3))' }} />
           
           {/* Animated progress on line */}
-          {!isExporting && (
-            <motion.div
-              className="absolute top-[59.5px] left-[10%] h-[2px] rounded-full"
-              style={{ background: 'linear-gradient(90deg, hsl(330 65% 55%), hsl(263 60% 55%), hsl(38 80% 55%), hsl(160 65% 50%))' }}
-              initial={{ width: '0%' }}
-              animate={{ width: '80%' }}
-              transition={{ delay: 0.6, duration: 2.5, ease: S3_EASE }}
-            />
-          )}
+          <motion.div
+            className="absolute top-[59.5px] left-[10%] h-[2px] rounded-full"
+            style={{ background: 'linear-gradient(90deg, hsl(330 65% 55%), hsl(263 60% 55%), hsl(38 80% 55%), hsl(160 65% 50%))' }}
+            initial={isExporting ? { width: '80%' } : { width: '0%' }}
+            animate={{ width: '80%' }}
+            transition={isExporting ? undefined : { delay: 0.6, duration: 2.5, ease: S3_EASE }}
+          />
 
           <div className="grid grid-cols-4 gap-5">
             {MODULES.map((mod, i) => {
