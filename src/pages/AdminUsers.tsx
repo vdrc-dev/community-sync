@@ -5,7 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { InviteUserForm } from '@/components/admin/InviteUserForm';
 import { InvitationsList } from '@/components/admin/InvitationsList';
-import { AccessRequestsList } from '@/components/admin/AccessRequestsList';
+import { UserManagementPanel } from '@/components/admin/UserManagementPanel';
 
 export default function AdminUsers() {
   const { isAdmin, loading } = useAuth();
@@ -46,13 +46,13 @@ export default function AdminUsers() {
             </div>
           </div>
           <p className="text-muted-foreground">
-            Invita participantes, gestiona solicitudes de acceso y administra invitaciones
+            Administra usuarios, invita participantes y gestiona roles
           </p>
         </motion.div>
 
         {/* Content */}
         <div className="space-y-6 max-w-5xl">
-          <AccessRequestsList />
+          <UserManagementPanel />
           <InviteUserForm />
           <InvitationsList />
         </div>
