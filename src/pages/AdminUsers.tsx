@@ -4,6 +4,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Layout } from '@/components/layout/Layout';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { UserManagementPanel } from '@/components/admin/UserManagementPanel';
+import { InviteUserForm } from '@/components/admin/InviteUserForm';
+import { InvitationsList } from '@/components/admin/InvitationsList';
 
 export default function AdminUsers() {
   const { isAdmin, loading } = useAuth();
@@ -50,6 +52,8 @@ export default function AdminUsers() {
 
         {/* Content */}
         <div className="space-y-6 max-w-5xl">
+          <InviteUserForm />
+          <InvitationsList />
           <UserManagementPanel />
         </div>
       </div>
