@@ -9,28 +9,28 @@ const MODULES = [
   {
     num: '01',
     title: 'Fundamentos Visuales',
-    desc: 'Color HEX, tipografía y contraste',
-    tools: ['Coolors', 'Fontjoy', 'Realtime Colors'],
+    desc: 'Color, tipografía y VibeCoding',
+    tools: ['Coolors', 'Fontjoy', 'VibeCoding'],
     icon: Palette,
     accent: S3_ACCENT.rose,
-    time: '~25 min',
-    timePercent: 26,
+    time: '~20 min',
+    timePercent: 21,
   },
   {
     num: '02',
-    title: 'Creación de Slides',
-    desc: 'De texto a presentación profesional',
-    tools: ['Gamma', 'Canva', 'Beautiful.ai'],
+    title: 'Herramientas de Creación',
+    desc: 'Sintetiza, presenta y automatiza con IA',
+    tools: ['Canva', 'NotebookLM', 'Gamma', 'Skills'],
     icon: Wrench,
     accent: S3_ACCENT.violet,
-    time: '~35 min',
-    timePercent: 37,
+    time: '~40 min',
+    timePercent: 42,
   },
   {
     num: '03',
-    title: 'Visuales y Automatización',
-    desc: 'Infografías, video IA y exportables',
-    tools: ['Napkin AI', 'Krea.ai', 'PDF/SVG'],
+    title: 'Conexiones y Aplicación',
+    desc: 'Datos reales, CRM, Cursor y video IA',
+    tools: ['CRM + MCP', 'Cursor', 'Krea.ai'],
     icon: Plug,
     accent: S3_ACCENT.amber,
     time: '~25 min',
@@ -39,12 +39,12 @@ const MODULES = [
   {
     num: '04',
     title: 'Cierre Aplicado',
-    desc: 'Checklist y próximos pasos',
-    tools: ['Template final', 'Q&A'],
+    desc: 'Arsenal, misiones y próximos pasos',
+    tools: ['Misiones', 'Q&A'],
     icon: Rocket,
     accent: S3_ACCENT.emerald,
     time: '~10 min',
-    timePercent: 10,
+    timePercent: 11,
   },
 ];
 
@@ -87,7 +87,7 @@ export function S3SlideAgenda() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.12)} className="text-white/45 text-base mt-3 mb-10 max-w-md mx-auto">
-          4 módulos · ~95 minutos · de la idea a la acción
+          4 módulos · ~95 minutos · de apuntes a presentaciones
         </motion.p>
 
         {/* Module cards — clean horizontal layout, no overlapping lines */}
