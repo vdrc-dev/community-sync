@@ -165,7 +165,7 @@ export function S3Slide01Cover() {
                 backgroundClip: 'text',
               }}
             >
-              PRESEN
+              PRESENTA
             </h1>
             <h1
               className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.85] mt-1 relative"
@@ -175,7 +175,17 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              TACIÓN
+              CIONES
+            </h1>
+            <h1
+              className="text-[5rem] lg:text-[7rem] font-black tracking-[-0.055em] leading-[0.85] mt-1 relative"
+              style={{
+                ...s3GradientTextMulti([185, 263, 330], 185),
+                filter: `drop-shadow(0 0 ${isHovered ? '70' : '30'}px hsl(185 70% 50% / 0.5))`,
+                transition: 'filter 0.7s ease',
+              }}
+            >
+              CON IA
             </h1>
 
             {/* Animated accent line */}
