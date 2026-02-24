@@ -87,7 +87,7 @@ export function S3SlideAgenda() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.12)} className="text-white/45 text-base mt-3 mb-10 max-w-md mx-auto">
-          4 módulos · ~95 minutos · de apuntes a presentaciones
+          4 módulos · 90 minutos · de apuntes a presentaciones
         </motion.p>
 
         {/* Module cards — clean horizontal layout, no overlapping lines */}
