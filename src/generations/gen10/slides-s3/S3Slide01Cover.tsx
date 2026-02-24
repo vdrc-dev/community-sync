@@ -156,7 +156,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              CREACIÓN
+              PRESENTACIONES
             </h1>
             <h1
               className="text-[3.5rem] sm:text-[5.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
@@ -166,7 +166,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              DIGITAL
+              CON IA
             </h1>
 
             {/* Accent line */}
