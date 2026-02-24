@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import toolNotebookLM from '@/assets/slides/tool-notebooklm-mockup.jpg';
 
 const INPUTS = ['PDFs', 'Slides', 'Texto', 'Audio'];
 
@@ -96,35 +97,25 @@ export function S3Slide05NotebookLM() {
             <ArrowRight className="w-5 h-5 text-white/35" />
           </motion.div>
 
-          {/* Central engine */}
+          {/* Central engine — reference image */}
           <motion.div
             {...m(0.25)}
-            className="relative w-40 h-40 rounded-2xl border flex flex-col items-center justify-center overflow-hidden"
+            className="relative w-64 rounded-2xl border overflow-hidden"
             style={{ borderColor: 'hsl(185 70% 50% / 0.2)', background: 'hsl(185 70% 50% / 0.04)' }}
           >
-            {/* Breathing glow */}
             {!isExporting && (
               <motion.div
-                className="absolute inset-0 rounded-2xl pointer-events-none"
-                style={{ background: 'hsl(185 70% 50% / 0.05)' }}
-                animate={{ scale: [1, 1.06, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-            )}
-            {/* Shimmer */}
-            {!isExporting && (
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 70% 65% / 0.1) 50%, transparent 65%)' }}
+                className="absolute inset-0 z-10 pointer-events-none"
+                style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(185 70% 65% / 0.1) 50%, transparent 65%)', width: '45%' }}
                 animate={{ x: ['-150%', '250%'] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
               />
             )}
-            <div className="relative text-center">
-              <BookOpen className="w-9 h-9 mb-2 mx-auto" style={{ color: S3_ACCENT.cyan.text }} />
-              <p className="text-sm font-black text-white">NotebookLM</p>
-              <p className="text-[10px] text-white/40 mt-0.5">Chat + Citas</p>
+            <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(185 70% 50% / 0.1)' }}>
+              <BookOpen className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
+              <span className="text-[10px] text-white/60 font-bold">NotebookLM</span>
             </div>
+            <img src={toolNotebookLM} alt="NotebookLM" className="w-full h-auto object-cover" style={{ maxHeight: '180px' }} />
           </motion.div>
 
           {/* Arrow */}

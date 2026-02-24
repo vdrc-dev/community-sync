@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import toolCanvasMockup from '@/assets/slides/tool-canvas-mockup.jpg';
 
 export function S3Slide03Canvas() {
   const { isExporting } = useExportContext();
@@ -87,7 +88,7 @@ export function S3Slide03Canvas() {
             <ArrowRight className="w-5 h-5 ml-1" style={{ color: S3_ACCENT.cyan.text + '60' }} />
           </motion.div>
 
-          {/* Output: Dashboard mockup */}
+          {/* Output: Dashboard mockup with real screenshot */}
           <motion.div {...m(0.32)} className="flex-1 max-w-[400px]" {...(isExporting ? {} : { whileHover: { scale: 1.02 } })}>
             <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(185 70% 50% / 0.15)', background: 'hsl(185 70% 50% / 0.03)' }}>
               {!isExporting && (
@@ -103,26 +104,10 @@ export function S3Slide03Canvas() {
                   <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
                   <div className="w-2 h-2 rounded-full bg-green-500/50" />
                 </div>
-                <span className="text-[10px] text-white/40 font-mono ml-2">dashboard.html</span>
+                <span className="text-[10px] text-white/40 font-mono ml-2">ChatGPT Canvas</span>
               </div>
-              {/* Metrics + chart */}
-              <div className="p-4">
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  {[{ v: '$2.4M', d: '+12%' }, { v: '1,847', d: '+8%' }, { v: '$1.3K', d: '+3%' }].map((mt, i) => (
-                    <div key={i} className="p-2.5 rounded-lg border border-white/[0.08] bg-white/[0.02] text-center">
-                      <p className="text-sm font-black text-white">{mt.v}</p>
-                      <p className="text-[10px] text-emerald-400/70 font-bold">{mt.d}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-end gap-1 h-16 px-1">
-                  {[65, 45, 80, 55, 90, 70, 85, 60, 75, 50, 95, 72].map((h, i) => (
-                    <motion.div key={i} className="flex-1 rounded-t"
-                      style={{ height: `${h}%`, background: `hsl(185 70% 50% / ${0.2 + (h / 100) * 0.5})` }}
-                      {...(isExporting ? {} : { initial: { scaleY: 0 }, animate: { scaleY: 1 }, transition: { delay: 0.5 + i * 0.04, duration: 0.4 } })} />
-                  ))}
-                </div>
-              </div>
+              {/* Reference screenshot */}
+              <img src={toolCanvasMockup} alt="Canvas Dashboard" className="w-full h-auto object-cover" style={{ maxHeight: '220px' }} />
             </div>
           </motion.div>
         </div>

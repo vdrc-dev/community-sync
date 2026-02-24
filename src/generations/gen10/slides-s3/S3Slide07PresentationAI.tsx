@@ -4,6 +4,8 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import toolGammaMockup from '@/assets/slides/tool-gamma-mockup.jpg';
+import toolNapkinMockup from '@/assets/slides/tool-napkin-mockup.jpg';
 
 const TOOLS = [
   {
@@ -124,59 +126,60 @@ export function S3Slide07PresentationAI() {
                   />
                 )}
 
-                <div className="relative p-5 flex flex-col items-center text-center">
-                  {/* Icon */}
-                  <div className="relative mb-4">
-                    <div
-                      className="relative w-14 h-14 rounded-xl border-2 flex items-center justify-center"
-                      style={{
-                        borderColor: `${tool.accent.text}30`,
-                        background: `${tool.accent.text}08`,
-                      }}
-                    >
-                      <Icon className="w-6 h-6" style={{ color: tool.accent.text }} />
-                    </div>
-                  </div>
-
-                  {/* Name + badge */}
-                  <div className="flex items-center gap-2 mb-1">
-                    <a href={tool.href} target="_blank" rel="noopener noreferrer"
-                      className="text-xl font-black text-white hover:underline underline-offset-4 decoration-1 transition-colors"
-                      style={{ textDecorationColor: tool.accent.text }}>{tool.name}</a>
-                    {tool.badge && (
-                      <span
-                        className="px-2 py-0.5 rounded-full text-[10px] font-black"
-                        style={{ background: tool.accent.dot, color: '#04030a' }}
-                      >
-                        {tool.badge}
-                      </span>
+              <div className="relative flex flex-col text-center">
+                  {/* Reference image */}
+                  <div className="w-full h-[120px] overflow-hidden">
+                    <img
+                      src={i === 0 ? toolGammaMockup : i === 1 ? toolNapkinMockup : undefined}
+                      alt={tool.name}
+                      className="w-full h-full object-cover"
+                      style={{ opacity: i < 2 ? 0.85 : 0, filter: 'saturate(0.9)' }}
+                    />
+                    {i === 2 && (
+                      <div className="w-full h-full flex items-center justify-center" style={{ background: `${tool.accent.text}06` }}>
+                        <Icon className="w-10 h-10" style={{ color: `${tool.accent.text}50` }} />
+                      </div>
                     )}
                   </div>
-                  <p className="text-xs text-white/45 mb-4">{tool.tagline}</p>
 
-                  {/* Key stat row */}
-                  <div className="flex items-center justify-center gap-3 mb-3">
-                    <div className="text-center">
-                      <p className="text-base font-black" style={{ color: tool.accent.text }}>{tool.speed}</p>
-                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Genera</p>
+                  <div className="p-4">
+                    {/* Name + badge */}
+                    <div className="flex items-center justify-center gap-2 mb-1">
+                      <a href={tool.href} target="_blank" rel="noopener noreferrer"
+                        className="text-lg font-black text-white hover:underline underline-offset-4 decoration-1 transition-colors"
+                        style={{ textDecorationColor: tool.accent.text }}>{tool.name}</a>
+                      {tool.badge && (
+                        <span
+                          className="px-2 py-0.5 rounded-full text-[10px] font-black"
+                          style={{ background: tool.accent.dot, color: '#04030a' }}
+                        >
+                          {tool.badge}
+                        </span>
+                      )}
                     </div>
-                    <div className="w-px h-6" style={{ background: `${tool.accent.text}20` }} />
-                    <div className="text-center">
-                      <p className="text-base font-black" style={{ color: tool.accent.text }}>{tool.price}</p>
-                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Precio</p>
+                    <p className="text-xs text-white/45 mb-3">{tool.tagline}</p>
+
+                    {/* Key stat row */}
+                    <div className="flex items-center justify-center gap-3 mb-2">
+                      <div className="text-center">
+                        <p className="text-sm font-black" style={{ color: tool.accent.text }}>{tool.speed}</p>
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Genera</p>
+                      </div>
+                      <div className="w-px h-5" style={{ background: `${tool.accent.text}20` }} />
+                      <div className="text-center">
+                        <p className="text-sm font-black" style={{ color: tool.accent.text }}>{tool.price}</p>
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Precio</p>
+                      </div>
+                    </div>
+
+                    {/* Output format chip */}
+                    <div
+                      className="px-3 py-1 rounded-lg border text-[10px] font-semibold inline-block"
+                      style={{ borderColor: `${tool.accent.text}20`, color: `${tool.accent.text}90`, background: `${tool.accent.text}06` }}
+                    >
+                      {tool.output}
                     </div>
                   </div>
-
-                  {/* Output format chip */}
-                  <div
-                    className="px-3 py-1.5 rounded-lg border text-[10px] font-semibold mb-2"
-                    style={{ borderColor: `${tool.accent.text}20`, color: `${tool.accent.text}90`, background: `${tool.accent.text}06` }}
-                  >
-                    {tool.output}
-                  </div>
-
-                  {/* Highlight */}
-                  <p className="text-[11px] text-white/40">{tool.highlight}</p>
                 </div>
               </motion.div>
             );

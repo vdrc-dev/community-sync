@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import toolKreaMockup from '@/assets/slides/tool-krea-mockup.jpg';
 
 const POWERS = [
   { title: '4K 60fps Nativo', icon: Play, accent: S3_ACCENT.rose },
@@ -64,35 +65,51 @@ export function S3Slide14VideoAI() {
           Orquesta Sora 2, Veo 3.1 y Kling 3.0 desde una interfaz
         </motion.p>
 
-        {/* 4 power cards */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          {POWERS.map((p, i) => {
-            const Icon = p.icon;
-            return (
-              <motion.div key={i} {...m(0.2 + i * 0.08)}
-                className="relative group rounded-xl border overflow-hidden"
-                style={{ borderColor: p.accent.border, background: p.accent.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.05, y: -2 } })}>
-                {!isExporting && (
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.08) 50%, transparent 65%)',
-                    }}
-                    animate={{ x: ['-150%', '250%'] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }}
-                  />
-                )}
-                <div className="relative p-5 flex flex-col items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl border flex items-center justify-center"
-                    style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
-                    <Icon className="w-6 h-6" style={{ color: p.accent.text }} />
+        {/* Hero: Krea.ai reference + power cards */}
+        <div className="grid grid-cols-12 gap-5 mb-8">
+          {/* Reference screenshot */}
+          <motion.div {...m(0.2)} className="col-span-7">
+            <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(330 65% 55% / 0.15)', background: 'hsl(330 65% 55% / 0.03)' }}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 z-10 pointer-events-none"
+                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)', width: '45%' }}
+                  animate={{ x: ['-150%', '250%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
+              )}
+              <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(330 65% 55% / 0.1)' }}>
+                <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
+                <span className="text-[10px] text-white/40 font-mono ml-2">krea.ai</span>
+              </div>
+              <img src={toolKreaMockup} alt="Krea.ai" className="w-full h-auto object-cover" style={{ maxHeight: '240px' }} />
+            </div>
+          </motion.div>
+
+          {/* 4 power cards */}
+          <div className="col-span-5 grid grid-cols-2 gap-3">
+            {POWERS.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <motion.div key={i} {...m(0.25 + i * 0.08)}
+                  className="relative group rounded-xl border overflow-hidden"
+                  style={{ borderColor: p.accent.border, background: p.accent.bg }}
+                  {...(isExporting ? {} : { whileHover: { scale: 1.05, y: -2 } })}>
+                  {!isExporting && (
+                    <motion.div className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.08) 50%, transparent 65%)' }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }} />
+                  )}
+                  <div className="relative p-4 flex flex-col items-center justify-center gap-2">
+                    <div className="w-10 h-10 rounded-xl border flex items-center justify-center"
+                      style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
+                      <Icon className="w-5 h-5" style={{ color: p.accent.text }} />
+                    </div>
+                    <p className="text-xs font-black text-white">{p.title}</p>
                   </div>
-                  <p className="text-sm font-black text-white">{p.title}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Engine pills */}
