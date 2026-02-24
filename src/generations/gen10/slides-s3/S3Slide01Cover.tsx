@@ -156,7 +156,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              PRESENTA
+              CREACIÓN
             </h1>
             <h1
               className="text-[7.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
@@ -166,17 +166,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              CIONES
-            </h1>
-            <h1
-              className="text-[6rem] lg:text-[8rem] font-black tracking-[-0.05em] leading-[0.85] mt-1 relative"
-              style={{
-                ...s3GradientTextMulti([185, 263, 330], 185),
-                filter: `drop-shadow(0 0 ${isHovered ? '60' : '25'}px hsl(185 70% 50% / 0.4))`,
-                transition: 'filter 0.7s ease',
-              }}
-            >
-              CON IA
+              DIGITAL
             </h1>
 
             {/* Accent line */}
@@ -351,9 +341,9 @@ export function S3Slide01Cover() {
       </div>
 
       <S3Footer
-        sectionLabel={`VDRC · Gen ${gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}`}
+        sectionLabel="PORTADA"
         hue={330}
-        contextHint="Apertura"
+        contextHint="sesión 3 · creación digital con IA"
       />
     </div>
   );
