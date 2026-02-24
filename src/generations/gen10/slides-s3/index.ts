@@ -8,17 +8,17 @@
 //  04  Divider M01 — Fundamentos Visuales
 //  05  Design Foundations
 //  06  VibeCoding
-//  07  Divider M02 — Herramientas de Creación
-//  08  Canva
-//  09  NotebookLM
-//  10  Claude Code
-//  11  Skills
-//  12  Presentaciones AI (Gamma)
-//  13  Krea.ai Video
-//  14  Automatización
-//  15  Divider M03 — Conexiones y Aplicación
-//  16  CRM
-//  17  MCP vs API
+//  07  MCP vs API          ← movido desde M03
+//  08  Divider M02 — Herramientas de Creación
+//  09  Canva
+//  10  NotebookLM
+//  11  Claude Code
+//  12  Skills
+//  13  Presentaciones AI (Gamma)
+//  14  Krea.ai Video
+//  15  Automatización
+//  16  Divider M03 — Conexiones y Aplicación
+//  17  CRM
 //  18  Cursor
 //  19  Cierre
 

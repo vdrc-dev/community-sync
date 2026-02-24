@@ -13,6 +13,7 @@ export function S3SlideDivider01Fundamentos() {
         { label: 'Coolors.co', href: 'https://coolors.co' },
         { label: 'Fontjoy', href: 'https://fontjoy.com' },
         'VibeCoding',
+        'MCP vs API',
       ]}
     />
   );
