@@ -134,7 +134,7 @@ export function S3Slide03DesignFoundations() {
         <motion.div {...m(0.5)} className="grid grid-cols-3 gap-3 max-w-3xl mx-auto text-left mb-3">
           {[
             { icon: Target, rule: 'Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.', accent: S3_ACCENT.rose },
-            { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo WCAG AA para texto normal. Usa webaim.org y Realtime Colors para verificar.', accent: S3_ACCENT.emerald },
+            { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo WCAG AA para texto normal. Usa webaim.org para verificar.', accent: S3_ACCENT.emerald },
             { icon: Type, rule: 'Máx 2 fuentes', detail: 'Una display para títulos + una body para texto. Nunca más de 3.', accent: S3_ACCENT.violet },
           ].map((t, i) => {
             const RuleIcon = t.icon;
@@ -173,8 +173,8 @@ export function S3Slide03DesignFoundations() {
               {' '}para pares
             </span>
             <span>
-              <a href="https://realtimecolors.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Realtime Colors</a>
-              {' '}para preview
+              <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">WebAIM</a>
+              {' '}para contraste
             </span>
             <span>
               <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Google Fonts</a>
