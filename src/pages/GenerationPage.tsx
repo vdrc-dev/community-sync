@@ -47,16 +47,10 @@ class SlideErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
 /* ── Loading Skeleton ──────────────────────────────────────────── */
 function PresentationSkeleton() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center space-y-6">
-        <div className="relative">
-          <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" />
-          <div className="absolute inset-0 w-10 h-10 mx-auto rounded-full animate-ping bg-primary/10" />
-        </div>
-        <div className="space-y-2">
-          <p className="text-foreground font-medium">Cargando presentación...</p>
-          <p className="text-xs text-muted-foreground">Preparando slides y recursos</p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="text-center space-y-3">
+        <Loader2 className="w-8 h-8 animate-spin text-white/40 mx-auto" />
+        <p className="text-white/50 text-sm">Cargando...</p>
       </div>
     </div>
   );
