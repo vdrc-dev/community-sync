@@ -15,10 +15,9 @@ const PALETTE = [
 ];
 
 const FONTS = [
-  { name: 'Sans Serif', example: 'Inter', style: 'font-sans', use: 'Pantalla' },
-  { name: 'Serif', example: 'Playfair', style: 'font-serif', use: 'Títulos' },
-  { name: 'Display', example: 'Bebas Neue', style: 'font-sans font-black uppercase', use: 'Impacto' },
-  { name: 'Monospace', example: 'JetBrains Mono', style: 'font-mono', use: 'Código' },
+  { name: 'Sans Serif', example: 'Inter, Helvetica', style: 'font-sans', use: 'Moderno', tip: 'Interfaces web, dashboards, apps' },
+  { name: 'Serif', example: 'Playfair, Georgia', style: 'font-serif', use: 'Elegante', tip: 'Presentaciones formales, documentos' },
+  { name: 'Monospace', example: 'JetBrains Mono', style: 'font-mono', use: 'Datos', tip: 'Tablas, números alineados, código' },
 ];
 
 export function S3Slide03DesignFoundations() {
@@ -99,18 +98,18 @@ export function S3Slide03DesignFoundations() {
                 <div className="w-4 h-4 rounded" style={{ background: '#2ECC71' }} />
                 <div className="w-4 h-4 rounded" style={{ background: '#F5F5F5' }} />
               </div>
-              <p className="text-[11px] text-white/50 relative">HEX = receta digital exacta. Primario + Acento + Neutro = <span className="text-white/80 font-semibold">máx 3-5</span></p>
+              <p className="text-[11px] text-white/50 relative">HEX (#RRGGBB) = receta digital exacta del color. Primario + Acento + Neutro = <span className="text-white/80 font-semibold">máx 3-5</span></p>
             </motion.div>
           </motion.div>
 
           {/* RIGHT — Typography */}
           <motion.div {...m(0.25)} className="text-left p-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] relative overflow-hidden flex flex-col">
-            <p className="text-[10px] text-white/45 uppercase tracking-[0.2em] font-bold mb-3 relative">Tipografía</p>
+            <p className="text-[10px] text-white/45 uppercase tracking-[0.2em] font-bold mb-3 relative">Tipografía — 3 Familias Clave</p>
 
-            <div className="space-y-2.5 relative flex-1 flex flex-col justify-between">
+            <div className="space-y-2 relative flex-1 flex flex-col justify-between">
               {FONTS.map((f, i) => (
                 <motion.div key={i} {...m(0.32 + i * 0.05)}
-                  className="relative p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-between overflow-hidden group flex-1"
+                  className="relative p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] overflow-hidden group flex-1"
                   {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.violet.border } })}>
                   {!isExporting && (
                     <motion.div className="absolute inset-0 pointer-events-none"
@@ -118,15 +117,27 @@ export function S3Slide03DesignFoundations() {
                       animate={{ x: ['-150%', '250%'] }}
                       transition={{ duration: 3.5, repeat: Infinity, ease: 'linear', repeatDelay: 6, delay: i * 0.8 }} />
                   )}
-                  <div className="relative">
-                    <p className={`text-xl text-white/85 ${f.style} leading-tight`}>{f.name}</p>
-                    <p className="text-[10px] text-white/40 font-mono mt-0.5">{f.example}</p>
+                  <div className="relative flex items-center justify-between mb-1">
+                    <p className={`text-lg text-white/85 ${f.style} leading-tight`}>{f.name}</p>
+                    <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border shrink-0"
+                      style={{ borderColor: S3_ACCENT.violet.border, color: S3_ACCENT.violet.text, background: S3_ACCENT.violet.bg }}>{f.use}</span>
                   </div>
-                  <span className="relative text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border shrink-0"
-                    style={{ borderColor: S3_ACCENT.violet.border, color: S3_ACCENT.violet.text, background: S3_ACCENT.violet.bg }}>{f.use}</span>
+                  <div className="relative flex items-center justify-between">
+                    <p className="text-[10px] text-white/40 font-mono">{f.example}</p>
+                    <p className="text-[10px] text-white/35 italic">{f.tip}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
+
+            {/* Fontjoy CTA */}
+            <motion.div {...m(0.52)} className="mt-2.5 flex items-center gap-2 px-3 py-2 rounded-lg border border-violet-500/20 bg-violet-500/5">
+              <Type className="w-3.5 h-3.5 text-violet-400 shrink-0" />
+              <p className="text-[10px] text-white/50">
+                <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-violet-400 font-semibold hover:text-violet-300 underline-offset-2 hover:underline">Fontjoy.com</a>
+                {' '}— genera pares de fuentes con IA. Máx 2 fuentes por proyecto.
+              </p>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -161,20 +172,16 @@ export function S3Slide03DesignFoundations() {
         </motion.div>
 
         {/* Tool links */}
-        <motion.div {...m(0.65)} className="inline-flex flex-col items-start gap-2 text-xs text-white/40">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400/50" />
-          <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-left">
+        <motion.div {...m(0.65)} className="inline-flex items-center gap-4 text-xs text-white/40">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400/50 shrink-0" />
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-left">
             <span>
               <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
-              {' '}para paletas
-            </span>
-            <span>
-              <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
-              {' '}para pares
+              {' '}paletas HEX
             </span>
             <span>
               <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">WebAIM</a>
-              {' '}para contraste
+              {' '}contraste
             </span>
             <span>
               <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Google Fonts</a>
