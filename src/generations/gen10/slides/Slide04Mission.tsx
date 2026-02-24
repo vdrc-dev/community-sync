@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Brain, Clock, Cog, Target, Rocket, Quote, LucideIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
+import { S1Shell, useS1Motion } from './shared';
+import { S1_ACCENT } from './theme';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   brain: Brain,
@@ -58,170 +60,91 @@ const DEFAULT_QUOTE = 'La tecnología no es el fin, sino el medio. Cuando automa
 export function Slide04Mission() {
   const { isExporting } = useExportContext();
   const content = useSlideContent(4);
+  const m = useS1Motion();
   
-  // Use database content with fallback to defaults
   const pillars = (content.pillars as Array<{ verb: string; action: string; icon?: string; color: string; highlight?: boolean }>) || DEFAULT_PILLARS;
   const mainQuote = (content.mainQuote as string) || DEFAULT_QUOTE;
 
-  const getMotionProps = (delay: number) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.5 },
-    };
+  const accentMap: Record<string, (typeof S1_ACCENT)[keyof typeof S1_ACCENT]> = {
+    violet: S1_ACCENT.purple,
+    amber: S1_ACCENT.amber,
+    teal: S1_ACCENT.emerald,
+    rose: S1_ACCENT.rose,
+  };
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden bg-[#020609] flex flex-col font-sans selection:bg-teal-500/30">
-      
-      {/* Ambient Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/3 w-[700px] h-[500px] bg-teal-500/8 rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[400px] bg-violet-500/6 rounded-full blur-[150px]" />
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px]" />
-        
-        {/* Grid texture */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `linear-gradient(rgba(20,184,166,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(20,184,166,0.5) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }} />
-      </div>
-
-      {/* Floating particles */}
-      {!isExporting && (
-        <>
-          <motion.div
-            className="absolute top-24 right-24 w-2.5 h-2.5 rounded-full bg-teal-400/50"
-            animate={{ y: [0, -20, 0], opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-32 left-20 w-2 h-2 rounded-full bg-violet-400/40"
-            animate={{ y: [0, -15, 0], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
-        </>
-      )}
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col h-full px-12 py-10">
-        
+    <S1Shell
+      footerLabel="PROPÓSITO"
+      className="flex flex-col"
+      radials={<>
+        <div className="absolute top-0 left-1/3 w-[700px] h-[500px] rounded-full blur-[180px]" style={{ background: 'hsl(160 65% 45% / 0.08)' }} />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[400px] rounded-full blur-[150px]" style={{ background: 'hsl(263 60% 55% / 0.06)' }} />
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full blur-[120px]" style={{ background: 'hsl(38 90% 55% / 0.05)' }} />
+      </>}
+    >
+      <div className="relative z-10 flex flex-col h-full px-6 sm:px-12 py-8 sm:py-10">
         {/* Header */}
-        <motion.header {...getMotionProps(0.1)} className="mb-8">
+        <motion.header {...m(0.1)} className="mb-6 sm:mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center gap-2.5 px-4 py-2 bg-gradient-to-r from-teal-500/15 to-emerald-500/10 border border-teal-500/30 rounded-full">
-              <Rocket className="w-4 h-4 text-teal-400" />
-              <span className="text-teal-400 text-sm font-semibold tracking-wide uppercase">Propósito</span>
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border"
+              style={{ background: S1_ACCENT.emerald.bg, borderColor: S1_ACCENT.emerald.border }}>
+              <Rocket className="w-4 h-4" style={{ color: S1_ACCENT.emerald.text }} />
+              <span className="text-sm font-semibold tracking-wide uppercase" style={{ color: S1_ACCENT.emerald.text }}>Propósito</span>
             </div>
           </div>
-          
-          <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight leading-none">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none">
             MI{' '}
-            <span 
-              className="text-transparent bg-clip-text"
-              style={{
-                background: 'linear-gradient(135deg, #5eead4 0%, #14b8a6 40%, #0891b2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              MISIÓN
-            </span>
+            <span style={{ background: `linear-gradient(135deg, ${S1_ACCENT.emerald.text}, ${S1_ACCENT.cyan.text})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>MISIÓN</span>
           </h1>
-          <p className="text-white/40 text-lg mt-3 font-light max-w-3xl">
+          <p className="text-white/40 text-base sm:text-lg mt-3 font-light max-w-3xl">
             Transformar la manera en que las personas operan mediante pensamiento sistémico y automatización inteligente.
           </p>
         </motion.header>
 
         {/* Central Quote */}
-        <motion.div 
-          {...getMotionProps(0.2)}
-          className="mb-8 relative"
-        >
-          <div className="absolute -left-2 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-500 via-teal-400 to-transparent rounded-full" />
-          
+        <motion.div {...m(0.2)} className="mb-6 sm:mb-8 relative">
+          <div className="absolute -left-2 top-0 bottom-0 w-1 rounded-full" style={{ background: `linear-gradient(180deg, ${S1_ACCENT.emerald.dot}, transparent)` }} />
           <div className="pl-6 py-4 bg-white/[0.02] border border-white/[0.06] rounded-2xl backdrop-blur-sm">
-            <Quote className="w-6 h-6 text-teal-500/30 mb-2" />
-            
-            <p className="text-white/50 text-sm uppercase tracking-widest mb-2">
-              Mi propósito es catalizar un cambio fundamental
-            </p>
-            <p className="text-white/80 text-base leading-relaxed mb-3">{mainQuote}</p>
-            <p className="text-xl font-bold tracking-wide">
-              <span className="text-teal-400">Crear</span>
+            <Quote className="w-6 h-6 mb-2" style={{ color: 'hsl(160 65% 45% / 0.3)' }} />
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed mb-3">{mainQuote}</p>
+            <p className="text-lg sm:text-xl font-bold tracking-wide">
+              <span style={{ color: S1_ACCENT.emerald.text }}>Crear</span>
               <span className="text-white/30 mx-2">•</span>
-              <span className="text-emerald-400">Innovar</span>
+              <span style={{ color: S1_ACCENT.cyan.text }}>Innovar</span>
               <span className="text-white/30 mx-2">•</span>
-              <span className="text-cyan-400">Generar Valor Exponencial</span>
+              <span style={{ color: S1_ACCENT.blue.text }}>Generar Valor</span>
             </p>
           </div>
         </motion.div>
 
         {/* Four Pillars */}
-        <div className="grid grid-cols-4 gap-5 flex-1">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 flex-1">
           {pillars.map((pillar, i) => {
             const iconKey = pillar.icon || Object.keys(ICON_MAP)[i];
             const Icon = ICON_MAP[iconKey] || Brain;
-            const colors = colorMap[pillar.color] || colorMap.violet;
+            const accent = accentMap[pillar.color] || S1_ACCENT.emerald;
             const isHighlight = pillar.highlight || pillar.color === 'teal';
             const emoji = EMOJI_MAP[iconKey] || '✨';
             
             return (
-              <motion.div
-                key={pillar.verb}
-                {...getMotionProps(0.3 + i * 0.1)}
-                className="group relative"
-              >
-                {/* Hover glow */}
-                <div className={`absolute -inset-px bg-gradient-to-b from-${pillar.color}-500/30 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm`} />
-                
-                <div className={`relative h-full bg-white/[0.02] border ${isHighlight ? 'border-teal-500/40 bg-teal-500/[0.03]' : 'border-white/[0.06]'} rounded-2xl p-5 flex flex-col group-hover:border-opacity-60 transition-all`}>
-                  
-                  {/* Top accent bar */}
-                  <div className={`absolute top-0 left-4 right-4 h-0.5 rounded-full ${isHighlight ? 'bg-teal-400' : `bg-${pillar.color}-500/50`}`} />
-                  
-                  {/* Icon */}
-                  <div className={`p-3 rounded-xl mb-4 w-fit ${colors.bg} border ${colors.border} group-hover:scale-105 transition-transform`}>
-                    <Icon className={`w-7 h-7 ${colors.text}`} strokeWidth={1.5} />
+              <motion.div key={pillar.verb} {...m(0.3 + i * 0.1)} className="group relative">
+                <div className={`relative h-full bg-white/[0.02] border rounded-2xl p-4 sm:p-5 flex flex-col transition-all`}
+                  style={{ borderColor: isHighlight ? accent.border : 'hsl(0 0% 100% / 0.06)', background: isHighlight ? accent.bg : undefined }}>
+                  <div className="absolute top-0 left-4 right-4 h-0.5 rounded-full" style={{ background: accent.dot }} />
+                  <div className="p-3 rounded-xl mb-4 w-fit border" style={{ background: accent.bg, borderColor: accent.border }}>
+                    <Icon className="w-6 sm:w-7 h-6 sm:h-7" style={{ color: accent.text }} strokeWidth={1.5} />
                   </div>
-                  
-                  {/* Title with emoji */}
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className={`text-xl font-bold ${isHighlight ? 'text-teal-400' : 'text-white'}`}>
-                      {pillar.verb}
-                    </h3>
-                    <motion.span 
-                      className="text-lg opacity-60 group-hover:opacity-100 transition-opacity"
-                      whileHover={isExporting ? {} : { scale: 1.2 }}
-                    >
-                      {emoji}
-                    </motion.span>
+                    <h3 className="text-lg sm:text-xl font-bold" style={{ color: isHighlight ? accent.text : 'white' }}>{pillar.verb}</h3>
+                    <span className="text-lg opacity-60">{emoji}</span>
                   </div>
-                  
-                  {/* Description */}
-                  <p className="text-white/50 text-sm leading-relaxed flex-1">
-                    {pillar.action}
-                  </p>
-                  
-                  {/* Bottom indicator */}
-                  <div className="mt-4 pt-3 border-t border-white/[0.04]">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-1.5 h-1.5 rounded-full ${isHighlight ? 'bg-teal-400' : 'bg-white/20'}`} />
-                      <span className={`text-xs font-medium ${isHighlight ? 'text-teal-400/70' : 'text-white/30'}`}>
-                        {isHighlight ? 'Core Focus' : `Pilar ${i + 1}`}
-                      </span>
-                    </div>
-                  </div>
+                  <p className="text-white/50 text-xs sm:text-sm leading-relaxed flex-1">{pillar.action}</p>
                 </div>
               </motion.div>
             );
           })}
         </div>
       </div>
-
-      {/* Page number */}
-      <div className="absolute bottom-6 right-10 text-sm font-semibold text-white/15 tabular-nums tracking-wide">
-        4 / 29
-      </div>
-    </div>
+    </S1Shell>
   );
 }
