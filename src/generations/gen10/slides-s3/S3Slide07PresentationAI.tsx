@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Presentation, BarChart3, Layers, Sparkles, ChevronRight, FileText, ArrowRight } from 'lucide-react';
+import { Presentation, BarChart3, Sparkles, ChevronRight, FileText, ExternalLink } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import toolGammaMockup from '@/assets/slides/tool-gamma-mockup.jpg';
@@ -9,90 +9,35 @@ import toolNapkinMockup from '@/assets/slides/tool-napkin-mockup.jpg';
 import exampleGeminiOutput from '@/assets/slides/example-gemini-output.jpg';
 import exampleGeminiOutputP3 from '@/assets/slides/example-gemini-output-p3.jpg';
 
-const TOOLS = [
-  {
-    name: 'Gamma',
-    tagline: 'Texto → Slides',
-    icon: Presentation,
-    hue: 263,
-    accent: S3_ACCENT.violet,
-    badge: 'TOP',
-    speed: '30s',
-    price: 'Free / $8',
-    output: 'PPTX / PDF / Slides',
-    highlight: 'Agente IA · API (Zapier/Make) · Diagramas inteligentes',
-    href: 'https://gamma.app',
-  },
-  {
-    name: 'Napkin AI',
-    tagline: 'Texto → Infografías',
-    icon: BarChart3,
-    hue: 38,
-    accent: S3_ACCENT.amber,
-    badge: null,
-    speed: '15s',
-    price: 'Free / $9',
-    output: 'SVG / PNG / PPT',
-    highlight: 'Flowcharts + diagramas · Exporta SVG/PNG',
-    href: 'https://napkin.ai',
-  },
-  {
-    name: 'Beautiful.ai',
-    tagline: 'Templates inteligentes',
-    icon: Layers,
-    hue: 185,
-    accent: S3_ACCENT.cyan,
-    badge: null,
-    speed: '45s',
-    price: '$12/mes',
-    output: 'PPTX / PDF',
-    highlight: 'Plantillas auto-ajustables · Brand kit integrado',
-    href: 'https://beautiful.ai',
-  },
-];
-
 const WORKFLOW = [
-  { tool: 'Coolors', action: 'Paleta', accent: S3_ACCENT.rose, href: 'https://coolors.co' },
-  { tool: 'Gamma', action: 'Texto → Slides', accent: S3_ACCENT.violet, href: 'https://gamma.app' },
-  { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber, href: 'https://napkin.ai' },
-  { tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan, href: 'https://canva.com' },
-  { tool: 'Exporta', action: 'PDF/SVG', accent: S3_ACCENT.emerald, href: 'https://gamma.app' },
+  { tool: 'Apuntes', accent: S3_ACCENT.rose },
+  { tool: 'Gamma', accent: S3_ACCENT.violet },
+  { tool: 'Napkin', accent: S3_ACCENT.amber },
+  { tool: 'Canva', accent: S3_ACCENT.cyan },
+  { tool: 'PDF/PPTX', accent: S3_ACCENT.emerald },
 ];
 
 export function S3Slide07PresentationAI() {
   const { isExporting } = useExportContext();
   const m = (d: number) => s3Motion(d, isExporting);
+  const me = (d: number) => s3MotionEpic(d, isExporting);
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
-      {/* Background — radial gradients only */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_25%,_hsl(263_55%_50%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_70%,_hsl(38_80%_50%_/_0.07),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_85%_20%,_hsl(185_70%_45%_/_0.05),_transparent_55%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-16">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-12">
         {/* Header */}
-        <motion.div {...m(0)} className="text-center mb-8">
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/45 block mb-2">
-            Herramientas de Creación
-          </span>
+        <motion.div {...m(0)} className="text-center mb-6">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/45 block mb-2">Herramientas de Creación</span>
           <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Presentaciones con{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(38 85% 65%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 30px hsl(263 65% 55% / 0.35))',
-              }}
-            >
-              IA
-            </span>
+            <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(38 85% 65%)', 263)}>IA</span>
           </h1>
           <motion.div
             className="h-0.5 rounded-full mx-auto max-w-[100px] origin-center"
@@ -102,168 +47,148 @@ export function S3Slide07PresentationAI() {
             transition={{ delay: 0.35, duration: 0.8, ease: S3_EASE }}
           />
           <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 max-w-md mx-auto">
-            Copia tus apuntes, convierte en slides y refina en minutos
+            Copia tus apuntes → pega en Gamma → deck profesional en 30 segundos
           </motion.p>
         </motion.div>
 
-        {/* 3 Hero Cards */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {TOOLS.map((tool, i) => {
-            const Icon = tool.icon;
-            return (
-              <motion.div
-                key={tool.name}
-                {...m(0.15 + i * 0.08)}
-                className="relative rounded-2xl border overflow-hidden group"
-                style={{ borderColor: tool.accent.border, background: tool.accent.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.02, y: -4 } })}
-              >
-                {/* Shimmer */}
-                {!isExporting && (
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ background: `linear-gradient(105deg, transparent 40%, ${tool.accent.text}08 55%, transparent 70%)` }}
-                    animate={{ x: ['-200%', '300%'] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 6 }}
-                  />
-                )}
+        {/* Main: 2-column layout — Gamma hero left, Napkin + Example right */}
+        <div className="grid grid-cols-12 gap-5 mb-6">
 
-              <div className="relative flex flex-col text-center">
-                  {/* Reference image */}
-                  <div className="w-full h-[120px] overflow-hidden">
-                    <img
-                      src={i === 0 ? toolGammaMockup : i === 1 ? toolNapkinMockup : undefined}
-                      alt={tool.name}
-                      className="w-full h-full object-cover"
-                      style={{ opacity: i < 2 ? 0.85 : 0, filter: 'saturate(0.9)' }}
-                    />
-                    {i === 2 && (
-                      <div className="w-full h-full flex items-center justify-center p-3" style={{ background: `linear-gradient(135deg, ${tool.accent.text}12, ${tool.accent.text}04)` }}>
-                        <div className="w-full h-full grid grid-cols-2 gap-2">
-                          {[0, 1, 2, 3].map((card) => (
-                            <div
-                              key={card}
-                              className="rounded-md border p-1.5 flex flex-col gap-1"
-                              style={{ borderColor: `${tool.accent.text}25`, background: `${tool.accent.text}${card % 2 === 0 ? '10' : '08'}` }}
-                            >
-                              <div className="h-1 rounded-full" style={{ background: `${tool.accent.text}55` }} />
-                              <div className="h-1 rounded-full w-2/3" style={{ background: `${tool.accent.text}35` }} />
-                              <div className="mt-auto h-2 rounded-sm" style={{ background: `${tool.accent.text}28` }} />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+          {/* LEFT: Gamma hero card with big screenshot */}
+          <motion.div {...me(0.15)} className="col-span-7 relative rounded-2xl border overflow-hidden group"
+            style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}
+            {...(isExporting ? {} : { whileHover: { scale: 1.01, y: -2 } })}>
+            {!isExporting && (
+              <motion.div className="absolute inset-0 pointer-events-none z-[1]"
+                style={{ background: `linear-gradient(105deg, transparent 40%, ${S3_ACCENT.violet.text}08 55%, transparent 70%)` }}
+                animate={{ x: ['-200%', '300%'] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 6 }} />
+            )}
+
+            {/* Screenshot area */}
+            <div className="relative h-[200px] overflow-hidden">
+              <img src={toolGammaMockup} alt="Gamma App" className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 30%, hsl(0 0% 4% / 0.95) 100%)' }} />
+              {/* Browser chrome overlay */}
+              <div className="absolute top-0 left-0 right-0 px-3 py-2 flex items-center gap-2">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500/50" />
+                  <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+                  <div className="w-2 h-2 rounded-full bg-green-500/50" />
+                </div>
+                <span className="text-[10px] text-white/40 font-mono ml-2">gamma.app</span>
+                <a href="https://gamma.app" target="_blank" rel="noopener noreferrer" className="ml-auto">
+                  <ExternalLink className="w-3 h-3 text-white/25 hover:text-white/50 transition-colors" />
+                </a>
+              </div>
+              {/* Badge */}
+              <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black" style={{ background: S3_ACCENT.violet.dot, color: '#04030a' }}>TOP</span>
+              </div>
+            </div>
+
+            {/* Info */}
+            <div className="p-5">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <a href="https://gamma.app" target="_blank" rel="noopener noreferrer"
+                    className="text-xl font-black text-white hover:underline underline-offset-4 decoration-1"
+                    style={{ textDecorationColor: S3_ACCENT.violet.text }}>Gamma</a>
+                  <p className="text-xs text-white/45">Texto → Slides en 30 segundos</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-center">
+                    <p className="text-sm font-black" style={{ color: S3_ACCENT.violet.text }}>30s</p>
+                    <p className="text-[9px] text-white/35 uppercase">Genera</p>
                   </div>
-
-                  <div className="p-4">
-                    {/* Name + badge */}
-                    <div className="flex items-center justify-center gap-2 mb-1">
-                      <a href={tool.href} target="_blank" rel="noopener noreferrer"
-                        className="text-lg font-black text-white hover:underline underline-offset-4 decoration-1 transition-colors"
-                        style={{ textDecorationColor: tool.accent.text }}>{tool.name}</a>
-                      {tool.badge && (
-                        <span
-                          className="px-2 py-0.5 rounded-full text-[10px] font-black"
-                          style={{ background: tool.accent.dot, color: '#04030a' }}
-                        >
-                          {tool.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-white/45 mb-3">{tool.tagline}</p>
-
-                    {/* Key stat row */}
-                    <div className="flex items-center justify-center gap-3 mb-2">
-                      <div className="text-center">
-                        <p className="text-sm font-black" style={{ color: tool.accent.text }}>{tool.speed}</p>
-                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Genera</p>
-                      </div>
-                      <div className="w-px h-5" style={{ background: `${tool.accent.text}20` }} />
-                      <div className="text-center">
-                        <p className="text-sm font-black" style={{ color: tool.accent.text }}>{tool.price}</p>
-                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Precio</p>
-                      </div>
-                    </div>
-
-                    {/* Output format chip */}
-                    <div
-                      className="px-3 py-1 rounded-lg border text-[10px] font-semibold inline-block mb-2"
-                      style={{ borderColor: `${tool.accent.text}20`, color: `${tool.accent.text}90`, background: `${tool.accent.text}06` }}
-                    >
-                      {tool.output}
-                    </div>
-                    <p className="text-[10px] text-white/35 leading-snug">{tool.highlight}</p>
+                  <div className="text-center">
+                    <p className="text-sm font-black" style={{ color: S3_ACCENT.violet.text }}>Free</p>
+                    <p className="text-[9px] text-white/35 uppercase">Plan</p>
                   </div>
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+              <p className="text-[10px] text-white/40 leading-relaxed">Agente IA · Diagramas inteligentes · Exporta PPTX/PDF</p>
+            </div>
+          </motion.div>
+
+          {/* RIGHT: Napkin + Example real stacked */}
+          <div className="col-span-5 flex flex-col gap-4">
+            {/* Napkin card */}
+            <motion.div {...me(0.2)} className="relative rounded-2xl border overflow-hidden group flex-1"
+              style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}
+              {...(isExporting ? {} : { whileHover: { scale: 1.02, y: -2 } })}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 pointer-events-none z-[1]"
+                  style={{ background: `linear-gradient(105deg, transparent 40%, ${S3_ACCENT.amber.text}08 55%, transparent 70%)` }}
+                  animate={{ x: ['-200%', '300%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 6 }} />
+              )}
+              <div className="relative h-[100px] overflow-hidden">
+                <img src={toolNapkinMockup} alt="Napkin AI" className="w-full h-full object-cover object-center" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 20%, hsl(0 0% 4% / 0.95) 100%)' }} />
+              </div>
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer"
+                      className="text-base font-black text-white hover:underline underline-offset-4 decoration-1"
+                      style={{ textDecorationColor: S3_ACCENT.amber.text }}>Napkin AI</a>
+                    <p className="text-[10px] text-white/40">Texto → Infografías y diagramas</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-black" style={{ color: S3_ACCENT.amber.text }}>15s</p>
+                    <p className="text-[9px] text-white/35 uppercase">Genera</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Real example: Gen 09 output */}
+            <motion.div {...m(0.3)} className="rounded-2xl border p-4 relative overflow-hidden"
+              style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
+              {!isExporting && (
+                <motion.div className="absolute inset-0 pointer-events-none z-[1]"
+                  style={{ background: `linear-gradient(105deg, transparent 35%, ${S3_ACCENT.rose.text}08 50%, transparent 65%)` }}
+                  animate={{ x: ['-200%', '300%'] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: 'linear', repeatDelay: 5 }} />
+              )}
+              <div className="flex items-center gap-2 mb-3 relative">
+                <FileText className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
+                <span className="text-[10px] font-bold tracking-[0.15em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Ejemplo Real — Gen 09</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 relative">
+                {[
+                  { img: exampleGeminiOutput, label: 'Cover generada' },
+                  { img: exampleGeminiOutputP3, label: 'Tabla de datos' },
+                ].map((ex, i) => (
+                  <div key={i} className="rounded-lg overflow-hidden border" style={{ borderColor: `${S3_ACCENT.rose.text}15` }}>
+                    <img src={ex.img} alt={ex.label} className="w-full h-[65px] object-cover object-top" style={{ filter: 'brightness(0.85)' }} />
+                    <p className="text-[9px] text-white/45 px-2 py-1 font-medium">{ex.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Real Example: Gemini Output */}
-        <motion.div {...m(0.45)} className="mb-6">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <FileText className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Ejemplo Real — Output de Gemini</span>
-          </div>
-          <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {[
-              { img: exampleGeminiOutput, label: 'Cover generada', desc: 'Prompt → Deck completo en 30s' },
-              { img: exampleGeminiOutputP3, label: 'Tabla comparativa', desc: 'Datos estructurados automáticamente' },
-            ].map((ex, i) => (
-              <motion.div key={i} {...m(0.5 + i * 0.08)}
-                className="relative rounded-xl border overflow-hidden group"
-                style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}
-                {...(isExporting ? {} : { whileHover: { scale: 1.03, y: -3 } })}>
-                <div className="relative h-[130px] overflow-hidden">
-                  <img src={ex.img} alt={ex.label} className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, hsl(0 0% 4% / 0.9) 100%)' }} />
-                  {!isExporting && (
-                    <motion.div className="absolute inset-0 pointer-events-none z-10"
-                      style={{ background: `linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)`, width: '45%' }}
-                      animate={{ x: ['-150%', '250%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.8 }} />
-                  )}
-                </div>
-                <div className="p-3">
-                  <p className="text-xs font-bold text-white/70">{ex.label}</p>
-                  <p className="text-[10px] text-white/40 mt-0.5">{ex.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Workflow Pipeline */}
-        <motion.div {...m(0.65)} className="flex items-center justify-center gap-2 flex-wrap">
+        {/* Workflow Pipeline — compact */}
+        <motion.div {...m(0.45)} className="flex items-center justify-center gap-2 flex-wrap">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/50 mr-1" />
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 mr-3">Workflow</span>
           {WORKFLOW.map((step, i) => (
             <div key={step.tool} className="flex items-center gap-2">
-              <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl border whitespace-nowrap"
-                style={{ borderColor: step.accent.border, background: step.accent.bg }}
+              <span
+                className="px-3 py-1.5 rounded-lg border text-[10px] font-bold"
+                style={{ borderColor: step.accent.border, background: step.accent.bg, color: step.accent.text }}
               >
-                <span
-                  className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black"
-                  style={{ background: `${step.accent.text}25`, color: step.accent.text }}
-                >
-                  {i + 1}
-                </span>
-                <a href={step.href} target="_blank" rel="noopener noreferrer"
-                  className="text-[10px] font-bold hover:underline underline-offset-2 transition-colors"
-                  style={{ color: step.accent.text }}>{step.tool}</a>
-              </div>
-              {i < WORKFLOW.length - 1 && (
-                <ChevronRight className="w-3 h-3 text-white/30" />
-              )}
+                {step.tool}
+              </span>
+              {i < WORKFLOW.length - 1 && <ChevronRight className="w-3 h-3 text-white/25" />}
             </div>
           ))}
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CREACIÓN DIGITAL" hue={263} contextHint="slides con Gamma y Beautiful.ai" />
+      <S3Footer sectionLabel="CREACIÓN DIGITAL" hue={263} contextHint="slides con Gamma y Napkin AI" />
     </div>
   );
 }
