@@ -33,7 +33,7 @@ export const S3_ROOT_CLASS =
   'h-full w-full min-h-screen relative overflow-hidden font-sans selection:bg-rose-500/30';
 
 /** Standard content padding */
-export const S3_CONTENT_PADDING = 'px-16 2xl:px-20';
+export const S3_CONTENT_PADDING = 'px-5 sm:px-10 lg:px-16 2xl:px-20';
 
 /** Premium cubic easing for animations */
 export const S3_EASE = [0.16, 1, 0.3, 1] as const;

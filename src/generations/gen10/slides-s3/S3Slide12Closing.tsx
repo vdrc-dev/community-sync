@@ -82,7 +82,7 @@ export function S3Slide12Closing() {
               <div className="w-1.5 h-12 rounded-full" style={{ background: `linear-gradient(180deg, ${S3_ACCENT.emerald.text}, ${S3_ACCENT.cyan.text})` }} />
               <div>
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40">Cierre · Semana 3</span>
-                <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight leading-none">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-black text-white tracking-tight leading-none">
                   La diferencia es la{' '}
                   <span style={s3GradientTextMulti([160, 185, 263], 160)}>
                     acción
@@ -131,9 +131,9 @@ export function S3Slide12Closing() {
         </div>
 
         {/* Main content: 2 columns */}
-        <div className="grid grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 sm:gap-6">
           {/* Left: Tools mastered */}
-          <motion.div {...me(0.15)} className="col-span-2 rounded-2xl border border-white/[0.08] bg-white/[0.015] p-5 relative overflow-hidden">
+          <motion.div {...me(0.15)} className="col-span-1 sm:col-span-2 rounded-2xl border border-white/[0.08] bg-white/[0.015] p-5 relative overflow-hidden">
             {!isExporting && (
               <motion.div className="absolute inset-0 pointer-events-none"
                 style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(150 50% 55% / 0.04) 50%, transparent 65%)' }}

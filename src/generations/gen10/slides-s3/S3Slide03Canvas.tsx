@@ -52,7 +52,7 @@ export function S3Slide03Canvas() {
               </div>
             </motion.div>
 
-            <motion.h1 {...me(0.06)} className="text-5xl 2xl:text-6xl font-black tracking-tight mb-2 leading-[1.05]">
+            <motion.h1 {...me(0.06)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black tracking-tight mb-2 leading-[1.05]">
               <a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity">Canva</a>
               <span
                 style={{
@@ -186,7 +186,7 @@ export function S3Slide03Canvas() {
         </div>
 
         {/* Use cases */}
-        <motion.div {...m(0.35)} className="grid grid-cols-3 gap-3 text-left mb-4">
+        <motion.div {...m(0.35)} className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left mb-4">
           {USE_CASES.map((t, i) => (
             <motion.div key={i} {...m(0.38 + i * 0.04)}
               className="p-4 rounded-xl border overflow-hidden relative group"

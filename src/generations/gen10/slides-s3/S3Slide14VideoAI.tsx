@@ -40,7 +40,7 @@ export function S3Slide14VideoAI() {
           </div>
         </motion.div>
 
-        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
           <a
             href="https://www.krea.ai"
             target="_blank"
@@ -66,9 +66,9 @@ export function S3Slide14VideoAI() {
         </motion.p>
 
         {/* Hero: Krea.ai reference + power cards */}
-        <div className="grid grid-cols-12 gap-5 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 mb-8">
           {/* Reference screenshot */}
-          <motion.div {...m(0.2)} className="col-span-7">
+          <motion.div {...m(0.2)} className="col-span-1 sm:col-span-7">
             <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(330 65% 55% / 0.15)', background: 'hsl(330 65% 55% / 0.03)' }}>
               {!isExporting && (
                 <motion.div className="absolute inset-0 z-10 pointer-events-none"
@@ -85,7 +85,7 @@ export function S3Slide14VideoAI() {
           </motion.div>
 
           {/* 4 power cards */}
-          <div className="col-span-5 grid grid-cols-2 gap-3">
+          <div className="col-span-1 sm:col-span-5 grid grid-cols-2 gap-3">
             {POWERS.map((p, i) => {
               const Icon = p.icon;
               return (
@@ -175,7 +175,7 @@ export function S3Slide14VideoAI() {
         </motion.div>
 
         {/* Pro tips */}
-        <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+        <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
           {[
             { icon: Wand2, tip: 'Img → Video', detail: 'Krea anima fotos en clips de 5-15s con audio nativo', accent: S3_ACCENT.rose },
             { icon: Film, tip: 'Lip-sync + Multi-cam', detail: 'Kling 3.0: hasta 6 cortes de cámara en un solo clip', accent: S3_ACCENT.violet },

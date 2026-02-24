@@ -42,7 +42,7 @@ export function S3Slide07Skills() {
             </div>
           </motion.div>
 
-          <motion.h1 {...me(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+          <motion.h1 {...me(0.08)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Skills para <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(330 65% 70%)', 263)}>Presentaciones</span>
           </motion.h1>
           <motion.div
@@ -58,10 +58,10 @@ export function S3Slide07Skills() {
         </div>
 
         {/* Main layout: Terminal mockup left + Skills cards right */}
-        <div className="grid grid-cols-12 gap-5 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 mb-6">
 
           {/* LEFT: Claude Desktop terminal mockup */}
-          <motion.div {...me(0.2)} className="col-span-5 relative">
+          <motion.div {...me(0.2)} className="col-span-1 sm:col-span-5 relative">
             <div className="absolute -inset-10 rounded-full blur-[100px] opacity-30"
               style={{ background: `radial-gradient(circle, hsl(263 60% 50% / 0.3), transparent 70%)` }} />
 
@@ -152,7 +152,7 @@ export function S3Slide07Skills() {
           </motion.div>
 
           {/* RIGHT: 4 skill cards in 2x2 grid */}
-          <div className="col-span-7 grid grid-cols-2 gap-3">
+          <div className="col-span-1 sm:col-span-7 grid grid-cols-2 gap-3">
             {SKILLS.map((skill, i) => {
               const Icon = skill.icon;
               return (

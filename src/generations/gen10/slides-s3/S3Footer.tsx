@@ -22,7 +22,7 @@ export function S3Footer({ sectionLabel, hue = 330, showProgress = true, context
 
   return (
     <div className="absolute bottom-0 left-0 right-0 z-20">
-      <div className="px-12 py-4 backdrop-blur-[3px]">
+      <div className="px-4 sm:px-8 lg:px-12 py-3 sm:py-4 backdrop-blur-[3px]">
         {/* Progress bar — always visible */}
         {showProgress && (
           <div className="mb-3 h-[2px] w-full overflow-hidden rounded-full bg-white/[0.04] relative">
@@ -60,8 +60,8 @@ export function S3Footer({ sectionLabel, hue = 330, showProgress = true, context
             </span>
             {contextHint && (
               <>
-                <div className="w-px h-2.5 bg-white/10" />
-                <span className="text-[10px] tracking-[0.18em] uppercase text-white/35">{contextHint}</span>
+                <div className="w-px h-2.5 bg-white/10 hidden sm:block" />
+                <span className="text-[10px] tracking-[0.18em] uppercase text-white/35 hidden sm:inline">{contextHint}</span>
               </>
             )}
             {sectionLabel && (

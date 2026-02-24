@@ -71,7 +71,7 @@ export function S3SlideAgenda() {
         </motion.div>
 
         {/* Title */}
-        <motion.h1 {...me(0.06)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
+        <motion.h1 {...me(0.06)} className="text-3xl sm:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
           Recorrido de{' '}
           <span style={{
             background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(280 70% 65%), hsl(185 70% 60%))',
@@ -86,16 +86,16 @@ export function S3SlideAgenda() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
-        <motion.p {...m(0.12)} className="text-white/45 text-base mt-3 mb-10 max-w-md mx-auto">
+        <motion.p {...m(0.12)} className="text-white/45 text-sm sm:text-base mt-3 mb-6 sm:mb-10 max-w-md mx-auto">
           4 módulos · 90 minutos · herramientas en acción
         </motion.p>
 
         {/* Module cards — clean horizontal layout, no overlapping lines */}
-        <div className="flex items-stretch gap-4">
+        <div className="grid grid-cols-2 sm:flex sm:items-stretch gap-3 sm:gap-4">
           {MODULES.map((mod, i) => {
             const Icon = mod.icon;
             return (
-              <motion.div key={i} {...m(0.18 + i * 0.1)} className="flex-1 flex flex-col items-center gap-0 min-w-0">
+              <motion.div key={i} {...m(0.18 + i * 0.1)} className="sm:flex-1 flex flex-col items-center gap-0 min-w-0">
                 {/* Card */}
                 <motion.div
                   className="relative group w-full rounded-2xl border overflow-hidden flex-1 flex flex-col"
@@ -169,7 +169,7 @@ export function S3SlideAgenda() {
         </div>
 
         {/* Bottom flow indicator */}
-        <motion.div {...m(0.6)} className="mt-6 flex items-start justify-center gap-4">
+        <motion.div {...m(0.6)} className="mt-4 sm:mt-6 hidden sm:flex items-start justify-center gap-4">
           {MODULES.map((mod, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="flex flex-col items-center gap-1">
