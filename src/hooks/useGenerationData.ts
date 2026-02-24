@@ -101,12 +101,13 @@ async function fetchGenerationData(
   if (!genData) return null;
 
   const generation = genData as GenerationRow;
-  
-  // Determine which week to display (URL week or generation's current week)
   const displayWeek = weekNumber || generation.week;
 
-  // Parallel fetch: weeks, slides, and sections at the same time
-  const [weeksResult, slidesResult, sectionsResult] = await Promise.all([
+  // Build generation code for class_date lookup
+  const genCode = `GEN-${String(generationNumber).padStart(3, '0')}`;
+
+  // ALL queries in parallel — no waterfall
+  const [weeksResult, slidesResult, sectionsResult, mainGenResult] = await Promise.all([
     supabase
       .from('generation_weeks')
       .select('week, name, stack')
@@ -122,6 +123,11 @@ async function fetchGenerationData(
       .from('sections')
       .select('id, title, display_order')
       .order('display_order', { ascending: true }),
+    supabase
+      .from('generations')
+      .select('id, start_date')
+      .eq('code', genCode)
+      .maybeSingle(),
   ]);
 
   if (weeksResult.error) throw weeksResult.error;
@@ -131,28 +137,10 @@ async function fetchGenerationData(
   const weeks = weeksResult.data as GenerationWeekRow[];
   const slidesData = slidesResult.data;
   const sectionsData = sectionsResult.data;
-  
-  // Get the specific week's data
-  const currentWeekData = weeks.find(w => w.week === displayWeek);
-  
-  // Get previous weeks (before displayWeek)
-  const previousWeeks = weeks.filter(w => w.week < displayWeek);
+  const mainGen = mainGenResult.data;
 
-  const sections = (sectionsData || []) as SectionRow[];
-  const sectionMap = new Map(
-    sections.map(s => [s.id, SECTION_TITLE_OVERRIDES[s.title] || s.title])
-  );
-
-  // Get the actual class date from the classes table (handles rescheduled classes)
-  const genCode = `GEN-${String(generationNumber).padStart(3, '0')}`;
-  const { data: mainGen } = await supabase
-    .from('generations')
-    .select('id, start_date')
-    .eq('code', genCode)
-    .maybeSingle();
-
+  // Fetch class_date only if we have the generation (single small query)
   let dateStr: string;
-  // First try to get the real class_date from classes table
   if (mainGen?.id) {
     const { data: classRow } = await supabase
       .from('classes')
@@ -174,6 +162,14 @@ async function fetchGenerationData(
   } else {
     dateStr = new Date(generation.date + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
   }
+
+  const currentWeekData = weeks.find(w => w.week === displayWeek);
+  const previousWeeks = weeks.filter(w => w.week < displayWeek);
+
+  const sections = (sectionsData || []) as SectionRow[];
+  const sectionMap = new Map(
+    sections.map(s => [s.id, SECTION_TITLE_OVERRIDES[s.title] || s.title])
+  );
 
   // Use canonical module names from WORKSHOP_MODULES, falling back to DB data
   const canonicalModule = WORKSHOP_MODULES.find(m => m.number === displayWeek);
@@ -197,7 +193,7 @@ async function fetchGenerationData(
   };
 
   // Build slides data (content field excluded from query for speed)
-  const slides: SlideData[] = ((slidesData || []) as SlideRow[]).map(s => ({
+  const slidesList: SlideData[] = ((slidesData || []) as SlideRow[]).map(s => ({
     id: s.slide_number,
     section: sectionMap.get(s.section_id) || s.section_id,
     sectionId: s.section_id,
@@ -209,9 +205,9 @@ async function fetchGenerationData(
   }));
 
   // Compute sections dynamically from slides + sections table
-  const computedSections = computeSectionsFromSlides(slides, sections);
+  const computedSections = computeSectionsFromSlides(slidesList, sections);
 
-  return { config, slidesData: slides, currentWeek: displayWeek, generationId: generation.id, computedSections };
+  return { config, slidesData: slidesList, currentWeek: displayWeek, generationId: generation.id, computedSections };
 }
 
 export function useGenerationByNumber(generationNumber: number | undefined, weekNumber?: number) {

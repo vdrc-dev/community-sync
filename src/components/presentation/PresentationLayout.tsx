@@ -342,6 +342,22 @@ export function PresentationLayout({
   }, [mode, nextSlide, prevSlide]);
 
   // ============================================
+  // Prefetch adjacent slides (triggers lazy load)
+  // ============================================
+  
+  useEffect(() => {
+    const prefetchIndices = [currentSlide, currentSlide + 1, currentSlide - 2].filter(
+      i => i >= 0 && i < totalSlides
+    );
+    prefetchIndices.forEach(i => {
+      const comp = slides[i] as any;
+      if (comp && typeof comp === 'object' && 'preload' in comp) {
+        comp.preload?.();
+      }
+    });
+  }, [currentSlide, slides, totalSlides]);
+
+  // ============================================
   // Helpers
   // ============================================
   
