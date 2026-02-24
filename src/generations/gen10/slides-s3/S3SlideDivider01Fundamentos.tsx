@@ -12,7 +12,6 @@ export function S3SlideDivider01Fundamentos() {
       tools={[
         { label: 'Coolors.co', href: 'https://coolors.co' },
         { label: 'Fontjoy', href: 'https://fontjoy.com' },
-        'Canvas',
         'VibeCoding',
       ]}
     />
