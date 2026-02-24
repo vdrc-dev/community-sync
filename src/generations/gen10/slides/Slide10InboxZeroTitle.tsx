@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Inbox, Mail, CheckCircle2, Zap } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideContent } from '@/hooks/useSlideContent';
+import { S1Shell, useS1Motion } from './shared';
+import { S1_ACCENT } from './theme';
 
 const CLOUD_URL = 'https://htobjuxqrzifdvofselb.supabase.co/storage/v1/object/public/presentation-assets/gen10/canva-inbox-title.png';
 
@@ -10,163 +12,111 @@ export function Slide10InboxZeroTitle() {
   const { isExporting } = useExportContext();
   const content = useSlideContent(10);
   const inboxImage = (content.imageUrl as string) || CLOUD_URL;
-
-  const getMotionProps = (delay: number) =>
-    isExporting ? {} : {
-      initial: { opacity: 0, y: 30 },
-      animate: { opacity: 1, y: 0 },
-      transition: { delay, duration: 0.6, ease: 'easeOut' },
-    };
+  const m = useS1Motion();
 
   return (
-    <div className="h-full w-full min-h-screen relative overflow-hidden bg-[#020609] flex font-sans selection:bg-amber-500/30">
-      
-      {/* Ambient Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-amber-500/8 rounded-full blur-[180px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-orange-500/6 rounded-full blur-[150px]" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-500/4 rounded-full blur-[120px]" />
-      </div>
+    <S1Shell
+      footerLabel="INBOX ZERO"
+      className="flex"
+      radials={<>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_30%,_hsl(38_80%_50%_/_0.12),_transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(25_80%_50%_/_0.08),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_90%_10%,_hsl(45_80%_50%_/_0.06),_transparent_55%)]" />
+      </>}
+    >
 
-      {/* Subtle grid pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }}
-      />
-
-      {/* Left - Visual */}
+      {/* Left - Visual (hidden on mobile) */}
       <motion.div 
-        {...getMotionProps(0.1)}
-        className="w-[45%] flex items-center justify-center p-8 relative"
+        {...m(0.1)}
+        className="hidden lg:flex w-[45%] items-center justify-center p-8 relative"
       >
-        {/* Glowing ring behind image */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div 
-            className="w-[380px] h-[380px] rounded-full border border-amber-500/20"
-            animate={isExporting ? {} : { 
-              scale: [1, 1.05, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-          />
-          <motion.div 
-            className="absolute w-[320px] h-[320px] rounded-full border border-orange-500/15"
-            animate={isExporting ? {} : { 
-              scale: [1.05, 1, 1.05],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
+          {!isExporting && (
+            <>
+              <motion.div 
+                className="w-[380px] h-[380px] rounded-full border"
+                style={{ borderColor: S1_ACCENT.amber.border }}
+                animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div 
+                className="absolute w-[320px] h-[320px] rounded-full border"
+                style={{ borderColor: S1_ACCENT.orange.border }}
+                animate={{ scale: [1.05, 1, 1.05], opacity: [0.2, 0.4, 0.2] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+            </>
+          )}
         </div>
 
-        {/* Image container */}
         <div className="relative z-10">
-          <div className="absolute -inset-8 bg-gradient-to-br from-amber-500/25 to-orange-500/15 blur-3xl rounded-full" />
-          <div className="relative p-2 rounded-2xl bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20">
-            <img 
-              src={inboxImage} 
-              alt="Inbox Zero Illustration" 
-              className="relative w-full max-w-[320px] h-auto object-contain rounded-xl"
-            />
+          <div className="absolute -inset-8 blur-3xl rounded-full" style={{ background: 'linear-gradient(135deg, hsl(38 80% 50% / 0.25), hsl(25 80% 50% / 0.15))' }} />
+          <div className="relative p-2 rounded-2xl border" style={{ background: S1_ACCENT.amber.bg, borderColor: S1_ACCENT.amber.border }}>
+            <img src={inboxImage} alt="Inbox Zero" className="relative w-full max-w-[320px] h-auto object-contain rounded-xl" />
           </div>
         </div>
 
-        {/* Floating icons */}
-        <motion.div 
-          className="absolute top-20 left-20 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl backdrop-blur-sm"
-          animate={isExporting ? {} : { y: [0, -8, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          <Mail className="w-5 h-5 text-amber-400" />
-        </motion.div>
-        <motion.div 
-          className="absolute bottom-32 left-16 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl backdrop-blur-sm"
-          animate={isExporting ? {} : { y: [0, 8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-        >
-          <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-        </motion.div>
-        <motion.div 
-          className="absolute top-32 right-20 p-3 bg-orange-500/10 border border-orange-500/30 rounded-xl backdrop-blur-sm"
-          animate={isExporting ? {} : { y: [0, -6, 0] }}
-          transition={{ duration: 2.8, repeat: Infinity, delay: 0.3 }}
-        >
-          <Zap className="w-5 h-5 text-orange-400" />
-        </motion.div>
+        {!isExporting && (
+          <>
+            <motion.div className="absolute top-20 left-20 p-3 rounded-xl backdrop-blur-sm border"
+              style={{ background: S1_ACCENT.amber.bg, borderColor: S1_ACCENT.amber.border }}
+              animate={{ y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity }}>
+              <Mail className="w-5 h-5" style={{ color: S1_ACCENT.amber.text }} />
+            </motion.div>
+            <motion.div className="absolute bottom-32 left-16 p-3 rounded-xl backdrop-blur-sm border"
+              style={{ background: S1_ACCENT.emerald.bg, borderColor: S1_ACCENT.emerald.border }}
+              animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}>
+              <CheckCircle2 className="w-5 h-5" style={{ color: S1_ACCENT.emerald.text }} />
+            </motion.div>
+            <motion.div className="absolute top-32 right-20 p-3 rounded-xl backdrop-blur-sm border"
+              style={{ background: S1_ACCENT.orange.bg, borderColor: S1_ACCENT.orange.border }}
+              animate={{ y: [0, -6, 0] }} transition={{ duration: 2.8, repeat: Infinity, delay: 0.3 }}>
+              <Zap className="w-5 h-5" style={{ color: S1_ACCENT.orange.text }} />
+            </motion.div>
+          </>
+        )}
       </motion.div>
 
       {/* Right - Content */}
-      <div className="w-[55%] flex flex-col justify-center pr-16 pl-8">
-        
-        {/* Section badge */}
-        <motion.div {...getMotionProps(0.15)} className="mb-8">
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/30 rounded-full">
-            <Inbox className="w-5 h-5 text-amber-400" />
-            <span className="text-amber-400 text-sm font-bold tracking-widest uppercase">Tema 1 de 5</span>
+      <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 sm:px-10 lg:pr-16 lg:pl-8 relative z-10">
+        <motion.div {...m(0.15)} className="mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border"
+            style={{ background: 'linear-gradient(135deg, hsl(38 80% 50% / 0.12), hsl(25 80% 50% / 0.06))', borderColor: S1_ACCENT.amber.border }}>
+            <Inbox className="w-5 h-5" style={{ color: S1_ACCENT.amber.text }} />
+            <span className="text-sm font-bold tracking-widest uppercase" style={{ color: S1_ACCENT.amber.text }}>Tema 1 de 5</span>
           </div>
         </motion.div>
 
-        {/* Main title */}
-        <motion.div {...getMotionProps(0.25)}>
-          <h1 className="text-[7rem] md:text-[9rem] font-black text-white tracking-tight leading-[0.85] mb-2">
-            INBOX
-          </h1>
-          <h1 
-            className="text-[7rem] md:text-[9rem] font-black tracking-tight leading-[0.85]"
+        <motion.div {...m(0.25)}>
+          <h1 className="text-[4rem] sm:text-[7rem] lg:text-[9rem] font-black text-white tracking-tight leading-[0.85] mb-2">INBOX</h1>
+          <h1 className="text-[4rem] sm:text-[7rem] lg:text-[9rem] font-black tracking-tight leading-[0.85]"
             style={{
-              background: 'linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #ea580c 100%)',
+              background: 'linear-gradient(135deg, hsl(38 85% 65%) 0%, hsl(25 85% 55%) 50%, hsl(15 80% 50%) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-            }}
-          >
-            ZERO
-          </h1>
+            }}>ZERO</h1>
         </motion.div>
 
-        {/* Subtitle */}
-        <motion.div {...getMotionProps(0.35)} className="mt-8">
-          <p className="text-xl text-white/50 font-medium max-w-md">
-            Tu bandeja de entrada es un lugar de <span className="text-amber-400 font-semibold">tránsito</span>, no de almacenamiento
+        <motion.div {...m(0.35)} className="mt-6 sm:mt-8">
+          <p className="text-lg sm:text-xl text-white/50 font-medium max-w-md">
+            Tu bandeja de entrada es un lugar de <span className="font-semibold" style={{ color: S1_ACCENT.amber.text }}>tránsito</span>, no de almacenamiento
           </p>
         </motion.div>
 
-        {/* Stats preview */}
-        <motion.div {...getMotionProps(0.45)} className="mt-10 flex gap-6">
+        <motion.div {...m(0.45)} className="mt-8 sm:mt-10 flex flex-wrap gap-4 sm:gap-6">
           {[
-            { value: '3', label: 'Decisiones', color: 'amber' },
-            { value: '0', label: 'Dudas', color: 'orange' },
-            { value: '∞', label: 'Productividad', color: 'emerald' },
+            { value: '3', label: 'Decisiones', accent: S1_ACCENT.amber },
+            { value: '0', label: 'Dudas', accent: S1_ACCENT.orange },
+            { value: '∞', label: 'Productividad', accent: S1_ACCENT.emerald },
           ].map((stat, i) => (
-            <div 
-              key={i}
-              className={`flex flex-col items-center px-5 py-3 rounded-xl border ${
-                stat.color === 'amber' ? 'bg-amber-500/5 border-amber-500/20' :
-                stat.color === 'orange' ? 'bg-orange-500/5 border-orange-500/20' :
-                'bg-emerald-500/5 border-emerald-500/20'
-              }`}
-            >
-              <span className={`text-3xl font-black ${
-                stat.color === 'amber' ? 'text-amber-400' :
-                stat.color === 'orange' ? 'text-orange-400' :
-                'text-emerald-400'
-              }`}>
-                {stat.value}
-              </span>
-              <span className="text-xs text-white/40 font-medium uppercase tracking-wide">
-                {stat.label}
-              </span>
+            <div key={i} className="flex flex-col items-center px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border"
+              style={{ background: stat.accent.bg, borderColor: stat.accent.border }}>
+              <span className="text-2xl sm:text-3xl font-black" style={{ color: stat.accent.text }}>{stat.value}</span>
+              <span className="text-[10px] sm:text-xs text-white/40 font-medium uppercase tracking-wide">{stat.label}</span>
             </div>
           ))}
         </motion.div>
       </div>
-
-      {/* Page number */}
-      <div className="absolute bottom-6 right-10 text-sm font-semibold text-white/15 tabular-nums tracking-wide">
-        10 / 29
-      </div>
-    </div>
+    </S1Shell>
   );
 }
