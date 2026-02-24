@@ -44,18 +44,18 @@ export const S3_EASE_SNAP = [0.34, 1.56, 0.64, 1] as const;
 /** Staggered entry motion helper */
 export const s3Motion = (delay: number, isExporting: boolean, overrides?: object) =>
   isExporting ? {} : {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.9, ease: S3_EASE },
+    transition: { delay: delay * 0.7, duration: 0.55, ease: S3_EASE },
     ...overrides,
   };
 
 /** Epic entry: larger Y offset with scale for dramatic reveals */
 export const s3MotionEpic = (delay: number, isExporting: boolean, overrides?: object) =>
   isExporting ? {} : {
-    initial: { opacity: 0, y: 50, scale: 0.95, filter: 'blur(8px)' },
+    initial: { opacity: 0, y: 28, scale: 0.97, filter: 'blur(6px)' },
     animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    transition: { delay, duration: 1.1, ease: S3_EASE },
+    transition: { delay: delay * 0.7, duration: 0.7, ease: S3_EASE },
     ...overrides,
   };
 

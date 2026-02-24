@@ -61,7 +61,7 @@ export function S3Slide09CRM() {
         </motion.p>
 
         {/* Visual pipeline flow: CRM → MCP → Analysis */}
-        <div className="relative flex items-center justify-center gap-4">
+        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4">
           {PIPELINE.map((step, i) => {
             const Icon = step.icon;
             const shimmerHue = step.accent === S3_ACCENT.amber ? 38 : step.accent === S3_ACCENT.violet ? 263 : 185;

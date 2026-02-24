@@ -67,7 +67,7 @@ export function S3Slide03DesignFoundations() {
         </motion.p>
 
         {/* Main grid: palette left, typography right */}
-        <div className="grid grid-cols-[1.1fr_1fr] gap-5 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-[1.1fr_1fr] gap-5 mb-5">
 
           {/* LEFT — Color Palette */}
           <motion.div {...m(0.18)} className="text-left p-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] relative overflow-hidden">
@@ -131,7 +131,7 @@ export function S3Slide03DesignFoundations() {
         </div>
 
         {/* Design rules — 3-col */}
-        <motion.div {...m(0.5)} className="grid grid-cols-3 gap-3 max-w-3xl mx-auto text-left mb-3">
+        <motion.div {...m(0.5)} className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto text-left mb-3">
           {[
             { icon: Target, rule: 'Regla 60-30-10', detail: '60% neutro, 30% primario, 10% acento. Jerarquía visual instantánea.', accent: S3_ACCENT.rose },
             { icon: CheckCircle2, rule: 'Contraste 4.5:1', detail: 'Mínimo WCAG AA para texto normal. Usa webaim.org para verificar.', accent: S3_ACCENT.emerald },

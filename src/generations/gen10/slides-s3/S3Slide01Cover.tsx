@@ -146,7 +146,7 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[3.5rem] sm:text-[5.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
+              className="text-[2.8rem] sm:text-[4.5rem] lg:text-[7rem] 2xl:text-[9rem] font-black tracking-[-0.06em] leading-[0.85] relative"
               style={{
                 background: 'linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(330 55% 88%) 50%, hsl(310 50% 80%) 100%)',
                 WebkitBackgroundClip: 'text',
@@ -159,7 +159,7 @@ export function S3Slide01Cover() {
               PRESENTACIONES
             </h1>
             <h1
-              className="text-[3.5rem] sm:text-[5.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
+              className="text-[2.8rem] sm:text-[4.5rem] lg:text-[7rem] 2xl:text-[9rem] font-black tracking-[-0.06em] leading-[0.85] relative"
               style={{
                 ...s3GradientTextMulti([330, 280, 185, 38], 330),
                 filter: `drop-shadow(0 0 ${isHovered ? '80' : '35'}px hsl(330 70% 50% / 0.5))`,
