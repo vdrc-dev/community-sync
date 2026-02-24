@@ -28,9 +28,9 @@ export function S3Slide10MCPvsAPI() {
       <div className="relative z-10 max-w-4xl mx-auto w-full text-center">
         {/* Badge */}
         <motion.div {...m(0)} className="mb-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}>
-            <Cpu className="w-3.5 h-3.5" style={{ color: S3_ACCENT.amber.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.amber.text }}>Conexiones y Datos</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
+            <Cpu className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Fundamentos Visuales</span>
           </div>
         </motion.div>
 

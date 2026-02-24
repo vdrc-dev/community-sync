@@ -49,11 +49,11 @@ export function S3Slide02Recap() {
           Semana 3 de 4 - 75% del programa completado
         </motion.p>
         {/* Visual journey: 4 stage nodes connected by line */}
-        <div className="relative flex items-center justify-center gap-6">
+        <div className="relative flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           {/* Connecting line behind */}
-          <div className="absolute top-1/2 left-[8%] right-[8%] h-px -translate-y-1/2" style={{ background: 'linear-gradient(90deg, hsl(185 70% 50% / 0.3), hsl(263 60% 55% / 0.3), hsl(330 65% 55% / 0.3), hsl(160 65% 45% / 0.15))' }} />
+          <div className="absolute top-1/2 left-[8%] right-[8%] h-px -translate-y-1/2 hidden sm:block" style={{ background: 'linear-gradient(90deg, hsl(185 70% 50% / 0.3), hsl(263 60% 55% / 0.3), hsl(330 65% 55% / 0.3), hsl(160 65% 45% / 0.15))' }} />
           {/* Progress fill */}
-          <motion.div className="absolute top-1/2 left-[8%] h-[2px] -translate-y-1/2 rounded-full"
+          <motion.div className="absolute top-1/2 left-[8%] h-[2px] -translate-y-1/2 rounded-full hidden sm:block"
             style={{ background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' }}
             {...(isExporting ? { style: { width: '63%', background: 'linear-gradient(90deg, hsl(185 70% 50%), hsl(263 60% 55%))' } } : { initial: { width: '0%' }, animate: { width: '63%' }, transition: { delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] } })}
           />

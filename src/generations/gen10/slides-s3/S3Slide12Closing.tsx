@@ -76,7 +76,7 @@ export function S3Slide12Closing() {
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">
         {/* Header with epic gradient title */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4">
           <div>
             <motion.div {...me(0)} className="flex items-center gap-3 mb-3">
               <div className="w-1.5 h-12 rounded-full" style={{ background: `linear-gradient(180deg, ${S3_ACCENT.emerald.text}, ${S3_ACCENT.cyan.text})` }} />
@@ -93,7 +93,7 @@ export function S3Slide12Closing() {
           </div>
 
           {/* Achievement badge + Stats pills */}
-          <motion.div {...me(0.08)} className="flex items-center gap-3">
+          <motion.div {...me(0.08)} className="flex items-center gap-3 flex-wrap">
             {/* Achievement badge with celebration glow */}
             <motion.div
               className="relative flex items-center gap-2.5 px-5 py-3 rounded-xl border overflow-hidden"
@@ -228,7 +228,7 @@ export function S3Slide12Closing() {
             </motion.div>
 
             {/* Bottom row: CTA + Tip */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Next week CTA with dramatic glow */}
               <motion.div
                 {...me(0.45)}

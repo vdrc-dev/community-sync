@@ -101,7 +101,7 @@ export function S3Slide11Cursor() {
         </div>
 
         {/* Workflow tip */}
-        <motion.div {...m(0.55)} className="mt-6 max-w-3xl mx-auto grid grid-cols-3 gap-3 text-left">
+        <motion.div {...m(0.55)} className="mt-6 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
           {[
             { tip: 'Cmd+K = Editar', detail: 'Selecciona código y pide cambios inline' },
             { tip: 'Chat = Planear', detail: 'Abre el chat lateral para cambios multi-archivo' },

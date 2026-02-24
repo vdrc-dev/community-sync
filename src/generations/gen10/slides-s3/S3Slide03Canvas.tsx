@@ -42,7 +42,7 @@ export function S3Slide03Canvas() {
 
       <div className="relative z-10 max-w-5xl mx-auto w-full">
         {/* Header row: text left, mockup right */}
-        <div className="flex items-center gap-10 mb-8">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-10 mb-8">
           {/* Left: title + stats */}
           <div className="flex-1 min-w-0 text-left">
             <motion.div {...m(0)} className="mb-4">
@@ -109,7 +109,7 @@ export function S3Slide03Canvas() {
           </div>
 
           {/* Right: Interactive Canva mockup with toolbar simulation */}
-          <motion.div {...me(0.15)} className="relative flex-shrink-0 w-[48%] max-w-[520px]">
+          <motion.div {...me(0.15)} className="relative flex-shrink-0 w-full lg:w-[48%] max-w-[520px] hidden sm:block">
             <div className="absolute -inset-12 rounded-full blur-[120px] opacity-40"
               style={{ background: `radial-gradient(circle, hsl(${ACCENT_HUE} 60% 50% / 0.3), transparent 70%)` }} />
 
