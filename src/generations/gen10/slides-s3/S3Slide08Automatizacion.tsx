@@ -6,14 +6,14 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const CASES = [
-  { title: 'Folleto Digital', icon: Presentation, time: '~5 min', detail: '"Hazme un folleto con estos datos de producto"', accent: S3_ACCENT.violet },
-  { title: 'Modelo Excel', icon: FileSpreadsheet, time: '~3 min', detail: '"Crea un modelo financiero con proyección a 12 meses"', accent: S3_ACCENT.emerald },
+  { title: 'Deck desde PDF', icon: Presentation, time: '~5 min', detail: '"Usa PDF Skill y arma un deck ejecutivo"', accent: S3_ACCENT.violet },
+  { title: 'Modelo Excel', icon: FileSpreadsheet, time: '~3 min', detail: '"Con Excel Skill genera proyección a 12 meses"', accent: S3_ACCENT.emerald },
   { title: 'Tarea Recurrente', icon: Repeat, time: 'Auto', detail: '"Cada lunes resume los emails de la semana"', accent: S3_ACCENT.amber },
 ];
 
 const FLOW_STEPS = [
   { label: 'Trigger', sub: 'Email / Calendario', icon: Mail, accent: S3_ACCENT.cyan },
-  { label: 'Claude', sub: 'Procesa + Decide', icon: Zap, accent: S3_ACCENT.violet },
+  { label: 'Claude + Skills', sub: 'Procesa + Decide', icon: Zap, accent: S3_ACCENT.violet },
   { label: 'Output', sub: 'Doc / Email / Slack', icon: Presentation, accent: S3_ACCENT.emerald },
 ];
 

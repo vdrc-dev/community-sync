@@ -6,16 +6,16 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const SKILLS = [
-  { name: 'Brand Theme', tip: 'Tu identidad visual precargada', example: '"Aplica mi marca a este PDF"', icon: Palette, accent: S3_ACCENT.rose },
-  { name: 'Excel Controller', tip: 'Lee y edita hojas de cálculo', example: '"Analiza ventas Q3 de este xlsx"', icon: FileSpreadsheet, accent: S3_ACCENT.emerald },
-  { name: 'PDF Editor', tip: 'Extrae y transforma documentos', example: '"Resume este contrato en 5 puntos"', icon: FileText, accent: S3_ACCENT.amber },
-  { name: 'Web Researcher', tip: 'Busca info pública actualizada', example: '"Investiga tendencias IA 2026"', icon: Search, accent: S3_ACCENT.cyan },
+  { name: 'PDF Skill', tip: 'Extrae estructura y texto de material base', example: '"Resume y ordena este PDF en bullets"', icon: FileText, accent: S3_ACCENT.amber },
+  { name: 'PPTX Skill', tip: 'Convierte contenido en secuencia de slides', example: '"Genera deck base con este guion"', icon: FileSpreadsheet, accent: S3_ACCENT.violet },
+  { name: 'Theme Factory', tip: 'Aplica estilo visual consistente', example: '"Usa una paleta profesional en todo el deck"', icon: Palette, accent: S3_ACCENT.rose },
+  { name: 'Web Researcher', tip: 'Valida links, tendencias y ejemplos', example: '"Actualiza herramientas de presentaciones 2026"', icon: Search, accent: S3_ACCENT.cyan },
 ];
 
 const INSTALL_STEPS = [
-  { step: '1', label: 'Abre Claude Desktop' },
-  { step: '2', label: 'Pide instalar Skills' },
-  { step: '3', label: 'Usa en cualquier chat' },
+  { step: '1', label: 'Conecta anthropics/skills' },
+  { step: '2', label: 'Instala document/example skills' },
+  { step: '3', label: 'Invoca skill por tarea' },
 ];
 
 export function S3Slide07Skills() {
@@ -38,12 +38,12 @@ export function S3Slide07Skills() {
           <motion.div {...m(0)} className="mb-3">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
               <Zap className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Claude Code</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Anthropic Skills</span>
             </div>
           </motion.div>
 
           <motion.h1 {...me(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
-            Skills: <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(330 65% 70%)', 263)}>Superpoderes</span>
+            Skills para <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(330 65% 70%)', 263)}>Presentaciones</span>
           </motion.h1>
           <motion.div
             className="h-0.5 rounded-full mt-1.5 mx-auto max-w-[100px] origin-center"
@@ -53,7 +53,7 @@ export function S3Slide07Skills() {
             transition={{ delay: 0.6, duration: 1, ease: S3_EASE }}
           />
           <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 max-w-md mx-auto">
-            Paquetes de instrucciones que multiplican a Claude
+            Flujos reutilizables para ir de PDF a deck en minutos
           </motion.p>
         </div>
 
@@ -85,7 +85,7 @@ export function S3Slide07Skills() {
                     <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
                     <div className="w-2 h-2 rounded-full bg-green-500/50" />
                   </div>
-                  <span className="text-[10px] text-white/40 font-mono ml-2">Claude Desktop — Skills</span>
+                  <span className="text-[10px] text-white/40 font-mono ml-2">Claude Code — anthropics/skills</span>
                 </div>
 
                 {/* Fake terminal content */}
@@ -98,7 +98,7 @@ export function S3Slide07Skills() {
                       style={{ color: S3_ACCENT.violet.text }}
                       {...(isExporting ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.8, duration: 0.5 } })}
                     >
-                      &gt; instala los skills de Anthropic
+                      &gt; /plugin marketplace add anthropics/skills
                     </motion.span>
                   </div>
 
@@ -140,7 +140,7 @@ export function S3Slide07Skills() {
                     style={{ borderColor: 'hsl(263 40% 50% / 0.1)' }}
                     {...(isExporting ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 2, duration: 0.5 } })}
                   >
-                    <span className="text-[10px] text-white/35 font-mono">4 skills instalados</span>
+                    <span className="text-[10px] text-white/35 font-mono">4 skills activos para clase 3</span>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full" style={{ background: S3_ACCENT.emerald.dot }} />
                       <span className="text-[10px] font-mono" style={{ color: S3_ACCENT.emerald.text }}>Ready</span>
@@ -213,7 +213,7 @@ export function S3Slide07Skills() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CLAUDE CODE" hue={263} contextHint="skills reutilizables por tarea" />
+      <S3Footer sectionLabel="ANTHROPIC SKILLS" hue={263} contextHint="de material base a slides listas" />
     </div>
   );
 }

@@ -172,7 +172,7 @@ export function S3Slide05NotebookLM() {
           {[
             { tip: '50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
             { tip: 'Varios audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
-            { tip: 'Incluido en Google', detail: 'Free con cuenta Google · Plus con AI Premium' },
+            { tip: 'Puente a Skills', detail: 'Exporta resumen y úsalo como input para PDF/PPTX Skill' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.53 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>

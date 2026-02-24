@@ -10,7 +10,7 @@ import { S3Footer } from './S3Footer';
 const DESKTOP_POWERS = [
   { icon: FolderOpen, label: 'Archivos locales', detail: 'Lee tu disco completo', pct: 100 },
   { icon: Plug, label: 'Conectores MCP', detail: '200+ integraciones', pct: 85 },
-  { icon: Terminal, label: 'Terminal', detail: 'Ejecuta comandos reales', pct: 95 },
+  { icon: Terminal, label: 'Skills reutilizables', detail: 'Flujos PDF/PPTX/Theme listos', pct: 95 },
 ];
 
 /* ── Web limitations ── */
@@ -25,7 +25,7 @@ const SETUP_STEPS = [
   { step: '1', text: 'Descarga Claude Desktop', icon: Download, href: 'https://claude.ai/download' },
   { step: '2', text: 'Login con tu cuenta', icon: LogIn },
   { step: '3', text: 'Arrastra archivos al chat', icon: FileUp },
-  { step: '4', text: 'Conecta tu primer MCP', icon: Cable },
+  { step: '4', text: 'Instala anthropics/skills', icon: Cable, href: 'https://github.com/anthropics/skills' },
 ];
 
 export function S3Slide06ClaudeCode() {
@@ -80,7 +80,7 @@ export function S3Slide06ClaudeCode() {
 
         {/* Subtitle */}
         <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 mb-7 max-w-md mx-auto">
-          La IA que vive en tu computador — con acceso a archivos, terminal y MCP
+          La IA que vive en tu computador — con archivos, MCP y Skills de Anthropic
         </motion.p>
 
         {/* ═══════════════════════════════════ */}
@@ -322,7 +322,7 @@ export function S3Slide06ClaudeCode() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="CLAUDE CODE" hue={263} contextHint="tu agente de escritorio con IA" />
+      <S3Footer sectionLabel="CLAUDE DESKTOP" hue={263} contextHint="archivos, MCP y skills reutilizables" />
     </div>
   );
 }

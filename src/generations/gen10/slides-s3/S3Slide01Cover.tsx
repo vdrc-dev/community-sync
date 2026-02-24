@@ -12,13 +12,13 @@ import { S3Footer } from './S3Footer';
 const TOOLS = [
   { name: 'Gamma', icon: Presentation, color: 'hsl(263 70% 60%)', hue: 263, href: 'https://gamma.app' },
   { name: 'Coolors', icon: Palette, color: 'hsl(185 70% 50%)', hue: 185, href: 'https://coolors.co' },
-  { name: 'Canvas', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38, href: 'https://chatgpt.com' },
+  { name: 'Anthropic Skills', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38, href: 'https://github.com/anthropics/skills' },
   { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)', hue: 150, href: 'https://napkin.ai' },
 ];
 
 const STATS = [
   { icon: Wrench, value: '8+', label: 'herramientas', color: S3_ACCENT.cyan.text },
-  { icon: Workflow, value: '5', label: 'workflows', color: S3_ACCENT.emerald.text },
+  { icon: Workflow, value: '4+', label: 'skills', color: S3_ACCENT.emerald.text },
 ];
 
 const CONSTELLATION_LINES = [
@@ -37,7 +37,7 @@ export function S3Slide01Cover() {
   const [typedCount, setTypedCount] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
 
-  const subtitle = 'De ideas a presentaciones profesionales con IA';
+  const subtitle = 'De apuntes y PDFs a presentaciones profesionales con IA';
 
   useEffect(() => {
     if (isExporting) { setTypedCount(subtitle.length); return; }

@@ -51,10 +51,10 @@ const TOOLS = [
 
 const WORKFLOW = [
   { tool: 'Coolors', action: 'Paleta', accent: S3_ACCENT.rose, href: 'https://coolors.co' },
-  { tool: 'Claude', action: 'Outline', accent: S3_ACCENT.emerald, href: 'https://claude.ai' },
+  { tool: 'Gamma', action: 'Texto → Slides', accent: S3_ACCENT.violet, href: 'https://gamma.app' },
   { tool: 'Napkin', action: 'Diagramas', accent: S3_ACCENT.amber, href: 'https://napkin.ai' },
-  { tool: 'Gamma', action: 'Slides', accent: S3_ACCENT.violet, href: 'https://gamma.app' },
   { tool: 'Canva', action: 'Ajustes', accent: S3_ACCENT.cyan, href: 'https://canva.com' },
+  { tool: 'Exporta', action: 'PDF/SVG', accent: S3_ACCENT.emerald, href: 'https://gamma.app' },
 ];
 
 export function S3Slide07PresentationAI() {
@@ -100,7 +100,7 @@ export function S3Slide07PresentationAI() {
             transition={{ delay: 0.35, duration: 0.8, ease: S3_EASE }}
           />
           <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 max-w-md mx-auto">
-            De ideas a slides profesionales — sin tocar diseño
+            Copia tus apuntes, convierte en slides y refina en minutos
           </motion.p>
         </motion.div>
 

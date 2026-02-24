@@ -6,9 +6,10 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const TOOLS_LEARNED = [
-  { icon: BarChart3, name: 'Canvas', what: 'Datos → Visual', accent: S3_ACCENT.cyan },
+  { icon: BarChart3, name: 'Canva', what: 'Ajuste visual final', accent: S3_ACCENT.cyan },
   { icon: BookOpen, name: 'NotebookLM', what: 'PDFs → Audio', accent: S3_ACCENT.cyan },
   { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
+  { icon: Terminal, name: 'Anthropic Skills', what: 'PDF/PPTX/Theme', accent: S3_ACCENT.violet },
   { icon: Terminal, name: 'Claude Code', what: 'Desktop AI', accent: S3_ACCENT.violet },
   { icon: Database, name: 'CRM+MCP', what: 'Datos live', accent: S3_ACCENT.amber },
   { icon: Code2, name: 'Cursor', what: 'IDE + AI', accent: S3_ACCENT.amber },
@@ -27,7 +28,7 @@ const MISSIONS = [
   },
   {
     task: 'Claude Desktop + 2 Skills',
-    detail: 'Instala Brand Theme + Excel Controller',
+    detail: 'Instala PDF Skill + PPTX Skill',
     icon: Terminal,
     accent: S3_ACCENT.violet,
     difficulty: 'Medio',
