@@ -9,12 +9,12 @@ const MODULES = [
   {
     num: '01',
     title: 'Fundamentos Visuales',
-    desc: 'Color, tipografía y VibeCoding',
-    tools: ['Coolors', 'Fontjoy', 'VibeCoding'],
+    desc: 'Color, tipografía, VibeCoding y protocolos',
+    tools: ['Coolors', 'Fontjoy', 'VibeCoding', 'MCP vs API'],
     icon: Palette,
     accent: S3_ACCENT.rose,
-    time: '~20 min',
-    timePercent: 21,
+    time: '~25 min',
+    timePercent: 26,
   },
   {
     num: '02',
@@ -30,11 +30,11 @@ const MODULES = [
     num: '03',
     title: 'Conexiones y Aplicación',
     desc: 'Datos reales, CRM y Cursor',
-    tools: ['CRM + MCP', 'MCP vs API', 'Cursor'],
+    tools: ['CRM + MCP', 'Cursor'],
     icon: Plug,
     accent: S3_ACCENT.amber,
-    time: '~15 min',
-    timePercent: 16,
+    time: '~10 min',
+    timePercent: 11,
   },
   {
     num: '04',
@@ -43,8 +43,8 @@ const MODULES = [
     tools: ['Misiones', 'Q&A'],
     icon: Rocket,
     accent: S3_ACCENT.emerald,
-    time: '~10 min',
-    timePercent: 11,
+    time: '~5 min',
+    timePercent: 10,
   },
 ];
 

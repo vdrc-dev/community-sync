@@ -12,7 +12,6 @@ export function S3SlideDivider03Aplicacion() {
       accentSat={85}
       tools={[
         'CRM + MCP',
-        'MCP vs API',
         { label: 'Cursor', href: 'https://cursor.com' },
       ]}
     />
