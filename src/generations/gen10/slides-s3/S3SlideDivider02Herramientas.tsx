@@ -10,6 +10,7 @@ export function S3SlideDivider02Herramientas() {
       icon={Wrench}
       accentHue={263}
       tools={[
+        { label: 'Canva', href: 'https://www.canva.com' },
         { label: 'NotebookLM', href: 'https://notebooklm.google.com' },
         { label: 'Claude Code', href: 'https://claude.ai/download' },
         'Skills',
