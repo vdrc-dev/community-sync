@@ -345,11 +345,13 @@ export function PresentationLayout({
   // Prefetch adjacent slides (triggers lazy load)
   // ============================================
   
-  // Immediate prefetch: ±3 slides around current
+  // Immediate prefetch: ±5 slides around current (wider window)
   useEffect(() => {
     const prefetchIndices = [
       currentSlide - 1, currentSlide, currentSlide + 1,
-      currentSlide - 2, currentSlide + 2, currentSlide - 3,
+      currentSlide - 2, currentSlide + 2,
+      currentSlide - 3, currentSlide + 3,
+      currentSlide + 4, currentSlide + 5,
     ].filter(i => i >= 0 && i < totalSlides);
     prefetchIndices.forEach(i => {
       const comp = slides[i] as any;
@@ -451,7 +453,7 @@ export function PresentationLayout({
     <div className="relative min-h-screen bg-background overflow-hidden">
       {/* Main Slide Canvas */}
       <div className="relative w-full h-screen">
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentSlide}
             custom={direction}
@@ -460,10 +462,11 @@ export function PresentationLayout({
             animate="center"
             exit="exit"
             transition={{ 
-              duration: 0.15, 
+              duration: 0.1, 
               ease: premiumEase,
             }}
             className="w-full h-full"
+            style={{ willChange: 'transform, opacity' }}
           >
             <SlideWrapper>
               {CurrentSlideComponent && (
