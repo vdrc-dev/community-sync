@@ -213,25 +213,7 @@ export function S3Slide01Cover() {
             </p>
           </motion.div>
 
-          {/* ── Quote with glow border ── */}
-          <motion.div {...me(0.6)} className="mt-8 max-w-lg relative">
-            <div className="absolute -left-0 top-0 bottom-0 w-[3px] rounded-full overflow-hidden"
-              style={{ background: 'linear-gradient(to bottom, hsl(330 55% 55%), hsl(280 50% 50% / 0.3), transparent)' }}>
-              {!isExporting && (
-                <motion.div
-                  className="absolute w-full h-8 rounded-full"
-                  style={{ background: 'hsl(330 80% 70%)' }}
-                  animate={{ top: ['-20%', '120%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 2 }}
-                />
-              )}
-            </div>
-            <div className="pl-5 py-2">
-              <p className="text-[15px] text-white/50 font-light leading-relaxed italic">
-                "De <span className="text-rose-400/80 font-medium not-italic">diseño con propósito</span> a presentaciones profesionales — las herramientas convierten ideas en comunicación visual."
-              </p>
-            </div>
-          </motion.div>
+          {/* spacer */}
 
           {/* ── Stats row with shimmer ── */}
           <motion.div {...me(0.75)} className="mt-10 flex items-center gap-5">
