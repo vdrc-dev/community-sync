@@ -1,22 +1,26 @@
-// Gen 10 - Semana 3: Presentaciones con IA y creación digital
+// Gen 10 - Semana 3: Comunicación y Creación Digital
 // Componentes resueltos dinámicamente vía SLIDE_REGISTRY + base de datos
 //
-// Orden lógico de presentación (15 slides):
+// Orden lógico (19 slides):
 //  01  Cover
-//  02  Recap del camino
-//  03  Fundamentos de diseño
-//  04  Canvas Dashboards
-//  05  Vibe Coding
-//  06  NotebookLM
-//  07  Claude Code
-//  08  Claude Skills
-//  09  Gamma / Beautiful.ai
-//  10  Automatización
-//  11  CRM + MCP
-//  12  MCP vs API
-//  13  Cursor IDE
-//  14  Krea.ai Video
-//  15  Cierre
+//  02  Recap
+//  03  Agenda
+//  04  Divider M01 — Fundamentos Visuales
+//  05  Design Foundations
+//  06  VibeCoding
+//  07  Divider M02 — Herramientas de Creación
+//  08  Canva
+//  09  NotebookLM
+//  10  Claude Desktop
+//  11  Skills
+//  12  Gamma / Napkin (PresentationAI)
+//  13  Krea.ai Video  ← creación, no conexión
+//  14  Divider M03 — Conexiones y Aplicación
+//  15  Automatización
+//  16  CRM
+//  17  MCP vs API
+//  18  Cursor
+//  19  Cierre
 
 export { S3Slide01Cover } from './S3Slide01Cover';
 export { S3Slide02Recap } from './S3Slide02Recap';

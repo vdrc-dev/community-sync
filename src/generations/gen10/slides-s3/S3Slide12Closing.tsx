@@ -11,9 +11,9 @@ const TOOLS_LEARNED = [
   { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
   { icon: Terminal, name: 'Anthropic Skills', what: 'PDF/PPTX/Theme', accent: S3_ACCENT.violet },
   { icon: Terminal, name: 'Claude Code', what: 'Desktop AI', accent: S3_ACCENT.violet },
+  { icon: Video, name: 'Krea.ai', what: 'Img → Video', accent: S3_ACCENT.violet },
   { icon: Database, name: 'CRM+MCP', what: 'Datos live', accent: S3_ACCENT.amber },
   { icon: Code2, name: 'Cursor', what: 'IDE + AI', accent: S3_ACCENT.amber },
-  { icon: Video, name: 'Krea.ai', what: 'Img → Video', accent: S3_ACCENT.rose },
   { icon: Palette, name: 'Coolors', what: 'Paletas', accent: S3_ACCENT.rose },
 ];
 

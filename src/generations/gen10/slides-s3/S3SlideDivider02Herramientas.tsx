@@ -16,6 +16,7 @@ export function S3SlideDivider02Herramientas() {
         'Skills',
         { label: 'Gamma', href: 'https://gamma.app' },
         { label: 'Napkin', href: 'https://napkin.ai' },
+        { label: 'Krea.ai', href: 'https://www.krea.ai' },
       ]}
     />
   );
