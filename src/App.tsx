@@ -154,8 +154,8 @@ const App = () => (
               <Route path="/admin/presentations" element={<ProtectedRoute adminOnly><AdminPresentations /></ProtectedRoute>} />
               <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminUsers /></ProtectedRoute>} />
 
-              {/* ── VDRC Slide Engine ─────────────────── */}
-              <Route path="/slides/:genId" element={<ProtectedRoute><GenerationPage /></ProtectedRoute>} />
+              {/* ── VDRC Slide Engine (público para compartir) ── */}
+              <Route path="/slides/:genId" element={<GenerationPage />} />
 
               {/* ── Catch-all ────────────────────────── */}
               <Route path="*" element={<NotFound />} />
