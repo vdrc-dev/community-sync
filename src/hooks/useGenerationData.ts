@@ -143,22 +143,34 @@ async function fetchGenerationData(
     sections.map(s => [s.id, SECTION_TITLE_OVERRIDES[s.title] || s.title])
   );
 
-  // Calculate the correct class date using the generation start_date from the main generations table
-  // Build the generation code (e.g. "GEN-010") to find the start date
+  // Get the actual class date from the classes table (handles rescheduled classes)
   const genCode = `GEN-${String(generationNumber).padStart(3, '0')}`;
   const { data: mainGen } = await supabase
     .from('generations')
-    .select('start_date')
+    .select('id, start_date')
     .eq('code', genCode)
     .maybeSingle();
 
   let dateStr: string;
-  if (mainGen?.start_date) {
-    // Calculate class date from start_date + (week - 1) * 7 days
-    const startDate = new Date(mainGen.start_date + 'T12:00:00');
-    const classDate = new Date(startDate);
-    classDate.setDate(classDate.getDate() + (displayWeek - 1) * 7);
-    dateStr = classDate.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+  // First try to get the real class_date from classes table
+  if (mainGen?.id) {
+    const { data: classRow } = await supabase
+      .from('classes')
+      .select('class_date')
+      .eq('generation_id', mainGen.id)
+      .eq('class_number', displayWeek)
+      .maybeSingle();
+
+    if (classRow?.class_date) {
+      dateStr = new Date(classRow.class_date + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+    } else if (mainGen.start_date) {
+      const startDate = new Date(mainGen.start_date + 'T12:00:00');
+      const classDate = new Date(startDate);
+      classDate.setDate(classDate.getDate() + (displayWeek - 1) * 7);
+      dateStr = classDate.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+    } else {
+      dateStr = new Date(generation.date + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
   } else {
     dateStr = new Date(generation.date + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
   }
