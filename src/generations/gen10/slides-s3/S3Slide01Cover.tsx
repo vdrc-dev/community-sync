@@ -302,7 +302,7 @@ export function S3Slide01Cover() {
             <div className="flex items-center gap-4">
               <div className="h-px w-10" style={{ background: 'linear-gradient(90deg, hsl(330 50% 50% / 0.3), transparent)' }} />
               <p className="text-white/40 text-xs font-medium uppercase tracking-[0.2em]">
-                {gen?.config?.date || '17 de febrero de 2026'} · {gen?.config?.instructor || 'Vicente Donoso R.'}
+                {gen?.config?.date || '24 de febrero de 2026'} · {gen?.config?.instructor || 'Vicente Donoso R.'}
               </p>
             </div>
           </motion.div>
