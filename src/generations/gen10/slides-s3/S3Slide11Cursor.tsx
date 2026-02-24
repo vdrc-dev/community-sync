@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import toolCursorMockup from '@/assets/slides/tool-cursor-mockup.jpg';
 
 const POWERS = [
   { icon: FolderTree, label: 'Multi-archivo', accent: S3_ACCENT.amber },
@@ -51,62 +52,22 @@ export function S3Slide11Cursor() {
         </motion.p>
 
         <div className="grid grid-cols-12 gap-5">
-          {/* IDE Mockup with shimmer */}
+          {/* IDE Reference Screenshot */}
           <motion.div {...m(0.2)} className="col-span-7 relative">
             <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(38 80% 55% / 0.12)', background: 'hsl(38 80% 55% / 0.02)' }}>
-              {/* Shimmer sweep on IDE mockup */}
               {!isExporting && (
                 <motion.div
                   className="absolute inset-0 z-[1] pointer-events-none rounded-2xl overflow-hidden"
-                  style={{
-                    background: 'linear-gradient(105deg, transparent 35%, hsl(38 90% 65% / 0.08) 50%, transparent 65%)',
-                  }}
+                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(38 90% 65% / 0.08) 50%, transparent 65%)' }}
                   animate={{ x: ['-150%', '250%'] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
                 />
               )}
-              {/* Chrome */}
               <div className="relative px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(38 80% 55% / 0.08)' }}>
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
                 <span className="text-[10px] text-white/40 font-mono ml-2">cursor — dashboard/</span>
               </div>
-              <div className="flex">
-                {/* File tree */}
-                <div className="w-[120px] border-r p-3 space-y-0.5" style={{ borderColor: 'hsl(0 0% 100% / 0.08)' }}>
-                  {['├── src/', '│ ├── App.tsx', '│ ├── Dashboard.tsx', '│ └── Charts.tsx', '├── data/', '│ └── sales.csv', '└── styles.css'].map((f, i) => (
-                    <p key={i} className={`text-[10px] font-mono ${i === 2 ? 'text-amber-400/60' : 'text-white/35'}`}>{f}</p>
-                  ))}
-                </div>
-                {/* Code editor with pulsing cursor in code area */}
-                <div className="flex-1 p-3 font-mono text-[10px] space-y-0.5 relative">
-                  <p><span className="text-violet-400/50">import</span> <span className="text-white/40">{'{ useState }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'react'</span></p>
-                  <p><span className="text-violet-400/50">import</span> <span className="text-white/40">{'{ BarChart }'}</span> <span className="text-violet-400/50">from</span> <span className="text-emerald-300/60">'recharts'</span></p>
-                  <p className="text-white/35">&nbsp;</p>
-                  <p><span className="text-violet-400/50">export function </span><span className="text-amber-300/70">Dashboard</span><span className="text-white/40">{'() {'}</span></p>
-                  <p className="ml-3"><span className="text-white/40">const data = </span><span className="text-amber-300/70">useCSV</span><span className="text-white/40">{'("sales.csv")'}</span></p>
-                  <p className="ml-3 relative inline">
-                    <span className="text-emerald-400/50">{'  return <BarChart data={data} />'}</span>
-                    {!isExporting && (
-                      <motion.span
-                        className="absolute w-[6px] h-3.5 bg-emerald-400/80 ml-0.5"
-                        style={{ left: 'calc(100% + 2px)', top: 0 }}
-                        animate={{ opacity: [1, 0.2, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      />
-                    )}
-                  </p>
-                  <p><span className="text-white/40">{'}'}</span></p>
-                </div>
-              </div>
-              {/* Terminal */}
-              <div className="border-t px-3 py-2" style={{ borderColor: 'hsl(0 0% 100% / 0.08)' }}>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono text-emerald-400/40">$ npm run dev</span>
-                  <span className="text-[10px] font-mono text-white/35">→</span>
-                  <span className="text-[10px] font-mono text-emerald-400/60">localhost:3000 ✓</span>
-                  {!isExporting && <motion.span className="w-[5px] h-3 bg-emerald-400/40 ml-1" animate={{ opacity: [1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} />}
-                </div>
-              </div>
+              <img src={toolCursorMockup} alt="Cursor IDE" className="w-full h-auto object-cover" style={{ maxHeight: '280px' }} />
             </div>
           </motion.div>
 
