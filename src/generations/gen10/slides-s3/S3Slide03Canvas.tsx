@@ -180,7 +180,7 @@ export function S3Slide03Canvas() {
         </motion.div>
       </div>
 
-      <S3Footer sectionLabel="DISEÑO VISUAL" hue={ACCENT_HUE} contextHint="Canva para diseño y presentaciones" />
+      <S3Footer sectionLabel="HERRAMIENTAS" hue={ACCENT_HUE} contextHint="Canva para diseño y presentaciones" />
     </div>
   );
 }

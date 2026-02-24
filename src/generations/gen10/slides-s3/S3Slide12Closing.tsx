@@ -6,7 +6,7 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const TOOLS_LEARNED = [
-  { icon: BarChart3, name: 'Canva', what: 'Ajuste visual final', accent: S3_ACCENT.cyan },
+  { icon: Palette, name: 'Canva', what: 'Diseño visual', accent: S3_ACCENT.cyan },
   { icon: BookOpen, name: 'NotebookLM', what: 'PDFs → Audio', accent: S3_ACCENT.cyan },
   { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
   { icon: Terminal, name: 'Anthropic Skills', what: 'PDF/PPTX/Theme', accent: S3_ACCENT.violet },
