@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Wand2, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -10,10 +10,12 @@ const EXAMPLES = [
   { prompt: '"Mi paleta corporativa #2B5EA7"', result: 'Colores en 3s', detail: 'Genera 5 tonos armónicos', color: S3_ACCENT.cyan },
   { prompt: '"Más minimalista, solo datos"', result: 'Foco en datos', detail: 'Elimina decoración, agranda KPIs', color: S3_ACCENT.amber },
 ];
+const QUICK_WINS = ['3 prompts', '3 estéticas', '<1 min iteración'];
 
 export function S3Slide04VibeCoding() {
   const { isExporting } = useExportContext();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
+  const me = (d: number, overrides?: object) => s3MotionEpic(d, isExporting, overrides);
 
   return (
     <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
@@ -25,7 +27,7 @@ export function S3Slide04VibeCoding() {
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={280} tertiaryHue={38} showAurora />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
+      <div className="relative z-10 max-w-6xl mx-auto w-full text-center">
         {/* Badge */}
         <motion.div {...m(0)} className="mb-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
@@ -35,7 +37,7 @@ export function S3Slide04VibeCoding() {
         </motion.div>
 
         {/* Title */}
-        <motion.h1 {...m(0.06)} className="text-4xl 2xl:text-5xl font-black text-white tracking-tight mb-1">
+        <motion.h1 {...me(0.06)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
           Diseña con{' '}
           <span style={s3GradientText('hsl(185 70% 65%)', 'hsl(280 60% 65%)', 185)}>Palabras</span>
         </motion.h1>
@@ -55,9 +57,18 @@ export function S3Slide04VibeCoding() {
             />
           )}
         </motion.div>
-        <motion.p {...m(0.12)} className="text-white/50 text-sm mb-8 mx-auto">
+        <motion.p {...m(0.12)} className="text-white/55 text-sm mb-8 mx-auto">
           Un prompt transforma toda la estética de tu app
         </motion.p>
+
+        <motion.div {...m(0.14)} className="mb-6 inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border" style={{ borderColor: 'hsl(185 70% 55% / 0.2)', background: 'hsl(185 70% 55% / 0.06)' }}>
+          {QUICK_WINS.map((item, i) => (
+            <div key={item} className="flex items-center gap-2">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-white/65">{item}</span>
+              {i < QUICK_WINS.length - 1 && <span className="text-white/20">•</span>}
+            </div>
+          ))}
+        </motion.div>
 
         {/* 3 prompt → result cards */}
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -65,10 +76,11 @@ export function S3Slide04VibeCoding() {
             <motion.div
               key={i}
               {...m(0.18 + i * 0.08)}
-              className="relative group rounded-2xl border overflow-hidden"
+              className="relative group rounded-2xl border overflow-hidden h-full"
               style={{ borderColor: ex.color.border, background: ex.color.bg }}
               {...(isExporting ? {} : { whileHover: { scale: 1.03, y: -3 } })}
             >
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${ex.color.dot}, transparent)` }} />
               {/* Shimmer */}
               {!isExporting && (
                 <motion.div
@@ -79,9 +91,17 @@ export function S3Slide04VibeCoding() {
                 />
               )}
 
-              <div className="relative p-5 flex flex-col items-center gap-4">
+              <div className="relative p-5 flex flex-col items-center gap-4 h-full">
+                <div
+                  className="self-start px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider border"
+                  style={{ borderColor: `${ex.color.text}25`, color: `${ex.color.text}95`, background: `${ex.color.text}10` }}
+                >
+                  PROMPT 0{i + 1}
+                </div>
                 {/* Prompt */}
-                <p className="text-sm font-mono leading-relaxed" style={{ color: ex.color.text }}>{ex.prompt}</p>
+                <div className="w-full rounded-xl border px-3 py-2.5 text-left" style={{ borderColor: `${ex.color.text}18`, background: `${ex.color.text}08` }}>
+                  <p className="text-sm font-mono leading-relaxed" style={{ color: ex.color.text }}>{ex.prompt}</p>
+                </div>
 
                 {/* Divider */}
                 <div className="w-12 h-px" style={{ background: `${ex.color.text}45` }} />
@@ -134,8 +154,11 @@ export function S3Slide04VibeCoding() {
                 </div>
 
                 {/* Result label */}
-                <div className="text-center">
-                  <p className="text-xs text-white/55 font-semibold">{ex.result}</p>
+                <div className="text-center mt-auto">
+                  <span className="inline-block mb-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider border" style={{ borderColor: `${ex.color.text}25`, color: `${ex.color.text}95`, background: `${ex.color.text}10` }}>
+                    RESULTADO
+                  </span>
+                  <p className="text-xs font-semibold" style={{ color: `${ex.color.text}95` }}>{ex.result}</p>
                   <p className="text-[10px] text-white/40 mt-0.5">{ex.detail}</p>
                 </div>
               </div>
@@ -149,8 +172,9 @@ export function S3Slide04VibeCoding() {
             { tip: 'Sé específico con adjetivos', detail: '"Elegante y tech" > "bonito". Los modelos entienden estética.' },
             { tip: 'Pega tu HEX principal', detail: 'Dale tu color base y pide variaciones complementarias.' },
           ].map((t, i) => (
-            <motion.div key={i} {...m(0.54 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]"
+            <motion.div key={i} {...m(0.54 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] relative overflow-hidden"
               {...(isExporting ? {} : { whileHover: { borderColor: S3_ACCENT.cyan.border } })}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, hsl(185 70% 60% / 0.8), transparent)' }} />
               <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
               <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
             </motion.div>
@@ -158,7 +182,7 @@ export function S3Slide04VibeCoding() {
         </motion.div>
 
         {/* Tool links */}
-        <motion.div {...m(0.62)} className="inline-flex items-center gap-2 text-xs text-white/40">
+        <motion.div {...m(0.62)} className="inline-flex items-center gap-2 text-xs text-white/40 px-4 py-2 rounded-xl border" style={{ borderColor: 'hsl(38 85% 55% / 0.2)', background: 'hsl(38 85% 55% / 0.05)' }}>
           <Sparkles className="w-3.5 h-3.5 text-amber-400/50" />
           <span>
             <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
