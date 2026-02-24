@@ -136,8 +136,20 @@ export function S3Slide07PresentationAI() {
                       style={{ opacity: i < 2 ? 0.85 : 0, filter: 'saturate(0.9)' }}
                     />
                     {i === 2 && (
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: `${tool.accent.text}06` }}>
-                        <Icon className="w-10 h-10" style={{ color: `${tool.accent.text}50` }} />
+                      <div className="w-full h-full flex items-center justify-center p-3" style={{ background: `linear-gradient(135deg, ${tool.accent.text}12, ${tool.accent.text}04)` }}>
+                        <div className="w-full h-full grid grid-cols-2 gap-2">
+                          {[0, 1, 2, 3].map((card) => (
+                            <div
+                              key={card}
+                              className="rounded-md border p-1.5 flex flex-col gap-1"
+                              style={{ borderColor: `${tool.accent.text}25`, background: `${tool.accent.text}${card % 2 === 0 ? '10' : '08'}` }}
+                            >
+                              <div className="h-1 rounded-full" style={{ background: `${tool.accent.text}55` }} />
+                              <div className="h-1 rounded-full w-2/3" style={{ background: `${tool.accent.text}35` }} />
+                              <div className="mt-auto h-2 rounded-sm" style={{ background: `${tool.accent.text}28` }} />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -174,11 +186,12 @@ export function S3Slide07PresentationAI() {
 
                     {/* Output format chip */}
                     <div
-                      className="px-3 py-1 rounded-lg border text-[10px] font-semibold inline-block"
+                      className="px-3 py-1 rounded-lg border text-[10px] font-semibold inline-block mb-2"
                       style={{ borderColor: `${tool.accent.text}20`, color: `${tool.accent.text}90`, background: `${tool.accent.text}06` }}
                     >
                       {tool.output}
                     </div>
+                    <p className="text-[10px] text-white/35 leading-snug">{tool.highlight}</p>
                   </div>
                 </div>
               </motion.div>
@@ -193,7 +206,7 @@ export function S3Slide07PresentationAI() {
           {WORKFLOW.map((step, i) => (
             <div key={step.tool} className="flex items-center gap-2">
               <div
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border whitespace-nowrap"
                 style={{ borderColor: step.accent.border, background: step.accent.bg }}
               >
                 <span

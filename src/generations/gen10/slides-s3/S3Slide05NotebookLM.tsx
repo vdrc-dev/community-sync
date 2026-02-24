@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion';
-import { BookOpen, FileAudio, FileText, Presentation, ArrowRight } from 'lucide-react';
+import { BookOpen, FileAudio, FileText, Presentation, ArrowRight, Type, Headphones } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import toolNotebookLM from '@/assets/slides/tool-notebooklm-mockup.jpg';
 
-const INPUTS = ['PDFs', 'Slides', 'Texto', 'Audio'];
+const INPUTS = [
+  { label: 'PDFs', icon: FileText },
+  { label: 'Slides', icon: Presentation },
+  { label: 'Texto', icon: Type },
+  { label: 'Audio', icon: Headphones },
+];
 
 const OUTPUTS = [
   { label: 'Audio Overviews', detail: '2 voces · customizable', icon: FileAudio, color: S3_ACCENT.violet },
@@ -65,7 +70,7 @@ export function S3Slide05NotebookLM() {
           )}
         </motion.div>
         <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-8 mx-auto">
-          Dos superpoderes en una sola herramienta
+          Tu asistente de investigación que lee, resume y habla
         </motion.p>
 
         {/* Visual flow: INPUTS → ENGINE → OUTPUTS */}
@@ -73,11 +78,13 @@ export function S3Slide05NotebookLM() {
           {/* Inputs column */}
           <motion.div {...m(0.15)} className="flex flex-col gap-2">
             <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-1.5">Sube</p>
-            {INPUTS.map((input, i) => (
+            {INPUTS.map((input, i) => {
+              const InputIcon = input.icon;
+              return (
               <motion.div
-                key={input}
+                key={input.label}
                 {...m(0.2 + i * 0.05)}
-                className="relative px-5 py-2.5 rounded-xl border text-sm text-white/65 font-medium overflow-hidden"
+                className="relative px-5 py-2.5 rounded-xl border text-sm text-white/65 font-medium overflow-hidden flex items-center gap-2.5"
                 style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}
                 {...(isExporting ? {} : { whileHover: { scale: 1.04, x: 4 } })}
               >
@@ -87,13 +94,17 @@ export function S3Slide05NotebookLM() {
                     animate={{ x: ['-150%', '250%'] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.3 }} />
                 )}
-                <span className="relative">{input}</span>
+                <InputIcon className="w-3.5 h-3.5 relative" style={{ color: S3_ACCENT.cyan.text }} />
+                <span className="relative">{input.label}</span>
               </motion.div>
-            ))}
+            )})}
           </motion.div>
 
           {/* Arrow */}
-          <motion.div {...m(0.3)}>
+          <motion.div
+            {...m(0.3)}
+            {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } })}
+          >
             <ArrowRight className="w-5 h-5 text-white/35" />
           </motion.div>
 
@@ -113,13 +124,16 @@ export function S3Slide05NotebookLM() {
             )}
             <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(185 70% 50% / 0.1)' }}>
               <BookOpen className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-              <span className="text-[10px] text-white/60 font-bold">NotebookLM</span>
+              <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-white/60 font-bold hover:text-white transition-colors">NotebookLM</a>
             </div>
             <img src={toolNotebookLM} alt="NotebookLM" className="w-full h-auto object-cover" style={{ maxHeight: '180px' }} />
           </motion.div>
 
           {/* Arrow */}
-          <motion.div {...m(0.35)}>
+          <motion.div
+            {...m(0.35)}
+            {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } })}
+          >
             <ArrowRight className="w-5 h-5 text-white/35" />
           </motion.div>
 
@@ -154,10 +168,10 @@ export function S3Slide05NotebookLM() {
         </div>
 
         {/* Pro tips */}
-        <motion.div {...m(0.5)} className="mt-7 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
+        <motion.div {...m(0.5)} className="mt-6 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
           {[
             { tip: '50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
-            { tip: '3 audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
+            { tip: 'Varios audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },
             { tip: 'Incluido en Google', detail: 'Free con cuenta Google · Plus con AI Premium' },
           ].map((t, i) => (
             <motion.div key={i} {...m(0.53 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">

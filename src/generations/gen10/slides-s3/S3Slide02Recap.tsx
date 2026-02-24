@@ -48,26 +48,6 @@ export function S3Slide02Recap() {
         <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-7 max-w-lg mx-auto">
           Semana 3 de 4 - 75% del programa completado
         </motion.p>
-        <motion.div
-          {...m(0.18)}
-          className="mb-8 inline-flex items-center gap-4 px-5 py-2.5 rounded-xl border backdrop-blur-md"
-          style={{
-            borderColor: 'hsl(330 70% 60% / 0.2)',
-            background: 'linear-gradient(135deg, hsl(330 70% 55% / 0.08), hsl(263 60% 55% / 0.04))',
-            boxShadow: '0 0 35px hsl(330 70% 55% / 0.15)',
-          }}
-        >
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">Momentum</span>
-          <div className="w-24 h-1 rounded-full bg-white/10 overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: 'linear-gradient(90deg, hsl(185 70% 55%), hsl(263 60% 60%), hsl(330 70% 60%))' }}
-              {...(isExporting ? { style: { width: '75%' } } : { initial: { width: 0 }, animate: { width: '75%' }, transition: { duration: 1.2, delay: 0.5 } })}
-            />
-          </div>
-          <span className="text-xs font-bold text-white/70">75%</span>
-        </motion.div>
-
         {/* Visual journey: 4 stage nodes connected by line */}
         <div className="relative flex items-center justify-center gap-6">
           {/* Connecting line behind */}
@@ -101,7 +81,7 @@ export function S3Slide02Recap() {
                         animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
                     </>
                   )}
-                  <div className={`w-24 h-24 rounded-full border-2 flex items-center justify-center relative`}
+                  <div className={`w-20 h-20 rounded-full border-2 flex items-center justify-center relative`}
                     style={{
                       borderColor: isCurrent ? week.accent.dot : isFuture ? `${week.accent.dot}25` : `${week.accent.dot}60`,
                       background: isCurrent ? week.accent.bg : isFuture ? `${week.accent.bg}20` : `${week.accent.bg}40`,
@@ -119,7 +99,7 @@ export function S3Slide02Recap() {
                         <Lock className="w-3 h-3" style={{ color: `${week.accent.text}40` }} />
                       </div>
                     )}
-                    <Icon className={`w-8 h-8`} style={{ color: isCurrent ? week.accent.text : isFuture ? `${week.accent.text}40` : `${week.accent.text}90` }} />
+                    <Icon className={`w-7 h-7`} style={{ color: isCurrent ? week.accent.text : isFuture ? `${week.accent.text}40` : `${week.accent.text}90` }} />
                   </div>
                 </div>
 
@@ -153,7 +133,12 @@ export function S3Slide02Recap() {
                 <div className="flex flex-wrap justify-center gap-1.5 max-w-[140px]">
                   {week.skills.map((s, j) => (
                     <span key={j} className="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                      style={{ borderColor: `${week.accent.text}${isFuture ? '08' : '15'}`, color: `${week.accent.text}${isFuture ? '30' : '60'}`, background: `${week.accent.text}05` }}>{s}</span>
+                      style={{
+                        borderColor: isCurrent ? `${week.accent.text}30` : isFuture ? `${week.accent.text}08` : `${week.accent.text}15`,
+                        color: isCurrent ? `${week.accent.text}95` : isFuture ? `${week.accent.text}30` : `${week.accent.text}60`,
+                        background: isCurrent ? `${week.accent.text}12` : `${week.accent.text}05`,
+                        boxShadow: isCurrent ? `0 0 12px ${week.accent.glow}` : undefined,
+                      }}>{s}</span>
                   ))}
                 </div>
               </motion.div>

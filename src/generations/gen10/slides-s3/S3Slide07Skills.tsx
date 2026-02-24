@@ -64,11 +64,15 @@ export function S3Slide07Skills() {
                 className="relative group rounded-2xl border overflow-hidden"
                 style={{ borderColor: skill.accent.border, background: skill.accent.bg }}
                 {...(isExporting ? {} : { whileHover: { scale: 1.05, y: -2 } })}>
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px]"
+                  style={{ background: `linear-gradient(90deg, transparent, ${skill.accent.dot}, transparent)` }}
+                />
                 {/* Shimmer sweep inside each card */}
                 {!isExporting && (
                   <motion.div
                     className="absolute inset-0 pointer-events-none"
-                    style={{ background: `linear-gradient(105deg, transparent 35%, ${skill.accent.text.replace(')', ' / 0.1)')} 50%, transparent 65%)` }}
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${skill.accent.glow} 50%, transparent 65%)` }}
                     animate={{ x: ['-150%', '250%'] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
                   />
@@ -81,7 +85,7 @@ export function S3Slide07Skills() {
                   <div>
                     <p className="text-sm font-black text-white mb-1">{skill.name}</p>
                     <p className="text-[11px] text-white/40 leading-relaxed">{skill.tip}</p>
-                    <p className="text-[10px] text-white/40 font-mono mt-1 italic">{skill.example}</p>
+                    <p className="text-[11px] text-white/40 font-mono mt-1 italic">{skill.example}</p>
                   </div>
                 </div>
               </motion.div>

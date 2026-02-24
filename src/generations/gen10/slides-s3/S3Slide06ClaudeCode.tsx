@@ -59,14 +59,14 @@ export function S3Slide06ClaudeCode() {
 
         {/* Title */}
         <motion.h1 {...m(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
-          Tu Agente de{' '}
+          Claude{' '}
           <span style={{
             background: 'linear-gradient(135deg, hsl(263 75% 72%), hsl(280 65% 68%), hsl(310 55% 65%))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
             filter: 'drop-shadow(0 0 30px hsl(263 70% 65% / 0.45))',
-          }}>Escritorio</span>
+          }}>Desktop</span>
         </motion.h1>
 
         {/* Accent line */}
@@ -80,7 +80,7 @@ export function S3Slide06ClaudeCode() {
 
         {/* Subtitle */}
         <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 mb-7 max-w-md mx-auto">
-          La IA que vive en tu computador, no en la nube
+          La IA que vive en tu computador — con acceso a archivos, terminal y MCP
         </motion.p>
 
         {/* ═══════════════════════════════════ */}
@@ -92,8 +92,6 @@ export function S3Slide06ClaudeCode() {
           {!isExporting && (
             <motion.div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             >
               <div className="relative">
                 <div className="absolute inset-0 rounded-full blur-lg" style={{ background: S3_ACCENT.violet.glow }} />
@@ -222,7 +220,7 @@ export function S3Slide06ClaudeCode() {
             onMouseLeave={() => setHoveredCard(null)}>
 
             <div className="h-full p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex flex-col"
-              style={{ opacity: hoveredCard === 'web' ? 0.75 : 0.55, transition: 'opacity 0.4s ease' }}>
+              style={{ opacity: hoveredCard === 'web' ? 0.8 : 0.65, transition: 'opacity 0.4s ease' }}>
 
               {/* Icon */}
               <div className="flex justify-center mb-4 mt-4">
@@ -241,7 +239,10 @@ export function S3Slide06ClaudeCode() {
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/[0.08]">
                       <X className="w-3.5 h-3.5 text-white/45" />
                     </div>
-                    <span className="text-sm text-white/40">{l.label}</span>
+                    <div className="relative">
+                      <span className="text-sm text-white/40">{l.label}</span>
+                      <span className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-white/30" />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -266,6 +267,12 @@ export function S3Slide06ClaudeCode() {
         {/* ── Setup Steps ─────────────────── */}
         {/* ═══════════════════════════════════ */}
         <motion.div {...m(0.55)} className="mt-8 max-w-3xl mx-auto">
+          <div className="mb-2 flex items-center justify-end">
+            <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border"
+              style={{ borderColor: `${S3_ACCENT.violet.text}30`, color: `${S3_ACCENT.violet.text}85`, background: `${S3_ACCENT.violet.text}0d` }}>
+              ~2 min setup
+            </span>
+          </div>
           <div className="relative flex items-center justify-center gap-2.5">
             {/* Connecting line behind steps */}
             <motion.div

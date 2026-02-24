@@ -95,12 +95,12 @@ export function S3Slide12Closing() {
             {/* Achievement badge with celebration glow */}
             <motion.div
               className="relative flex items-center gap-2.5 px-5 py-3 rounded-xl border overflow-hidden"
-              style={{ borderColor: 'hsl(160 65% 45% / 0.35)', background: 'hsl(160 65% 45% / 0.1)' }}
+              style={{ borderColor: 'hsl(330 70% 60% / 0.25)', background: 'linear-gradient(135deg, hsl(185 70% 55% / 0.12), hsl(263 60% 60% / 0.1), hsl(330 70% 60% / 0.1))' }}
               {...(isExporting ? {} : { whileHover: { scale: 1.04, boxShadow: '0 0 30px hsl(160 65% 50% / 0.2)' } })}
             >
               {!isExporting && (
                 <motion.div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(160 65% 60% / 0.08) 50%, transparent 65%)' }}
+                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 70% 65% / 0.12) 50%, transparent 65%)' }}
                   animate={{ x: ['-150%', '250%'] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
               )}
@@ -216,6 +216,7 @@ export function S3Slide12Closing() {
                           style={{ borderColor: `${mission.accent.text}25`, color: `${mission.accent.text}90`, background: `${mission.accent.text}08` }}>
                           {mission.difficulty}
                         </span>
+                        {mission.difficulty === 'Desafío' && <Star className="w-3.5 h-3.5" style={{ color: S3_ACCENT.amber.text }} />}
                         <span className="text-[10px] text-white/40 font-mono">{mission.time}</span>
                       </div>
                     </motion.div>
@@ -268,9 +269,9 @@ export function S3Slide12Closing() {
                 <TrendingUp className="w-5 h-5 text-emerald-400/60 shrink-0 mt-0.5" />
                 <div className="relative">
                   <p className="text-[10px] text-white/40 uppercase tracking-wider font-bold mb-1">Key Takeaway</p>
-                  <p className="text-xs text-white/45 leading-relaxed">
-                    No necesitas dominar <span className="text-white/70 font-semibold">todas</span> las herramientas.
-                    Domina <span style={{ color: S3_ACCENT.emerald.text }} className="font-bold">2-3</span> que resuelvan <span className="text-white/70 font-semibold">tu</span> problema.
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    No necesitas dominar <span className="text-white/80 font-semibold">todas</span> las herramientas.
+                    Domina <span style={{ color: S3_ACCENT.emerald.text }} className="font-bold">2-3</span> que resuelvan <span className="text-white/80 font-semibold">tu</span> problema real.
                   </p>
                 </div>
               </motion.div>

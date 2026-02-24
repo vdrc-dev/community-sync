@@ -7,10 +7,10 @@ import { S3Footer } from './S3Footer';
 import toolCursorMockup from '@/assets/slides/tool-cursor-mockup.jpg';
 
 const POWERS = [
-  { icon: FolderTree, label: 'Multi-archivo', accent: S3_ACCENT.amber },
-  { icon: Eye, label: 'Preview en vivo', accent: S3_ACCENT.cyan },
-  { icon: Layers, label: 'Contexto total', accent: S3_ACCENT.violet },
-  { icon: Terminal, label: 'Terminal integrada', accent: S3_ACCENT.emerald },
+  { icon: FolderTree, label: 'Multi-archivo', detail: 'Refactors completos', accent: S3_ACCENT.amber },
+  { icon: Eye, label: 'Preview en vivo', detail: 'Feedback inmediato', accent: S3_ACCENT.cyan },
+  { icon: Layers, label: 'Contexto total', detail: 'Código + docs + history', accent: S3_ACCENT.violet },
+  { icon: Terminal, label: 'Terminal integrada', detail: 'Comandos dentro del IDE', accent: S3_ACCENT.emerald },
 ];
 
 export function S3Slide11Cursor() {
@@ -35,7 +35,7 @@ export function S3Slide11Cursor() {
         </motion.div>
 
         <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
-          Cursor:{' '}
+          <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Cursor</a>:{' '}
           <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(185 70% 60%)', 38)}>
             IDE con IA
           </span>
@@ -67,7 +67,10 @@ export function S3Slide11Cursor() {
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
                 <span className="text-[10px] text-white/40 font-mono ml-2">cursor — dashboard/</span>
               </div>
-              <img src={toolCursorMockup} alt="Cursor IDE" className="w-full h-auto object-cover" style={{ maxHeight: '280px' }} />
+              <div className="relative">
+                <img src={toolCursorMockup} alt="Cursor IDE" className="w-full h-auto object-cover" style={{ maxHeight: '280px', filter: 'brightness(0.85) saturate(0.9)' }} />
+                <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent 55%, hsl(38 80% 12% / 0.45) 100%)' }} />
+              </div>
             </div>
           </motion.div>
 
@@ -90,6 +93,7 @@ export function S3Slide11Cursor() {
                   )}
                   <Icon className="w-6 h-6 relative" style={{ color: p.accent.text }} />
                   <span className="text-xs font-bold text-white/60 relative">{p.label}</span>
+                  <span className="text-[10px] text-white/40 relative text-center">{p.detail}</span>
                 </motion.div>
               );
             })}
@@ -112,7 +116,7 @@ export function S3Slide11Cursor() {
 
         <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-white/45">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/60" />
-          <span>Hobby gratis · <span className="text-amber-400/70 font-semibold">Pro $20/mes</span> (créditos) · Pro+ $60 · Ultra $200</span>
+          <span>Hobby gratis · <span className="text-amber-400/70 font-semibold">Pro $20/mes</span> · Pro+ $60 · Ultra $200 (incluye créditos de modelo)</span>
         </motion.div>
       </div>
 

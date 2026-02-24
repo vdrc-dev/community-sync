@@ -16,7 +16,7 @@ const POWERS = [
 const ENGINES = [
   { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot', accent: S3_ACCENT.rose },
   { name: 'Veo 3.1', provider: 'Google', detail: '4K · Audio integrado', accent: S3_ACCENT.violet },
-  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · Lip-sync · Multi-cam', accent: S3_ACCENT.cyan },
+  { name: 'Kling 3.0', provider: 'Kuaishou', detail: '4K 60fps · Lip-sync · Multi-cam', accent: S3_ACCENT.cyan, isNew: true },
 ];
 
 export function S3Slide14VideoAI() {
@@ -62,7 +62,7 @@ export function S3Slide14VideoAI() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-8 max-w-lg mx-auto">
-          Orquesta Sora 2, Veo 3.1 y Kling 3.0 desde una interfaz
+          Genera videos con Sora 2, Veo 3.1 y Kling 3.0 — todo en una interfaz
         </motion.p>
 
         {/* Hero: Krea.ai reference + power cards */}
@@ -113,7 +113,7 @@ export function S3Slide14VideoAI() {
         </div>
 
         {/* Engine pills */}
-        <motion.div {...m(0.5)} className="flex items-center justify-center gap-3">
+        <motion.div {...m(0.5)} className="flex items-center justify-center gap-2.5 flex-wrap">
           <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mr-2">Motores:</p>
           {ENGINES.map((e, i) => (
             <motion.div key={i} {...m(0.55 + i * 0.06)}
@@ -129,6 +129,11 @@ export function S3Slide14VideoAI() {
               <div className="relative flex items-center gap-2">
                 <span className="text-sm font-bold text-white">{e.name}</span>
                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md" style={{ color: `${e.accent.text}90`, background: `${e.accent.text}10` }}>{e.provider}</span>
+                {e.isNew && (
+                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md tracking-wide" style={{ color: '#04030a', background: e.accent.dot }}>
+                    NEW
+                  </span>
+                )}
               </div>
               <p className="relative text-[10px] text-white/40 mt-0.5">{e.detail}</p>
             </motion.div>
@@ -144,13 +149,23 @@ export function S3Slide14VideoAI() {
           <div className="h-1.5 rounded-full bg-white/10 relative">
             {!isExporting && (
               <motion.div
+                className="absolute inset-y-0 left-0 rounded-full"
+                style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }}
+                animate={{ width: ['8%', '75%', '45%', '90%', '20%'] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+            {isExporting && (
+              <div className="absolute inset-y-0 left-0 w-2/3 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }} />
+            )}
+            {!isExporting && (
+              <motion.div
                 className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
                 style={{ background: 'hsl(330 90% 72%)', boxShadow: '0 0 18px hsl(330 90% 72% / 0.8)' }}
                 animate={{ left: ['0%', '100%', '0%'] }}
                 transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
               />
             )}
-            <div className="absolute inset-y-0 left-0 w-2/3 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }} />
           </div>
           <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-wider text-white/40 font-semibold">
             <span>Storyboard</span>

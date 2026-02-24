@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Presentation, Palette, BarChart3, Layers, Sparkles, Zap, ChevronRight, Wrench, Workflow } from 'lucide-react';
+import { Presentation, Palette, BarChart3, Layers, Sparkles, Zap, ChevronRight, Wrench, Workflow, Clock3 } from 'lucide-react';
 const logoVdrc = '/logos/vdrc-white.png';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
@@ -35,6 +35,7 @@ export function S3Slide01Cover() {
   const gen = useGeneration();
   const [isHovered, setIsHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
 
   const subtitle = 'De ideas a presentaciones profesionales con IA';
 
@@ -45,6 +46,19 @@ export function S3Slide01Cover() {
     }, 50);
     return () => clearTimeout(t);
   }, [typedCount, isExporting]);
+
+  useEffect(() => {
+    if (isExporting) {
+      setShowCursor(false);
+      return;
+    }
+    if (typedCount < subtitle.length) {
+      setShowCursor(true);
+      return;
+    }
+    const hideCursorTimer = setTimeout(() => setShowCursor(false), 2000);
+    return () => clearTimeout(hideCursorTimer);
+  }, [typedCount, isExporting, subtitle.length]);
 
   const m = (delay: number, overrides?: object) => s3Motion(delay, isExporting, overrides);
   const me = (delay: number, overrides?: object) => s3MotionEpic(delay, isExporting, overrides);
@@ -140,7 +154,7 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.88] transition-all duration-700 relative"
+              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.85] transition-all duration-700 relative"
               style={{
                 ...s3GradientTextMulti([0, 330, 310], 330),
                 filter: `drop-shadow(0 0 ${isHovered ? '90' : '30'}px hsl(330 70% 50% / 0.3))`,
@@ -154,7 +168,7 @@ export function S3Slide01Cover() {
               PRESEN
             </h1>
             <h1
-              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.88] mt-1 relative"
+              className="text-[7rem] lg:text-[9rem] font-black tracking-[-0.055em] leading-[0.85] mt-1 relative"
               style={{
                 ...s3GradientTextMulti([330, 280, 185, 38], 330),
                 filter: `drop-shadow(0 0 ${isHovered ? '90' : '40'}px hsl(330 70% 50% / 0.6))`,
@@ -188,7 +202,7 @@ export function S3Slide01Cover() {
           <motion.div {...me(0.45)} className="mt-8 h-10 flex items-center">
             <p className="text-[1.4rem] lg:text-[1.65rem] font-light tracking-wide text-white/45 leading-relaxed">
               {subtitle.slice(0, typedCount)}
-              {!isExporting && typedCount < subtitle.length && (
+              {!isExporting && showCursor && (
                 <motion.span
                   className="inline-block w-[2px] h-[1.3em] ml-0.5 align-middle"
                   style={{ background: 'hsl(330 60% 60%)' }}
@@ -213,8 +227,8 @@ export function S3Slide01Cover() {
               )}
             </div>
             <div className="pl-5 py-2">
-              <p className="text-[15px] text-white/40 font-light leading-relaxed italic">
-                "De <span className="text-rose-400/80 font-medium not-italic">diseño con propósito</span> a presentaciones profesionales — Gamma, Napkin, Canvas y Coolors convierten ideas en comunicación visual."
+              <p className="text-[15px] text-white/50 font-light leading-relaxed italic">
+                "De <span className="text-rose-400/80 font-medium not-italic">diseño con propósito</span> a presentaciones profesionales — las herramientas convierten ideas en comunicación visual."
               </p>
             </div>
           </motion.div>
@@ -232,9 +246,9 @@ export function S3Slide01Cover() {
                   animate={{ x: ['-150%', '250%'] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5 }} />
               )}
-              <Sparkles className="w-4 h-4 relative" style={{ color: S3_ACCENT.rose.text }} />
-              <span className="text-white/90 font-bold text-sm tabular-nums relative">{slideNum?.total ?? 15}</span>
-              <span className="text-white/40 text-xs uppercase tracking-wider relative">slides</span>
+              <Clock3 className="w-4 h-4 relative" style={{ color: S3_ACCENT.rose.text }} />
+              <span className="text-white/90 font-bold text-sm tabular-nums relative">~95</span>
+              <span className="text-white/40 text-xs uppercase tracking-wider relative">min</span>
             </motion.div>
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -317,6 +331,9 @@ export function S3Slide01Cover() {
             }}>
             <div className="rounded-[27px] aspect-[4/3] overflow-hidden relative"
               style={{ background: 'hsl(0 0% 2%)', boxShadow: '0 50px 140px hsl(330 65% 32% / 0.45), 0 0 0 1px hsl(0 0% 100% / 0.08), 0 0 80px hsl(280 50% 40% / 0.2)' }}>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_25%_20%,_hsl(330_70%_60%_/_0.2),_transparent_65%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_80%_75%,_hsl(263_65%_58%_/_0.18),_transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_55%_45%,_hsl(185_65%_55%_/_0.1),_transparent_65%)]" />
               {/* Internal glow */}
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,_hsl(330_65%_55%_/_0.18),_transparent_70%)]" />
               {/* Constellation */}

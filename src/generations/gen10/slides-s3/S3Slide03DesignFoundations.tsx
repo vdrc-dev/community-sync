@@ -6,19 +6,19 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const PALETTE = [
-  { hex: '#E74C3C', name: 'Coral' },
-  { hex: '#2ECC71', name: 'Esmeralda' },
-  { hex: '#3498DB', name: 'Cielo' },
-  { hex: '#F1C40F', name: 'Sol' },
-  { hex: '#9B59B6', name: 'Púrpura' },
-  { hex: '#1ABC9C', name: 'Turquesa' },
+  { hex: '#E74C3C' },
+  { hex: '#2ECC71' },
+  { hex: '#3498DB' },
+  { hex: '#F1C40F' },
+  { hex: '#9B59B6' },
+  { hex: '#1ABC9C' },
 ];
 
 const FONTS = [
   { name: 'Sans Serif', example: 'Inter', style: 'font-sans', use: 'Pantalla' },
   { name: 'Serif', example: 'Playfair', style: 'font-serif', use: 'Títulos' },
   { name: 'Display', example: 'Bebas Neue', style: 'font-sans font-black uppercase', use: 'Impacto' },
-  { name: 'Variable', example: 'Inter Variable', style: 'font-sans', use: 'Futuro' },
+  { name: 'Monospace', example: 'JetBrains Mono', style: 'font-mono', use: 'Código' },
 ];
 
 export function S3Slide03DesignFoundations() {
@@ -82,7 +82,6 @@ export function S3Slide03DesignFoundations() {
                   <div className="w-full aspect-square rounded-xl transition-shadow duration-300"
                     style={{ background: c.hex, boxShadow: `0 4px 16px ${c.hex}40` }} />
                   <p className="text-[10px] font-mono font-bold text-white/55 mt-1">{c.hex}</p>
-                  <p className="text-[10px] text-white/40">{c.name}</p>
                 </motion.div>
               ))}
             </div>
@@ -145,7 +144,7 @@ export function S3Slide03DesignFoundations() {
                 {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border } })}>
                 {!isExporting && (
                   <motion.div className="absolute inset-0 pointer-events-none"
-                    style={{ background: `linear-gradient(105deg, transparent 35%, ${t.accent.text}06 50%, transparent 65%)` }}
+                    style={{ background: `linear-gradient(105deg, transparent 35%, ${t.accent.glow} 50%, transparent 65%)` }}
                     animate={{ x: ['-150%', '250%'] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.7 }} />
                 )}
@@ -162,18 +161,26 @@ export function S3Slide03DesignFoundations() {
         </motion.div>
 
         {/* Tool links */}
-        <motion.div {...m(0.65)} className="inline-flex items-center gap-2 text-xs text-white/40">
+        <motion.div {...m(0.65)} className="inline-flex flex-col items-start gap-2 text-xs text-white/40">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/50" />
-          <span>
-            <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
-            {' '}para paletas ·{' '}
-            <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
-            {' '}para pares ·{' '}
-            <a href="https://realtimecolors.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Realtime Colors</a>
-            {' '}para preview ·{' '}
-            <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Google Fonts</a>
-            {' '}1500+ gratis
-          </span>
+          <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-left">
+            <span>
+              <a href="https://coolors.co" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Coolors.co</a>
+              {' '}para paletas
+            </span>
+            <span>
+              <a href="https://fontjoy.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Fontjoy</a>
+              {' '}para pares
+            </span>
+            <span>
+              <a href="https://realtimecolors.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Realtime Colors</a>
+              {' '}para preview
+            </span>
+            <span>
+              <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-400/80 font-semibold hover:text-amber-300 underline-offset-2 hover:underline">Google Fonts</a>
+              {' '}1500+ gratis
+            </span>
+          </div>
         </motion.div>
       </div>
 

@@ -61,7 +61,7 @@ export function S3Slide08Automatizacion() {
           />
         </motion.div>
         <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-7 mx-auto">
-          Horas de trabajo repetitivo → minutos de supervisión
+          Tareas repetitivas → flujos automáticos supervisados
         </motion.p>
 
         {/* Before → After comparison */}
@@ -80,16 +80,16 @@ export function S3Slide08Automatizacion() {
                 />
               )}
             </p>
-            <p className="text-[10px] text-white/45 uppercase tracking-wider mt-1">manual</p>
+            <p className="text-[10px] text-white/45 uppercase tracking-wider mt-1">Manual</p>
           </div>
 
           {/* Arrow */}
-          <motion.div {...(isExporting ? {} : { animate: { x: [0, 5, 0] }, transition: { duration: 1.5, repeat: Infinity } })}>
-            <ArrowRight className="w-5 h-5" style={{ color: S3_ACCENT.violet.text }} />
+          <motion.div {...(isExporting ? {} : { animate: { x: [0, 6, 0] }, transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } })}>
+            <ArrowRight className="w-6 h-6" style={{ color: S3_ACCENT.violet.text }} />
           </motion.div>
 
           {/* Automated card */}
-          <div className="px-6 py-4 rounded-xl border relative overflow-hidden" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
+          <div className="px-6 py-4 rounded-xl border relative overflow-hidden" style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg, boxShadow: `0 0 26px ${S3_ACCENT.emerald.glow}` }}>
             <motion.p
               className="text-3xl font-black relative"
               style={{ color: S3_ACCENT.violet.text }}
@@ -122,11 +122,11 @@ export function S3Slide08Automatizacion() {
                     transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5 }}
                   />
                 )}
-                <div className="relative p-5 flex flex-col items-center gap-3">
+                <div className="relative p-3.5 flex flex-col items-center gap-3">
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-xl border flex items-center justify-center"
+                  <div className="w-10 h-10 rounded-xl border flex items-center justify-center"
                     style={{ borderColor: `${c.accent.text}20`, background: `${c.accent.text}08` }}>
-                    <Icon className="w-6 h-6" style={{ color: c.accent.text }} />
+                    <Icon className="w-5 h-5" style={{ color: c.accent.text }} />
                   </div>
                   <p className="text-base font-black text-white">{c.title}</p>
                   <p className="text-[10px] text-white/45 font-mono italic leading-relaxed">{c.detail}</p>

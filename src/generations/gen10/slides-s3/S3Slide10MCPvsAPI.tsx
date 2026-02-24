@@ -151,10 +151,19 @@ export function S3Slide10MCPvsAPI() {
             {ROWS.map((row, i) => (
               <motion.div key={i} {...m(0.25 + i * 0.05)}
                 className="grid grid-cols-[120px_1fr_1fr] gap-2 group">
-                <div className="px-4 py-3 rounded-lg border border-white/[0.08] bg-white/[0.02] flex items-center">
+                <div
+                  className="px-4 py-3 rounded-lg border flex items-center"
+                  style={{
+                    borderColor: row.cat === 'Setup' ? 'hsl(38 80% 60% / 0.2)' : 'hsl(0 0% 100% / 0.08)',
+                    background: row.cat === 'Setup' ? 'hsl(38 80% 60% / 0.06)' : 'hsl(0 0% 100% / 0.02)',
+                  }}
+                >
                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider">{row.cat}</span>
                 </div>
-                <div className="px-4 py-3 rounded-lg border transition-colors group-hover:border-violet-500/20 group-hover:bg-violet-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden">
+                <div
+                  className="px-4 py-3 rounded-lg border transition-colors group-hover:border-violet-500/20 group-hover:bg-violet-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden text-left"
+                  style={row.cat === 'Setup' ? { background: 'hsl(263 70% 60% / 0.07)', borderColor: 'hsl(263 70% 60% / 0.25)' } : undefined}
+                >
                   {!isExporting && (
                     <motion.div
                       className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -163,9 +172,12 @@ export function S3Slide10MCPvsAPI() {
                       transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
                     />
                   )}
-                  <span className="text-sm text-white/60 relative z-10">{row.mcp}</span>
+                  <span className="text-sm text-white/70 font-medium relative z-10">{row.mcp}</span>
                 </div>
-                <div className="px-4 py-3 rounded-lg border transition-colors group-hover:border-amber-500/20 group-hover:bg-amber-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden">
+                <div
+                  className="px-4 py-3 rounded-lg border transition-colors group-hover:border-amber-500/20 group-hover:bg-amber-500/[0.03] border-white/[0.08] bg-white/[0.02] relative overflow-hidden text-left"
+                  style={row.cat === 'Setup' ? { background: 'hsl(38 90% 60% / 0.07)', borderColor: 'hsl(38 90% 60% / 0.25)' } : undefined}
+                >
                   {!isExporting && (
                     <motion.div
                       className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -174,7 +186,7 @@ export function S3Slide10MCPvsAPI() {
                       transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
                     />
                   )}
-                  <span className="text-sm text-white/60 relative z-10">{row.api}</span>
+                  <span className="text-sm text-white/70 font-medium relative z-10">{row.api}</span>
                 </div>
               </motion.div>
             ))}

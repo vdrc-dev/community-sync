@@ -57,7 +57,7 @@ export function S3Slide09CRM() {
           />
         </motion.div>
         <motion.p {...m(0.15)} className="text-white/50 text-sm mt-2 mb-8 max-w-md mx-auto">
-          Trae tus datos reales a la IA — clientes, acuerdos y métricas
+          Trae clientes, deals y métricas a la IA — en tiempo real
         </motion.p>
 
         {/* Visual pipeline flow: CRM → MCP → Analysis */}
@@ -89,8 +89,8 @@ export function S3Slide09CRM() {
                     </div>
                   </div>
                   <div className="relative">
-                    <p className="text-base font-black text-white">{step.label}</p>
-                    <p className="text-[11px] text-white/45 mt-0.5">{step.sub}</p>
+                    <p className="text-base font-black text-white tracking-tight">{step.label}</p>
+                    <p className="text-[10px] text-white/40 mt-0.5 leading-snug">{step.sub}</p>
                   </div>
                 </motion.div>
 
@@ -121,8 +121,8 @@ export function S3Slide09CRM() {
                     </div>
                     <div className="relative flex items-center gap-1">
                       {[0, 1, 2].map(dot => (
-                        <motion.div key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: step.accent.dot }}
-                          {...(isExporting ? {} : { animate: { x: [0, 10, 20], opacity: [0, 1, 0] }, transition: { duration: 1.2, repeat: Infinity, delay: dot * 0.25 + i * 0.3 } })} />
+                        <motion.div key={dot} className="w-2 h-2 rounded-full" style={{ background: step.accent.dot }}
+                          {...(isExporting ? {} : { animate: { x: [0, 10, 20], opacity: [0, 1, 0] }, transition: { duration: 1.8, repeat: Infinity, delay: dot * 0.25 + i * 0.3 } })} />
                       ))}
                       <ArrowRight className="w-4 h-4 ml-1" style={{ color: `${step.accent.text}50` }} />
                     </div>
@@ -134,7 +134,11 @@ export function S3Slide09CRM() {
         </div>
 
         {/* Example prompts */}
-        <motion.div {...m(0.55)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left">
+        <motion.div {...m(0.55)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left relative pt-5">
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-56 border-t border-dashed"
+            style={{ borderColor: 'hsl(0 0% 100% / 0.15)' }}
+          />
           {[
             { tip: '"¿Cuántos deals cerré este mes?"', detail: 'Claude consulta HubSpot vía MCP y te da el número exacto' },
             { tip: '"Hazme un pipeline visual"', detail: 'Combina datos del CRM con Canvas para un dashboard' },
@@ -148,7 +152,7 @@ export function S3Slide09CRM() {
 
         <motion.div {...m(0.7)} className="mt-5 inline-flex items-center gap-2 text-xs text-white/45">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/60" />
-          <span>¿Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span> → usa como alternativa</span>
+          <span>¿Sin conector MCP? Busca si tu CRM tiene <span className="text-amber-400/80 font-semibold">API REST</span> — úsala como alternativa</span>
         </motion.div>
       </div>
 

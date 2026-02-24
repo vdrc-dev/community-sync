@@ -30,7 +30,7 @@ export function S3Slide04VibeCoding() {
         <motion.div {...m(0)} className="mb-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
             <Wand2 className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Fundamentos Visuales</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.cyan.text }}>Vibe Coding</span>
           </div>
         </motion.div>
 
@@ -55,7 +55,7 @@ export function S3Slide04VibeCoding() {
             />
           )}
         </motion.div>
-        <motion.p {...m(0.12)} className="text-white/50 text-sm mb-7 mx-auto">
+        <motion.p {...m(0.12)} className="text-white/50 text-sm mb-8 mx-auto">
           Un prompt transforma toda la estética de tu app
         </motion.p>
 
@@ -84,27 +84,53 @@ export function S3Slide04VibeCoding() {
                 <p className="text-sm font-mono leading-relaxed" style={{ color: ex.color.text }}>{ex.prompt}</p>
 
                 {/* Divider */}
-                <div className="w-8 h-px" style={{ background: `${ex.color.text}30` }} />
+                <div className="w-12 h-px" style={{ background: `${ex.color.text}45` }} />
 
                 {/* Result mockup */}
                 <div className="w-full h-20 rounded-xl overflow-hidden border" style={{ borderColor: `${ex.color.text}15` }}>
-                  <div className="h-full flex flex-col">
-                    <div className="h-5 flex items-center px-2.5 gap-1" style={{ background: `${ex.color.text}08` }}>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}40` }} />
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}25` }} />
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}15` }} />
+                  {i === 0 && (
+                    <div className="h-full flex flex-col">
+                      <div className="h-5 flex items-center px-2.5 gap-1" style={{ background: `${ex.color.text}08` }}>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}40` }} />
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}25` }} />
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${ex.color.text}15` }} />
+                      </div>
+                      <div className="flex-1 grid grid-cols-3 gap-1 p-2">
+                        {[1, 2, 3, 4, 5, 6].map((cell) => (
+                          <div key={cell} className="rounded-md" style={{ background: `${ex.color.text}${cell % 2 === 0 ? '18' : '0f'}` }} />
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex-1 flex items-end gap-1 px-2.5 pb-1.5">
-                      {[60, 80, 45, 90, 70, 55, 85].map((h, j) => (
-                        <motion.div
-                          key={j}
-                          className="flex-1 rounded-t"
-                          style={{ height: `${h}%`, background: ex.color.text, opacity: 0.2 + (h / 100) * 0.4 }}
-                          {...(isExporting ? {} : { initial: { scaleY: 0 }, animate: { scaleY: 1 }, transition: { delay: 0.4 + i * 0.1 + j * 0.03, duration: 0.4 } })}
-                        />
-                      ))}
+                  )}
+                  {i === 1 && (
+                    <div className="h-full flex flex-col p-2.5 gap-2">
+                      <div className="h-2 rounded-full w-2/3" style={{ background: `${ex.color.text}18` }} />
+                      <div className="flex items-center gap-1.5 mt-1">
+                        {['#2B5EA7', '#79A7D3', '#F3B562', '#2A2E35', '#F5F7FA'].map((swatch) => (
+                          <div key={swatch} className="w-4 h-4 rounded-md border border-white/10" style={{ background: swatch }} />
+                        ))}
+                      </div>
+                      <div className="h-2 rounded-full w-1/2 mt-auto" style={{ background: `${ex.color.text}14` }} />
                     </div>
-                  </div>
+                  )}
+                  {i === 2 && (
+                    <div className="h-full flex flex-col">
+                      <div className="h-5 flex items-center px-2.5 gap-1" style={{ background: `${ex.color.text}08` }}>
+                        <div className="h-1.5 rounded-full w-6" style={{ background: `${ex.color.text}20` }} />
+                        <div className="h-1.5 rounded-full w-4" style={{ background: `${ex.color.text}15` }} />
+                      </div>
+                      <div className="flex-1 flex items-end gap-1 px-2.5 pb-1.5">
+                        {[35, 55, 70, 48, 78].map((h, j) => (
+                          <motion.div
+                            key={j}
+                            className="flex-1 rounded-t"
+                            style={{ height: `${h}%`, background: ex.color.text, opacity: 0.25 + (h / 100) * 0.45 }}
+                            {...(isExporting ? {} : { initial: { scaleY: 0 }, animate: { scaleY: 1 }, transition: { delay: 0.45 + i * 0.08 + j * 0.04, duration: 0.35 } })}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Result label */}
