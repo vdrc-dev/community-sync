@@ -10,10 +10,10 @@ import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
 const TOOLS = [
-  { name: 'Gamma', icon: Presentation, color: 'hsl(263 70% 60%)', hue: 263 },
-  { name: 'Coolors', icon: Palette, color: 'hsl(185 70% 50%)', hue: 185 },
-  { name: 'Claude Skills', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38 },
-  { name: 'Napkin', icon: Layers, color: 'hsl(150 60% 50%)', hue: 150 },
+  { name: 'Canva', icon: Palette, color: 'hsl(263 70% 60%)', hue: 263 },
+  { name: 'Krea.ai', icon: Layers, color: 'hsl(185 70% 50%)', hue: 185 },
+  { name: 'Cursor', icon: BarChart3, color: 'hsl(38 90% 55%)', hue: 38 },
+  { name: 'Claude', icon: Presentation, color: 'hsl(330 60% 55%)', hue: 330 },
 ];
 
 const CONSTELLATION_LINES = [
@@ -32,7 +32,7 @@ export function S3Slide01Cover() {
   const [typedCount, setTypedCount] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
 
-  const subtitle = 'De apuntes a presentaciones profesionales';
+  const subtitle = 'Diseña, automatiza y conecta con herramientas IA';
 
   useEffect(() => {
     if (isExporting) { setTypedCount(subtitle.length); return; }
