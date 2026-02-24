@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Palette, Layout, Wand2, Sparkles, ExternalLink, ChevronRight } from 'lucide-react';
+import { Palette, Layout, Wand2, Sparkles, ExternalLink, ChevronRight, Type, Image as ImageIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -108,14 +108,14 @@ export function S3Slide03Canvas() {
             </motion.div>
           </div>
 
-          {/* Right: Canva mockup with dark treatment */}
+          {/* Right: Interactive Canva mockup with toolbar simulation */}
           <motion.div {...me(0.15)} className="relative flex-shrink-0 w-[48%] max-w-[520px]">
             <div className="absolute -inset-12 rounded-full blur-[120px] opacity-40"
               style={{ background: `radial-gradient(circle, hsl(${ACCENT_HUE} 60% 50% / 0.3), transparent 70%)` }} />
 
             <div className="relative p-[1.5px] rounded-2xl overflow-hidden"
               style={{ background: `linear-gradient(145deg, hsl(${ACCENT_HUE} 70% 60% / 0.4), hsl(200 50% 50% / 0.2))` }}>
-              <div className="rounded-[calc(1rem-1.5px)] overflow-hidden relative"
+              <div className="rounded-[calc(1rem-1.5px)] overflow-hidden relative flex flex-col"
                 style={{ background: 'hsl(0 0% 4%)', boxShadow: `0 40px 100px hsl(${ACCENT_HUE} 50% 25% / 0.35)` }}>
                 {!isExporting && (
                   <motion.div className="absolute inset-0 z-20 pointer-events-none"
@@ -135,12 +135,50 @@ export function S3Slide03Canvas() {
                     <ExternalLink className="w-3 h-3 text-white/25 hover:text-white/50 transition-colors" />
                   </a>
                 </div>
-                <div className="relative">
-                  <img src={toolCanvaMockup} alt="Canva Design Platform" className="w-full h-auto object-cover object-top" style={{ maxHeight: '300px', filter: 'brightness(0.85) saturate(0.9)' }} />
-                  <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(180deg, transparent 50%, hsl(0 0% 4%) 100%)' }} />
-                  <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: `linear-gradient(135deg, hsl(${ACCENT_HUE} 50% 30% / 0.15), transparent 60%)` }} />
+
+                {/* Split view: Mini toolbar + Canvas area */}
+                <div className="flex" style={{ height: '280px' }}>
+                  {/* Left toolbar - interactive feel */}
+                  <div className="w-[50px] border-r flex flex-col items-center py-3 gap-3 shrink-0"
+                    style={{ borderColor: `hsl(${ACCENT_HUE} 40% 30% / 0.15)`, background: 'hsl(0 0% 6%)' }}>
+                    {[Layout, Type, Wand2, Palette, ImageIcon].map((Icon, i) => (
+                      <motion.div key={i}
+                        className="w-8 h-8 rounded-lg flex items-center justify-center border"
+                        style={{
+                          borderColor: i === 2 ? `hsl(${ACCENT_HUE} 60% 60% / 0.35)` : 'hsl(0 0% 100% / 0.06)',
+                          background: i === 2 ? `hsl(${ACCENT_HUE} 60% 60% / 0.12)` : 'transparent',
+                        }}
+                        {...(isExporting ? {} : (i === 2 ? {
+                          animate: { borderColor: [`hsl(${ACCENT_HUE} 60% 60% / 0.35)`, `hsl(${ACCENT_HUE} 60% 60% / 0.6)`, `hsl(${ACCENT_HUE} 60% 60% / 0.35)`] },
+                          transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
+                        } : {}))}
+                      >
+                        <Icon className="w-3.5 h-3.5" style={{ color: i === 2 ? accent.text : 'hsl(0 0% 100% / 0.3)' }} />
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Main canvas area with screenshot */}
+                  <div className="flex-1 relative">
+                    <img src={toolCanvaMockup} alt="Canva Design Platform" className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+                    <div className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'linear-gradient(180deg, transparent 50%, hsl(0 0% 4%) 100%)' }} />
+                    <div className="absolute inset-0 pointer-events-none"
+                      style={{ background: `linear-gradient(135deg, hsl(${ACCENT_HUE} 50% 30% / 0.15), transparent 60%)` }} />
+
+                    {/* Magic Studio indicator */}
+                    {!isExporting && (
+                      <motion.div
+                        className="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 z-20"
+                        style={{ background: `linear-gradient(135deg, hsl(${ACCENT_HUE} 70% 50%), hsl(200 60% 45%))`, boxShadow: `0 4px 15px hsl(${ACCENT_HUE} 70% 50% / 0.4)` }}
+                        animate={{ opacity: [0.85, 1, 0.85] }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                      >
+                        <Wand2 className="w-3 h-3 text-white" />
+                        <span className="text-[9px] font-bold text-white uppercase tracking-wide">Magic Studio</span>
+                      </motion.div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

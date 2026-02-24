@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
-import { Presentation, BarChart3, Layers, Sparkles, ChevronRight } from 'lucide-react';
+import { Presentation, BarChart3, Layers, Sparkles, ChevronRight, FileText, ArrowRight } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import toolGammaMockup from '@/assets/slides/tool-gamma-mockup.jpg';
 import toolNapkinMockup from '@/assets/slides/tool-napkin-mockup.jpg';
+import exampleGeminiOutput from '@/assets/slides/example-gemini-output.jpg';
+import exampleGeminiOutputP3 from '@/assets/slides/example-gemini-output-p3.jpg';
 
 const TOOLS = [
   {
@@ -199,28 +201,59 @@ export function S3Slide07PresentationAI() {
           })}
         </div>
 
+        {/* Real Example: Gemini Output */}
+        <motion.div {...m(0.45)} className="mb-6">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <FileText className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Ejemplo Real — Output de Gemini</span>
+          </div>
+          <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
+            {[
+              { img: exampleGeminiOutput, label: 'Cover generada', desc: 'Prompt → Deck completo en 30s' },
+              { img: exampleGeminiOutputP3, label: 'Tabla comparativa', desc: 'Datos estructurados automáticamente' },
+            ].map((ex, i) => (
+              <motion.div key={i} {...m(0.5 + i * 0.08)}
+                className="relative rounded-xl border overflow-hidden group"
+                style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}
+                {...(isExporting ? {} : { whileHover: { scale: 1.03, y: -3 } })}>
+                <div className="relative h-[130px] overflow-hidden">
+                  <img src={ex.img} alt={ex.label} className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, hsl(0 0% 4% / 0.9) 100%)' }} />
+                  {!isExporting && (
+                    <motion.div className="absolute inset-0 pointer-events-none z-10"
+                      style={{ background: `linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)`, width: '45%' }}
+                      animate={{ x: ['-150%', '250%'] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.8 }} />
+                  )}
+                </div>
+                <div className="p-3">
+                  <p className="text-xs font-bold text-white/70">{ex.label}</p>
+                  <p className="text-[10px] text-white/40 mt-0.5">{ex.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Workflow Pipeline */}
-        <motion.div {...m(0.45)} className="flex items-center justify-center gap-2 flex-wrap">
+        <motion.div {...m(0.65)} className="flex items-center justify-center gap-2 flex-wrap">
           <Sparkles className="w-3.5 h-3.5 text-amber-400/50 mr-1" />
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 mr-3">Workflow</span>
           {WORKFLOW.map((step, i) => (
             <div key={step.tool} className="flex items-center gap-2">
               <div
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border whitespace-nowrap"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl border whitespace-nowrap"
                 style={{ borderColor: step.accent.border, background: step.accent.bg }}
               >
                 <span
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black"
+                  className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black"
                   style={{ background: `${step.accent.text}25`, color: step.accent.text }}
                 >
                   {i + 1}
                 </span>
-                <div>
-                  <a href={step.href} target="_blank" rel="noopener noreferrer"
-                    className="text-xs font-bold hover:underline underline-offset-2 transition-colors"
-                    style={{ color: step.accent.text }}>{step.tool}</a>
-                  <p className="text-[10px] text-white/40">{step.action}</p>
-                </div>
+                <a href={step.href} target="_blank" rel="noopener noreferrer"
+                  className="text-[10px] font-bold hover:underline underline-offset-2 transition-colors"
+                  style={{ color: step.accent.text }}>{step.tool}</a>
               </div>
               {i < WORKFLOW.length - 1 && (
                 <ChevronRight className="w-3 h-3 text-white/30" />
