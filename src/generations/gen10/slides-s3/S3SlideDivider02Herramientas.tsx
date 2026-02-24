@@ -6,7 +6,7 @@ export function S3SlideDivider02Herramientas() {
     <S3SlideDivider
       moduleNum="02"
       title="Herramientas de Creación"
-      subtitle="Sintetiza, presenta y automatiza con IA"
+      subtitle="Diseña, presenta, graba y automatiza con IA"
       icon={Wrench}
       accentHue={263}
       tools={[
@@ -15,8 +15,8 @@ export function S3SlideDivider02Herramientas() {
         { label: 'Claude Code', href: 'https://claude.ai/download' },
         'Skills',
         { label: 'Gamma', href: 'https://gamma.app' },
-        { label: 'Napkin', href: 'https://napkin.ai' },
         { label: 'Krea.ai', href: 'https://www.krea.ai' },
+        'Automatización',
       ]}
     />
   );

@@ -20,11 +20,11 @@ const MODULES = [
     num: '02',
     title: 'Herramientas de Creación',
     desc: 'Diseña, presenta, graba y automatiza con IA',
-    tools: ['Canva', 'NotebookLM', 'Gamma', 'Skills', 'Krea.ai'],
+    tools: ['Canva', 'NotebookLM', 'Claude Code', 'Skills', 'Gamma', 'Krea.ai', 'Automatización'],
     icon: Wrench,
     accent: S3_ACCENT.violet,
-    time: '~45 min',
-    timePercent: 47,
+    time: '~50 min',
+    timePercent: 53,
   },
   {
     num: '03',
@@ -33,8 +33,8 @@ const MODULES = [
     tools: ['CRM + MCP', 'MCP vs API', 'Cursor'],
     icon: Plug,
     accent: S3_ACCENT.amber,
-    time: '~20 min',
-    timePercent: 21,
+    time: '~15 min',
+    timePercent: 16,
   },
   {
     num: '04',
@@ -87,7 +87,7 @@ export function S3SlideAgenda() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
         <motion.p {...m(0.12)} className="text-white/45 text-base mt-3 mb-10 max-w-md mx-auto">
-          4 módulos · 90 minutos · de apuntes a presentaciones
+          4 módulos · 90 minutos · herramientas en acción
         </motion.p>
 
         {/* Module cards — clean horizontal layout, no overlapping lines */}

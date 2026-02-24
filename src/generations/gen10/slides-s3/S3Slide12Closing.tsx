@@ -8,10 +8,11 @@ import { S3Footer } from './S3Footer';
 const TOOLS_LEARNED = [
   { icon: Palette, name: 'Canva', what: 'Diseño visual', accent: S3_ACCENT.cyan },
   { icon: BookOpen, name: 'NotebookLM', what: 'PDFs → Audio', accent: S3_ACCENT.cyan },
-  { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
-  { icon: Terminal, name: 'Anthropic Skills', what: 'PDF/PPTX/Theme', accent: S3_ACCENT.violet },
   { icon: Terminal, name: 'Claude Code', what: 'Desktop AI', accent: S3_ACCENT.violet },
+  { icon: Terminal, name: 'Skills', what: 'PDF/PPTX/Theme', accent: S3_ACCENT.violet },
+  { icon: Presentation, name: 'Gamma', what: 'Texto → Slides', accent: S3_ACCENT.violet },
   { icon: Video, name: 'Krea.ai', what: 'Img → Video', accent: S3_ACCENT.violet },
+  { icon: Zap, name: 'Automatización', what: 'Manual → Auto', accent: S3_ACCENT.violet },
   { icon: Database, name: 'CRM+MCP', what: 'Datos live', accent: S3_ACCENT.amber },
   { icon: Code2, name: 'Cursor', what: 'IDE + AI', accent: S3_ACCENT.amber },
   { icon: Palette, name: 'Coolors', what: 'Paletas', accent: S3_ACCENT.rose },
@@ -45,7 +46,7 @@ const MISSIONS = [
 ];
 
 const WEEK_STATS = [
-  { num: '8+', label: 'herramientas', hue: 185 },
+  { num: '10+', label: 'herramientas', hue: 185 },
   { num: '5', label: 'workflows', hue: 160 },
   { num: '3', label: 'frameworks', hue: 263 },
 ];
