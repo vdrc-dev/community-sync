@@ -33,7 +33,7 @@ const premiumEase = [0.16, 1, 0.3, 1];
 /* ── Slide transition variants — snappy feel ───────────────────── */
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 40 : -40,
+    x: direction > 0 ? 20 : -20,
     opacity: 0,
   }),
   center: {
@@ -41,7 +41,7 @@ const slideVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -40 : 40,
+    x: direction > 0 ? -20 : 20,
     opacity: 0,
   }),
 };
@@ -345,10 +345,12 @@ export function PresentationLayout({
   // Prefetch adjacent slides (triggers lazy load)
   // ============================================
   
+  // Immediate prefetch: ±3 slides around current
   useEffect(() => {
-    const prefetchIndices = [currentSlide, currentSlide + 1, currentSlide - 2].filter(
-      i => i >= 0 && i < totalSlides
-    );
+    const prefetchIndices = [
+      currentSlide - 1, currentSlide, currentSlide + 1,
+      currentSlide - 2, currentSlide + 2, currentSlide - 3,
+    ].filter(i => i >= 0 && i < totalSlides);
     prefetchIndices.forEach(i => {
       const comp = slides[i] as any;
       if (comp && typeof comp === 'object' && 'preload' in comp) {
@@ -356,6 +358,24 @@ export function PresentationLayout({
       }
     });
   }, [currentSlide, slides, totalSlides]);
+
+  // Idle-time bulk prefetch: load all remaining slides when browser is idle
+  const hasIdlePrefetched = useRef(false);
+  useEffect(() => {
+    if (hasIdlePrefetched.current) return;
+    const idleCb = typeof requestIdleCallback !== 'undefined' ? requestIdleCallback : (cb: () => void) => setTimeout(cb, 200);
+    const id = idleCb(() => {
+      slides.forEach((comp: any) => {
+        if (comp && typeof comp === 'object' && 'preload' in comp) {
+          comp.preload?.();
+        }
+      });
+      hasIdlePrefetched.current = true;
+    });
+    return () => {
+      if (typeof cancelIdleCallback !== 'undefined' && typeof id === 'number') cancelIdleCallback(id);
+    };
+  }, [slides]);
 
   // ============================================
   // Helpers
@@ -431,7 +451,7 @@ export function PresentationLayout({
     <div className="relative min-h-screen bg-background overflow-hidden">
       {/* Main Slide Canvas */}
       <div className="relative w-full h-screen">
-        <AnimatePresence initial={false} custom={direction} mode="wait">
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={currentSlide}
             custom={direction}
@@ -440,7 +460,7 @@ export function PresentationLayout({
             animate="center"
             exit="exit"
             transition={{ 
-              duration: 0.25, 
+              duration: 0.15, 
               ease: premiumEase,
             }}
             className="w-full h-full"
