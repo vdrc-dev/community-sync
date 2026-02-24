@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Cpu, Server, Sparkles, ArrowRight } from 'lucide-react';
+import { Cpu, Server, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
