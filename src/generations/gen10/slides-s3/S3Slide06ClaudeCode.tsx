@@ -53,7 +53,7 @@ export function S3Slide06ClaudeCode() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border"
             style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}>
             <Terminal className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Claude Code</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Claude Desktop</span>
           </div>
         </motion.div>
 
