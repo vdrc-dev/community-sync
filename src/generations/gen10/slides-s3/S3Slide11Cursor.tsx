@@ -34,7 +34,7 @@ export function S3Slide11Cursor() {
           </div>
         </motion.div>
 
-        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
           <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Cursor</a>:{' '}
           <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(185 70% 60%)', 38)}>
             IDE con IA
@@ -51,9 +51,9 @@ export function S3Slide11Cursor() {
           Tu estudio de desarrollo para proyectos largos y consistentes
         </motion.p>
 
-        <div className="grid grid-cols-12 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
           {/* IDE Reference Screenshot */}
-          <motion.div {...m(0.2)} className="col-span-7 relative">
+          <motion.div {...m(0.2)} className="col-span-1 sm:col-span-7 relative">
             <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(38 80% 55% / 0.12)', background: 'hsl(38 80% 55% / 0.02)' }}>
               {!isExporting && (
                 <motion.div
@@ -75,7 +75,7 @@ export function S3Slide11Cursor() {
           </motion.div>
 
           {/* Powers grid */}
-          <div className="col-span-5 grid grid-cols-2 gap-3">
+          <div className="col-span-1 sm:col-span-5 grid grid-cols-2 gap-3">
             {POWERS.map((p, i) => {
               const Icon = p.icon;
               return (

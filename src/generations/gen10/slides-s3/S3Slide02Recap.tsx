@@ -35,7 +35,7 @@ export function S3Slide02Recap() {
           </div>
         </motion.div>
 
-        <motion.h1 {...me(0.08)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
+        <motion.h1 {...me(0.08)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
           El Camino Hasta <span style={s3GradientText('hsl(330 85% 68%)', 'hsl(280 70% 65%)', 330)}>Aquí</span>
         </motion.h1>
         <motion.div

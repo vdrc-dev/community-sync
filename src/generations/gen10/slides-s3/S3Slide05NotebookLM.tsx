@@ -45,7 +45,7 @@ export function S3Slide05NotebookLM() {
         </motion.div>
 
         {/* Title */}
-        <motion.h1 {...m(0.05)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+        <motion.h1 {...m(0.05)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
           NotebookLM:{' '}
           <span style={s3GradientText('hsl(185 70% 65%)', 'hsl(263 60% 70%)', 185)}>
             El Sintetizador
@@ -168,7 +168,7 @@ export function S3Slide05NotebookLM() {
         </div>
 
         {/* Pro tips */}
-        <motion.div {...m(0.5)} className="mt-6 max-w-2xl mx-auto grid grid-cols-3 gap-3 text-left">
+        <motion.div {...m(0.5)} className="mt-6 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
           {[
             { tip: '50 fuentes (Free)', detail: 'Hasta 300 en Pro · 100 notebooks gratis' },
             { tip: 'Varios audio overviews/día', detail: 'Personaliza: "Enfócate en X" antes de generar' },

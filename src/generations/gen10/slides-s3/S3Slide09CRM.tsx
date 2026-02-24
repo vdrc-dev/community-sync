@@ -34,7 +34,7 @@ export function S3Slide09CRM() {
         </motion.div>
 
         <motion.div {...m(0.08)}>
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Conecta tu{' '}
             <span
               style={{
@@ -134,7 +134,7 @@ export function S3Slide09CRM() {
         </div>
 
         {/* Example prompts */}
-        <motion.div {...m(0.55)} className="mt-6 max-w-2xl mx-auto grid grid-cols-2 gap-3 text-left relative pt-5">
+        <motion.div {...m(0.55)} className="mt-6 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-left relative pt-5">
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-56 border-t border-dashed"
             style={{ borderColor: 'hsl(0 0% 100% / 0.15)' }}

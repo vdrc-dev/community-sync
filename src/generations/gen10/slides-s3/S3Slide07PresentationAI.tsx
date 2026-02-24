@@ -35,7 +35,7 @@ export function S3Slide07PresentationAI() {
         {/* Header */}
         <motion.div {...m(0)} className="text-center mb-6">
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/45 block mb-2">Herramientas de Creación</span>
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Presentaciones con{' '}
             <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(38 85% 65%)', 263)}>IA</span>
           </h1>
@@ -52,10 +52,10 @@ export function S3Slide07PresentationAI() {
         </motion.div>
 
         {/* Main: 2-column layout — Gamma hero left, Napkin + Example right */}
-        <div className="grid grid-cols-12 gap-5 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 mb-6">
 
           {/* LEFT: Gamma hero card with big screenshot */}
-          <motion.div {...me(0.15)} className="col-span-7 relative rounded-2xl border overflow-hidden group"
+          <motion.div {...me(0.15)} className="col-span-1 sm:col-span-7 relative rounded-2xl border overflow-hidden group"
             style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}
             {...(isExporting ? {} : { whileHover: { scale: 1.01, y: -2 } })}>
             {!isExporting && (
@@ -112,7 +112,7 @@ export function S3Slide07PresentationAI() {
           </motion.div>
 
           {/* RIGHT: Napkin + Example real stacked */}
-          <div className="col-span-5 flex flex-col gap-4">
+          <div className="col-span-1 sm:col-span-5 flex flex-col gap-4">
             {/* Napkin card */}
             <motion.div {...me(0.2)} className="relative rounded-2xl border overflow-hidden group flex-1"
               style={{ borderColor: S3_ACCENT.amber.border, background: S3_ACCENT.amber.bg }}

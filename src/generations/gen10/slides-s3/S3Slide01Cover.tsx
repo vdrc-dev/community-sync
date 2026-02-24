@@ -74,21 +74,21 @@ export function S3Slide01Cover() {
       {/* ── TOP BAR ── */}
       <motion.div
         {...(isExporting ? {} : { initial: { opacity: 0, y: -16 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.7 } })}
-        className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-12 py-6"
+        className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-8 lg:px-12 py-3 sm:py-6"
       >
         <div className="flex items-center gap-3.5">
           <div className="relative">
             <div className="absolute inset-0 rounded-full blur-xl scale-[2.5]" style={{ background: 'hsl(330 60% 50% / 0.18)' }} />
-            <img src={logoVdrc} alt="VDRC" className="relative h-9 w-auto" />
+            <img src={logoVdrc} alt="VDRC" className="relative h-7 sm:h-9 w-auto" />
           </div>
           <div className="flex flex-col">
-            <span className="text-white/90 font-bold tracking-wider text-sm">
+            <span className="text-white/90 font-bold tracking-wider text-xs sm:text-sm">
               VDRC <span style={{ color: 'hsl(330 60% 55% / 0.3)' }}>·</span> GEN {gen?.generationNumber ? String(gen.generationNumber).padStart(2, '0') : '10'}
             </span>
-            <span className="text-white/40 text-[10px] font-mono tracking-[0.3em] uppercase">Vibe Development & Research</span>
+            <span className="text-white/40 text-[10px] font-mono tracking-[0.3em] uppercase hidden sm:block">Vibe Development & Research</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 hidden sm:flex">
           <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'hsl(330 50% 60% / 0.6)' }}>
             {gen?.config?.date || '24 de febrero de 2026'}
           </span>
@@ -96,13 +96,13 @@ export function S3Slide01Cover() {
       </motion.div>
 
       {/* ── MAIN CONTENT ── */}
-      <div className="relative z-10 flex items-center w-full h-full px-12 lg:px-20 gap-16">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center w-full h-full px-5 sm:px-8 lg:px-20 gap-6 lg:gap-16 pt-20 sm:pt-0">
 
         {/* ── LEFT: Text block ── */}
-        <div className="flex flex-col justify-center flex-1 min-w-0 max-w-[55%]">
+        <div className="flex flex-col justify-center flex-1 min-w-0 max-w-full lg:max-w-[55%]">
 
           {/* Session pill */}
-          <motion.div {...me(0.1)} className="mb-10">
+          <motion.div {...me(0.1)} className="mb-4 sm:mb-10">
             <div className="relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full border backdrop-blur-sm"
               style={{ background: S3_ACCENT.rose.bg, borderColor: S3_ACCENT.rose.border }}>
               {!isExporting && (
@@ -146,7 +146,7 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[7.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
+              className="text-[3.5rem] sm:text-[5.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
               style={{
                 background: 'linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(330 55% 88%) 50%, hsl(310 50% 80%) 100%)',
                 WebkitBackgroundClip: 'text',
@@ -159,7 +159,7 @@ export function S3Slide01Cover() {
               CREACIÓN
             </h1>
             <h1
-              className="text-[7.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
+              className="text-[3.5rem] sm:text-[5.5rem] lg:text-[10rem] font-black tracking-[-0.06em] leading-[0.82] relative"
               style={{
                 ...s3GradientTextMulti([330, 280, 185, 38], 330),
                 filter: `drop-shadow(0 0 ${isHovered ? '80' : '35'}px hsl(330 70% 50% / 0.5))`,
@@ -171,7 +171,7 @@ export function S3Slide01Cover() {
 
             {/* Accent line */}
             <motion.div
-              className="h-[3px] rounded-full mt-8 origin-left relative"
+              className="h-[2px] sm:h-[3px] rounded-full mt-4 sm:mt-8 origin-left relative"
               style={{ background: 'linear-gradient(90deg, hsl(330 80% 65%), hsl(280 60% 55%) 55%, hsl(185 50% 50% / 0.3) 80%, transparent)' }}
               initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -189,8 +189,8 @@ export function S3Slide01Cover() {
           </motion.div>
 
           {/* ── Typewriter subtitle ── */}
-          <motion.div {...me(0.45)} className="mt-8 h-10 flex items-center">
-            <p className="text-[1.4rem] lg:text-[1.6rem] font-light tracking-wide text-white/40 leading-relaxed">
+          <motion.div {...me(0.45)} className="mt-4 sm:mt-8 h-auto sm:h-10 flex items-center">
+            <p className="text-sm sm:text-[1.4rem] lg:text-[1.6rem] font-light tracking-wide text-white/40 leading-relaxed">
               {subtitle.slice(0, typedCount)}
               {!isExporting && showCursor && (
                 <motion.span
@@ -204,9 +204,9 @@ export function S3Slide01Cover() {
           </motion.div>
 
           {/* ── CTA ── */}
-          <motion.div {...me(0.75)} className="mt-12 flex items-center gap-6">
+          <motion.div {...me(0.75)} className="mt-6 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
             <motion.button
-              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-sm overflow-hidden border"
+              className="group relative inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold text-sm overflow-hidden border"
               style={{
                 background: 'linear-gradient(135deg, hsl(330 60% 50% / 0.2), hsl(330 60% 50% / 0.08))',
                 borderColor: 'hsl(330 60% 50% / 0.35)',
@@ -242,7 +242,7 @@ export function S3Slide01Cover() {
             animate: { opacity: 1, scale: 1, x: 0, filter: 'blur(0px)' },
             transition: { duration: 1.6, delay: 0.15, ease: S3_EASE },
           })}
-          className="relative flex-shrink-0 w-[42%] max-w-[540px]"
+          className="relative flex-shrink-0 w-full sm:w-[60%] lg:w-[42%] max-w-[540px] hidden sm:block"
         >
           {/* Deep glow */}
           <div className="absolute -inset-24 rounded-full blur-[180px] opacity-50"

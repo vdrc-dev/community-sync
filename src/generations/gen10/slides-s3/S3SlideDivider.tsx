@@ -59,7 +59,7 @@ export function S3SlideDivider({
       </div>
 
       {/* Centered content */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto px-12">
+      <div className="relative z-10 text-center max-w-3xl mx-auto px-5 sm:px-12">
         {/* Large module number with pulsing glow */}
         <motion.div {...me(0)} className="mb-6 relative">
           {!isExporting && (
@@ -71,7 +71,7 @@ export function S3SlideDivider({
             />
           )}
           <span
-            className="text-[14rem] font-black leading-none select-none relative"
+            className="text-[6rem] sm:text-[10rem] lg:text-[14rem] font-black leading-none select-none relative"
             style={{
               background: `linear-gradient(180deg, hsl(${accentHue} ${accentSat}% ${accentLight + 10}% / 0.18), hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.04))`,
               WebkitBackgroundClip: 'text',
@@ -95,7 +95,7 @@ export function S3SlideDivider({
         {/* Title with text glow */}
         <motion.h1
           {...me(0.15, { initial: { opacity: 0, scale: 0.88, filter: 'blur(8px)' }, animate: { opacity: 1, scale: 1, filter: 'blur(0px)' } })}
-          className="text-6xl 2xl:text-7xl font-black tracking-tight mb-4"
+          className="text-3xl sm:text-5xl 2xl:text-6xl lg:text-7xl font-black tracking-tight mb-4"
           style={{
             background: `linear-gradient(135deg, hsl(0 0% 100%) 20%, hsl(${accentHue} ${accentSat}% ${accentLight + 15}%) 70%, hsl(${(accentHue + 40) % 360} ${accentSat}% ${accentLight + 10}%) 100%)`,
             WebkitBackgroundClip: 'text',
@@ -126,13 +126,13 @@ export function S3SlideDivider({
         </motion.div>
 
         {/* Subtitle */}
-        <motion.p {...m(0.25)} className="text-white/40 text-xl mt-5 mb-10 font-light max-w-lg mx-auto">
+        <motion.p {...m(0.25)} className="text-white/40 text-base sm:text-xl mt-5 mb-6 sm:mb-10 font-light max-w-lg mx-auto">
           {subtitle}
         </motion.p>
 
         {/* Tool pills with shimmer */}
         {tools.length > 0 && (
-          <motion.div {...m(0.35)} className="flex items-center justify-center gap-3 flex-wrap">
+          <motion.div {...m(0.35)} className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
             {tools.map((tool, i) => {
               const label = typeof tool === 'string' ? tool : tool.label;
               const href = typeof tool === 'string' ? undefined : tool.href;

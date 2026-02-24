@@ -36,7 +36,7 @@ export function S3Slide10MCPvsAPI() {
 
         {/* Title */}
         <motion.div {...m(0.05)}>
-          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             <span style={{
               background: 'linear-gradient(135deg, hsl(263 70% 72%), hsl(263 50% 60%))',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
@@ -60,7 +60,7 @@ export function S3Slide10MCPvsAPI() {
         </motion.p>
 
         {/* Visual VS: Two large hero nodes */}
-        <div className="grid grid-cols-2 gap-8 mb-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 mb-8 max-w-3xl mx-auto">
           {/* MCP */}
           <motion.div {...me(0.15)} className="relative rounded-2xl border p-6 overflow-hidden"
             style={{ borderColor: S3_ACCENT.violet.border, background: S3_ACCENT.violet.bg }}

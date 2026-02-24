@@ -61,7 +61,7 @@ export function S3Slide04VibeCoding() {
               </div>
             </motion.div>
 
-            <motion.h1 {...me(0.06)} className="text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1 leading-[1.05]">
+            <motion.h1 {...me(0.06)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1 leading-[1.05]">
               Diseña con{' '}
               <span style={s3GradientText('hsl(185 70% 65%)', 'hsl(280 60% 65%)', 185)}>Palabras</span>
             </motion.h1>
@@ -172,7 +172,7 @@ export function S3Slide04VibeCoding() {
                   </div>
 
                   {/* Cards row */}
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2 hidden sm:grid">
                     {[S3_ACCENT.violet, S3_ACCENT.cyan, S3_ACCENT.amber].map((a, i) => (
                       <motion.div key={i} className="rounded-lg p-2.5 border"
                         style={{ borderColor: `${a.text}15`, background: `${a.text}06` }}
@@ -194,7 +194,7 @@ export function S3Slide04VibeCoding() {
         </div>
 
         {/* 3 prompt → result transformation cards */}
-        <div className="grid grid-cols-3 gap-3 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
           {PROMPTS.map((ex, i) => (
             <motion.div
               key={i}
