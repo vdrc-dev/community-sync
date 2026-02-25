@@ -9,6 +9,7 @@ import {
   Minimize,
   HelpCircle,
 } from 'lucide-react';
+import { SlideLoadingScreen } from './SlideLoadingScreen';
 import { Button } from '@/components/ui/button';
 import { UnifiedSidebarNav } from './UnifiedSidebarNav';
 import { ThumbnailsView } from './ThumbnailsView';
@@ -30,13 +31,13 @@ import { DEFAULT_FEATURES } from './types';
 /* ── Premium easing curves ──────────────────────────────────────── */
 const premiumEase = [0.22, 1, 0.36, 1];
 
-/* ── Slide transition variants — cinematic feel ────────────────── */
+/* ── Cinematic slide transition variants ───────────────────────── */
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 60 : -60,
+    x: direction > 0 ? 80 : -80,
     opacity: 0,
-    scale: 0.97,
-    filter: 'blur(4px)',
+    scale: 0.96,
+    filter: 'blur(6px)',
   }),
   center: {
     x: 0,
@@ -45,11 +46,23 @@ const slideVariants = {
     filter: 'blur(0px)',
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -40 : 40,
+    x: direction > 0 ? -50 : 50,
     opacity: 0,
     scale: 0.98,
-    filter: 'blur(3px)',
+    filter: 'blur(4px)',
   }),
+};
+
+/* ── Transition duration responsive to distance ─────────────────── */
+const getTransitionConfig = (distance: number) => {
+  const ms = Math.min(0.55, 0.3 + Math.abs(distance) * 0.02);
+  return {
+    duration: ms,
+    ease: premiumEase,
+    opacity: { duration: ms * 0.75 },
+    filter: { duration: ms * 0.85 },
+    scale: { duration: ms, ease: premiumEase },
+  };
 };
 
 /* ── Controls fade animation ────────────────────────────────────── */
@@ -94,6 +107,9 @@ export function PresentationLayout({
   
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
   const [direction, setDirection] = useState(0); // -1 = prev, 1 = next
+  const [jumpDistance, setJumpDistance] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [mode, setMode] = useState<'gallery' | 'presentation'>(
     features.galleryMode ? 'gallery' : 'presentation'
   );
@@ -156,28 +172,38 @@ export function PresentationLayout({
   
   const goToSlide = useCallback((slideNumber: number) => {
     if (slideNumber >= 1 && slideNumber <= totalSlides) {
-      setDirection(slideNumber > currentSlide ? 1 : -1);
+      const dist = slideNumber - currentSlide;
+      setDirection(dist > 0 ? 1 : -1);
+      setJumpDistance(Math.abs(dist));
+      setIsTransitioning(true);
       setCurrentSlide(slideNumber);
       onSlideChange?.(slideNumber);
       resetControlsTimer();
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   }, [totalSlides, currentSlide, onSlideChange, resetControlsTimer]);
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides) {
       setDirection(1);
+      setJumpDistance(1);
+      setIsTransitioning(true);
       setCurrentSlide(prev => prev + 1);
       onSlideChange?.(currentSlide + 1);
       resetControlsTimer();
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   }, [currentSlide, totalSlides, onSlideChange, resetControlsTimer]);
 
   const prevSlide = useCallback(() => {
     if (currentSlide > 1) {
       setDirection(-1);
+      setJumpDistance(1);
+      setIsTransitioning(true);
       setCurrentSlide(prev => prev - 1);
       onSlideChange?.(currentSlide - 1);
       resetControlsTimer();
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   }, [currentSlide, onSlideChange, resetControlsTimer]);
 
@@ -391,6 +417,7 @@ export function PresentationLayout({
   
   const CurrentSlideComponent = slides[currentSlide - 1];
   const progress = (currentSlide / totalSlides) * 100;
+  const transitionConfig = useMemo(() => getTransitionConfig(jumpDistance), [jumpDistance]);
 
   // Find which section the current slide belongs to — memoized
   const currentSection = useMemo(
@@ -457,6 +484,17 @@ export function PresentationLayout({
   
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
+
+      {/* ── Epic Loading Screen ─────────────────────────────────── */}
+      {showLoadingScreen && (
+        <SlideLoadingScreen
+          name={config.name}
+          badge={config.badge}
+          badgeColor={config.badgeColor}
+          onComplete={() => setShowLoadingScreen(false)}
+        />
+      )}
+
       {/* Main Slide Canvas */}
       <div className="relative w-full h-screen">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -467,12 +505,7 @@ export function PresentationLayout({
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ 
-              duration: 0.35,
-              ease: premiumEase,
-              opacity: { duration: 0.25 },
-              filter: { duration: 0.3 },
-            }}
+            transition={transitionConfig}
             className="w-full h-full"
             style={{ willChange: 'transform, opacity, filter' }}
           >
@@ -484,6 +517,25 @@ export function PresentationLayout({
               )}
             </SlideWrapper>
           </motion.div>
+        </AnimatePresence>
+
+        {/* Directional flash overlay during rapid navigation */}
+        <AnimatePresence>
+          {isTransitioning && (
+            <motion.div
+              key="flash"
+              className="absolute inset-0 pointer-events-none z-20"
+              style={{
+                background: direction > 0
+                  ? 'linear-gradient(90deg, transparent 50%, hsl(263 65% 50% / 0.05) 100%)'
+                  : 'linear-gradient(270deg, transparent 50%, hsl(263 65% 50% / 0.05) 100%)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            />
+          )}
         </AnimatePresence>
       </div>
 
@@ -618,36 +670,50 @@ export function PresentationLayout({
         transition={{ duration: 0.35, ease: premiumEase }}
         style={{ pointerEvents: controlsVisible ? 'auto' : 'none' }}
       >
-        <div className="flex items-center gap-3 px-2 py-1.5 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/[0.08]">
-          <Button
-            variant="ghost"
-            size="icon"
+        <div className="flex items-center gap-3 px-2 py-1.5 rounded-2xl bg-black/50 backdrop-blur-xl border border-white/[0.08]"
+          style={{ boxShadow: '0 8px 32px hsl(263 40% 10% / 0.6), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+          
+          {/* Prev button with ripple feel */}
+          <motion.button
             onClick={prevSlide}
             disabled={currentSlide === 1}
-            className="w-8 h-8 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/50 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+            whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.08)' }}
+            whileTap={{ scale: 0.88 }}
           >
             <ChevronLeft className="w-4 h-4" />
-          </Button>
+          </motion.button>
 
-          <div className="flex items-center gap-1.5 min-w-[80px] justify-center">
-            <span className="text-sm font-bold text-white/80 tabular-nums">
-              {String(currentSlide).padStart(2, '0')}
-            </span>
+          {/* Animated slide counter */}
+          <div className="flex items-center gap-1.5 min-w-[80px] justify-center overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={currentSlide}
+                className="text-sm font-bold text-white/80 tabular-nums"
+                initial={{ y: direction > 0 ? 12 : -12, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: direction > 0 ? -12 : 12, opacity: 0 }}
+                transition={{ duration: 0.22, ease: premiumEase }}
+              >
+                {String(currentSlide).padStart(2, '0')}
+              </motion.span>
+            </AnimatePresence>
             <span className="text-white/20 text-xs">/</span>
             <span className="text-xs text-white/30 tabular-nums">
               {totalSlides}
             </span>
           </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
+          {/* Next button */}
+          <motion.button
             onClick={nextSlide}
             disabled={currentSlide === totalSlides}
-            className="w-8 h-8 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-white/50 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+            whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.08)' }}
+            whileTap={{ scale: 0.88 }}
           >
             <ChevronRight className="w-4 h-4" />
-          </Button>
+          </motion.button>
         </div>
       </motion.div>
 
