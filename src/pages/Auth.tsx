@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound, CheckCircle2, Mail, ShieldAlert } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound, CheckCircle2, Mail, ShieldAlert, ShieldCheck, ShieldX } from 'lucide-react';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,14 +29,24 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [emailStatus, setEmailStatus] = useState<'idle' | 'checking' | 'allowed' | 'denied'>('idle');
+  const emailCheckTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const { signIn, signUp, resetPassword, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
+  // Smart redirect: go to intended page or home
+  const redirectTo = (location.state as any)?.from || '/';
+
   useEffect(() => {
-    if (!authLoading && user) navigate('/');
-  }, [user, authLoading, navigate]);
+    if (!authLoading && user) {
+      // Auto-update streak on login
+      void supabase.rpc('update_user_streak', { _user_id: user.id });
+      navigate(redirectTo, { replace: true });
+    }
+  }, [user, authLoading, navigate, redirectTo]);
 
   // Reset state when switching views
   const switchView = (newView: AuthView) => {
@@ -44,6 +54,26 @@ export default function Auth() {
     setPassword('');
     setTouched({});
     setEmailSent(false);
+    setEmailStatus('idle');
+  };
+
+  // ── Real-time email whitelist check (debounced) ──
+  const checkEmailLive = useCallback((emailVal: string) => {
+    if (emailCheckTimer.current) clearTimeout(emailCheckTimer.current);
+    if (!emailSchema.safeParse(emailVal).success) {
+      setEmailStatus('idle');
+      return;
+    }
+    setEmailStatus('checking');
+    emailCheckTimer.current = setTimeout(async () => {
+      const { data } = await supabase.rpc('is_email_allowed', { check_email: emailVal });
+      setEmailStatus(data ? 'allowed' : 'denied');
+    }, 400);
+  }, []);
+
+  const handleEmailChange = (val: string) => {
+    setEmail(val);
+    checkEmailLive(val);
   };
 
   // Live validation helpers
@@ -259,7 +289,7 @@ export default function Auth() {
                   onSubmit={handleSignIn}
                   className="space-y-4"
                 >
-                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} />
+                  <FieldEmail value={email} onChange={handleEmailChange} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} emailStatus={emailStatus} />
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password" className="font-mono text-xs tracking-wider">Contraseña</Label>
@@ -313,7 +343,7 @@ export default function Auth() {
                     {nameError && <p className="text-xs text-destructive">{nameError}</p>}
                   </div>
 
-                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="signupEmail" />
+                  <FieldEmail value={email} onChange={handleEmailChange} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="signupEmail" emailStatus={emailStatus} />
                   
                   <div className="space-y-2">
                     <Label htmlFor="signupPassword" className="font-mono text-xs tracking-wider">Contraseña</Label>
@@ -343,7 +373,7 @@ export default function Auth() {
                   onSubmit={handleForgotPassword}
                   className="space-y-4"
                 >
-                  <FieldEmail value={email} onChange={setEmail} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="forgotEmail" autoFocus />
+                  <FieldEmail value={email} onChange={handleEmailChange} error={emailError} disabled={loading} onBlur={() => setTouched(t => ({ ...t, email: true }))} id="forgotEmail" autoFocus emailStatus={emailStatus} />
 
                   <SubmitButton loading={loading} disabled={!isForgotValid} icon={<KeyRound className="w-4 h-4 mr-2" />}>
                     ENVIAR ENLACE
@@ -411,25 +441,60 @@ export default function Auth() {
 
 // ── Shared sub-components ──────────────────────────────
 
-function FieldEmail({ value, onChange, error, disabled, onBlur, id = 'email', autoFocus }: {
+function FieldEmail({ value, onChange, error, disabled, onBlur, id = 'email', autoFocus, emailStatus = 'idle' }: {
   value: string; onChange: (v: string) => void; error: string | null; disabled: boolean; onBlur: () => void; id?: string; autoFocus?: boolean;
+  emailStatus?: 'idle' | 'checking' | 'allowed' | 'denied';
 }) {
   return (
     <div className="space-y-2">
       <Label htmlFor={id} className="font-mono text-xs tracking-wider">Email</Label>
-      <Input
-        id={id}
-        type="email"
-        placeholder="tu@email.com"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onBlur={onBlur}
-        className="bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all"
-        disabled={disabled}
-        autoFocus={autoFocus}
-        autoComplete="email"
-      />
+      <div className="relative">
+        <Input
+          id={id}
+          type="email"
+          placeholder="tu@email.com"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          className={`bg-muted/30 border-border/50 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/5 transition-all pr-10 ${
+            emailStatus === 'allowed' ? 'border-emerald-500/50 focus:border-emerald-500/70' :
+            emailStatus === 'denied' ? 'border-destructive/50 focus:border-destructive/70' : ''
+          }`}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          autoComplete="email"
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+          <AnimatePresence mode="wait">
+            {emailStatus === 'checking' && (
+              <motion.div key="checking" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }}>
+                <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+              </motion.div>
+            )}
+            {emailStatus === 'allowed' && (
+              <motion.div key="allowed" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }}>
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              </motion.div>
+            )}
+            {emailStatus === 'denied' && (
+              <motion.div key="denied" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }}>
+                <ShieldX className="w-4 h-4 text-destructive" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
       {error && <p className="text-xs text-destructive">{error}</p>}
+      {emailStatus === 'denied' && !error && (
+        <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center gap-1">
+          <ShieldAlert className="w-3 h-3" /> Este email no está autorizado
+        </motion.p>
+      )}
+      {emailStatus === 'allowed' && !error && (
+        <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-emerald-500 flex items-center gap-1">
+          <CheckCircle2 className="w-3 h-3" /> Email autorizado ✓
+        </motion.p>
+      )}
     </div>
   );
 }
