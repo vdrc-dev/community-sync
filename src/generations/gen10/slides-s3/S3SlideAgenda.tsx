@@ -42,7 +42,7 @@ export function S3SlideAgenda() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.06),_transparent_60%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={16} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma />
+        <S3Atmosphere isExporting={isExporting} particleCount={24} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma showConstellation showLightRays showHolographic intensity={1.2} />
       </div>
 
       {/* Editorial serif anchor */}

@@ -48,13 +48,19 @@ export function S3SlideDivider({
         <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 40% 35% at 20% 30%, hsl(${(accentHue + 80) % 360} 45% 45% / 0.06), transparent 50%)` }} />
         <S3Atmosphere
           isExporting={isExporting}
-          particleCount={12}
+          particleCount={20}
           primaryHue={accentHue}
           secondaryHue={(accentHue + 60) % 360}
           tertiaryHue={(accentHue + 120) % 360}
           showOrbs
           showLightSweep
           showAurora
+          showPlasma
+          showConstellation
+          showLightRays
+          showHolographic
+          showChromatic
+          intensity={1.3}
         />
       </div>
 

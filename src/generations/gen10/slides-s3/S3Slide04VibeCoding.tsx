@@ -46,7 +46,7 @@ export function S3Slide04VibeCoding() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_25%,_hsl(185_70%_50%_/_0.12),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(280_70%_60%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_20%_65%,_hsl(38_80%_55%_/_0.05),_transparent_55%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={280} tertiaryHue={38} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={185} secondaryHue={280} tertiaryHue={38} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       {/* Editorial serif anchor */}

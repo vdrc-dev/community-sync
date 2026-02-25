@@ -38,7 +38,7 @@ export function S3Slide03DesignFoundations() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_20%,_hsl(330_65%_50%_/_0.1),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_80%_75%,_hsl(263_60%_50%_/_0.08),_transparent_65%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={16} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1680px] mx-auto w-full py-6">

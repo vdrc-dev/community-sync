@@ -27,7 +27,7 @@ export function S3Slide14VideoAI() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma />
+        <S3Atmosphere isExporting={isExporting} particleCount={20} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma showConstellation showLightRays showHolographic showChromatic intensity={1.2} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1680px] mx-auto w-full py-6">

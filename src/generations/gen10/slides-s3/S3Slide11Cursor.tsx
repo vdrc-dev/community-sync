@@ -24,7 +24,7 @@ export function S3Slide11Cursor() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_25%_25%,_hsl(38_80%_55%_/_0.08),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(263_60%_55%_/_0.06),_transparent_55%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={38} secondaryHue={263} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={38} secondaryHue={263} tertiaryHue={185} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
