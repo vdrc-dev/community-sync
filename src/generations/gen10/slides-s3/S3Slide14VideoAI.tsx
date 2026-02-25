@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import toolKreaMockup from '@/assets/slides/tool-krea-mockup.jpg';
 
 const POWERS = [
@@ -80,7 +81,7 @@ export function S3Slide14VideoAI() {
                 <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
                 <span className="text-[10px] text-white/40 font-mono ml-2">krea.ai</span>
               </div>
-              <img src={toolKreaMockup} alt="Krea.ai" className="w-full h-auto object-cover" style={{ maxHeight: '240px' }} />
+              <OptimizedImage src={toolKreaMockup} alt="Krea.ai" className="w-full" style={{ maxHeight: '240px' }} />
             </div>
           </motion.div>
 

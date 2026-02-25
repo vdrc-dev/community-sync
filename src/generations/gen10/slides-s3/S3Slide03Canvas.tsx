@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import toolCanvaMockup from '@/assets/slides/tool-canva-mockup.jpg';
 
 const ACCENT_HUE = 280;
@@ -160,7 +161,7 @@ export function S3Slide03Canvas() {
 
                   {/* Main canvas area with screenshot */}
                   <div className="flex-1 relative">
-                    <img src={toolCanvaMockup} alt="Canva Design Platform" className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+                    <OptimizedImage src={toolCanvaMockup} alt="Canva Design Platform" className="w-full h-full" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
                     <div className="absolute inset-0 pointer-events-none"
                       style={{ background: 'linear-gradient(180deg, transparent 50%, hsl(0 0% 4%) 100%)' }} />
                     <div className="absolute inset-0 pointer-events-none"

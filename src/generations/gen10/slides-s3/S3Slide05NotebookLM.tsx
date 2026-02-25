@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import toolNotebookLM from '@/assets/slides/tool-notebooklm-mockup.jpg';
 
 const INPUTS = [
@@ -126,7 +127,7 @@ export function S3Slide05NotebookLM() {
               <BookOpen className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
               <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-white/60 font-bold hover:text-white transition-colors">NotebookLM</a>
             </div>
-            <img src={toolNotebookLM} alt="NotebookLM" className="w-full h-auto object-cover" style={{ maxHeight: '180px' }} />
+            <OptimizedImage src={toolNotebookLM} alt="NotebookLM" className="w-full" style={{ maxHeight: '180px' }} />
           </motion.div>
 
           {/* Arrow */}
