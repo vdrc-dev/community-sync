@@ -28,21 +28,27 @@ import type {
 import { DEFAULT_FEATURES } from './types';
 
 /* ── Premium easing curves ──────────────────────────────────────── */
-const premiumEase = [0.16, 1, 0.3, 1];
+const premiumEase = [0.22, 1, 0.36, 1];
 
-/* ── Slide transition variants — snappy feel ───────────────────── */
+/* ── Slide transition variants — cinematic feel ────────────────── */
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 20 : -20,
+    x: direction > 0 ? 60 : -60,
     opacity: 0,
+    scale: 0.97,
+    filter: 'blur(4px)',
   }),
   center: {
     x: 0,
     opacity: 1,
+    scale: 1,
+    filter: 'blur(0px)',
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -20 : 20,
+    x: direction > 0 ? -40 : 40,
     opacity: 0,
+    scale: 0.98,
+    filter: 'blur(3px)',
   }),
 };
 
@@ -453,7 +459,7 @@ export function PresentationLayout({
     <div className="relative min-h-screen bg-background overflow-hidden">
       {/* Main Slide Canvas */}
       <div className="relative w-full h-screen">
-        <AnimatePresence initial={false} custom={direction} mode="wait">
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={currentSlide}
             custom={direction}
@@ -462,11 +468,13 @@ export function PresentationLayout({
             animate="center"
             exit="exit"
             transition={{ 
-              duration: 0.1, 
+              duration: 0.35,
               ease: premiumEase,
+              opacity: { duration: 0.25 },
+              filter: { duration: 0.3 },
             }}
             className="w-full h-full"
-            style={{ willChange: 'transform, opacity' }}
+            style={{ willChange: 'transform, opacity, filter' }}
           >
             <SlideWrapper>
               {CurrentSlideComponent && (
