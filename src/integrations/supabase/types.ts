@@ -77,6 +77,30 @@ export type Database = {
         }
         Relationships: []
       }
+      allowed_emails: {
+        Row: {
+          added_by: string | null
+          created_at: string
+          email: string
+          generation_code: string | null
+          id: string
+        }
+        Insert: {
+          added_by?: string | null
+          created_at?: string
+          email: string
+          generation_code?: string | null
+          id?: string
+        }
+        Update: {
+          added_by?: string | null
+          created_at?: string
+          email?: string
+          generation_code?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       automation_workflows: {
         Row: {
           category: string | null
@@ -1928,6 +1952,7 @@ export type Database = {
         Args: { _channel_id: string; _user_id: string }
         Returns: boolean
       }
+      is_email_allowed: { Args: { check_email: string }; Returns: boolean }
       submit_access_request: {
         Args: { req_email: string; req_full_name: string; req_message?: string }
         Returns: Json
