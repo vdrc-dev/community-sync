@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Monitor, Eye, EyeOff, ShoppingBag, Warehouse, LayoutDashboard, Palette, MousePointer, Database, Lock, Zap, ArrowLeftRight } from 'lucide-react';
 import bgArchitecture from '@/assets/gen10-s4/bg-architecture.jpg';
 import { useExportContext } from '@/contexts/ExportContext';
-import { useSlideNumber } from '@/contexts/SlideNumberContext';
+import { S4Footer } from './S4Footer';
+import { S4TeachingRibbon } from './S4TeachingRibbon';
 
 const PANELS = [
   {
@@ -42,10 +43,9 @@ const PANELS = [
 
 export function S4Slide03Architecture() {
   const { isExporting } = useExportContext();
-  const slideNum = useSlideNumber();
   const [side, setSide] = useState<'front' | 'back'>('front');
   const active = PANELS.find(p => p.key === side)!;
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
@@ -55,6 +55,13 @@ export function S4Slide03Architecture() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-15%,_hsl(185_60%_40%_/_0.1),_transparent_60%)]" />
         <div className="absolute top-[5%] left-[3%] text-[18vw] font-black text-white/[0.02] leading-none select-none pointer-events-none">F/B</div>
       </div>
+      <S4TeachingRibbon
+        isExporting={isExporting}
+        hue={185}
+        objective="Comprender que el valor de una app depende de un front claro y un backend solido."
+        deliverable="Mapa mental de responsabilidades Front-End vs Back-End aplicable a cualquier proyecto."
+        qualityGate="Cada alumno debe poder decidir en que capa resolver un problema antes de implementarlo."
+      />
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">
         {/* Header */}
@@ -62,11 +69,11 @@ export function S4Slide03Architecture() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full" style={{ background: `linear-gradient(180deg, hsl(185 70% 55%), hsl(38 90% 55%))` }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Fundamentos · Arquitectura Web</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Fundamentos · Arquitectura Web</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">Front-End & Back-End</h1>
             </div>
           </div>
-          <p className="text-white/30 text-sm ml-5 pl-1 font-medium">La tienda y la bodega. Lo visible y lo esencial.</p>
+          <p className="text-white/80 text-sm ml-5 pl-1 font-medium">La tienda y la bodega. Lo visible y lo esencial.</p>
         </motion.div>
 
         {/* Toggle selector */}
@@ -83,12 +90,12 @@ export function S4Slide03Architecture() {
                   boxShadow: isActive ? `0 0 20px hsl(${p.hue} 60% 50% / 0.1)` : 'none',
                 }}>
                 <Icon className="w-4 h-4" style={{ color: isActive ? p.color : 'hsl(0 0% 100% / 0.3)' }} />
-                <span className={`text-sm font-black ${isActive ? 'text-white' : 'text-white/40'}`}>{p.title}</span>
+                <span className={`text-sm font-black ${isActive ? 'text-white' : 'text-white/90'}`}>{p.title}</span>
               </button>
             );
           })}
-          <ArrowLeftRight className="w-4 h-4 text-white/15 mx-1" />
-          <span className="text-xs text-white/20 font-medium italic">Haz clic para explorar</span>
+          <ArrowLeftRight className="mx-1 h-4 w-4 text-white/85" />
+          <span className="text-xs text-white/70 font-medium italic">Haz clic para explorar</span>
         </motion.div>
 
         {/* Main grid */}
@@ -115,7 +122,7 @@ export function S4Slide03Architecture() {
                   <p className="text-xs font-bold" style={{ color: `hsl(${active.hue} 60% 60% / 0.7)` }}>{active.subtitle}</p>
                 </div>
               </div>
-              <p className="text-sm text-white/45 leading-relaxed mb-4">{active.desc}</p>
+              <p className="mb-4 text-sm leading-relaxed text-white/85">{active.desc}</p>
               <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: `hsl(${active.hue} 60% 45% / 0.08)`, border: `1px solid hsl(${active.hue} 60% 50% / 0.15)` }}>
                 <span className="text-xs font-black" style={{ color: `hsl(${active.hue} 60% 65%)` }}>{active.analogy}</span>
               </div>
@@ -134,7 +141,7 @@ export function S4Slide03Architecture() {
                     </div>
                     <div>
                       <p className="text-sm font-black text-white/80 mb-1">{item.label}</p>
-                      <p className="text-xs text-white/35 leading-relaxed">{item.desc}</p>
+                      <p className="text-xs text-white/85 leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 );
@@ -147,20 +154,17 @@ export function S4Slide03Architecture() {
         <motion.div {...m(0.5)} className="mt-5 p-4 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-start gap-3 max-w-4xl">
           <Monitor className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <span className="text-amber-400/90 font-black text-xs">💡 Nota del Instructor: </span>
-            <span className="text-xs text-white/45 leading-relaxed">Un buen Back-End (Supabase) con tablas y reglas de negocio bien modeladas es más importante que el Front-End. El front se puede reconstruir en minutos si el backend está bien hecho.</span>
+            <span className="text-amber-400/90 font-black text-xs">Nota del Instructor: </span>
+            <span className="text-xs leading-relaxed text-white/90">Un buen Back-End (Supabase) con tablas y reglas de negocio bien modeladas es más importante que el Front-End. El front se puede reconstruir en minutos si el backend está bien hecho.</span>
           </div>
         </motion.div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(185 50% 50% / 0.3), transparent)' }} />
-        <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Fundamentos</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
-        </div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />
+      <S4Footer
+        sectionLabel="Fundamentos"
+        contextHint="Arquitectura de dos capas"
+        hue={185}
+        session="S4"
+      />
     </div>
   );
 }

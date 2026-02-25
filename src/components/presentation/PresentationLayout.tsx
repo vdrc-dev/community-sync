@@ -34,33 +34,29 @@ const premiumEase = [0.22, 1, 0.36, 1];
 /* ── Cinematic slide transition variants ───────────────────────── */
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 80 : -80,
+    x: direction > 0 ? 28 : -28,
     opacity: 0,
-    scale: 0.96,
-    filter: 'blur(6px)',
+    scale: 0.995,
   }),
   center: {
     x: 0,
     opacity: 1,
     scale: 1,
-    filter: 'blur(0px)',
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -50 : 50,
+    x: direction > 0 ? -20 : 20,
     opacity: 0,
-    scale: 0.98,
-    filter: 'blur(4px)',
+    scale: 0.998,
   }),
 };
 
 /* ── Transition duration responsive to distance ─────────────────── */
 const getTransitionConfig = (distance: number) => {
-  const ms = Math.min(0.55, 0.3 + Math.abs(distance) * 0.02);
+  const ms = Math.min(0.34, 0.18 + Math.abs(distance) * 0.012);
   return {
     duration: ms,
     ease: premiumEase,
     opacity: { duration: ms * 0.75 },
-    filter: { duration: ms * 0.85 },
     scale: { duration: ms, ease: premiumEase },
   };
 };
@@ -98,8 +94,10 @@ export function PresentationLayout({
     keyboardShortcuts: true,
     fullscreen: true,
     progressBar: true,
+    performanceMode: false,
     ...featuresProp,
   };
+  const isPerformanceMode = features.performanceMode === true;
 
   // ============================================
   // State Management
@@ -109,7 +107,8 @@ export function PresentationLayout({
   const [direction, setDirection] = useState(0); // -1 = prev, 1 = next
   const [jumpDistance, setJumpDistance] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  // Render first slide immediately; avoid forced load animation delay.
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const [mode, setMode] = useState<'gallery' | 'presentation'>(
     features.galleryMode ? 'gallery' : 'presentation'
   );
@@ -179,9 +178,9 @@ export function PresentationLayout({
       setCurrentSlide(slideNumber);
       onSlideChange?.(slideNumber);
       resetControlsTimer();
-      setTimeout(() => setIsTransitioning(false), 400);
+      setTimeout(() => setIsTransitioning(false), isPerformanceMode ? 120 : 220);
     }
-  }, [totalSlides, currentSlide, onSlideChange, resetControlsTimer]);
+  }, [totalSlides, currentSlide, onSlideChange, resetControlsTimer, isPerformanceMode]);
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides) {
@@ -191,9 +190,9 @@ export function PresentationLayout({
       setCurrentSlide(prev => prev + 1);
       onSlideChange?.(currentSlide + 1);
       resetControlsTimer();
-      setTimeout(() => setIsTransitioning(false), 400);
+      setTimeout(() => setIsTransitioning(false), isPerformanceMode ? 120 : 220);
     }
-  }, [currentSlide, totalSlides, onSlideChange, resetControlsTimer]);
+  }, [currentSlide, totalSlides, onSlideChange, resetControlsTimer, isPerformanceMode]);
 
   const prevSlide = useCallback(() => {
     if (currentSlide > 1) {
@@ -203,9 +202,9 @@ export function PresentationLayout({
       setCurrentSlide(prev => prev - 1);
       onSlideChange?.(currentSlide - 1);
       resetControlsTimer();
-      setTimeout(() => setIsTransitioning(false), 400);
+      setTimeout(() => setIsTransitioning(false), isPerformanceMode ? 120 : 220);
     }
-  }, [currentSlide, onSlideChange, resetControlsTimer]);
+  }, [currentSlide, onSlideChange, resetControlsTimer, isPerformanceMode]);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -377,25 +376,28 @@ export function PresentationLayout({
   // Prefetch adjacent slides (triggers lazy load)
   // ============================================
   
-  // Immediate prefetch: ±5 slides around current (wider window)
+  // Immediate prefetch: smaller window in performance mode
   useEffect(() => {
-    const prefetchIndices = [
-      currentSlide - 1, currentSlide, currentSlide + 1,
-      currentSlide - 2, currentSlide + 2,
-      currentSlide - 3, currentSlide + 3,
-      currentSlide + 4, currentSlide + 5,
-    ].filter(i => i >= 0 && i < totalSlides);
+    const prefetchIndices = isPerformanceMode
+      ? [currentSlide - 1, currentSlide, currentSlide + 1].filter(i => i >= 0 && i < totalSlides)
+      : [
+          currentSlide - 1, currentSlide, currentSlide + 1,
+          currentSlide - 2, currentSlide + 2,
+          currentSlide - 3, currentSlide + 3,
+          currentSlide + 4, currentSlide + 5,
+        ].filter(i => i >= 0 && i < totalSlides);
     prefetchIndices.forEach(i => {
       const comp = slides[i] as any;
       if (comp && typeof comp === 'object' && 'preload' in comp) {
         comp.preload?.();
       }
     });
-  }, [currentSlide, slides, totalSlides]);
+  }, [currentSlide, slides, totalSlides, isPerformanceMode]);
 
   // Idle-time bulk prefetch: load all remaining slides when browser is idle
   const hasIdlePrefetched = useRef(false);
   useEffect(() => {
+    if (isPerformanceMode) return;
     if (hasIdlePrefetched.current) return;
     const idleCb = typeof requestIdleCallback !== 'undefined' ? requestIdleCallback : (cb: () => void) => setTimeout(cb, 200);
     const id = idleCb(() => {
@@ -409,7 +411,7 @@ export function PresentationLayout({
     return () => {
       if (typeof cancelIdleCallback !== 'undefined' && typeof id === 'number') cancelIdleCallback(id);
     };
-  }, [slides]);
+  }, [slides, isPerformanceMode]);
 
   // ============================================
   // Helpers
@@ -417,7 +419,19 @@ export function PresentationLayout({
   
   const CurrentSlideComponent = slides[currentSlide - 1];
   const progress = (currentSlide / totalSlides) * 100;
-  const transitionConfig = useMemo(() => getTransitionConfig(jumpDistance), [jumpDistance]);
+  const transitionConfig = useMemo(
+    () => (
+      isPerformanceMode
+        ? {
+            duration: 0.12,
+            ease: premiumEase,
+            opacity: { duration: 0.09 },
+            scale: { duration: 0.12, ease: premiumEase },
+          }
+        : getTransitionConfig(jumpDistance)
+    ),
+    [jumpDistance, isPerformanceMode]
+  );
 
   // Find which section the current slide belongs to — memoized
   const currentSection = useMemo(
@@ -502,12 +516,12 @@ export function PresentationLayout({
             key={currentSlide}
             custom={direction}
             variants={slideVariants}
-            initial="enter"
+            initial={isPerformanceMode ? false : 'enter'}
             animate="center"
-            exit="exit"
+            exit={isPerformanceMode ? undefined : 'exit'}
             transition={transitionConfig}
             className="w-full h-full"
-            style={{ willChange: 'transform, opacity, filter' }}
+            style={{ willChange: 'transform, opacity' }}
           >
             <SlideWrapper>
               {CurrentSlideComponent && (
@@ -533,7 +547,7 @@ export function PresentationLayout({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: isPerformanceMode ? 0.08 : 0.15 }}
             />
           )}
         </AnimatePresence>

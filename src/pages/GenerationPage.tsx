@@ -1,5 +1,5 @@
 import { Suspense, Component, ReactNode, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
 import { GenerationProvider, useGeneration } from '@/contexts/GenerationContext';
 import { PresentationLayout } from '@/components/presentation/PresentationLayout';
@@ -58,7 +58,10 @@ function PresentationSkeleton() {
 
 /* ── Main Presentation Content ─────────────────────────────────── */
 function PresentationContent() {
+  const location = useLocation();
   const { config, isLoading, currentWeek, slidesData, generationNumber, resolvedSlides, computedSections } = useGeneration();
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const isPerformanceMode = searchParams.get('fast') !== '0';
 
   // All hooks MUST be called before any early return (Rules of Hooks)
   const presentationConfig = useMemo<PresentationConfig>(() => ({
@@ -130,6 +133,7 @@ function PresentationContent() {
               keyboardShortcuts: true,
               fullscreen: true,
               progressBar: false,
+              performanceMode: isPerformanceMode,
             }}
           />
         </SlideListProvider>

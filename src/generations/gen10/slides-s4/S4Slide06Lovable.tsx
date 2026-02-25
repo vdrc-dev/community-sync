@@ -130,7 +130,7 @@ function ChatMockup({ isExporting }: { isExporting: boolean }) {
           ))}
         </div>
         <div
-          className="flex-1 mx-3 px-3 py-1 rounded-md text-[10px] font-mono text-center relative overflow-hidden"
+          className="flex-1 mx-3 px-3 py-1 rounded-md text-[11px] font-mono text-center relative overflow-hidden"
           style={{ background: 'hsl(240 18% 10%)', color: 'hsl(152 65% 58%)' }}
         >
           {!isExporting && (
@@ -161,7 +161,7 @@ function ChatMockup({ isExporting }: { isExporting: boolean }) {
               {msg.role === 'lovable' && (
                 <div className="shrink-0 mt-0.5">
                   <div
-                    className="w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-black relative overflow-hidden"
+                    className="w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-black relative overflow-hidden"
                     style={{
                       background: 'linear-gradient(135deg, hsl(330 75% 52%), hsl(270 65% 55%))',
                       boxShadow: '0 0 14px hsl(330 70% 50% / 0.5)',
@@ -251,7 +251,7 @@ function ChatMockup({ isExporting }: { isExporting: boolean }) {
               className="flex items-center gap-2"
             >
               <div
-                className="w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-black shrink-0"
+                className="w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-black shrink-0"
                 style={{
                   background: 'linear-gradient(135deg, hsl(330 75% 52%), hsl(270 65% 55%))',
                   boxShadow: '0 0 14px hsl(330 70% 50% / 0.5)',
@@ -288,7 +288,7 @@ function ChatMockup({ isExporting }: { isExporting: boolean }) {
         style={{ borderColor: 'hsl(270 22% 18% / 0.6)', background: 'hsl(240 18% 6.5%)' }}
       >
         <div
-          className="flex-1 px-3 py-2 rounded-lg text-[10px]"
+          className="flex-1 px-3 py-2 rounded-lg text-[11px]"
           style={{
             background: 'hsl(240 18% 10%)',
             border: '1px solid hsl(270 22% 22% / 0.5)',
@@ -371,13 +371,13 @@ export function S4Slide06Lovable() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span
-                className="text-[10px] font-black tracking-[0.22em] uppercase px-2.5 py-1 rounded-md"
+                className="text-[11px] font-black tracking-[0.22em] uppercase px-2.5 py-1 rounded-md"
                 style={{ background: S4_ACCENT.rose.bg, color: S4_ACCENT.rose.text, border: `1px solid ${S4_ACCENT.rose.border}`, boxShadow: `0 0 18px ${S4_ACCENT.rose.glow}` }}
               >
                 Herramienta Central
               </span>
               <span
-                className="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-md flex items-center gap-1.5"
+                className="text-[11px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-md flex items-center gap-1.5"
                 style={{ background: S4_ACCENT.green.bg, color: S4_ACCENT.green.text, border: `1px solid ${S4_ACCENT.green.border}` }}
               >
                 <Sparkles className="w-2.5 h-2.5" />
@@ -410,7 +410,7 @@ export function S4Slide06Lovable() {
 
             {/* Pipeline */}
             <motion.div {...s4Motion(0.1, isExporting)}>
-              <p className="text-[10px] font-black tracking-[0.22em] uppercase mb-3" style={{ color: 'hsl(220 15% 38%)' }}>
+              <p className="text-[11px] font-black tracking-[0.22em] uppercase mb-3" style={{ color: 'hsl(220 15% 38%)' }}>
                 El flujo completo
               </p>
               <div className="grid grid-cols-4 gap-2">
@@ -441,7 +441,7 @@ export function S4Slide06Lovable() {
                       )}
                       {/* Step badge */}
                       <div
-                        className="absolute -top-2 -left-2 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white z-10"
+                        className="absolute -top-2 -left-2 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-black text-white z-10"
                         style={{
                           background: `linear-gradient(135deg, hsl(${s.accent.h} 75% 52%), hsl(${(s.accent.h + 25) % 360} 70% 55%))`,
                           boxShadow: `0 0 12px hsl(${s.accent.h} 70% 52% / 0.6)`,
@@ -468,14 +468,14 @@ export function S4Slide06Lovable() {
               {/* Arrow connectors */}
               <div className="flex justify-around mt-1.5 px-6">
                 {[0,1,2].map(i => (
-                  <div key={i} className="text-[8px] font-black" style={{ color: 'hsl(270 40% 45%)' }}>→</div>
+                  <div key={i} className="text-[11px] font-black" style={{ color: 'hsl(270 40% 45%)' }}>→</div>
                 ))}
               </div>
             </motion.div>
 
             {/* Features 2×2 */}
             <motion.div {...s4Motion(0.22, isExporting)}>
-              <p className="text-[10px] font-black tracking-[0.22em] uppercase mb-3" style={{ color: 'hsl(220 15% 38%)' }}>
+              <p className="text-[11px] font-black tracking-[0.22em] uppercase mb-3" style={{ color: 'hsl(220 15% 38%)' }}>
                 Por qué Lovable es diferente
               </p>
               <div className="grid grid-cols-2 gap-2.5">
@@ -516,7 +516,7 @@ export function S4Slide06Lovable() {
                         <p className="text-xs font-black leading-tight mb-0.5" style={{ color: 'hsl(220 15% 92%)' }}>
                           {f.label}
                         </p>
-                        <p className="text-[10px] font-medium leading-snug" style={{ color: 'hsl(220 10% 55%)' }}>
+                        <p className="text-[11px] font-medium leading-snug" style={{ color: 'hsl(220 10% 55%)' }}>
                           {f.desc}
                         </p>
                       </div>
@@ -570,11 +570,11 @@ export function S4Slide06Lovable() {
           {/* RIGHT — Chat Mockup ───────────────────────────── */}
           <motion.div {...s4Motion(0.14, isExporting)} className="flex flex-col gap-3 min-h-0">
             <div className="flex items-center justify-between shrink-0">
-              <p className="text-[10px] font-black tracking-[0.22em] uppercase" style={{ color: 'hsl(220 15% 38%)' }}>
+              <p className="text-[11px] font-black tracking-[0.22em] uppercase" style={{ color: 'hsl(220 15% 38%)' }}>
                 Demo en vivo — chat real
               </p>
               <div
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black tracking-widest uppercase"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-black tracking-widest uppercase"
                 style={{
                   background: 'hsl(152 65% 40% / 0.12)',
                   border: '1px solid hsl(152 65% 45% / 0.35)',

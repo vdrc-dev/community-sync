@@ -28,7 +28,7 @@ export function S4Slide08DataModeling() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
   const [view, setView] = useState<'before' | 'after'>('before');
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
@@ -44,7 +44,7 @@ export function S4Slide08DataModeling() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full bg-violet-500" style={{ boxShadow: '0 0 12px hsl(280 60% 55% / 0.6)' }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Stack · Modelado de Datos</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Stack · Modelado de Datos</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">De Excel a Modelo Relacional</h1>
             </div>
           </div>
@@ -68,12 +68,12 @@ export function S4Slide08DataModeling() {
                   boxShadow: isActive ? `0 0 20px hsl(${tab.hue} 60% 50% / 0.1)` : 'none',
                 }}>
                 <Icon className="w-4 h-4" style={{ color: isActive ? tab.color : 'hsl(0 0% 100% / 0.3)' }} />
-                <span className={`text-sm font-black ${isActive ? 'text-white' : 'text-white/40'}`}>{tab.label}</span>
+                <span className={`text-sm font-black ${isActive ? 'text-white' : 'text-white/90'}`}>{tab.label}</span>
               </button>
             );
           })}
-          <ArrowRight className="w-4 h-4 text-white/15" />
-          <span className="text-xs text-white/20 italic">Haz clic para comparar</span>
+          <ArrowRight className="h-4 w-4 text-white/85" />
+          <span className="text-xs text-white/70 italic">Haz clic para comparar</span>
         </motion.div>
 
         <AnimatePresence mode="wait">
@@ -98,21 +98,21 @@ export function S4Slide08DataModeling() {
                 {['Datos duplicados en cada fila (Director, Región, etc)', 'Sin relaciones entre entidades distintas', 'Datos inconsistentes si alguien escribe diferente', 'No escala sin degradarse a partir de 10,000 filas'].map((p, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-red-500/12 bg-red-500/[0.02] mb-2">
                     <AlertTriangle className="w-3.5 h-3.5 text-red-400/70 shrink-0 mt-0.5" />
-                    <span className="text-xs text-white/45 leading-relaxed">{p}</span>
+                    <span className="text-xs leading-relaxed text-white/85">{p}</span>
                   </div>
                 ))}
               </div>
               {/* Mockup excel */}
               <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
-                <p className="text-xs font-black text-white/25 mb-4 uppercase tracking-widest">Vista Excel — 1 tabla monolítica</p>
+                <p className="text-xs font-black text-white/75 mb-4 uppercase tracking-widest">Vista Excel — 1 tabla monolítica</p>
                 <div className="space-y-1.5 font-mono">
                   {EXCEL_ROWS.map((row, i) => (
-                    <div key={i} className={`p-2.5 rounded-lg border text-[9px] leading-relaxed ${row.dup ? 'border-red-500/15 bg-red-500/[0.04]' : 'border-white/[0.05] bg-white/[0.01]'}`}>
-                      <span className="text-white/30">{row.data}</span>
+                    <div key={i} className={`p-2.5 rounded-lg border text-[11px] leading-relaxed ${row.dup ? 'border-red-500/15 bg-red-500/[0.04]' : 'border-white/[0.05] bg-white/[0.01]'}`}>
+                      <span className="text-white/80">{row.data}</span>
                       {row.dup && <span className="text-red-400/60 ml-2 font-bold">← DUPLICADO</span>}
                     </div>
                   ))}
-                  <p className="text-[10px] text-white/15 italic mt-2">... 19,000+ filas más con mismos datos repetidos</p>
+                  <p className="mt-2 text-[11px] italic text-white/85">... 19,000+ filas mas con los mismos datos repetidos</p>
                 </div>
               </div>
             </motion.div>
@@ -137,7 +137,7 @@ export function S4Slide08DataModeling() {
                 {RELATIONAL_BENEFITS.map((b, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-emerald-500/10 bg-emerald-500/[0.02] mb-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400/70 shrink-0 mt-0.5" />
-                    <span className="text-xs text-white/45 leading-relaxed">{b}</span>
+                    <span className="text-xs leading-relaxed text-white/85">{b}</span>
                   </div>
                 ))}
               </div>
@@ -153,11 +153,11 @@ export function S4Slide08DataModeling() {
                     <div className="ml-2 flex items-center gap-2 mb-2.5">
                       <Table2 className="w-4 h-4" style={{ color: t.color }} />
                       <span className="text-sm font-black text-white">{t.name}</span>
-                      <span className="text-[9px] text-white/20 ml-auto font-mono">{t.rows} rows</span>
+                      <span className="text-[11px] text-white/70 ml-auto font-mono">{t.rows} rows</span>
                     </div>
                     <div className="ml-2 flex gap-1.5 flex-wrap">
                       {t.cols.map((col, j) => (
-                        <span key={j} className="text-[9px] px-2 py-0.5 rounded-md border font-mono"
+                        <span key={j} className="text-[11px] px-2 py-0.5 rounded-md border font-mono"
                           style={{
                             borderColor: col.includes('PK') ? 'hsl(38 80% 50% / 0.25)' : col.includes('FK') ? `hsl(${t.hue} 60% 50% / 0.25)` : 'hsl(0 0% 100% / 0.06)',
                             background: col.includes('PK') ? 'hsl(38 80% 50% / 0.08)' : col.includes('FK') ? `hsl(${t.hue} 60% 45% / 0.08)` : 'hsl(0 0% 100% / 0.02)',
@@ -178,8 +178,8 @@ export function S4Slide08DataModeling() {
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(280 50% 55% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Stack</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[11px] font-bold tracking-widest text-white/80 uppercase">Stack</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/70">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />

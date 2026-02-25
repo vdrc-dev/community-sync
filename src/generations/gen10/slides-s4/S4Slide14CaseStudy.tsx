@@ -22,7 +22,7 @@ const FLOW = [
 export function S4Slide14CaseStudy() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
@@ -47,7 +47,7 @@ export function S4Slide14CaseStudy() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full bg-amber-500" style={{ boxShadow: '0 0 12px hsl(38 90% 55% / 0.6)' }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Aplicación · Caso Real · 90 Minutos</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Aplicación · Caso Real · 90 Minutos</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">Campus Kind</h1>
             </div>
           </div>
@@ -68,8 +68,8 @@ export function S4Slide14CaseStudy() {
                       <Icon className="w-4.5 h-4.5" style={{ color: stat.color }} />
                     </div>
                     <p className="text-2xl font-black text-white leading-tight">{stat.value}</p>
-                    <p className="text-[10px] font-black uppercase tracking-wider mt-0.5" style={{ color: `hsl(${stat.hue} 55% 60% / 0.6)` }}>{stat.label}</p>
-                    <p className="text-[9px] text-white/20 mt-0.5">{stat.sub}</p>
+                    <p className="text-[11px] font-black uppercase tracking-wider mt-0.5" style={{ color: `hsl(${stat.hue} 55% 60% / 0.6)` }}>{stat.label}</p>
+                    <p className="text-[11px] text-white/70 mt-0.5">{stat.sub}</p>
                   </motion.div>
                 );
               })}
@@ -82,7 +82,7 @@ export function S4Slide14CaseStudy() {
                 <Globe className="w-5 h-5 text-amber-400" />
               </div>
               <div>
-                <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold mb-0.5">URL Pública · Live</p>
+                <p className="text-[11px] text-white/75 uppercase tracking-wider font-bold mb-0.5">URL Pública · Live</p>
                 <p className="text-sm font-black text-amber-400 font-mono">campus-kind.vercel.app</p>
               </div>
               <ExternalLink className="w-4 h-4 text-amber-400/40 ml-auto" />
@@ -91,7 +91,7 @@ export function S4Slide14CaseStudy() {
             {/* Achievement badge */}
             <motion.div {...m(0.55)} className="p-3 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.04] flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-              <p className="text-xs text-white/50 font-medium">Construido <span className="text-emerald-400 font-black">en vivo</span> durante una sesión de clase real</p>
+              <p className="text-xs text-white/70 font-medium">Construido <span className="text-emerald-400 font-black">en vivo</span> durante una sesión de clase real</p>
             </motion.div>
           </div>
 
@@ -103,7 +103,7 @@ export function S4Slide14CaseStudy() {
               </div>
               <div>
                 <p className="text-sm font-black text-white">Fundación Trabún — Flujo Real</p>
-                <p className="text-[11px] text-white/30">De Excel a producción, paso a paso</p>
+                <p className="text-[11px] text-white/80">De Excel a producción, paso a paso</p>
               </div>
             </div>
 
@@ -115,17 +115,17 @@ export function S4Slide14CaseStudy() {
                   {/* Step indicator */}
                   <div className="flex items-center gap-2 shrink-0 pt-0.5">
                     <div className="w-6 h-6 rounded-full bg-amber-500/15 border border-amber-500/25 flex items-center justify-center">
-                      <span className="text-[10px] font-black text-amber-400">{i + 1}</span>
+                      <span className="text-[11px] font-black text-amber-400">{i + 1}</span>
                     </div>
                     {i < FLOW.length - 1 && <div className="w-px h-full bg-amber-500/10 absolute" style={{ left: '22px', top: '26px', height: '16px' }} />}
                   </div>
                   {/* Content */}
                   <div className="flex-1 p-3 rounded-xl border border-white/[0.05] bg-white/[0.015] group hover:border-white/[0.08] transition-colors">
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-xs font-black text-white/70">{item.step}</p>
-                      <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400/70 border border-amber-500/15">{item.tool}</span>
+                      <p className="text-xs font-black text-white/90">{item.step}</p>
+                      <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400/70 border border-amber-500/15">{item.tool}</span>
                     </div>
-                    <p className="text-[11px] text-white/35 leading-relaxed">{item.action}</p>
+                    <p className="text-[11px] text-white/85 leading-relaxed">{item.action}</p>
                   </div>
                 </motion.div>
               ))}
@@ -134,9 +134,9 @@ export function S4Slide14CaseStudy() {
             {/* Result */}
             <motion.div {...m(0.75)} className="mt-4 p-3.5 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-center gap-3">
               <Zap className="w-4 h-4 text-amber-400 shrink-0" />
-              <p className="text-xs text-white/50">
+              <p className="text-xs text-white/70">
                 <span className="text-amber-400/80 font-black">Resultado: </span>
-                App con 19,000 registros, multi-rol, datos reales, publicada en internet. <span className="text-white/35">En 90 minutos.</span>
+                App con 19,000 registros, multi-rol, datos reales, publicada en internet. <span className="text-white/85">En 90 minutos.</span>
               </p>
             </motion.div>
           </motion.div>
@@ -146,8 +146,8 @@ export function S4Slide14CaseStudy() {
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(38 50% 55% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Aplicación</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[11px] font-bold tracking-widest text-white/80 uppercase">Aplicación</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/70">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />

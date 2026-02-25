@@ -72,7 +72,7 @@ export function S4Slide05GeminiCanvas() {
   const slideNum = useSlideNumber();
   const [activeIdx, setActiveIdx] = useState(0);
   const active = PROMPTS[activeIdx];
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   useEffect(() => {
     if (isExporting) return;
@@ -101,7 +101,7 @@ export function S4Slide05GeminiCanvas() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full bg-amber-500" style={{ boxShadow: '0 0 12px hsl(38 90% 55% / 0.6)' }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Stack · Diseño Visual</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Stack · Diseño Visual</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">Gemini Canvas: Diseña Gratis</h1>
             </div>
           </div>
@@ -123,8 +123,8 @@ export function S4Slide05GeminiCanvas() {
                   <Sparkles className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" style={{ opacity: activeIdx === i ? 1 : 0.4 }} />
                   <div>
                     <p className="text-xs font-black text-amber-400/90 mb-0.5">{p.label}</p>
-                    <p className="text-[10px] text-white/30 mb-2">{p.desc}</p>
-                    <p className="text-[10px] text-white/25 font-mono leading-relaxed line-clamp-2">"{p.prompt}"</p>
+                    <p className="text-[11px] text-white/80 mb-2">{p.desc}</p>
+                    <p className="text-[11px] text-white/75 font-mono leading-relaxed line-clamp-2">"{p.prompt}"</p>
                   </div>
                 </div>
               </motion.button>
@@ -135,7 +135,7 @@ export function S4Slide05GeminiCanvas() {
               <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
               <div>
                 <p className="text-xs font-black text-red-400/80 mb-0.5">Audita siempre el código</p>
-                <p className="text-[10px] text-white/30 leading-relaxed">Canvas "alucina" con matemáticas y datos. Úsalo solo para el diseño visual.</p>
+                <p className="text-[11px] text-white/80 leading-relaxed">Canvas "alucina" con matemáticas y datos. Úsalo solo para el diseño visual.</p>
               </div>
             </motion.div>
           </div>
@@ -151,9 +151,9 @@ export function S4Slide05GeminiCanvas() {
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
               </div>
               <div className="flex-1 mx-4 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                <span className="text-[9px] text-white/20 font-mono">gemini.google.com/canvas → Preview</span>
+                <span className="text-[11px] text-white/70 font-mono">gemini.google.com/canvas → Preview</span>
               </div>
-              <Eye className="w-3.5 h-3.5 text-white/15" />
+              <Eye className="h-3.5 w-3.5 text-white/85" />
             </div>
 
             {/* App preview */}
@@ -169,7 +169,7 @@ export function S4Slide05GeminiCanvas() {
                   <span className="text-sm font-black" style={{ color: active.preview.accent, fontFamily: active.preview.font }}>{active.preview.name}</span>
                   <div className="flex gap-4 ml-auto">
                     {active.preview.nav.map((item, i) => (
-                      <span key={i} className="text-[10px] font-bold" style={{ color: i === 0 ? active.preview.accent : 'hsl(0 0% 100% / 0.3)' }}>{item}</span>
+                      <span key={i} className="text-[11px] font-bold" style={{ color: i === 0 ? active.preview.accent : 'hsl(0 0% 100% / 0.3)' }}>{item}</span>
                     ))}
                   </div>
                 </div>
@@ -181,10 +181,10 @@ export function S4Slide05GeminiCanvas() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.15 + i * 0.08 }}
                       className="p-3 rounded-xl border" style={{ borderColor: `${active.preview.accent}18`, background: `${active.preview.accent}0a` }}>
-                      <p className="text-[8px] text-white/30 uppercase tracking-wider font-bold">{card.label}</p>
+                      <p className="text-[11px] text-white/80 uppercase tracking-wider font-bold">{card.label}</p>
                       <div className="flex items-baseline gap-2 mt-1">
                         <span className="text-xl font-black text-white" style={{ fontFamily: active.preview.font }}>{card.value}</span>
-                        {card.delta && <span className="text-[9px] font-black" style={{ color: active.preview.accent }}>{card.delta}</span>}
+                        {card.delta && <span className="text-[11px] font-black" style={{ color: active.preview.accent }}>{card.delta}</span>}
                       </div>
                     </motion.div>
                   ))}
@@ -193,15 +193,15 @@ export function S4Slide05GeminiCanvas() {
                 <div className="rounded-xl border overflow-hidden" style={{ borderColor: `${active.preview.accent}12` }}>
                   <div className="grid grid-cols-4 gap-2 px-3 py-2 border-b" style={{ borderColor: `${active.preview.accent}08`, background: `${active.preview.accent}05` }}>
                     {['Nombre', 'Estado', 'Fecha', 'Acción'].map(h => (
-                      <span key={h} className="text-[8px] font-black text-white/20 uppercase tracking-wider">{h}</span>
+                      <span key={h} className="text-[11px] font-black text-white/70 uppercase tracking-wider">{h}</span>
                     ))}
                   </div>
                   {[1, 2, 3].map(r => (
                     <div key={r} className="grid grid-cols-4 gap-2 px-3 py-1.5 border-b" style={{ borderColor: `${active.preview.accent}06` }}>
-                      <span className="text-[9px] text-white/35">Registro {r}</span>
-                      <span className="text-[8px] px-1.5 py-0.5 rounded-full w-fit font-bold" style={{ background: `${active.preview.accent}15`, color: active.preview.accent }}>Activo</span>
-                      <span className="text-[9px] text-white/20">2026-02-{10 + r}</span>
-                      <span className="text-[9px] font-bold" style={{ color: `${active.preview.accent}80` }}>Editar →</span>
+                      <span className="text-[11px] text-white/85">Registro {r}</span>
+                      <span className="text-[11px] px-1.5 py-0.5 rounded-full w-fit font-bold" style={{ background: `${active.preview.accent}15`, color: active.preview.accent }}>Activo</span>
+                      <span className="text-[11px] text-white/70">2026-02-{10 + r}</span>
+                      <span className="text-[11px] font-bold" style={{ color: `${active.preview.accent}80` }}>Editar →</span>
                     </div>
                   ))}
                 </div>
@@ -211,7 +211,7 @@ export function S4Slide05GeminiCanvas() {
             {/* Prompt bar */}
             <div className="px-5 py-3 border-t border-white/[0.05] flex items-center gap-3" style={{ background: 'hsl(0 0% 4%)' }}>
               <Code2 className="w-3.5 h-3.5 text-amber-400/40 shrink-0" />
-              <p className="text-[10px] text-white/20 font-mono italic line-clamp-1">"{active.prompt}"</p>
+              <p className="text-[11px] text-white/70 font-mono italic line-clamp-1">"{active.prompt}"</p>
             </div>
           </motion.div>
         </div>
@@ -224,8 +224,8 @@ export function S4Slide05GeminiCanvas() {
                 <f.icon className="w-4 h-4 text-amber-400/70" />
               </div>
               <div>
-                <p className="text-xs font-black text-white/60">{f.label}</p>
-                <p className="text-[10px] text-white/25">{f.sub}</p>
+                <p className="text-xs font-black text-white/80">{f.label}</p>
+                <p className="text-[11px] text-white/75">{f.sub}</p>
               </div>
             </div>
           ))}
@@ -235,8 +235,8 @@ export function S4Slide05GeminiCanvas() {
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(38 50% 55% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Stack</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[11px] font-bold tracking-widest text-white/80 uppercase">Stack</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/70">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />

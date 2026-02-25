@@ -55,20 +55,20 @@ export function S4Footer({ sectionLabel, hue = 330, showProgress = true, context
         )}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
+            <span className="text-[11px] font-semibold tracking-[0.16em] text-white/40 uppercase">
               {sectionLabel || 'VDRC · Gen 10 · VibeCoding'}
             </span>
             {contextHint && (
               <>
                 <div className="w-px h-2.5 bg-white/10 hidden sm:block" />
-                <span className="text-[10px] tracking-[0.18em] uppercase text-white/30 hidden sm:inline" style={{ fontFamily: S4_SERIF, fontStyle: 'italic' }}>{contextHint}</span>
+                <span className="text-[11px] tracking-[0.18em] uppercase text-white/30 hidden sm:inline" style={{ fontFamily: S4_SERIF, fontStyle: 'italic' }}>{contextHint}</span>
               </>
             )}
             {sectionLabel && (
               <>
                 <div className="w-px h-2.5" style={{ background: `hsl(${hue} 40% 50% / 0.15)` }} />
                 <span
-                  className="text-[10px] tracking-[0.2em] px-2.5 py-0.5 rounded-full border relative overflow-hidden"
+                  className="text-[11px] tracking-[0.2em] px-2.5 py-0.5 rounded-full border relative overflow-hidden"
                   style={{
                     color: `hsl(${hue} 75% 72% / 0.85)`,
                     borderColor: `hsl(${hue} 70% 58% / 0.3)`,

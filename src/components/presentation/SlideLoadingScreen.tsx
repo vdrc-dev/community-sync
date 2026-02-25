@@ -19,22 +19,21 @@ export function SlideLoadingScreen({ name, badge, badgeColor, onComplete }: Slid
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Simulate fast progressive load
-    const steps = [15, 35, 55, 72, 88, 100];
+    // Keep this screen extremely short to avoid perceived latency.
+    const steps = [35, 70, 100];
     let i = 0;
     const tick = () => {
       if (i < steps.length) {
         setProgress(steps[i]);
         i++;
-        setTimeout(tick, i < 4 ? 80 : 120);
+        setTimeout(tick, 50);
       } else {
-        // Brief pause at 100%, then reveal
-        setTimeout(() => setPhase('reveal'), 200);
-        setTimeout(() => setPhase('exit'), 1100);
-        setTimeout(() => onComplete(), 1500);
+        setTimeout(() => setPhase('reveal'), 80);
+        setTimeout(() => setPhase('exit'), 340);
+        setTimeout(() => onComplete(), 460);
       }
     };
-    setTimeout(tick, 100);
+    setTimeout(tick, 40);
   }, [onComplete]);
 
   return (

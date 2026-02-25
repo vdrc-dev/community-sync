@@ -18,7 +18,7 @@ const BENEFITS = [
 export function S4Slide09GitHub() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
@@ -41,7 +41,7 @@ export function S4Slide09GitHub() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full bg-violet-500" style={{ boxShadow: '0 0 12px hsl(280 60% 55% / 0.6)' }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Stack · Control de Versiones</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Stack · Control de Versiones</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">GitHub: Máquina del Tiempo</h1>
             </div>
           </div>
@@ -64,7 +64,7 @@ export function S4Slide09GitHub() {
               <div className="ml-auto flex items-center gap-1.5">
                 <motion.div className="w-2 h-2 rounded-full bg-violet-500"
                   {...(isExporting ? {} : { animate: { opacity: [1, 0.4, 1] }, transition: { duration: 2, repeat: Infinity } })} />
-                <span className="text-[10px] text-white/25 font-mono">3 commits</span>
+                <span className="text-[11px] text-white/75 font-mono">3 commits</span>
               </div>
             </div>
 
@@ -82,16 +82,16 @@ export function S4Slide09GitHub() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       {v.status === 'error' ? <XCircle className="w-3.5 h-3.5 text-red-400/80" /> : <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400/80" />}
-                      <span className={`text-xs font-black ${v.status === 'error' ? 'text-red-400/80' : 'text-white/70'}`}>v{v.version}: {v.msg}</span>
+                      <span className={`text-xs font-black ${v.status === 'error' ? 'text-red-400/80' : 'text-white/90'}`}>v{v.version}: {v.msg}</span>
                     </div>
-                    <p className="text-[10px] text-white/20 font-mono">{v.time} · #{v.hash}</p>
+                    <p className="text-[11px] text-white/70 font-mono">{v.time} · #{v.hash}</p>
                   </div>
 
                   {v.current && (
-                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/25 shrink-0">ACTUAL</span>
+                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/25 shrink-0">ACTUAL</span>
                   )}
                   {v.status === 'error' && (
-                    <button className="flex items-center gap-1.5 text-[10px] font-black px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors shrink-0">
+                    <button className="flex items-center gap-1.5 text-[11px] font-black px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors shrink-0">
                       <RotateCcw className="w-3 h-3" />RESTAURAR
                     </button>
                   )}
@@ -100,11 +100,11 @@ export function S4Slide09GitHub() {
 
               {/* Arrow flow */}
               <div className="flex items-center justify-center gap-3 mt-4 pt-3 border-t border-white/[0.04]">
-                <div className="text-[10px] font-black text-red-400/60 px-3 py-1.5 rounded-lg border border-red-500/15 bg-red-500/[0.04]">Error en v3</div>
-                <ArrowRight className="w-4 h-4 text-white/15" />
-                <div className="text-[10px] font-black text-violet-400/60 px-3 py-1.5 rounded-lg border border-violet-500/15 bg-violet-500/[0.04]">Restaurar a v2</div>
-                <ArrowRight className="w-4 h-4 text-white/15" />
-                <div className="text-[10px] font-black text-emerald-400/60 px-3 py-1.5 rounded-lg border border-emerald-500/15 bg-emerald-500/[0.04]">App funcional ✓</div>
+                <div className="text-[11px] font-black text-red-400/60 px-3 py-1.5 rounded-lg border border-red-500/15 bg-red-500/[0.04]">Error en v3</div>
+                <ArrowRight className="h-4 w-4 text-white/85" />
+                <div className="text-[11px] font-black text-violet-400/60 px-3 py-1.5 rounded-lg border border-violet-500/15 bg-violet-500/[0.04]">Restaurar a v2</div>
+                <ArrowRight className="h-4 w-4 text-white/85" />
+                <div className="text-[11px] font-black text-emerald-400/60 px-3 py-1.5 rounded-lg border border-emerald-500/15 bg-emerald-500/[0.04]">App funcional ✓</div>
               </div>
             </div>
           </motion.div>
@@ -123,7 +123,7 @@ export function S4Slide09GitHub() {
                     </div>
                     <p className="text-sm font-black text-white">{b.title}</p>
                   </div>
-                  <p className="text-xs text-white/35 leading-relaxed">{b.desc}</p>
+                  <p className="text-xs text-white/85 leading-relaxed">{b.desc}</p>
                 </motion.div>
               );
             })}
@@ -131,7 +131,7 @@ export function S4Slide09GitHub() {
             {/* Lovable sync callout */}
             <motion.div {...m(0.55)} className="p-4 rounded-xl border border-violet-500/18 bg-violet-500/[0.04] flex items-start gap-3">
               <GitBranch className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-white/40 leading-relaxed">
+              <p className="text-xs text-white/90 leading-relaxed">
                 <span className="text-violet-400/80 font-black">Lovable + GitHub: </span>
                 Cada cambio que haces en Lovable se sincroniza automáticamente al repositorio. Cero Git manual.
               </p>
@@ -143,8 +143,8 @@ export function S4Slide09GitHub() {
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(280 50% 55% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Stack</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[11px] font-bold tracking-widest text-white/80 uppercase">Stack</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/70">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />

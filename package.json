@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:lan": "vite --host --port 8080 --strictPort",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:lan": "vite preview --host --port 8080 --strictPort",
+    "preview:fresh": "npm run build && npm run preview:lan",
+    "todo": "npm install && npm run build && (pkill -f \"vite preview --host --port 8080 --strictPort\" || true) && echo \"Preview en: http://localhost:8080/\" && npm run preview:lan",
     "test": "vitest run",
     "test:watch": "vitest"
   },

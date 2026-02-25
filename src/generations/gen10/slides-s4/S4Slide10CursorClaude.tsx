@@ -43,7 +43,7 @@ const TOOLS_COMPARE = [
 export function S4Slide10CursorClaude() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
@@ -60,7 +60,7 @@ export function S4Slide10CursorClaude() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 rounded-full bg-cyan-500" style={{ boxShadow: '0 0 12px hsl(185 70% 50% / 0.6)' }} />
             <div>
-              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Stack · Nivel Avanzado</span>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Stack · Nivel Avanzado</span>
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">Cursor + Claude Code</h1>
             </div>
           </div>
@@ -78,7 +78,7 @@ export function S4Slide10CursorClaude() {
               <span className="text-sm font-black text-cyan-400">20%</span>
             </div>
           </div>
-          <div className="text-xs text-white/25 font-medium italic">La Regla de Oro</div>
+          <div className="text-xs text-white/75 font-medium italic">La Regla de Oro</div>
         </motion.div>
 
         {/* Side-by-side */}
@@ -101,7 +101,7 @@ export function S4Slide10CursorClaude() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <p className="text-xl font-black text-white">{tool.name}</p>
-                      <span className="text-[9px] font-black px-2 py-0.5 rounded-md" style={{ background: `hsl(${tool.hue} 60% 45% / 0.12)`, color: tool.color, border: `1px solid hsl(${tool.hue} 60% 50% / 0.2)` }}>{tool.tag}</span>
+                      <span className="text-[11px] font-black px-2 py-0.5 rounded-md" style={{ background: `hsl(${tool.hue} 60% 45% / 0.12)`, color: tool.color, border: `1px solid hsl(${tool.hue} 60% 50% / 0.2)` }}>{tool.tag}</span>
                     </div>
                     <p className="text-xs font-medium mt-0.5" style={{ color: `hsl(${tool.hue} 55% 65% / 0.7)` }}>{tool.role}</p>
                   </div>
@@ -112,20 +112,20 @@ export function S4Slide10CursorClaude() {
                   {tool.features.map((f, j) => (
                     <div key={j} className="flex items-center gap-2.5">
                       <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: tool.color }} />
-                      <span className="text-xs text-white/50 font-medium">{f}</span>
+                      <span className="text-xs text-white/70 font-medium">{f}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Quote */}
                 <div className="p-3.5 rounded-xl border border-white/[0.05] bg-black/30 mb-4">
-                  <p className="text-[11px] text-white/35 italic leading-relaxed">"{tool.quote}"</p>
+                  <p className="text-[11px] text-white/85 italic leading-relaxed">"{tool.quote}"</p>
                 </div>
 
                 {/* When to use */}
                 <div className="flex items-start gap-2 p-3 rounded-xl" style={{ background: `hsl(${tool.hue} 60% 45% / 0.06)`, border: `1px solid hsl(${tool.hue} 60% 50% / 0.15)` }}>
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: tool.color }} />
-                  <p className="text-[10px] leading-relaxed" style={{ color: `hsl(${tool.hue} 55% 65% / 0.7)` }}>
+                  <p className="text-[11px] leading-relaxed" style={{ color: `hsl(${tool.hue} 55% 65% / 0.7)` }}>
                     <span className="font-black">Úsalo cuando: </span>{tool.useWhen}
                   </p>
                 </div>
@@ -137,7 +137,7 @@ export function S4Slide10CursorClaude() {
         {/* Golden rule */}
         <motion.div {...m(0.55)} className="mt-5 p-4 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-center gap-4 max-w-4xl mx-auto">
           <Wrench className="w-5 h-5 text-amber-400 shrink-0" />
-          <p className="text-xs text-white/50 leading-relaxed">
+          <p className="text-xs text-white/70 leading-relaxed">
             <span className="text-amber-400/90 font-black">Regla de Oro: </span>
             "Empieza SIEMPRE con Lovable. Solo baja al código (Cursor/Claude Code) para cerrar ese último 20% de precisión." — Vicente Donoso R.
           </p>
@@ -147,8 +147,8 @@ export function S4Slide10CursorClaude() {
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(185 50% 55% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Stack</span>
-          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[11px] font-bold tracking-widest text-white/80 uppercase">Stack</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/70">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />

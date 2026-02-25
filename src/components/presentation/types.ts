@@ -65,6 +65,7 @@ export interface PresentationFeatures {
   keyboardShortcuts?: boolean;  // Enable keyboard navigation
   fullscreen?: boolean;         // Enable fullscreen toggle
   progressBar?: boolean;        // Enable slide progress indicator
+  performanceMode?: boolean;    // Prioritize responsiveness over visual effects
 }
 
 // ============================================
@@ -135,4 +136,5 @@ export const DEFAULT_FEATURES: PresentationFeatures = {
   keyboardShortcuts: true,
   fullscreen: true,
   progressBar: true,
+  performanceMode: false,
 };
