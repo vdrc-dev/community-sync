@@ -1,8 +1,8 @@
 /**
- * S3Atmosphere — Epic atmospheric layers for all S3 slides.
- * Includes: aurora ribbons, radial gradients, dot grid, scanlines, noise,
- * breathing orbs with color mixing, enhanced particles with trails,
- * cinematic light rays, and animated light sweep.
+ * S3Atmosphere — Ultra-cinematic atmospheric layers for S3 slides.
+ * Includes: aurora ribbons, plasma waves, constellation grid, radial gradients,
+ * dot grid, scanlines, noise, breathing orbs with color mixing, enhanced particles
+ * with trails, cinematic light rays, animated light sweep, and holographic refraction.
  */
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
@@ -16,11 +16,12 @@ interface S3AtmosphereProps {
   tertiaryHue?: number;
   showOrbs?: boolean;
   showLightSweep?: boolean;
-  /** Enable aurora ribbon effect (default true) */
   showAurora?: boolean;
-  /** Enable cinematic light rays (default false, use on hero/cover slides) */
   showLightRays?: boolean;
-  /** Intensity multiplier for all effects (default 1) */
+  /** Enable constellation grid connecting dots */
+  showConstellation?: boolean;
+  /** Enable plasma wave effect */
+  showPlasma?: boolean;
   intensity?: number;
 }
 
@@ -34,6 +35,8 @@ export function S3Atmosphere({
   showLightSweep = false,
   showAurora = true,
   showLightRays = false,
+  showConstellation = false,
+  showPlasma = false,
   intensity = 1,
 }: S3AtmosphereProps) {
   const particles = useMemo(
@@ -56,74 +59,104 @@ export function S3Atmosphere({
     [particleCount]
   );
 
+  const constellationNodes = useMemo(() =>
+    Array.from({ length: 8 }).map((_, i) => {
+      const seed = (i + 1) * 53.29;
+      return {
+        cx: 5 + (seed * 7.3) % 90,
+        cy: 5 + (seed * 11.7) % 90,
+        hue: [primaryHue, secondaryHue, tertiaryHue][i % 3],
+      };
+    }),
+    [primaryHue, secondaryHue, tertiaryHue]
+  );
+
   const opMul = Math.min(intensity, 1.5);
 
   return (
     <>
       {/* ── Radial gradients (enhanced with deeper saturation) ── */}
       <div className="absolute inset-0">
-        <div
-          className="absolute inset-0"
-          style={{ background: `radial-gradient(ellipse 130% 70% at 55% -25%, hsl(${primaryHue} 85% 45% / ${0.24 * opMul}), transparent 60%)` }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: `radial-gradient(ellipse 90% 55% at -5% 110%, hsl(${secondaryHue} 65% 38% / ${0.14 * opMul}), transparent 55%)` }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: `radial-gradient(ellipse 55% 55% at 105% 15%, hsl(${tertiaryHue} 75% 52% / ${0.09 * opMul}), transparent 50%)` }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: `radial-gradient(ellipse 75% 60% at 50% 120%, hsl(${primaryHue} 78% 58% / ${0.1 * opMul}), transparent 62%)` }}
-        />
-        {/* Cross-gradient for depth */}
-        <div
-          className="absolute inset-0"
-          style={{ background: `radial-gradient(ellipse 60% 40% at 30% 50%, hsl(${secondaryHue} 50% 40% / ${0.06 * opMul}), transparent 55%)` }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, hsl(250 45% 8% / 0.5) 0%, transparent 35%, transparent 70%, hsl(260 40% 6% / 0.55) 100%)',
-          }}
-        />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 130% 70% at 55% -25%, hsl(${primaryHue} 85% 45% / ${0.24 * opMul}), transparent 60%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 90% 55% at -5% 110%, hsl(${secondaryHue} 65% 38% / ${0.14 * opMul}), transparent 55%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 55% 55% at 105% 15%, hsl(${tertiaryHue} 75% 52% / ${0.09 * opMul}), transparent 50%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 75% 60% at 50% 120%, hsl(${primaryHue} 78% 58% / ${0.1 * opMul}), transparent 62%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 60% 40% at 30% 50%, hsl(${secondaryHue} 50% 40% / ${0.06 * opMul}), transparent 55%)` }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, hsl(250 45% 8% / 0.5) 0%, transparent 35%, transparent 70%, hsl(260 40% 6% / 0.55) 100%)' }} />
 
         {/* Fine dot grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: S3_THEME.grid.opacity,
-            backgroundImage: `radial-gradient(circle, ${S3_THEME.grid.dotColor} 0.5px, transparent 0.5px)`,
-            backgroundSize: `${S3_THEME.grid.size} ${S3_THEME.grid.size}`,
-          }}
-        />
+        <div className="absolute inset-0" style={{ opacity: S3_THEME.grid.opacity, backgroundImage: `radial-gradient(circle, ${S3_THEME.grid.dotColor} 0.5px, transparent 0.5px)`, backgroundSize: `${S3_THEME.grid.size} ${S3_THEME.grid.size}` }} />
 
         {/* Horizontal scanlines */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(${primaryHue} 40% 50% / 0.3) 2px, hsl(${primaryHue} 40% 50% / 0.3) 3px)`,
-            backgroundSize: '100% 6px',
-          }}
-        />
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(${primaryHue} 40% 50% / 0.3) 2px, hsl(${primaryHue} 40% 50% / 0.3) 3px)`, backgroundSize: '100% 6px' }} />
 
         {/* Vertical cinematic beams */}
-        <div
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 182px)`,
-          }}
-        />
+        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 180px, hsl(${tertiaryHue} 50% 60% / 0.18) 182px)` }} />
 
         {/* Noise texture */}
-        <div
-          className="absolute inset-0"
-          style={{ opacity: S3_THEME.noise.opacity, backgroundImage: S3_THEME.noise.svg }}
-        />
+        <div className="absolute inset-0" style={{ opacity: S3_THEME.noise.opacity, backgroundImage: S3_THEME.noise.svg }} />
       </div>
+
+      {/* ── Constellation grid ── */}
+      {showConstellation && !isExporting && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {constellationNodes.map((n, i) =>
+              constellationNodes.slice(i + 1).filter((_, j) => (i + j) % 3 === 0).map((n2, j) => (
+                <motion.line
+                  key={`${i}-${j}`}
+                  x1={n.cx} y1={n.cy} x2={n2.cx} y2={n2.cy}
+                  stroke={`hsl(${n.hue} 50% 60% / 0.08)`}
+                  strokeWidth="0.15"
+                  animate={{ opacity: [0.03, 0.12, 0.03] }}
+                  transition={{ duration: 6 + i, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
+                />
+              ))
+            )}
+            {constellationNodes.map((n, i) => (
+              <motion.circle
+                key={i} cx={n.cx} cy={n.cy} r="0.4"
+                fill={`hsl(${n.hue} 65% 65% / 0.3)`}
+                animate={{ r: [0.3, 0.6, 0.3], opacity: [0.15, 0.4, 0.15] }}
+                transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
+              />
+            ))}
+          </svg>
+        </div>
+      )}
+
+      {/* ── Plasma wave ── */}
+      {showPlasma && !isExporting && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute w-[250%] h-[60%] -left-[75%] top-[20%]"
+            style={{
+              background: `linear-gradient(90deg, transparent 5%, hsl(${primaryHue} 80% 55% / ${0.03 * opMul}) 15%, hsl(${secondaryHue} 65% 50% / ${0.05 * opMul}) 30%, hsl(${tertiaryHue} 75% 55% / ${0.04 * opMul}) 50%, hsl(${primaryHue} 60% 50% / ${0.03 * opMul}) 70%, transparent 90%)`,
+              filter: 'blur(80px)',
+              borderRadius: '40%',
+            }}
+            animate={{
+              x: ['-20%', '20%', '-20%'],
+              scaleY: [0.8, 1.2, 0.8],
+              rotate: [-2, 2, -2],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute w-[200%] h-[40%] -left-[50%] bottom-[10%]"
+            style={{
+              background: `linear-gradient(90deg, transparent 10%, hsl(${tertiaryHue} 70% 55% / ${0.025 * opMul}) 25%, hsl(${primaryHue} 65% 50% / ${0.04 * opMul}) 45%, hsl(${secondaryHue} 60% 55% / ${0.03 * opMul}) 65%, transparent 85%)`,
+              filter: 'blur(70px)',
+              borderRadius: '45%',
+            }}
+            animate={{
+              x: ['15%', '-15%', '15%'],
+              scaleY: [1.1, 0.85, 1.1],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
+          />
+        </div>
+      )}
 
       {/* ── Aurora ribbons ── */}
       {showAurora && !isExporting && (
@@ -135,11 +168,7 @@ export function S3Atmosphere({
               filter: 'blur(60px)',
               borderRadius: '50%',
             }}
-            animate={{
-              x: ['-15%', '15%', '-15%'],
-              skewX: [-3, 3, -3],
-              scaleY: [1, 1.15, 1],
-            }}
+            animate={{ x: ['-15%', '15%', '-15%'], skewX: [-3, 3, -3], scaleY: [1, 1.15, 1] }}
             transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
@@ -149,11 +178,7 @@ export function S3Atmosphere({
               filter: 'blur(50px)',
               borderRadius: '50%',
             }}
-            animate={{
-              x: ['10%', '-10%', '10%'],
-              skewX: [2, -2, 2],
-              scaleY: [1.1, 0.9, 1.1],
-            }}
+            animate={{ x: ['10%', '-10%', '10%'], skewX: [2, -2, 2], scaleY: [1.1, 0.9, 1.1] }}
             transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
           />
         </div>
@@ -209,16 +234,10 @@ export function S3Atmosphere({
             animate={{ x: [0, -35, 0], y: [0, 22, 0], opacity: [0.06, 0.18, 0.06] }}
             transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           />
-          {/* Color-mixing orb: blends primary + tertiary */}
           <motion.div
             className="absolute bottom-[15%] left-[35%] w-[450px] h-[350px] rounded-full blur-[200px]"
             style={{ background: `linear-gradient(135deg, hsl(${primaryHue} 60% 45% / ${0.06 * opMul}), hsl(${tertiaryHue} 55% 50% / ${0.05 * opMul}))` }}
-            animate={{
-              x: [0, 20, -15, 0],
-              y: [0, -10, 15, 0],
-              scale: [1, 1.1, 0.95, 1],
-              opacity: [0.04, 0.12, 0.06, 0.04],
-            }}
+            animate={{ x: [0, 20, -15, 0], y: [0, -10, 15, 0], scale: [1, 1.1, 0.95, 1], opacity: [0.04, 0.12, 0.06, 0.04] }}
             transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
           />
         </>
@@ -239,18 +258,8 @@ export function S3Atmosphere({
                 background: `hsl(${p.hue} 70% 68% / 0.5)`,
                 boxShadow: `0 0 ${p.size * 6}px hsl(${p.hue} 70% 68% / 0.5), 0 0 ${p.size * 12}px hsl(${p.hue} 60% 55% / 0.2)`,
               }}
-              animate={{
-                x: [0, p.drift, -p.drift * 0.5, 0],
-                y: [0, -p.rise, 0],
-                scale: [0.8, 1.3, 0.8],
-                opacity: [0.03, 0.45, 0.03],
-              }}
-              transition={{
-                duration: p.duration,
-                repeat: Infinity,
-                delay: p.delay,
-                ease: 'easeInOut',
-              }}
+              animate={{ x: [0, p.drift, -p.drift * 0.5, 0], y: [0, -p.rise, 0], scale: [0.8, 1.3, 0.8], opacity: [0.03, 0.45, 0.03] }}
+              transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
             />
           ))}
         </div>
@@ -261,17 +270,13 @@ export function S3Atmosphere({
         <>
           <motion.div
             className="absolute inset-0 pointer-events-none"
-            style={{
-              background: `linear-gradient(105deg, transparent 38%, hsl(${primaryHue} 75% 62% / ${0.07 * opMul}) 46%, hsl(${tertiaryHue} 80% 65% / ${0.05 * opMul}) 54%, transparent 62%)`,
-            }}
+            style={{ background: `linear-gradient(105deg, transparent 38%, hsl(${primaryHue} 75% 62% / ${0.07 * opMul}) 46%, hsl(${tertiaryHue} 80% 65% / ${0.05 * opMul}) 54%, transparent 62%)` }}
             animate={{ x: ['-100%', '200%'] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatDelay: 5 }}
           />
           <motion.div
             className="absolute inset-0 pointer-events-none"
-            style={{
-              background: `linear-gradient(265deg, transparent 38%, hsl(${secondaryHue} 70% 58% / ${0.06 * opMul}) 47%, transparent 58%)`,
-            }}
+            style={{ background: `linear-gradient(265deg, transparent 38%, hsl(${secondaryHue} 70% 58% / ${0.06 * opMul}) 47%, transparent 58%)` }}
             animate={{ x: ['180%', '-120%'] }}
             transition={{ duration: 11, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
           />
@@ -279,10 +284,7 @@ export function S3Atmosphere({
       )}
 
       {/* ── Cinematic vignette (deeper) ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 3% / 0.88)' }}
-      />
+      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 3% / 0.88)' }} />
     </>
   );
 }
