@@ -68,6 +68,8 @@ export function S3Slide01Cover() {
           showOrbs
           showLightSweep
           showAurora
+          showPlasma
+          showConstellation
         />
       </div>
 

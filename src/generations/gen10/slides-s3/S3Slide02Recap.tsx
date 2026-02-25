@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock, Check } from 'lucide-react';
+import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock, Check, Zap } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
@@ -24,7 +24,7 @@ export function S3Slide02Recap() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.06),_transparent_70%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showConstellation />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
@@ -45,10 +45,34 @@ export function S3Slide02Recap() {
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         />
-        <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-7 max-w-lg mx-auto">
-          Semana 3 de 4 - 75% del programa completado
-        </motion.p>
-        {/* Visual journey: 4 stage nodes connected by line */}
+
+        {/* Progress bar */}
+        <motion.div {...m(0.1)} className="mt-3 mb-7 max-w-sm mx-auto">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Progreso Global</span>
+            <span className="text-[11px] font-black tabular-nums" style={{ color: S3_ACCENT.rose.text }}>75%</span>
+          </div>
+          <div className="h-2 rounded-full overflow-hidden relative" style={{ background: 'hsl(0 0% 100% / 0.04)' }}>
+            <motion.div className="h-full rounded-full relative"
+              style={{
+                background: 'linear-gradient(90deg, hsl(185 70% 55%), hsl(263 60% 60%), hsl(330 65% 58%))',
+                boxShadow: '0 0 20px hsl(330 65% 55% / 0.4)',
+              }}
+              initial={isExporting ? { width: '75%' } : { width: '0%' }}
+              animate={{ width: '75%' }}
+              transition={{ delay: 0.5, duration: 1.8, ease: S3_EASE }}
+            />
+            {!isExporting && (
+              <motion.div className="absolute top-0 right-0 bottom-0 w-6 rounded-full"
+                style={{ background: 'linear-gradient(90deg, transparent, hsl(330 80% 75% / 0.6))' }}
+                animate={{ opacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+          </div>
+        </motion.div>
+
+        {/* Visual journey: 4 stage nodes */}
         <div className="relative flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           {/* Connecting line behind */}
           <div className="absolute top-1/2 left-[8%] right-[8%] h-px -translate-y-1/2 hidden sm:block" style={{ background: 'linear-gradient(90deg, hsl(185 70% 50% / 0.3), hsl(263 60% 55% / 0.3), hsl(330 65% 55% / 0.3), hsl(160 65% 45% / 0.15))' }} />
@@ -64,43 +88,55 @@ export function S3Slide02Recap() {
             const isFuture = !week.done && !week.current;
             return (
               <motion.div key={i} {...m(0.2 + i * 0.1)} className={`relative flex flex-col items-center gap-3 z-10 ${isFuture ? 'opacity-40' : ''}`}>
-                <div
-                  className="absolute -inset-4 rounded-3xl pointer-events-none"
-                  style={{
-                    background: `radial-gradient(circle at center, ${week.accent.dot}${isFuture ? '0a' : '22'}, transparent 70%)`,
-                    filter: 'blur(24px)',
-                  }}
-                />
+                <div className="absolute -inset-4 rounded-3xl pointer-events-none"
+                  style={{ background: `radial-gradient(circle at center, ${week.accent.dot}${isFuture ? '0a' : '22'}, transparent 70%)`, filter: 'blur(24px)' }} />
+
                 {/* Ring */}
                 <div className="relative">
                   {isCurrent && !isExporting && (
                     <>
                       <motion.div className="absolute -inset-3 rounded-full" style={{ border: `2px solid ${week.accent.dot}`, opacity: 0.3 }}
-                        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] }} transition={{ duration: 2.5, repeat: Infinity }} />
+                        animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }} transition={{ duration: 2, repeat: Infinity }} />
                       <motion.div className="absolute -inset-5 rounded-full border-2 border-dashed" style={{ borderColor: `${week.accent.dot}40`, opacity: 0.25 }}
                         animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
+                      {/* Electric pulse */}
+                      <motion.div className="absolute -inset-6 rounded-full"
+                        style={{ background: `radial-gradient(circle, ${week.accent.dot}30, transparent 70%)` }}
+                        animate={{ scale: [0.8, 1.6, 0.8], opacity: [0.1, 0.3, 0.1] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} />
                     </>
                   )}
-                  <div className={`w-20 h-20 rounded-full border-2 flex items-center justify-center relative`}
+                  <motion.div
+                    className="w-20 h-20 rounded-full border-2 flex items-center justify-center relative overflow-hidden"
                     style={{
                       borderColor: isCurrent ? week.accent.dot : isFuture ? `${week.accent.dot}25` : `${week.accent.dot}60`,
                       background: isCurrent ? week.accent.bg : isFuture ? `${week.accent.bg}20` : `${week.accent.bg}40`,
                       borderStyle: isFuture ? 'dashed' : 'solid',
-                    }}>
+                      boxShadow: isCurrent ? `0 0 40px ${week.accent.glow}, inset 0 0 20px ${week.accent.glow}` : week.done ? `0 0 20px ${week.accent.glow}` : 'none',
+                    }}
+                    {...(isExporting ? {} : isCurrent ? { animate: { scale: [1, 1.05, 1] }, transition: { duration: 2.5, repeat: Infinity } } : {})}
+                  >
+                    {/* Inner shimmer for completed */}
+                    {week.done && !isExporting && (
+                      <motion.div className="absolute inset-0 pointer-events-none"
+                        style={{ background: `linear-gradient(105deg, transparent 35%, ${week.accent.text}15 50%, transparent 65%)` }}
+                        animate={{ x: ['-150%', '250%'] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
+                    )}
                     {week.done && (
-                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ background: week.accent.dot, color: '#04030a' }}>
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center z-10"
+                        style={{ background: week.accent.dot, color: '#04030a', boxShadow: `0 0 12px ${week.accent.glow}` }}>
                         <Check className="w-3.5 h-3.5" strokeWidth={3} />
                       </div>
                     )}
                     {isFuture && (
-                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border"
+                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border z-10"
                         style={{ background: '#04030a', borderColor: `${week.accent.dot}30` }}>
                         <Lock className="w-3 h-3" style={{ color: `${week.accent.text}40` }} />
                       </div>
                     )}
-                    <Icon className={`w-7 h-7`} style={{ color: isCurrent ? week.accent.text : isFuture ? `${week.accent.text}40` : `${week.accent.text}90` }} />
-                  </div>
+                    <Icon className="w-7 h-7 relative z-10" style={{ color: isCurrent ? week.accent.text : isFuture ? `${week.accent.text}40` : `${week.accent.text}90` }} />
+                  </motion.div>
                 </div>
 
                 {/* Label */}
@@ -114,9 +150,10 @@ export function S3Slide02Recap() {
                           style={{ background: 'linear-gradient(105deg, transparent 0%, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%, transparent 100%)', width: '60%' }}
                           animate={{ x: ['-150%', '250%'] }} transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 3, ease: 'linear' }} />
                       )}
-                      <motion.span className="relative inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider"
-                        style={{ background: week.accent.bg, color: week.accent.text, border: `1px solid ${week.accent.border}` }}
+                      <motion.span className="relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-wider"
+                        style={{ background: week.accent.bg, color: week.accent.text, border: `1px solid ${week.accent.border}`, boxShadow: `0 0 15px ${week.accent.glow}` }}
                         {...(isExporting ? {} : { animate: { scale: [1, 1.05, 1] }, transition: { duration: 2, repeat: Infinity } })}>
+                        <Zap className="w-3 h-3" />
                         HOY
                       </motion.span>
                     </span>
@@ -132,13 +169,20 @@ export function S3Slide02Recap() {
                 {/* Mini skill pills */}
                 <div className="flex flex-wrap justify-center gap-1.5 max-w-[140px]">
                   {week.skills.map((s, j) => (
-                    <span key={j} className="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
+                    <motion.span key={j}
+                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
                       style={{
                         borderColor: isCurrent ? `${week.accent.text}30` : isFuture ? `${week.accent.text}08` : `${week.accent.text}15`,
                         color: isCurrent ? `${week.accent.text}95` : isFuture ? `${week.accent.text}30` : `${week.accent.text}60`,
                         background: isCurrent ? `${week.accent.text}12` : `${week.accent.text}05`,
                         boxShadow: isCurrent ? `0 0 12px ${week.accent.glow}` : undefined,
-                      }}>{s}</span>
+                      }}
+                      {...(isExporting ? {} : {
+                        initial: { opacity: 0, scale: 0.8 },
+                        animate: { opacity: 1, scale: 1 },
+                        transition: { delay: 0.5 + i * 0.15 + j * 0.05, type: 'spring', stiffness: 200 },
+                      })}
+                    >{s}</motion.span>
                   ))}
                 </div>
               </motion.div>
