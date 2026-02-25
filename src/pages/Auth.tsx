@@ -6,9 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound, CheckCircle2, Mail } from 'lucide-react';
+import { Loader2, ArrowLeft, Eye, EyeOff, Rocket, ExternalLink, KeyRound, CheckCircle2, Mail, ShieldAlert } from 'lucide-react';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
 
 const emailSchema = z.string().email('Email inválido');
 const passwordSchema = z.string().min(6, 'Mínimo 6 caracteres');
@@ -54,12 +55,30 @@ export default function Auth() {
   const isSignUpValid = isSignInValid && nameSchema.safeParse(fullName).success;
   const isForgotValid = emailSchema.safeParse(email).success;
 
+  const checkEmailAllowed = async (emailToCheck: string): Promise<boolean> => {
+    const { data, error } = await supabase.rpc('is_email_allowed', { check_email: emailToCheck });
+    if (error) {
+      console.error('Error checking email whitelist:', error);
+      return false;
+    }
+    return !!data;
+  };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ email: true, password: true });
     if (!isSignInValid) return;
     setLoading(true);
     try {
+      const allowed = await checkEmailAllowed(email);
+      if (!allowed) {
+        toast({
+          title: 'Acceso restringido',
+          description: 'Este email no está autorizado. Contacta al administrador para solicitar acceso.',
+          variant: 'destructive',
+        });
+        return;
+      }
       const { error } = await signIn(email, password);
       if (error) {
         toast({
@@ -68,7 +87,6 @@ export default function Auth() {
           variant: 'destructive',
         });
       }
-      // Navigation handled by useEffect when user state updates
     } finally {
       setLoading(false);
     }
@@ -80,6 +98,15 @@ export default function Auth() {
     if (!isSignUpValid) return;
     setLoading(true);
     try {
+      const allowed = await checkEmailAllowed(email);
+      if (!allowed) {
+        toast({
+          title: 'Acceso restringido',
+          description: 'Este email no está autorizado para registrarse. Contacta al administrador.',
+          variant: 'destructive',
+        });
+        return;
+      }
       const { error } = await signUp(email, password, fullName);
       if (error) {
         if (error.message.includes('already registered')) {
