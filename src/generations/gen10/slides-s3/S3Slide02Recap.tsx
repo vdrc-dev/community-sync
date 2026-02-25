@@ -8,7 +8,7 @@ import { S3Footer } from './S3Footer';
 const WEEKS = [
   { num: 1, title: 'Higiene Digital', icon: Shield, accent: S3_ACCENT.cyan, skills: ['Inbox Zero', 'Navegadores', 'Bitwarden', 'Context Eng.'], done: true, current: false },
   { num: 2, title: 'IA Avanzada', icon: Brain, accent: S3_ACCENT.violet, skills: ['C.R.O.P.', 'Modelos', 'Agentes', 'MCP'], done: true, current: false },
-  { num: 3, title: 'Creación Digital', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Canva', 'Krea.ai', 'Cursor', 'Automatización'], done: false, current: true },
+  { num: 3, title: 'UI, Skills & APIs', icon: MessageSquare, accent: S3_ACCENT.rose, skills: ['Diseño UI', 'Skills de Marca', 'API Keys', 'Plugins'], done: false, current: true },
   { num: 4, title: 'Vibe Coding', icon: Code2, accent: S3_ACCENT.emerald, skills: ['App en 90 min', 'Deploy', 'GitHub', 'Proyecto Final'], done: false, current: false },
 ];
 
