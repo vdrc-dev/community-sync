@@ -39,7 +39,7 @@ export function S3Slide08Automatizacion() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(38_80%_55%_/_0.07),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_15%,_hsl(160_65%_45%_/_0.06),_transparent_50%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={38} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={263} secondaryHue={280} tertiaryHue={38} showAurora showPlasma showConstellation showLightRays showHolographic intensity={1.1} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1680px] mx-auto w-full py-6">

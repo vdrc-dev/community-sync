@@ -35,7 +35,7 @@ export function S3Slide05NotebookLM() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_40%,_hsl(185_70%_50%_/_0.1),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_60%,_hsl(263_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/60 via-transparent to-[#04030a]/70" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={185} secondaryHue={263} tertiaryHue={330} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={185} secondaryHue={263} tertiaryHue={330} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       <div className="relative z-10 max-w-[1680px] mx-auto w-full">

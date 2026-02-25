@@ -42,7 +42,7 @@ export function S3Slide06ClaudeCode() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_75%,_hsl(280_55%_50%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_50%,_hsl(263_50%_45%_/_0.05),_transparent_50%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={263} secondaryHue={280} tertiaryHue={185} showAurora showPlasma showConstellation showLightRays showHolographic intensity={1.1} />
       </div>
 
       {/* ── Content ── */}

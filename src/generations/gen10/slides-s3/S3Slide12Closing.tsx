@@ -42,7 +42,7 @@ export function S3Slide12Closing() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_70%,_hsl(185_70%_50%_/_0.1),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_10%,_hsl(263_60%_55%_/_0.08),_transparent_50%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={18} primaryHue={150} secondaryHue={185} tertiaryHue={263} showAurora showPlasma showConstellation showLightSweep />
+        <S3Atmosphere isExporting={isExporting} particleCount={30} primaryHue={150} secondaryHue={185} tertiaryHue={263} showAurora showPlasma showConstellation showLightSweep showLightRays showHolographic showChromatic intensity={1.4} />
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">

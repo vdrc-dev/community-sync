@@ -38,7 +38,7 @@ export function S3Slide03Canvas() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_25%_20%,_hsl(280_70%_50%_/_0.1),_transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_80%_75%,_hsl(200_60%_50%_/_0.07),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(320_70%_55%_/_0.04),_transparent_60%)]" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={280} secondaryHue={200} tertiaryHue={320} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={16} primaryHue={280} secondaryHue={200} tertiaryHue={320} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       {/* Editorial serif anchor */}

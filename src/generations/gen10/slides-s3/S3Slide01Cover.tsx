@@ -61,7 +61,7 @@ export function S3Slide01Cover() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_90%_30%,_hsl(185_70%_50%_/_0.08),_transparent_50%)]" />
         <S3Atmosphere
           isExporting={isExporting}
-          particleCount={40}
+          particleCount={50}
           primaryHue={330}
           secondaryHue={263}
           tertiaryHue={185}
@@ -70,6 +70,10 @@ export function S3Slide01Cover() {
           showAurora
           showPlasma
           showConstellation
+          showLightRays
+          showHolographic
+          showChromatic
+          intensity={1.3}
         />
       </div>
 

@@ -29,7 +29,7 @@ export function S3Slide07PresentationAI() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_25%,_hsl(263_55%_50%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_75%_70%,_hsl(38_80%_50%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={16} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora showPlasma showConstellation showHolographic intensity={1.1} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full py-12">

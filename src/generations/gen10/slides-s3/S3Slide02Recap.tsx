@@ -24,7 +24,7 @@ export function S3Slide02Recap() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,_hsl(280_60%_55%_/_0.08),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_50%_50%,_hsl(330_65%_55%_/_0.06),_transparent_70%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showConstellation />
+        <S3Atmosphere isExporting={isExporting} particleCount={22} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showConstellation showPlasma showHolographic showChromatic intensity={1.1} />
       </div>
 
       {/* Editorial serif anchor */}

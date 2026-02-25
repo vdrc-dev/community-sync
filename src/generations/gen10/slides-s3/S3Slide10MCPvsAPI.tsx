@@ -17,7 +17,7 @@ export function S3Slide10MCPvsAPI() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_30%,_hsl(263_60%_55%_/_0.12),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_80%_65%,_hsl(38_80%_55%_/_0.1),_transparent_55%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora showConstellation intensity={0.8} />
+        <S3Atmosphere isExporting={isExporting} particleCount={20} primaryHue={263} secondaryHue={38} tertiaryHue={185} showAurora showConstellation showPlasma showLightRays showHolographic showChromatic intensity={1.2} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1680px] mx-auto w-full py-8">
