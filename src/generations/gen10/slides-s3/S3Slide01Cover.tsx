@@ -79,7 +79,7 @@ export function S3Slide01Cover() {
         <div className="flex items-center gap-3.5">
           <div className="relative">
             <div className="absolute inset-0 rounded-full blur-xl scale-[2.5]" style={{ background: 'hsl(330 60% 50% / 0.18)' }} />
-            <img src={logoVdrc} alt="VDRC" className="relative h-7 sm:h-9 w-auto" />
+            <img src={logoVdrc} alt="VDRC" className="relative h-7 sm:h-9 w-auto" loading="eager" decoding="async" />
           </div>
           <div className="flex flex-col">
             <span className="text-white/90 font-bold tracking-wider text-xs sm:text-sm">

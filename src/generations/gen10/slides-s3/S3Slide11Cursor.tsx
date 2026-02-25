@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import toolCursorMockup from '@/assets/slides/tool-cursor-mockup.jpg';
 
 const POWERS = [
@@ -68,7 +69,7 @@ export function S3Slide11Cursor() {
                 <span className="text-[10px] text-white/40 font-mono ml-2">cursor — dashboard/</span>
               </div>
               <div className="relative">
-                <img src={toolCursorMockup} alt="Cursor IDE" className="w-full h-auto object-cover" style={{ maxHeight: '280px', filter: 'brightness(0.85) saturate(0.9)' }} />
+                <OptimizedImage src={toolCursorMockup} alt="Cursor IDE" className="w-full" style={{ maxHeight: '280px', filter: 'brightness(0.85) saturate(0.9)' }} />
                 <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent 55%, hsl(38 80% 12% / 0.45) 100%)' }} />
               </div>
             </div>

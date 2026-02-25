@@ -4,6 +4,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import toolGammaMockup from '@/assets/slides/tool-gamma-mockup.jpg';
 import toolNapkinMockup from '@/assets/slides/tool-napkin-mockup.jpg';
 import exampleGeminiOutput from '@/assets/slides/example-gemini-output.jpg';
@@ -67,7 +68,7 @@ export function S3Slide07PresentationAI() {
 
             {/* Screenshot area */}
             <div className="relative h-[200px] overflow-hidden">
-              <img src={toolGammaMockup} alt="Gamma App" className="w-full h-full object-cover object-top" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+              <OptimizedImage src={toolGammaMockup} alt="Gamma App" className="w-full h-full" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 30%, hsl(0 0% 4% / 0.95) 100%)' }} />
               {/* Browser chrome overlay */}
               <div className="absolute top-0 left-0 right-0 px-3 py-2 flex items-center gap-2">
@@ -124,7 +125,7 @@ export function S3Slide07PresentationAI() {
                   transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 6 }} />
               )}
               <div className="relative h-[100px] overflow-hidden">
-                <img src={toolNapkinMockup} alt="Napkin AI" className="w-full h-full object-cover object-center" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
+                <OptimizedImage src={toolNapkinMockup} alt="Napkin AI" className="w-full h-full" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 20%, hsl(0 0% 4% / 0.95) 100%)' }} />
               </div>
               <div className="p-4">
@@ -162,7 +163,7 @@ export function S3Slide07PresentationAI() {
                   { img: exampleGeminiOutputP3, label: 'Tabla de datos' },
                 ].map((ex, i) => (
                   <div key={i} className="rounded-lg overflow-hidden border" style={{ borderColor: `${S3_ACCENT.rose.text}15` }}>
-                    <img src={ex.img} alt={ex.label} className="w-full h-[65px] object-cover object-top" style={{ filter: 'brightness(0.85)' }} />
+                    <OptimizedImage src={ex.img} alt={ex.label} className="w-full h-[65px]" style={{ filter: 'brightness(0.85)' }} />
                     <p className="text-[9px] text-white/45 px-2 py-1 font-medium">{ex.label}</p>
                   </div>
                 ))}
