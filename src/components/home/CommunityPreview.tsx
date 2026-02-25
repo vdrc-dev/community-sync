@@ -4,9 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { 
   ArrowRight, Users, MessageSquare, MessageCircle, Hash, 
-  Heart, Clock, Zap, Trophy, BookOpen 
+  Heart, Clock, Zap, Trophy
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -16,7 +15,6 @@ interface CommunityPreviewProps {
 }
 
 export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
-  // Fetch recent posts
   const { data: recentPosts } = useQuery({
     queryKey: ['home-community-posts'],
     queryFn: async () => {
@@ -26,33 +24,19 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
         .order('created_at', { ascending: false })
         .limit(4);
       if (error) throw error;
-
       const authorIds = [...new Set((data || []).map(p => p.author_id))];
       if (authorIds.length === 0) return [];
-      
-      const { data: profiles } = await supabase
-        .from('profiles')
-        .select('user_id, full_name')
-        .in('user_id', authorIds);
-
+      const { data: profiles } = await supabase.from('profiles').select('user_id, full_name').in('user_id', authorIds);
       const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
-      return (data || []).map(post => ({
-        ...post,
-        author_name: profileMap.get(post.author_id)?.full_name || 'Participante',
-      }));
+      return (data || []).map(post => ({ ...post, author_name: profileMap.get(post.author_id)?.full_name || 'Participante' }));
     },
     staleTime: 1000 * 60 * 3,
   });
 
-  // Fetch spaces with slug
   const { data: spacesData } = useQuery({
     queryKey: ['home-spaces-count'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('spaces')
-        .select('id, name, slug, icon_emoji, post_count')
-        .order('post_count', { ascending: false })
-        .limit(6);
+      const { data, error } = await supabase.from('spaces').select('id, name, slug, icon_emoji, post_count').order('post_count', { ascending: false }).limit(6);
       if (error) throw error;
       return data;
     },
@@ -60,20 +44,23 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
   });
 
   const interactionModes = [
-    { icon: MessageSquare, label: 'Espacios', desc: 'Discusiones temáticas', color: 'text-primary', href: '/community' },
-    { icon: MessageCircle, label: 'Chat en vivo', desc: 'Mensajería en tiempo real', color: 'text-accent', href: '/chat' },
-    { icon: Hash, label: 'Foro', desc: 'Preguntas y respuestas', color: 'text-purple-400', href: '/forum' },
-    { icon: Trophy, label: 'Leaderboard', desc: 'Rankings y logros', color: 'text-yellow-400', href: '/leaderboard' },
+    { icon: MessageSquare, label: 'Espacios', desc: 'Discusiones temáticas', hue: 160, href: '/community' },
+    { icon: MessageCircle, label: 'Chat en vivo', desc: 'Mensajería en tiempo real', hue: 174, href: '/chat' },
+    { icon: Hash, label: 'Foro', desc: 'Preguntas y respuestas', hue: 263, href: '/forum' },
+    { icon: Trophy, label: 'Leaderboard', desc: 'Rankings y logros', hue: 45, href: '/leaderboard' },
   ];
 
   return (
-    <section className="py-16 sm:py-20 relative overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
+      <div className="mesh-gradient opacity-15" />
+
+      <div className="container mx-auto px-4 relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
         >
           <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-accent/40">
@@ -86,36 +73,47 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
           <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 leading-relaxed font-light">
             Startups, family offices, profesores, arquitectos, consultores, abogados y cromañones tecnologicos — todos aprendiendo IA juntos. 150+ profesionales de 11 generaciones.
           </p>
+          <div className="mt-6 max-w-xs">
+            <div className="separator-diamond"><span /></div>
+          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Left: Interaction Modes */}
           <div className="space-y-4">
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground mb-4">
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground/50 mb-4">
               Formas de interactuar
             </p>
             <div className="grid sm:grid-cols-2 gap-3">
               {interactionModes.map((mode, i) => (
                 <motion.div
                   key={mode.label}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
+                  transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link to={isAuthenticated ? mode.href : '/auth'} className="group block">
-                    <div className="glass glass-specular p-4 rounded-2xl transition-all duration-300 hover:scale-[1.03] h-full">
+                    <div className="glass-prismatic glass-specular relative p-4 rounded-2xl transition-all duration-500 hover:scale-[1.03] h-full overflow-hidden border border-white/[0.04] group-hover:border-white/[0.1]">
+                      {/* Accent bar */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-[2px] opacity-15 group-hover:opacity-80 transition-opacity duration-500"
+                        style={{ background: `linear-gradient(90deg, transparent, hsl(${mode.hue} 70% 55%), transparent)` }}
+                      />
                       <div className="flex items-start gap-3">
-                        <div className={`w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
-                          <mode.icon className={`w-5 h-5 ${mode.color}`} />
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-all duration-300 relative"
+                          style={{
+                            background: `linear-gradient(135deg, hsl(${mode.hue} 70% 55% / 0.12), hsl(${mode.hue} 70% 55% / 0.04))`,
+                            border: `1px solid hsl(${mode.hue} 70% 55% / 0.2)`,
+                          }}
+                        >
+                          <mode.icon className="w-5 h-5" style={{ color: `hsl(${mode.hue} 70% 55%)` }} />
+                          <div className="absolute inset-0 rounded-xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none" style={{ background: `hsl(${mode.hue} 70% 55% / 0.2)` }} />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-sm group-hover:text-primary transition-colors">
-                            {mode.label}
-                          </h4>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">
-                            {mode.desc}
-                          </p>
+                          <h4 className="font-semibold text-sm group-hover:text-foreground transition-colors">{mode.label}</h4>
+                          <p className="text-[11px] text-muted-foreground/60 mt-0.5">{mode.desc}</p>
                         </div>
                       </div>
                     </div>
@@ -126,15 +124,8 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
 
             {/* Active Spaces */}
             {spacesData && spacesData.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-              >
-                <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground mt-6 mb-3">
-                  Espacios activos
-                </p>
+              <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
+                <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground/50 mt-6 mb-3">Espacios activos</p>
                 <div className="flex flex-wrap gap-2">
                   {spacesData.map((space) => (
                     <Link
@@ -144,9 +135,7 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                     >
                       <span className="group-hover:scale-110 transition-transform">{space.icon_emoji || '💬'}</span>
                       <span className="text-xs group-hover:text-primary transition-colors">{space.name}</span>
-                      {space.post_count > 0 && (
-                        <span className="text-[10px] text-muted-foreground">({space.post_count})</span>
-                      )}
+                      {(space.post_count ?? 0) > 0 && <span className="text-[10px] text-muted-foreground/40">({space.post_count})</span>}
                     </Link>
                   ))}
                 </div>
@@ -157,13 +146,8 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
           {/* Right: Recent Activity */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground">
-                Actividad reciente
-              </p>
-              <Link
-                to={isAuthenticated ? '/community' : '/auth'}
-                className="text-xs font-mono text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
-              >
+              <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground/50">Actividad reciente</p>
+              <Link to={isAuthenticated ? '/community' : '/auth'} className="text-xs font-mono text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
                 Ver todo <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
@@ -176,20 +160,17 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                     initial={{ opacity: 0, x: 15 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.1 + i * 0.05 }}
+                    transition={{ delay: 0.1 + i * 0.06, duration: 0.5 }}
                   >
-                    <Link
-                      to={isAuthenticated ? `/community/${post.spaces?.slug}/post/${post.id}` : '/auth'}
-                      className="group block"
-                    >
-                      <div className="glass border-border/30 hover:border-primary/30 p-4 rounded-2xl transition-all duration-200 hover:scale-[1.01]">
+                    <Link to={isAuthenticated ? `/community/${post.spaces?.slug}/post/${post.id}` : '/auth'} className="group block">
+                      <div className="glass-prismatic relative p-4 rounded-2xl transition-all duration-300 hover:scale-[1.01] overflow-hidden border border-white/[0.04] group-hover:border-white/[0.08]">
                         <div className="flex items-start gap-3">
                           <span className="text-lg shrink-0">{post.spaces?.icon_emoji || '💬'}</span>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
                               {post.title || post.content?.slice(0, 80)}
                             </p>
-                            <div className="flex items-center gap-2 mt-1.5 text-[11px] text-muted-foreground">
+                            <div className="flex items-center gap-2 mt-1.5 text-[11px] text-muted-foreground/60">
                               <span>{post.author_name}</span>
                               <span>·</span>
                               <span className="flex items-center gap-0.5">
@@ -197,13 +178,9 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                                 {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: es })}
                               </span>
                             </div>
-                            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-muted-foreground/70">
-                              <span className="flex items-center gap-0.5">
-                                <Heart className="w-3 h-3" /> {post.likes_count || 0}
-                              </span>
-                              <span className="flex items-center gap-0.5">
-                                <MessageSquare className="w-3 h-3" /> {post.comments_count || 0}
-                              </span>
+                            <div className="flex items-center gap-3 mt-1.5 text-[11px] text-muted-foreground/40">
+                              <span className="flex items-center gap-0.5"><Heart className="w-3 h-3" /> {post.likes_count || 0}</span>
+                              <span className="flex items-center gap-0.5"><MessageSquare className="w-3 h-3" /> {post.comments_count || 0}</span>
                             </div>
                           </div>
                         </div>
@@ -213,20 +190,17 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
                 ))}
               </div>
             ) : (
-              <div className="glass glass-specular p-8 rounded-2xl text-center relative overflow-hidden">
+              <div className="glass-prismatic glass-specular p-8 rounded-2xl text-center relative overflow-hidden border border-white/[0.04]">
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
                 <div className="relative">
                   <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
                     <Zap className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-sm font-semibold mb-1">La comunidad te espera</h3>
-                  <p className="text-xs text-muted-foreground max-w-xs mx-auto leading-relaxed">
-                    Se el primero en compartir un descubrimiento, pregunta o proyecto con IA. Gana puntos y sube en el ranking.
+                  <p className="text-xs text-muted-foreground/60 max-w-xs mx-auto leading-relaxed font-light">
+                    Se el primero en compartir un descubrimiento, pregunta o proyecto con IA.
                   </p>
-                  <Link
-                    to={isAuthenticated ? '/community' : '/auth'}
-                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
-                  >
+                  <Link to={isAuthenticated ? '/community' : '/auth'} className="inline-flex items-center gap-1.5 mt-4 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
                     Empezar a participar <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
@@ -236,14 +210,8 @@ export function CommunityPreview({ isAuthenticated }: CommunityPreviewProps) {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-10 text-center"
-        >
-          <Button asChild size="lg" variant="outline" className="font-mono rounded-2xl border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:border-accent/20 hover:bg-accent/5 group">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="mt-10 text-center">
+          <Button asChild size="lg" variant="outline" className="font-mono rounded-2xl border-white/[0.08] bg-white/[0.04] backdrop-blur-xl hover:border-accent/20 hover:bg-accent/5 group btn-shine">
             <Link to={isAuthenticated ? '/community' : '/auth'}>
               <Users className="w-4 h-4 mr-2 text-accent" />
               Explorar la comunidad
