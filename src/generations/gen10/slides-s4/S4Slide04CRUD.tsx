@@ -1,100 +1,132 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Search, Pencil, Trash2, UserPlus, ShoppingCart, Settings, FileX } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, UserPlus, ShoppingCart, Settings, FileX, Database, ArrowRight } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 
 const OPS = [
-  { letter: 'C', word: 'Create', label: 'Crear', icon: Plus, color: 'hsl(150 60% 50%)', example: 'Registrar usuario', excelAnalogy: 'Agregar fila', exampleIcon: UserPlus },
-  { letter: 'R', word: 'Read', label: 'Leer', icon: Search, color: 'hsl(185 70% 50%)', example: 'Ver productos', excelAnalogy: 'Ver datos', exampleIcon: ShoppingCart },
-  { letter: 'U', word: 'Update', label: 'Editar', icon: Pencil, color: 'hsl(38 90% 55%)', example: 'Cambiar perfil', excelAnalogy: 'Editar celda', exampleIcon: Settings },
-  { letter: 'D', word: 'Delete', label: 'Borrar', icon: Trash2, color: 'hsl(0 70% 55%)', example: 'Eliminar post', excelAnalogy: 'Eliminar fila', exampleIcon: FileX },
+  { letter: 'C', word: 'Create', label: 'Crear', icon: Plus, color: 'hsl(150 60% 50%)', hue: 150, example: 'Registrar usuario nuevo', excelAnalogy: 'Agregar una fila nueva', exampleIcon: UserPlus, sql: 'INSERT INTO usuarios (nombre, email) VALUES ($1, $2)' },
+  { letter: 'R', word: 'Read', label: 'Leer', icon: Search, color: 'hsl(185 70% 50%)', hue: 185, example: 'Ver todos los productos', excelAnalogy: 'Ver o filtrar datos', exampleIcon: ShoppingCart, sql: 'SELECT * FROM productos WHERE activo = true' },
+  { letter: 'U', word: 'Update', label: 'Editar', icon: Pencil, color: 'hsl(38 90% 55%)', hue: 38, example: 'Cambiar foto de perfil', excelAnalogy: 'Editar el contenido de una celda', exampleIcon: Settings, sql: 'UPDATE usuarios SET avatar = $1 WHERE id = $2' },
+  { letter: 'D', word: 'Delete', label: 'Borrar', icon: Trash2, color: 'hsl(0 70% 55%)', hue: 0, example: 'Eliminar publicación', excelAnalogy: 'Eliminar fila completa', exampleIcon: FileX, sql: 'DELETE FROM posts WHERE id = $1 AND user_id = $2' },
 ];
 
 export function S4Slide04CRUD() {
   const { isExporting } = useExportContext();
   const slideNum = useSlideNumber();
   const [active, setActive] = useState(0);
-  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.5 } };
+  const op = OPS[active];
+  const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.7, ease: [0.22, 1, 0.36, 1] } };
 
   return (
     <div className="h-full w-full min-h-screen relative overflow-hidden flex flex-col justify-center px-16 2xl:px-20 font-sans" style={{ background: '#04030a' }}>
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_-20%,_hsl(150_60%_40%_/_0.1),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_70%_at_50%_-20%,_hsl(150_60%_40%_/_0.12),_transparent_60%)]" />
+        <div className="absolute inset-0 opacity-[0.022]" style={{ backgroundImage: 'radial-gradient(circle, hsl(150 55% 65%) 0.5px, transparent 0.5px)', backgroundSize: '52px 52px' }} />
+        <div className="absolute top-[5%] right-[3%] text-[18vw] font-black text-white/[0.022] leading-none select-none pointer-events-none tracking-tighter">CRUD</div>
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto w-full">
+        {/* Header */}
         <motion.div {...m(0)} className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-8 rounded-full bg-emerald-500" />
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-1 h-8 rounded-full bg-emerald-500" style={{ boxShadow: '0 0 12px hsl(150 60% 50% / 0.6)' }} />
             <div>
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase text-white/40">Fundamentos</span>
-              <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight">CRUD: El Lenguaje Universal</h1>
+              <span className="text-xs font-black tracking-[0.25em] uppercase text-white/30">Fundamentos · Operaciones de Datos</span>
+              <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">CRUD: El Lenguaje Universal</h1>
             </div>
           </div>
-          <p className="text-emerald-400/60 text-sm ml-5 pl-1">Las 4 operaciones que toda app necesita. Más potente que Excel.</p>
+          <p className="text-emerald-400/60 text-sm ml-5 pl-1 font-medium">Las 4 operaciones que toda app necesita. Más potente que Excel. Haz clic en cada letra.</p>
         </motion.div>
 
-        {/* CRUD cards */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {OPS.map((op, i) => {
-            const Icon = op.icon;
+        {/* CRUD letter cards */}
+        <div className="grid grid-cols-4 gap-4 mb-7">
+          {OPS.map((o, i) => {
+            const Icon = o.icon;
             const isActive = active === i;
             return (
-              <motion.button key={op.letter} {...m(0.15 + i * 0.08)} onClick={() => setActive(i)}
-                className={`relative p-5 rounded-2xl border text-left transition-all ${isActive ? 'bg-white/[0.04] border-white/[0.12] scale-[1.02]' : 'bg-white/[0.01] border-white/[0.04]'}`}>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-0.5 rounded-b-full" style={{ background: op.color, opacity: isActive ? 1 : 0.2 }} />
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${op.color.replace(')', ' / 0.1)')}`, border: `1px solid ${op.color.replace(')', ' / 0.25)')}` }}>
-                    <span className="text-lg font-black" style={{ color: op.color }}>{op.letter}</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">{op.word}</p>
-                    <p className="text-[11px] text-white/30">{op.label}</p>
-                  </div>
+              <motion.button key={o.letter} {...m(0.1 + i * 0.07)} onClick={() => setActive(i)}
+                className="relative p-6 rounded-2xl border text-left transition-all duration-300 overflow-hidden group"
+                style={{
+                  borderColor: isActive ? `hsl(${o.hue} 60% 50% / 0.35)` : 'hsl(0 0% 100% / 0.05)',
+                  background: isActive ? `hsl(${o.hue} 60% 40% / 0.08)` : 'hsl(0 0% 100% / 0.01)',
+                  boxShadow: isActive ? `0 0 40px hsl(${o.hue} 60% 40% / 0.1) inset` : 'none',
+                  transform: isActive ? 'scale(1.02)' : 'scale(1)',
+                }}>
+                {/* Top accent */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl" style={{ background: `linear-gradient(90deg, transparent, ${o.color.replace(')', ' / ' + (isActive ? '0.7' : '0.15)'))}, transparent)` }} />
+                {/* Background letter */}
+                <div className="absolute bottom-2 right-3 text-[72px] font-black leading-none select-none pointer-events-none" style={{ color: `hsl(${o.hue} 50% 50% / ${isActive ? '0.07' : '0.03'})`, transition: 'color 0.3s' }}>{o.letter}</div>
+
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: `hsl(${o.hue} 60% 45% / ${isActive ? '0.15' : '0.08'})`, border: `1px solid hsl(${o.hue} 60% 50% / ${isActive ? '0.3' : '0.15'})`, boxShadow: isActive ? `0 0 20px hsl(${o.hue} 60% 50% / 0.15)` : 'none', transition: 'all 0.3s' }}>
+                  <span className="text-2xl font-black" style={{ color: o.color }}>{o.letter}</span>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs text-white/40">
-                    <Icon className="w-3.5 h-3.5" style={{ color: op.color }} />
-                    <span>{op.example}</span>
-                  </div>
-                  <div className="text-[10px] text-white/25 pl-5.5">Excel: {op.excelAnalogy}</div>
+
+                <p className="text-lg font-black text-white leading-tight">{o.word}</p>
+                <p className="text-xs font-bold mt-0.5 mb-3" style={{ color: `hsl(${o.hue} 55% 60% / 0.6)` }}>{o.label}</p>
+
+                <div className="flex items-center gap-1.5 text-xs text-white/40">
+                  <Icon className="w-3.5 h-3.5" style={{ color: `${o.color.replace(')', ' / 0.7)')}` }} />
+                  <span>{o.example}</span>
                 </div>
+                <p className="text-[10px] text-white/20 mt-1.5 italic">Excel: {o.excelAnalogy}</p>
               </motion.button>
             );
           })}
         </div>
 
-        {/* Active operation detail */}
+        {/* Active detail */}
         <AnimatePresence mode="wait">
-          <motion.div key={active} initial={isExporting ? {} : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] max-w-3xl mx-auto">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: `${OPS[active].color.replace(')', ' / 0.08)')}` }}>
-                {(() => { const ExIcon = OPS[active].exampleIcon; return <ExIcon className="w-7 h-7" style={{ color: OPS[active].color }} />; })()}
+          <motion.div key={active}
+            initial={isExporting ? {} : { opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="grid grid-cols-2 gap-5">
+            {/* Visual example */}
+            <div className="p-5 rounded-2xl border relative overflow-hidden"
+              style={{ borderColor: `hsl(${op.hue} 60% 50% / 0.2)`, background: `hsl(${op.hue} 60% 40% / 0.05)` }}>
+              <div className="absolute top-0 left-0 right-0 h-0.5" style={{ background: `linear-gradient(90deg, transparent, ${op.color.replace(')', ' / 0.5)')}, transparent)` }} />
+              <div className="flex items-center gap-3 mb-4">
+                {(() => { const ExIcon = op.exampleIcon; return (
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `hsl(${op.hue} 60% 45% / 0.15)`, border: `1px solid hsl(${op.hue} 60% 50% / 0.3)` }}>
+                    <ExIcon className="w-6 h-6" style={{ color: op.color }} />
+                  </div>
+                ); })()}
+                <div>
+                  <p className="text-xs font-black tracking-widest uppercase" style={{ color: `hsl(${op.hue} 55% 60% / 0.7)` }}>{op.word} — Ejemplo</p>
+                  <p className="text-base font-black text-white">{op.example}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-bold tracking-wider uppercase" style={{ color: OPS[active].color }}>{OPS[active].word}</p>
-                <p className="text-base font-bold text-white">{OPS[active].example}</p>
-                <p className="text-xs text-white/30 mt-1">Como en Excel: <span className="text-white/50">{OPS[active].excelAnalogy}</span></p>
+              <p className="text-xs text-white/35 mb-3">Como en Excel: <span className="text-white/50 font-medium">{op.excelAnalogy}</span></p>
+              <div className="flex items-center gap-2 text-xs text-white/25">
+                <Database className="w-3 h-3" />
+                <span>Supabase genera la API automáticamente</span>
               </div>
+            </div>
+
+            {/* SQL snippet */}
+            <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-[10px] font-black text-white/25 uppercase tracking-widest mb-3">SQL generado automáticamente</p>
+              <div className="p-4 rounded-xl border border-white/[0.06] bg-black/50 font-mono text-xs">
+                <span className="text-emerald-400/60">{op.sql.split(' ')[0]}</span>
+                <span className="text-white/35"> {op.sql.split(' ').slice(1).join(' ')}</span>
+              </div>
+              <p className="text-[10px] text-white/20 mt-3 italic">💡 Con Supabase no necesitas escribir esto. La plataforma lo genera por ti.</p>
             </div>
           </motion.div>
         </AnimatePresence>
-
-        <motion.div {...m(0.6)} className="mt-5 p-3 rounded-xl border border-cyan-500/10 bg-cyan-500/[0.02] text-center max-w-2xl mx-auto">
-          <p className="text-xs text-white/40">💡 Con Supabase: <span className="text-cyan-400/70 font-semibold">no escribes SQL</span>. La plataforma genera CRUD automáticamente. Solo describes qué quieres.</p>
-        </motion.div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 z-20">
-        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(150 50% 50% / 0.2), transparent)' }} />
+        <div className="h-px mx-16" style={{ background: 'linear-gradient(90deg, transparent, hsl(150 50% 50% / 0.3), transparent)' }} />
         <div className="flex items-center justify-between px-12 py-4">
-          <span className="text-[10px] font-medium tracking-wider text-white/40 uppercase">FUNDAMENTOS</span>
-          <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/60">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
+          <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Fundamentos</span>
+          <span className="text-[11px] font-black tabular-nums tracking-wider text-white/50">{slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}</span>
         </div>
       </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 180px 80px hsl(260 30% 3% / 0.85)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 100px hsl(260 30% 2% / 0.88)' }} />
     </div>
   );
 }
