@@ -132,13 +132,23 @@ export function Gen11Banner() {
   return (
     <section id="gen11-banner" className="py-16 sm:py-24 relative overflow-hidden" aria-label="Generación 11">
       {/* Ambient background */}
-      <div
-        className="absolute top-[20%] left-[5%] w-[350px] h-[350px] rounded-full blur-[100px] pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(circle, hsl(152 70% 40% / 0.08), transparent 70%)' }}
+      <motion.div
+        className="absolute top-[20%] left-[5%] w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(circle, hsl(152 70% 40% / 0.1), transparent 65%)' }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div
-        className="absolute bottom-[10%] right-[10%] w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(circle, hsl(263 60% 50% / 0.06), transparent 70%)' }}
+      <motion.div
+        className="absolute bottom-[10%] right-[10%] w-[350px] h-[350px] rounded-full blur-[120px] pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(circle, hsl(263 60% 50% / 0.08), transparent 65%)' }}
+        animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+      />
+      <motion.div
+        className="absolute top-[50%] left-[40%] w-[280px] h-[280px] rounded-full blur-[100px] pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(circle, hsl(174 60% 45% / 0.05), transparent 65%)' }}
+        animate={{ x: [0, 30, -20, 0], y: [0, -15, 10, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
 
       <div className="container mx-auto px-4">
@@ -173,7 +183,7 @@ export function Gen11Banner() {
             {/* Animated glow border */}
             <div className="absolute -inset-px rounded-3xl border-glow-animated" />
 
-            <div className="glass glass-specular relative rounded-3xl overflow-hidden">
+            <div className="glass-prismatic glass-specular relative rounded-3xl overflow-hidden">
               {/* Grid background */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_90%)]" />
 

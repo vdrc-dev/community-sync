@@ -72,14 +72,14 @@ export function FeaturesGrid() {
                   />
 
                   <motion.div
-                    className={`glass glass-specular card-edge-highlight spotlight-card relative flex flex-col h-full ${isLarge ? 'p-5 sm:p-8 lg:p-10' : 'p-5 sm:p-7'} rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden`}
+                    className={`glass-prismatic glass-specular card-edge-highlight spotlight-card relative flex flex-col h-full ${isLarge ? 'p-5 sm:p-8 lg:p-10' : 'p-5 sm:p-7'} rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden`}
                     whileHover={{ scale: 1.02, y: -4 }}
                     transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                   >
-                    {/* Accent top stripe — always visible faintly */}
+                    {/* Accent top stripe — holographic multi-color */}
                     <div
-                      className="absolute top-0 left-0 right-0 h-[2px] opacity-20 group-hover:opacity-90 transition-opacity duration-500"
-                      style={{ background: `linear-gradient(90deg, transparent, hsl(${feature.hue} 70% 55%), transparent)` }}
+                      className="absolute top-0 left-0 right-0 h-[2px] opacity-25 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{ background: `linear-gradient(90deg, transparent 5%, hsl(${feature.hue} 70% 55%) 30%, hsl(${(feature.hue + 40) % 360} 60% 55% / 0.5) 70%, transparent 95%)` }}
                     />
 
                     {/* Light leak sweep on hover */}

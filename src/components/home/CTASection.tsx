@@ -30,8 +30,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
             className="relative max-w-3xl mx-auto"
           >
             <div className="relative p-8 sm:p-10 rounded-3xl overflow-hidden text-center">
-              <div className="absolute inset-0 glass glass-specular rounded-3xl" />
-              <div className="absolute inset-0 border-glow-animated rounded-3xl" />
+              <div className="absolute inset-0 glass-prismatic glass-specular rounded-3xl" />
+              <div className="absolute inset-0 border-holographic rounded-3xl" />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px] rounded-3xl" />
               <div className="relative z-10">
                 <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">/// SIGUE AFILANDO</span>
@@ -90,8 +90,8 @@ export function CTASection({ isAuthenticated }: CTASectionProps) {
         >
             <div className="relative p-6 sm:p-10 md:p-14 lg:p-20 rounded-2xl sm:rounded-3xl overflow-hidden">
             {/* Glass background */}
-            <div className="absolute inset-0 glass glass-specular rounded-3xl" />
-            <div className="absolute inset-0 border-glow-animated rounded-3xl" />
+            <div className="absolute inset-0 glass-prismatic glass-specular rounded-3xl" />
+            <div className="absolute inset-0 border-holographic rounded-3xl" />
             <div className="absolute inset-0 noise-overlay rounded-3xl" />
 
             {/* Mesh gradient inside card */}

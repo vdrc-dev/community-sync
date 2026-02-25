@@ -97,7 +97,7 @@ export function StatsSection() {
           </div>
         </motion.div>
 
-        {/* Stats grid — dramatic cinematic cards */}
+        {/* Stats grid — dramatic cinematic editorial cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-5 max-w-6xl mx-auto">
           {stats.map((stat, index) => (
             <motion.div
@@ -112,25 +112,36 @@ export function StatsSection() {
               {/* Multi-layered glow on hover */}
               <div
                 className="absolute -inset-3 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-                style={{ background: `hsl(${stat.hue} 70% 55% / 0.1)` }}
+                style={{ background: `hsl(${stat.hue} 70% 55% / 0.12)` }}
               />
 
-              <div className="glass glass-specular card-light-leak relative p-6 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 text-center overflow-hidden h-full border border-white/[0.04]">
-                {/* Accent top bar — always subtly visible */}
+              <div className="glass-prismatic glass-specular card-light-leak relative p-6 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 text-center overflow-hidden h-full border border-white/[0.04]">
+                {/* Accent top bar — holographic */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-[2px] opacity-15 group-hover:opacity-90 transition-opacity duration-500"
-                  style={{ background: `linear-gradient(90deg, transparent, hsl(${stat.hue} 70% 55%), transparent)` }}
+                  className="absolute top-0 left-0 right-0 h-[2px] opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: `linear-gradient(90deg, transparent, hsl(${stat.hue} 70% 55%), hsl(${(stat.hue + 40) % 360} 60% 55% / 0.5), transparent)` }}
                 />
 
-                {/* BIG value — the star of each card */}
+                {/* Holographic shimmer sweep */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                >
+                  <motion.div
+                    style={{ background: `linear-gradient(105deg, transparent 30%, hsl(${stat.hue} 70% 60% / 0.08) 45%, transparent 60%)`, width: '40%', height: '100%' }}
+                    animate={{ x: ['-100%', '350%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }}
+                  />
+                </motion.div>
+
+                {/* BIG value — EDITORIAL SERIF with glow */}
                 <div
-                  className="text-3xl sm:text-5xl font-display mb-3 transition-all duration-300 tracking-tighter"
+                  className="text-4xl sm:text-5xl stat-serif mb-3 transition-all duration-300"
                   style={{
-                    background: `linear-gradient(180deg, hsl(${stat.hue} 70% 75%), hsl(${stat.hue} 70% 45%))`,
+                    background: `linear-gradient(180deg, hsl(${stat.hue} 70% 78%), hsl(${stat.hue} 70% 48%))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 16px hsl(${stat.hue} 70% 55% / 0.35))`,
+                    filter: `drop-shadow(0 0 22px hsl(${stat.hue} 70% 55% / 0.45))`,
                   }}
                 >
                   <AnimatedCounter value={stat.numericValue} suffix={stat.suffix} duration={2.5} delay={index * 0.15} />

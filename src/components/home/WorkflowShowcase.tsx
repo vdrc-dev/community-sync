@@ -174,7 +174,7 @@ export function WorkflowShowcase() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15 }}
                   onClick={() => window.location.href = '/workflows'}
-                  className="group p-5 rounded-2xl glass glass-specular hover:border-white/[0.1] transition-all duration-400 cursor-pointer overflow-hidden relative border border-white/[0.04] hover:shadow-[0_8px_32px_-8px_hsl(var(--glass-shadow)_/_0.2)]"
+                  className="group p-5 rounded-2xl glass-prismatic glass-specular hover:border-white/[0.1] transition-all duration-400 cursor-pointer overflow-hidden relative border border-white/[0.04] hover:shadow-[0_8px_32px_-8px_hsl(var(--glass-shadow)_/_0.2),_0_0_24px_-6px_hsl(var(--primary)_/_0.1)]"
                 >
                   {/* Subtle accent left bar */}
                   <div

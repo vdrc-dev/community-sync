@@ -105,7 +105,7 @@ export function TestimonialsSection() {
                   style={{ background: `hsl(${accent.hue} 70% 55% / 0.08)` }}
                 />
 
-                <div className="glass glass-specular card-light-leak relative h-full p-5 sm:p-7 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden border border-white/[0.04]">
+                <div className="glass-prismatic glass-specular card-light-leak relative h-full p-5 sm:p-7 rounded-2xl group-hover:border-white/[0.12] transition-all duration-500 overflow-hidden border border-white/[0.04]">
                   {/* Accent top bar — always subtly visible */}
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px] opacity-25 group-hover:opacity-90 transition-opacity duration-500"
