@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Monitor, Globe, Terminal, FolderOpen, Plug, Sparkles, Check, X, Download, LogIn, FileUp, Cable } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -58,9 +58,16 @@ export function S3Slide06ClaudeCode() {
         </motion.div>
 
         {/* Title */}
+        {/* Editorial serif anchor */}
+        <div className="absolute top-[-10%] right-[-5%] z-[0] pointer-events-none select-none">
+          <span style={s3SerifAnchor('CD', 263, 0.025)}>CD</span>
+        </div>
+
         <motion.h1 {...m(0.08)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
-          Claude{' '}
+          <span style={{ fontFamily: S3_SERIF, fontStyle: 'italic' }}>Claude</span>{' '}
           <span style={{
+            fontFamily: S3_SERIF,
+            fontStyle: 'italic',
             background: 'linear-gradient(135deg, hsl(263 75% 72%), hsl(280 65% 68%), hsl(310 55% 65%))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',

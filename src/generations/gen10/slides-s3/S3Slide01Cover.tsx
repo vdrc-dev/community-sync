@@ -5,7 +5,7 @@ const logoVdrc = '/logos/vdrc-white.png';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { useGeneration } from '@/contexts/GenerationContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_EASE, s3MotionEpic, s3GradientTextMulti } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_EASE, s3MotionEpic, s3GradientTextMulti, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -71,6 +71,11 @@ export function S3Slide01Cover() {
           showPlasma
           showConstellation
         />
+      </div>
+
+      {/* ── Editorial serif anchor ── */}
+      <div className="absolute bottom-[-5%] right-[-2%] z-[1]">
+        <span style={s3SerifAnchor('S3', 330, 0.035)}>S3</span>
       </div>
 
       {/* ── TOP BAR ── */}
@@ -140,7 +145,7 @@ export function S3Slide01Cover() {
             </div>
           </motion.div>
 
-          {/* ── Title ── */}
+          {/* ── Title — Editorial serif treatment ── */}
           <motion.div
             {...me(0.25, { initial: { opacity: 0, x: -80, scale: 0.9 }, animate: { opacity: 1, x: 0, scale: 1 } })}
             onMouseEnter={() => setIsHovered(true)}
@@ -148,8 +153,11 @@ export function S3Slide01Cover() {
             className="relative"
           >
             <h1
-              className="text-[2.8rem] sm:text-[4.5rem] lg:text-[7rem] 2xl:text-[9rem] font-black tracking-[-0.06em] leading-[0.85] relative"
+              className="text-[2.8rem] sm:text-[4.5rem] lg:text-[7rem] 2xl:text-[9rem] tracking-[-0.06em] leading-[0.85] relative"
               style={{
+                fontFamily: S3_SERIF,
+                fontWeight: 900,
+                fontStyle: 'italic',
                 background: 'linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(330 55% 88%) 50%, hsl(310 50% 80%) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -158,7 +166,7 @@ export function S3Slide01Cover() {
                 transition: 'filter 0.7s ease',
               }}
             >
-              PRESENTACIONES
+              PRESENTA
             </h1>
             <h1
               className="text-[2.8rem] sm:text-[4.5rem] lg:text-[7rem] 2xl:text-[9rem] font-black tracking-[-0.06em] leading-[0.85] relative"
@@ -205,8 +213,24 @@ export function S3Slide01Cover() {
             </p>
           </motion.div>
 
+          {/* ── Editorial metrics strip ── */}
+          <motion.div {...me(0.6)} className="mt-6 sm:mt-10 flex items-center gap-6 sm:gap-10">
+            {[
+              { num: '10+', label: 'herramientas' },
+              { num: '90', label: 'minutos' },
+              { num: '4', label: 'módulos' },
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-start">
+                <span style={{ fontFamily: S3_SERIF, fontSize: '2rem', fontWeight: 900, fontStyle: 'italic', color: `hsl(330 70% 68%)`, lineHeight: 1, letterSpacing: '-0.03em' }}>
+                  {stat.num}
+                </span>
+                <span className="text-[9px] text-white/35 uppercase tracking-[0.2em] font-bold mt-0.5">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+
           {/* ── CTA ── */}
-          <motion.div {...me(0.75)} className="mt-6 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
+          <motion.div {...me(0.75)} className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
             <motion.button
               className="group relative inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold text-sm overflow-hidden border"
               style={{
@@ -342,11 +366,7 @@ export function S3Slide01Cover() {
         </motion.div>
       </div>
 
-      <S3Footer
-        sectionLabel="PORTADA"
-        hue={330}
-        contextHint="sesión 3 · creación digital con IA"
-      />
+      <S3Footer sectionLabel="PRESENTACIONES CON IA" hue={330} contextHint="sesión 3 · comunicación y creación digital" />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Map, Palette, Wrench, Plug, Rocket, Clock, ChevronRight, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -45,6 +45,11 @@ export function S3SlideAgenda() {
         <S3Atmosphere isExporting={isExporting} particleCount={16} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma />
       </div>
 
+      {/* Editorial serif anchor */}
+      <div className="absolute top-[-5%] right-[-4%] z-[1]">
+        <span style={s3SerifAnchor('90', 330, 0.025)}>90</span>
+      </div>
+
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         {/* Badge */}
         <motion.div {...m(0)} className="mb-4">
@@ -54,10 +59,12 @@ export function S3SlideAgenda() {
           </div>
         </motion.div>
 
-        {/* Title */}
+        {/* Title — editorial serif */}
         <motion.h1 {...me(0.06)} className="text-3xl sm:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
           Recorrido de{' '}
           <span style={{
+            fontFamily: S3_SERIF,
+            fontStyle: 'italic',
             background: 'linear-gradient(135deg, hsl(330 85% 68%), hsl(280 70% 65%), hsl(185 70% 60%))',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             filter: 'drop-shadow(0 0 25px hsl(330 85% 68% / 0.4))',
@@ -71,7 +78,7 @@ export function S3SlideAgenda() {
           transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
         />
 
-        {/* Total time badge */}
+        {/* Total time badge — serif metric */}
         <motion.div {...m(0.12)} className="mt-3 mb-6 sm:mb-10 flex items-center justify-center gap-3">
           <span className="text-white/45 text-sm sm:text-base">4 módulos</span>
           <div className="w-px h-4 bg-white/15" />
@@ -79,13 +86,13 @@ export function S3SlideAgenda() {
             style={{ borderColor: 'hsl(185 60% 50% / 0.25)', background: 'hsl(185 60% 50% / 0.06)' }}
             {...(isExporting ? {} : { animate: { boxShadow: ['0 0 0px hsl(185 60% 50% / 0)', '0 0 25px hsl(185 60% 50% / 0.15)', '0 0 0px hsl(185 60% 50% / 0)'] }, transition: { duration: 3, repeat: Infinity } })}>
             <Clock className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-            <span className="text-sm font-bold" style={{ color: S3_ACCENT.cyan.text }}>90 min</span>
+            <span style={{ fontFamily: S3_SERIF, fontSize: '16px', fontWeight: 900, fontStyle: 'italic', color: S3_ACCENT.cyan.text }}>90 min</span>
           </motion.div>
           <div className="w-px h-4 bg-white/15" />
           <span className="text-white/45 text-sm sm:text-base">herramientas en acción</span>
         </motion.div>
 
-        {/* Module cards */}
+        {/* Module cards — with serif numbers */}
         <div className="grid grid-cols-2 sm:flex sm:items-stretch gap-3 sm:gap-4">
           {MODULES.map((mod, i) => {
             const Icon = mod.icon;
@@ -115,12 +122,12 @@ export function S3SlideAgenda() {
                   )}
 
                   <div className="relative p-5 flex flex-col items-center flex-1">
-                    {/* Number + Icon header */}
+                    {/* Number + Icon header — serif number */}
                     <div className="flex items-center gap-3 mb-3 w-full">
                       <motion.div className="w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 relative overflow-hidden"
                         style={{ borderColor: mod.accent.dot, background: `${mod.accent.dot}15` }}
                         {...(isExporting ? {} : { whileHover: { rotate: [0, -5, 5, 0] } })}>
-                        <span className="text-sm font-black relative z-10" style={{ color: mod.accent.text }}>{mod.num}</span>
+                        <span style={{ fontFamily: S3_SERIF, fontSize: '16px', fontWeight: 900, fontStyle: 'italic', color: mod.accent.text }} className="relative z-10">{mod.num}</span>
                       </motion.div>
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
                         style={{ background: `${mod.accent.text}08`, border: `1px solid ${mod.accent.text}15` }}>
@@ -147,14 +154,14 @@ export function S3SlideAgenda() {
                       ))}
                     </div>
 
-                    {/* Time bar */}
+                    {/* Time bar — serif percentage */}
                     <div className="w-full mt-4 pt-3 border-t" style={{ borderColor: `${mod.accent.text}10` }}>
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-1.5">
                           <Clock className="w-3 h-3" style={{ color: `${mod.accent.text}60` }} />
                           <span className="text-[10px] font-bold" style={{ color: `${mod.accent.text}60` }}>{mod.time}</span>
                         </div>
-                        <span className="text-[10px] font-black tabular-nums" style={{ color: mod.accent.text }}>{mod.timePercent}%</span>
+                        <span style={{ fontFamily: S3_SERIF, fontSize: '13px', fontWeight: 900, fontStyle: 'italic', color: mod.accent.text }}>{mod.timePercent}%</span>
                       </div>
                       <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: `${mod.accent.text}10` }}>
                         <motion.div className="h-full rounded-full relative overflow-hidden"

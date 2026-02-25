@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Shield, Brain, MessageSquare, Code2, ChevronRight, Lock, Check, Zap } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -27,6 +27,11 @@ export function S3Slide02Recap() {
         <S3Atmosphere isExporting={isExporting} particleCount={14} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showConstellation />
       </div>
 
+      {/* Editorial serif anchor */}
+      <div className="absolute top-[-8%] left-[-3%] z-[1]">
+        <span style={s3SerifAnchor('75', 330, 0.03)}>75</span>
+      </div>
+
       <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
         <motion.div {...m(0)} className="mb-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
@@ -36,7 +41,7 @@ export function S3Slide02Recap() {
         </motion.div>
 
         <motion.h1 {...me(0.08)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2">
-          El Camino Hasta <span style={s3GradientText('hsl(330 85% 68%)', 'hsl(280 70% 65%)', 330)}>Aquí</span>
+          El Camino Hasta <span style={{ ...s3GradientText('hsl(330 85% 68%)', 'hsl(280 70% 65%)', 330), fontFamily: S3_SERIF, fontStyle: 'italic' }}>Aquí</span>
         </motion.h1>
         <motion.div
           className="h-0.5 rounded-full mx-auto max-w-[96px] origin-center"
@@ -50,7 +55,7 @@ export function S3Slide02Recap() {
         <motion.div {...m(0.1)} className="mt-3 mb-7 max-w-sm mx-auto">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Progreso Global</span>
-            <span className="text-[11px] font-black tabular-nums" style={{ color: S3_ACCENT.rose.text }}>75%</span>
+            <span className="text-[11px] font-black tabular-nums" style={{ color: S3_ACCENT.rose.text, fontFamily: S3_SERIF, fontStyle: 'italic', fontSize: '14px' }}>75%</span>
           </div>
           <div className="h-2 rounded-full overflow-hidden relative" style={{ background: 'hsl(0 0% 100% / 0.04)' }}>
             <motion.div className="h-full rounded-full relative"
@@ -99,7 +104,6 @@ export function S3Slide02Recap() {
                         animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }} transition={{ duration: 2, repeat: Infinity }} />
                       <motion.div className="absolute -inset-5 rounded-full border-2 border-dashed" style={{ borderColor: `${week.accent.dot}40`, opacity: 0.25 }}
                         animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
-                      {/* Electric pulse */}
                       <motion.div className="absolute -inset-6 rounded-full"
                         style={{ background: `radial-gradient(circle, ${week.accent.dot}30, transparent 70%)` }}
                         animate={{ scale: [0.8, 1.6, 0.8], opacity: [0.1, 0.3, 0.1] }}
@@ -116,7 +120,6 @@ export function S3Slide02Recap() {
                     }}
                     {...(isExporting ? {} : isCurrent ? { animate: { scale: [1, 1.05, 1] }, transition: { duration: 2.5, repeat: Infinity } } : {})}
                   >
-                    {/* Inner shimmer for completed */}
                     {week.done && !isExporting && (
                       <motion.div className="absolute inset-0 pointer-events-none"
                         style={{ background: `linear-gradient(105deg, transparent 35%, ${week.accent.text}15 50%, transparent 65%)` }}

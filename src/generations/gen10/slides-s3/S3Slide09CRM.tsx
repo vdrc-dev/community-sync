@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Database, Plug, BarChart3, ArrowRight, Sparkles, TrendingUp, Users, DollarSign, MessageSquare } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -47,9 +47,13 @@ export function S3Slide09CRM() {
             <Database className="w-3.5 h-3.5" style={{ color: S3_ACCENT.amber.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.amber.text }}>Conexiones y Datos</span>
           </div>
+          {/* Editorial serif anchor */}
+          <div className="absolute top-[-10%] right-[-4%] z-[0] pointer-events-none select-none">
+            <span style={s3SerifAnchor('$', 38, 0.025)}>$</span>
+          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-1">
             Conecta tu{' '}
-            <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(280 60% 60%)', 38)}>CRM</span>
+            <span style={{ ...s3GradientText('hsl(38 90% 65%)', 'hsl(280 60% 60%)', 38), fontFamily: S3_SERIF, fontStyle: 'italic' }}>CRM</span>
           </h1>
           <motion.div
             className="h-[2px] rounded-full mx-auto mt-1.5 max-w-[100px] origin-center"

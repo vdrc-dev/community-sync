@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Wand2, Sparkles, ArrowRight, Code2, Palette, Type, Layout } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -49,6 +49,11 @@ export function S3Slide04VibeCoding() {
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={185} secondaryHue={280} tertiaryHue={38} showAurora />
       </div>
 
+      {/* Editorial serif anchor */}
+      <div className="absolute top-[-3%] right-[-2%] z-[1]">
+        <span style={s3SerifAnchor('VC', 185, 0.025)}>VC</span>
+      </div>
+
       <div className="relative z-10 max-w-6xl mx-auto w-full">
         {/* Top: header row */}
         <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12 mb-8">
@@ -63,7 +68,7 @@ export function S3Slide04VibeCoding() {
 
             <motion.h1 {...me(0.06)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1 leading-[1.05]">
               Diseña con{' '}
-              <span style={s3GradientText('hsl(185 70% 65%)', 'hsl(280 60% 65%)', 185)}>Palabras</span>
+              <span style={{ ...s3GradientText('hsl(185 70% 65%)', 'hsl(280 60% 65%)', 185), fontFamily: S3_SERIF, fontStyle: 'italic' }}>Palabras</span>
             </motion.h1>
             <motion.div
               className="h-[2px] rounded-full max-w-[100px] origin-left mb-3"
@@ -72,27 +77,30 @@ export function S3Slide04VibeCoding() {
               animate={{ scaleX: 1 }}
               transition={{ delay: 0.35, duration: 0.8, ease: S3_EASE }}
             />
-            <motion.p {...m(0.12)} className="text-white/50 text-sm max-w-sm mb-5">
-              Un prompt transforma toda la estética — colores, tipografía, layout, interacciones.
-            </motion.p>
 
-            {/* Quick stats */}
-            <motion.div {...m(0.18)} className="inline-flex items-center gap-5 px-5 py-3 rounded-xl border"
-              style={{ borderColor: S3_ACCENT.cyan.border, background: S3_ACCENT.cyan.bg }}>
+            {/* Editorial pull-quote */}
+            <motion.div {...m(0.12)} className="mb-5 pl-4 border-l-[3px]" style={{ borderColor: S3_ACCENT.cyan.dot }}>
+              <p className="text-white/55 text-sm max-w-sm" style={{ fontFamily: S3_SERIF, fontStyle: 'italic' }}>
+                "Un prompt transforma toda la estética — colores, tipografía, layout, interacciones."
+              </p>
+            </motion.div>
+
+            {/* Quick stats — serif metrics */}
+            <motion.div {...m(0.18)} className="inline-flex items-center gap-6">
               {[
-                { icon: Code2, label: '3 prompts' },
-                { icon: Palette, label: '3 estéticas' },
-                { icon: Type, label: '<1 min' },
+                { num: '3', label: 'prompts' },
+                { num: '3', label: 'estéticas' },
+                { num: '<1', label: 'minuto' },
               ].map((s, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <s.icon className="w-3.5 h-3.5" style={{ color: S3_ACCENT.cyan.text }} />
-                  <span className="text-[10px] font-bold tracking-wider uppercase text-white/60">{s.label}</span>
+                <div key={i} className="flex flex-col items-start">
+                  <span style={{ fontFamily: S3_SERIF, fontSize: '24px', fontWeight: 900, fontStyle: 'italic', color: S3_ACCENT.cyan.text, lineHeight: 1 }}>{s.num}</span>
+                  <span className="text-[8px] text-white/35 uppercase tracking-[0.2em] font-bold mt-0.5">{s.label}</span>
                 </div>
               ))}
             </motion.div>
           </div>
 
-          {/* Right: Hero visual — live prompt-to-design animation */}
+          {/* Right: Hero visual */}
           <motion.div {...me(0.15)} className="relative flex-shrink-0 w-full lg:w-[48%] max-w-[520px] hidden sm:block">
             <div className="absolute -inset-12 rounded-full blur-[120px] opacity-40"
               style={{ background: 'radial-gradient(circle, hsl(185 60% 50% / 0.3), transparent 70%)' }} />
@@ -140,7 +148,6 @@ export function S3Slide04VibeCoding() {
 
                 {/* Generated UI mockup */}
                 <div className="p-4 space-y-3">
-                  {/* Nav bar */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <motion.div className="w-5 h-5 rounded-md"
@@ -154,12 +161,9 @@ export function S3Slide04VibeCoding() {
                       ))}
                     </div>
                   </div>
-
-                  {/* Hero section mockup */}
                   <div className="rounded-xl p-4 border" style={{
                     borderColor: 'hsl(185 60% 50% / 0.12)',
                     background: 'linear-gradient(135deg, hsl(185 40% 15% / 0.5), hsl(263 30% 12% / 0.3))',
-                    backdropFilter: 'blur(20px)',
                   }}>
                     <div className="h-2 w-24 rounded-full mb-2" style={{ background: 'hsl(185 70% 65% / 0.6)' }} />
                     <div className="h-1.5 w-36 rounded-full mb-3 bg-white/15" />
@@ -170,8 +174,6 @@ export function S3Slide04VibeCoding() {
                       <div className="h-6 w-16 rounded-md border border-white/15" />
                     </div>
                   </div>
-
-                  {/* Cards row */}
                   <div className="grid grid-cols-3 gap-2 hidden sm:grid">
                     {[S3_ACCENT.violet, S3_ACCENT.cyan, S3_ACCENT.amber].map((a, i) => (
                       <motion.div key={i} className="rounded-lg p-2.5 border"
@@ -193,7 +195,7 @@ export function S3Slide04VibeCoding() {
           </motion.div>
         </div>
 
-        {/* 3 prompt → result transformation cards */}
+        {/* 3 prompt → result cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
           {PROMPTS.map((ex, i) => (
             <motion.div
@@ -213,7 +215,6 @@ export function S3Slide04VibeCoding() {
                 />
               )}
               <div className="relative p-4 flex flex-col gap-3">
-                {/* Prompt */}
                 <div className="flex items-start gap-2">
                   <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5"
                     style={{ background: `${ex.accent.text}15`, border: `1px solid ${ex.accent.text}25` }}>
@@ -221,14 +222,11 @@ export function S3Slide04VibeCoding() {
                   </div>
                   <p className="text-[11px] font-mono leading-relaxed" style={{ color: ex.accent.text }}>{ex.prompt}</p>
                 </div>
-
                 <div className="flex items-center gap-2">
                   <div className="flex-1 h-px" style={{ background: `${ex.accent.text}20` }} />
                   <ArrowRight className="w-3 h-3" style={{ color: `${ex.accent.text}60` }} />
                   <div className="flex-1 h-px" style={{ background: `${ex.accent.text}20` }} />
                 </div>
-
-                {/* Visual result mockup */}
                 <div className="rounded-lg border overflow-hidden h-14" style={{ borderColor: `${ex.accent.text}15` }}>
                   {ex.mockup.layout === 'cards' && (
                     <div className="h-full flex gap-1 p-1.5">
@@ -236,7 +234,6 @@ export function S3Slide04VibeCoding() {
                         <div key={c} className="flex-1 rounded-md" style={{
                           background: `linear-gradient(135deg, ${ex.accent.text}${c === 0 ? '22' : '10'}, ${ex.accent.text}06)`,
                           border: `1px solid ${ex.accent.text}12`,
-                          backdropFilter: 'blur(8px)',
                         }} />
                       ))}
                     </div>
@@ -264,14 +261,13 @@ export function S3Slide04VibeCoding() {
                     </div>
                   )}
                 </div>
-
                 <span className="text-[10px] font-black tracking-wider text-center" style={{ color: `${ex.accent.text}90` }}>{ex.style}</span>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom tips + links */}
+        {/* Bottom tips */}
         <motion.div {...m(0.55)} className="flex items-center justify-center gap-4 flex-wrap">
           {[
             { tip: 'Sé específico con adjetivos', icon: Type },

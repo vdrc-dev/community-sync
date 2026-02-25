@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Presentation, BarChart3, Sparkles, ChevronRight, FileText, ExternalLink } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -38,7 +38,7 @@ export function S3Slide07PresentationAI() {
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/45 block mb-2">Herramientas de Creación</span>
           <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
             Presentaciones con{' '}
-            <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(38 85% 65%)', 263)}>IA</span>
+            <span style={{ ...s3GradientText('hsl(263 70% 72%)', 'hsl(38 85% 65%)', 263), fontFamily: S3_SERIF, fontStyle: 'italic' }}>IA</span>
           </h1>
           <motion.div
             className="h-0.5 rounded-full mx-auto max-w-[100px] origin-center"

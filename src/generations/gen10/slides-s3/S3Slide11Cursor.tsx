@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Code2, Eye, FolderTree, Layers, Terminal, Sparkles } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -35,9 +35,14 @@ export function S3Slide11Cursor() {
           </div>
         </motion.div>
 
+        {/* Editorial serif anchor */}
+        <div className="absolute top-[-8%] right-[-3%] z-[0] pointer-events-none select-none">
+          <span style={s3SerifAnchor('{}', 38, 0.02)}>{'{}'}</span>
+        </div>
+
         <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
-          <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Cursor</a>:{' '}
-          <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(185 70% 60%)', 38)}>
+          <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" style={{ fontFamily: S3_SERIF, fontStyle: 'italic' }}>Cursor</a>:{' '}
+          <span style={{ ...s3GradientText('hsl(38 90% 65%)', 'hsl(185 70% 60%)', 38), fontFamily: S3_SERIF, fontStyle: 'italic' }}>
             IDE con IA
           </span>
         </motion.h1>
