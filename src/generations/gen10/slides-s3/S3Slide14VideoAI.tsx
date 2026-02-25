@@ -1,18 +1,11 @@
 import { motion } from 'framer-motion';
-import { Video, Film, Mic, Wand2, Play, Sparkles } from 'lucide-react';
+import { Video, Film, Mic, Wand2, Play } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import toolKreaMockup from '@/assets/slides/tool-krea-mockup.jpg';
-
-const POWERS = [
-  { title: '4K 60fps Nativo', icon: Play, accent: S3_ACCENT.rose },
-  { title: 'Audio + Video', icon: Film, accent: S3_ACCENT.violet },
-  { title: 'Img → Video', icon: Wand2, accent: S3_ACCENT.cyan },
-  { title: 'Lip-sync IA', icon: Mic, accent: S3_ACCENT.amber },
-];
 
 const ENGINES = [
   { name: 'Sora 2', provider: 'OpenAI', detail: 'Audio nativo · Multi-shot', accent: S3_ACCENT.rose },
@@ -23,190 +16,172 @@ const ENGINES = [
 export function S3Slide14VideoAI() {
   const { isExporting } = useExportContext();
   const m = (d: number, overrides?: object) => s3Motion(d, isExporting, overrides);
+  const me = (d: number, overrides?: object) => s3MotionEpic(d, isExporting, overrides);
+
+  const roseHsl = 'hsl(330 85% 55%)';
+  const serif = 'Georgia, "Times New Roman", serif';
 
   return (
-    <div className={S3_ROOT_CLASS + ' flex flex-col items-center justify-center ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
+    <div className={S3_ROOT_CLASS + ' flex flex-col ' + S3_CONTENT_PADDING} style={{ background: S3_THEME.background }}>
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_25%,_hsl(330_65%_55%_/_0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_75%_70%,_hsl(263_60%_55%_/_0.07),_transparent_60%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#04030a]/50 via-transparent to-[#04030a]/60" />
-        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora />
+        <S3Atmosphere isExporting={isExporting} particleCount={10} primaryHue={330} secondaryHue={263} tertiaryHue={185} showAurora showPlasma />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
-        <motion.div {...m(0)} className="mb-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: S3_ACCENT.rose.border, background: S3_ACCENT.rose.bg }}>
-            <Video className="w-3.5 h-3.5" style={{ color: S3_ACCENT.rose.text }} />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.rose.text }}>Video Generativo</span>
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1680px] mx-auto w-full py-6">
+
+        {/* ── EDITORIAL MASTHEAD ── */}
+        <div className="grid grid-cols-12 gap-6 mb-5">
+          <motion.div {...me(0)} className="col-span-3 flex flex-col justify-end">
+            <p className="text-[9px] tracking-[0.35em] uppercase font-semibold" style={{ color: 'hsl(330 85% 55% / 0.5)' }}>VIDEO GENERATIVO</p>
+            <p style={{
+              fontSize: '110px',
+              fontWeight: 400,
+              color: roseHsl,
+              lineHeight: '0.8',
+              fontFamily: serif,
+              letterSpacing: '-5px',
+              filter: 'drop-shadow(0 0 40px hsl(330 85% 55% / 0.35))',
+            }}>4K</p>
+          </motion.div>
+
+          <motion.div {...me(0.06)} className="col-span-9 flex flex-col justify-end">
+            <h1 style={{ fontSize: '46px', fontWeight: 400, color: 'white', fontFamily: serif, lineHeight: 1.05, letterSpacing: '-1px' }}>
+              <a href="https://www.krea.ai" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Krea.ai</a>:{' '}
+              <span style={{ fontWeight: 700, fontStyle: 'italic' }}>Centro de Mando</span>
+            </h1>
+            <motion.div
+              className="h-[3px] rounded-full max-w-[200px] mt-3 origin-left"
+              style={{ background: `linear-gradient(90deg, ${roseHsl}, transparent)` }}
+              initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.4, duration: 1, ease: S3_EASE }}
+            />
+          </motion.div>
+        </div>
+
+        {/* ── PULL QUOTE ── */}
+        <motion.div {...m(0.1)} className="mb-5">
+          <div className="flex">
+            <div className="w-[3px] rounded-full shrink-0" style={{ background: roseHsl }} />
+            <p className="pl-5 text-lg leading-relaxed" style={{ fontFamily: serif, fontStyle: 'italic', color: 'hsl(0 0% 90%)' }}>
+              "De clips aleatorios a <span style={{ color: roseHsl, fontStyle: 'normal', fontWeight: 700 }}>narrativas visuales</span> con control total."
+            </p>
           </div>
         </motion.div>
 
-        <motion.h1 {...(s3MotionEpic(0.08, isExporting))} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-1">
-          <a
-            href="https://www.krea.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-rose-300/90 transition-colors underline-offset-4 hover:underline"
-          >
-            Krea.ai
-          </a>
-          :{' '}
-          <span style={s3GradientText('hsl(330 85% 68%)', 'hsl(263 60% 70%)', 330)}>
-            Centro de Mando
-          </span>
-        </motion.h1>
-        <motion.div
-          className="h-0.5 rounded-full mx-auto max-w-[100px] origin-center mt-1.5"
-          style={{ background: 'linear-gradient(90deg, transparent, hsl(330 85% 60% / 0.6), hsl(263 60% 65% / 0.6), transparent)' }}
-          initial={isExporting ? { scaleX: 1 } : { scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: S3_EASE }}
-        />
-        <motion.p {...m(0.1)} className="text-white/50 text-sm mt-2 mb-8 max-w-lg mx-auto">
-          Genera videos con Sora 2, Veo 3.1 y Kling 3.0 — todo en una interfaz
-        </motion.p>
+        {/* ── MAIN: Screenshot + Powers + Engines ── */}
+        <div className="grid grid-cols-12 gap-5 mb-5">
 
-        {/* Hero: Krea.ai reference + power cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 mb-8">
           {/* Reference screenshot */}
-          <motion.div {...m(0.2)} className="col-span-1 sm:col-span-7">
-            <div className="relative rounded-2xl border overflow-hidden" style={{ borderColor: 'hsl(330 65% 55% / 0.15)', background: 'hsl(330 65% 55% / 0.03)' }}>
-              {!isExporting && (
-                <motion.div className="absolute inset-0 z-10 pointer-events-none"
-                  style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)', width: '45%' }}
-                  animate={{ x: ['-150%', '250%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
-              )}
-              <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(330 65% 55% / 0.1)' }}>
-                <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
-                <span className="text-[10px] text-white/40 font-mono ml-2">krea.ai</span>
-              </div>
-              <OptimizedImage src={toolKreaMockup} alt="Krea.ai" className="w-full" style={{ maxHeight: '240px' }} />
+          <motion.div {...me(0.15)} className="col-span-7 relative rounded-2xl border overflow-hidden"
+            style={{ borderColor: 'hsl(330 65% 55% / 0.15)', background: 'hsl(330 65% 55% / 0.03)' }}>
+            {!isExporting && (
+              <motion.div className="absolute inset-0 z-10 pointer-events-none"
+                style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.1) 50%, transparent 65%)', width: '45%' }}
+                animate={{ x: ['-150%', '250%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4 }} />
+            )}
+            <div className="px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: 'hsl(330 65% 55% / 0.1)' }}>
+              <div className="flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500/50" /><div className="w-2 h-2 rounded-full bg-yellow-500/50" /><div className="w-2 h-2 rounded-full bg-green-500/50" /></div>
+              <span className="text-[10px] text-white/40 font-mono ml-2">krea.ai</span>
             </div>
+            <OptimizedImage src={toolKreaMockup} alt="Krea.ai" className="w-full" style={{ maxHeight: '260px' }} />
           </motion.div>
 
-          {/* 4 power cards */}
-          <div className="col-span-1 sm:col-span-5 grid grid-cols-2 gap-3">
-            {POWERS.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <motion.div key={i} {...m(0.25 + i * 0.08)}
-                  className="relative group rounded-xl border overflow-hidden"
-                  style={{ borderColor: p.accent.border, background: p.accent.bg }}
-                  {...(isExporting ? {} : { whileHover: { scale: 1.05, y: -2 } })}>
-                  {!isExporting && (
-                    <motion.div className="absolute inset-0 pointer-events-none"
-                      style={{ background: 'linear-gradient(105deg, transparent 35%, hsl(330 85% 68% / 0.08) 50%, transparent 65%)' }}
-                      animate={{ x: ['-150%', '250%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }} />
-                  )}
-                  <div className="relative p-4 flex flex-col items-center justify-center gap-2">
-                    <div className="w-10 h-10 rounded-xl border flex items-center justify-center"
-                      style={{ borderColor: `${p.accent.text}25`, background: `${p.accent.text}08` }}>
-                      <Icon className="w-5 h-5" style={{ color: p.accent.text }} />
-                    </div>
-                    <p className="text-xs font-black text-white">{p.title}</p>
+          {/* Right: Power specs + Engines */}
+          <div className="col-span-5 flex flex-col gap-4">
+            {/* 4 power specs as editorial numbers */}
+            <motion.div {...me(0.2)} className="rounded-xl overflow-hidden" style={{ background: 'hsl(0 0% 7%)' }}>
+              <div className="grid grid-cols-2">
+                {[
+                  { num: '4K', label: '60fps Nativo', icon: Play },
+                  { num: 'A+V', label: 'Audio integrado', icon: Film },
+                  { num: 'I→V', label: 'Imagen a Video', icon: Wand2 },
+                  { num: 'Sync', label: 'Lip-sync IA', icon: Mic },
+                ].map((p, i) => (
+                  <div key={i} className="text-center py-4 px-3"
+                    style={{
+                      borderBottom: i < 2 ? '1px solid hsl(0 0% 100% / 0.06)' : 'none',
+                      borderRight: i % 2 === 0 ? '1px solid hsl(0 0% 100% / 0.06)' : 'none',
+                    }}>
+                    <motion.p style={{
+                      fontSize: '28px', fontWeight: 400, color: roseHsl, fontFamily: serif,
+                      letterSpacing: '-1px', lineHeight: 1,
+                    }}
+                    {...(isExporting ? {} : {
+                      initial: { opacity: 0, y: 10 },
+                      animate: { opacity: 1, y: 0 },
+                      transition: { delay: 0.4 + i * 0.08, duration: 0.4, ease: S3_EASE },
+                    })}>{p.num}</motion.p>
+                    <p className="text-[8px] tracking-[0.12em] uppercase text-white/35 font-semibold mt-1">{p.label}</p>
                   </div>
-                </motion.div>
-              );
-            })}
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Engine cards — editorial listing */}
+            <motion.div {...m(0.35)}>
+              <p className="text-[9px] tracking-[0.3em] uppercase font-bold mb-2" style={{ color: roseHsl }}>MOTORES</p>
+              <div className="space-y-0">
+                {ENGINES.map((e, i) => (
+                  <motion.div key={i} {...m(0.4 + i * 0.05)}
+                    className="flex items-center gap-3 py-2.5"
+                    style={{ borderTop: '1px solid hsl(0 0% 100% / 0.06)' }}>
+                    <span className="text-sm font-bold" style={{ fontFamily: serif, color: e.accent.text }}>{e.name}</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded" style={{ color: `${e.accent.text}`, background: `${e.accent.text}12` }}>{e.provider}</span>
+                    {e.isNew && (
+                      <span className="text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide" style={{ color: '#04030a', background: e.accent.dot }}>NEW</span>
+                    )}
+                    <span className="text-[10px] text-white/35 ml-auto">{e.detail}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Engine pills */}
-        <motion.div {...m(0.5)} className="flex items-center justify-center gap-2.5 flex-wrap">
-          <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mr-2">Motores:</p>
-          {ENGINES.map((e, i) => (
-            <motion.div key={i} {...m(0.55 + i * 0.06)}
-              className="relative px-4 py-2.5 rounded-xl border overflow-hidden"
-              style={{ borderColor: e.accent.border, background: e.accent.bg }}
-              {...(isExporting ? {} : { whileHover: { scale: 1.04, y: -2 } })}>
+        {/* ── CINEMATIC TIMELINE + INVERTED TL;DR ── */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Timeline */}
+          <motion.div {...m(0.55)} className="col-span-7 rounded-xl border px-5 py-3 relative overflow-hidden"
+            style={{ borderColor: 'hsl(330 65% 60% / 0.15)', background: 'hsl(330 65% 55% / 0.04)' }}>
+            <div className="h-2 rounded-full bg-white/10 relative overflow-hidden">
               {!isExporting && (
-                <motion.div className="absolute inset-0 pointer-events-none"
-                  style={{ background: `linear-gradient(105deg, transparent 35%, ${e.accent.text}10 50%, transparent 65%)` }}
-                  animate={{ x: ['-150%', '250%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 4, delay: i * 0.5 }} />
+                <motion.div className="absolute inset-y-0 left-0 rounded-full"
+                  style={{ background: `linear-gradient(90deg, hsl(330 85% 65% / 0.6), hsl(263 60% 65% / 0.5))` }}
+                  animate={{ width: ['8%', '75%', '45%', '90%', '20%'] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }} />
               )}
-              <div className="relative flex items-center gap-2">
-                <span className="text-sm font-bold text-white">{e.name}</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md" style={{ color: `${e.accent.text}90`, background: `${e.accent.text}10` }}>{e.provider}</span>
-                {e.isNew && (
-                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md tracking-wide" style={{ color: '#04030a', background: e.accent.dot }}>
-                    NEW
-                  </span>
-                )}
-              </div>
-              <p className="relative text-[10px] text-white/40 mt-0.5">{e.detail}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+              {isExporting && (
+                <div className="absolute inset-y-0 left-0 w-2/3 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.6), hsl(263 60% 65% / 0.5))' }} />
+              )}
+              {!isExporting && (
+                <motion.div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
+                  style={{ background: 'hsl(330 90% 72%)', boxShadow: '0 0 18px hsl(330 90% 72% / 0.8)' }}
+                  animate={{ left: ['0%', '100%', '0%'] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }} />
+              )}
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-wider text-white/35 font-semibold">
+              <span>Storyboard</span>
+              <span>Render</span>
+              <span>Publish</span>
+            </div>
+          </motion.div>
 
-        {/* Cinematic timeline strip */}
-        <motion.div
-          {...m(0.62)}
-          className="mt-6 mx-auto max-w-2xl rounded-xl border px-4 py-3 relative overflow-hidden"
-          style={{ borderColor: 'hsl(330 65% 60% / 0.2)', background: 'hsl(330 65% 55% / 0.05)' }}
-        >
-          <div className="h-1.5 rounded-full bg-white/10 relative">
-            {!isExporting && (
-              <motion.div
-                className="absolute inset-y-0 left-0 rounded-full"
-                style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }}
-                animate={{ width: ['8%', '75%', '45%', '90%', '20%'] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
-            {isExporting && (
-              <div className="absolute inset-y-0 left-0 w-2/3 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(330 85% 65% / 0.55), hsl(263 60% 65% / 0.45))' }} />
-            )}
-            {!isExporting && (
-              <motion.div
-                className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
-                style={{ background: 'hsl(330 90% 72%)', boxShadow: '0 0 18px hsl(330 90% 72% / 0.8)' }}
-                animate={{ left: ['0%', '100%', '0%'] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
-          </div>
-          <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-wider text-white/40 font-semibold">
-            <span>Storyboard</span>
-            <span>Render</span>
-            <span>Publish</span>
-          </div>
-        </motion.div>
-
-        {/* Pro tips */}
-        <motion.div {...m(0.65)} className="mt-6 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-          {[
-            { icon: Wand2, tip: 'Img → Video', detail: 'Krea anima fotos en clips de 5-15s con audio nativo', accent: S3_ACCENT.rose },
-            { icon: Film, tip: 'Lip-sync + Multi-cam', detail: 'Kling 3.0: hasta 6 cortes de cámara en un solo clip', accent: S3_ACCENT.violet },
-          ].map((t, i) => {
-            const TipIcon = t.icon;
-            return (
-              <motion.div key={i} {...m(0.68 + i * 0.04)} className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] relative overflow-hidden group"
-                {...(isExporting ? {} : { whileHover: { borderColor: t.accent.border, scale: 1.02 } })}>
-                {!isExporting && (
-                  <motion.div className="absolute inset-0 pointer-events-none"
-                    style={{ background: `linear-gradient(105deg, transparent 35%, ${t.accent.text}08 50%, transparent 65%)` }}
-                    animate={{ x: ['-150%', '250%'] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'linear', repeatDelay: 5, delay: i * 0.5 }} />
-                )}
-                <div className="relative flex items-start gap-2.5">
-                  <TipIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: t.accent.text }} />
-                  <div>
-                    <p className="text-[11px] text-white/60 font-semibold mb-1">{t.tip}</p>
-                    <p className="text-[10px] text-white/40 leading-relaxed">{t.detail}</p>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        <motion.div {...m(0.75)} className="mt-5 inline-flex items-center gap-2 text-xs text-white/45">
-          <Sparkles className="w-3.5 h-3.5 text-rose-400/60" />
-          <span>De clips aleatorios a <span className="text-rose-400/70 font-semibold">narrativas visuales</span> con control total</span>
-        </motion.div>
+          {/* TL;DR inverted */}
+          <motion.div {...me(0.6)} className="col-span-5 rounded-xl overflow-hidden" style={{ background: roseHsl }}>
+            <div className="px-5 py-3.5">
+              <p className="text-[8px] tracking-[0.3em] uppercase font-semibold mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>EN 15 SEGUNDOS</p>
+              <p className="text-xs text-white leading-relaxed" style={{ fontFamily: serif }}>
+                Krea unifica Sora 2, Veo 3.1 y Kling 3.0 en una sola interfaz. Genera en <strong>4K 60fps</strong> con audio nativo y lip-sync.
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       <S3Footer sectionLabel="VIDEO GENERATIVO" hue={330} contextHint="narrativas visuales con control" />
