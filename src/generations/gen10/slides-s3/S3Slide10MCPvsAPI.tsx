@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Cpu, Server, Sparkles, MessageSquare, Zap, Clock, ArrowRight, ArrowLeftRight } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -25,10 +25,14 @@ export function S3Slide10MCPvsAPI() {
         {/* ── HEADER ── */}
         <motion.div {...m(0)} className="text-center mb-6">
           <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/40 block mb-1.5">Fundamentos Visuales</span>
+          {/* Editorial serif anchor */}
+          <div className="absolute top-[-10%] left-[-4%] z-[0] pointer-events-none select-none">
+            <span style={s3SerifAnchor('↔', 263, 0.02)}>↔</span>
+          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl 2xl:text-[3.5rem] font-black text-white tracking-tight leading-none">
-            <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(263 50% 55%)', 263)}>MCP</span>
-            <span className="text-white/30 mx-3 font-light">vs</span>
-            <span style={s3GradientText('hsl(38 90% 65%)', 'hsl(38 70% 50%)', 38)}>API</span>
+            <span style={{ ...s3GradientText('hsl(263 70% 72%)', 'hsl(263 50% 55%)', 263), fontFamily: S3_SERIF, fontStyle: 'italic' }}>MCP</span>
+            <span className="text-white/30 mx-3 font-light" style={{ fontFamily: S3_SERIF, fontStyle: 'italic' }}>vs</span>
+            <span style={{ ...s3GradientText('hsl(38 90% 65%)', 'hsl(38 70% 50%)', 38), fontFamily: S3_SERIF, fontStyle: 'italic' }}>API</span>
           </h1>
           <motion.div
             className="h-[2px] rounded-full mx-auto max-w-[120px] mt-2 origin-center"

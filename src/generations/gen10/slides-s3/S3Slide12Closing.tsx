@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Rocket, BarChart3, Terminal, Database, Code2, BookOpen, Video, Presentation, ArrowRight, Palette, Zap, Star, TrendingUp, Trophy, Sparkles, Target } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientTextMulti } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientTextMulti, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -55,9 +55,13 @@ export function S3Slide12Closing() {
                 {...(isExporting ? {} : { animate: { scaleY: [0.8, 1.2, 0.8], opacity: [0.6, 1, 0.6] }, transition: { duration: 3, repeat: Infinity } })} />
               <div>
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40">Cierre · Semana 3</span>
+                {/* Editorial serif anchor */}
+                <div className="absolute top-[-15%] right-[-8%] z-[0] pointer-events-none select-none">
+                  <span style={s3SerifAnchor('→', 160, 0.03)}>→</span>
+                </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-black text-white tracking-tight leading-none">
                   La diferencia es la{' '}
-                  <span style={s3GradientTextMulti([160, 185, 263], 160)}>acción</span>
+                  <span style={{ ...s3GradientTextMulti([160, 185, 263], 160), fontFamily: S3_SERIF, fontStyle: 'italic' }}>acción</span>
                 </h1>
               </div>
             </motion.div>

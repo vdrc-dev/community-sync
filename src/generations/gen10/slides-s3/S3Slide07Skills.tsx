@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Globe, Upload, Check, X, Sparkles, ArrowDown, Package } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -39,9 +39,13 @@ export function S3Slide07Skills() {
         {/* ── HEADER ── */}
         <motion.div {...m(0)} className="text-center mb-4">
           <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-white/35 block mb-1">Herramientas de Creación</span>
+          {/* Editorial serif anchor */}
+          <div className="absolute top-[-8%] right-[-3%] z-[0] pointer-events-none select-none">
+            <span style={s3SerifAnchor('Sk', 330, 0.025)}>Sk</span>
+          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-white tracking-tight leading-[1.05]">
             Tu Marca como{' '}
-            <span style={s3GradientText('hsl(330 90% 70%)', 'hsl(280 75% 68%)', 330)}>Skill</span>
+            <span style={{ ...s3GradientText('hsl(330 90% 70%)', 'hsl(280 75% 68%)', 330), fontFamily: S3_SERIF, fontStyle: 'italic' }}>Skill</span>
           </h1>
           <motion.div
             className="h-[3px] rounded-full mx-auto max-w-[140px] mt-2.5 origin-center"

@@ -1,11 +1,11 @@
 /**
- * S3SlideDivider — Epic section divider for S3 presentations.
- * Features: light burst, pulsing module number, dramatic entrance, tool pills with shimmer.
+ * S3SlideDivider — Editorial section divider for S3 presentations.
+ * Features: giant serif module number, inverted title block, dramatic entrance.
  */
 import { motion } from 'framer-motion';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ROOT_CLASS, S3_EASE, s3Motion, s3MotionEpic } from './theme';
+import { S3_THEME, S3_ROOT_CLASS, S3_EASE, s3Motion, s3MotionEpic, S3_SERIF } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -41,7 +41,7 @@ export function S3SlideDivider({
 
   return (
     <div className={S3_ROOT_CLASS + ' flex items-center justify-center'} style={{ background: S3_THEME.background }}>
-      {/* Atmospheric layers with aurora and light sweep */}
+      {/* Atmospheric layers */}
       <div className="absolute inset-0">
         <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.18), transparent 65%)` }} />
         <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 50% 40% at 80% 70%, hsl(${(accentHue + 40) % 360} 50% 50% / 0.08), transparent 55%)` }} />
@@ -60,7 +60,7 @@ export function S3SlideDivider({
 
       {/* Centered content */}
       <div className="relative z-10 text-center max-w-3xl mx-auto px-5 sm:px-12">
-        {/* Large module number with pulsing glow */}
+        {/* Giant editorial serif number */}
         <motion.div {...me(0)} className="mb-6 relative">
           {!isExporting && (
             <motion.div
@@ -71,9 +71,15 @@ export function S3SlideDivider({
             />
           )}
           <span
-            className="text-[6rem] sm:text-[10rem] lg:text-[14rem] font-black leading-none select-none relative"
+            className="select-none relative block"
             style={{
-              background: `linear-gradient(180deg, hsl(${accentHue} ${accentSat}% ${accentLight + 10}% / 0.18), hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.04))`,
+              fontFamily: S3_SERIF,
+              fontSize: 'clamp(6rem, 18vw, 16rem)',
+              fontWeight: 900,
+              fontStyle: 'italic',
+              lineHeight: 0.85,
+              letterSpacing: '-0.04em',
+              background: `linear-gradient(180deg, hsl(${accentHue} ${accentSat}% ${accentLight + 10}% / 0.2), hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.04))`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -84,7 +90,7 @@ export function S3SlideDivider({
           </span>
         </motion.div>
 
-        {/* Module badge with breathing glow */}
+        {/* Module badge */}
         <motion.div {...me(0.08)} className="mb-5 -mt-12">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border" style={{ borderColor: accentBorder, background: accentDim }}>
             <Icon className="w-4 h-4" style={{ color: accentText }} />
@@ -92,22 +98,30 @@ export function S3SlideDivider({
           </div>
         </motion.div>
 
-        {/* Title with text glow */}
-        <motion.h1
+        {/* Title — inverted editorial block */}
+        <motion.div
           {...me(0.15, { initial: { opacity: 0, scale: 0.88, filter: 'blur(8px)' }, animate: { opacity: 1, scale: 1, filter: 'blur(0px)' } })}
-          className="text-3xl sm:text-5xl 2xl:text-6xl lg:text-7xl font-black tracking-tight mb-4"
+          className="inline-block px-8 py-4 rounded-2xl mb-4"
           style={{
-            background: `linear-gradient(135deg, hsl(0 0% 100%) 20%, hsl(${accentHue} ${accentSat}% ${accentLight + 15}%) 70%, hsl(${(accentHue + 40) % 360} ${accentSat}% ${accentLight + 10}%) 100%)`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            filter: `drop-shadow(0 0 50px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.35))`,
+            background: `hsl(${accentHue} ${accentSat}% ${accentLight}%)`,
+            boxShadow: `0 0 80px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.35), 0 25px 60px hsl(${accentHue} ${accentSat}% ${accentLight}% / 0.2)`,
           }}
         >
-          {title}
-        </motion.h1>
+          <h1
+            className="text-3xl sm:text-5xl 2xl:text-6xl lg:text-7xl tracking-tight"
+            style={{
+              fontFamily: S3_SERIF,
+              fontWeight: 900,
+              fontStyle: 'italic',
+              color: '#04030a',
+              lineHeight: 1.1,
+            }}
+          >
+            {title}
+          </h1>
+        </motion.div>
 
-        {/* Accent line with traveling light */}
+        {/* Accent line */}
         <motion.div
           className="h-[2px] rounded-full mx-auto max-w-[180px] origin-center relative overflow-hidden"
           style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
@@ -130,7 +144,7 @@ export function S3SlideDivider({
           {subtitle}
         </motion.p>
 
-        {/* Tool pills with shimmer */}
+        {/* Tool pills */}
         {tools.length > 0 && (
           <motion.div {...m(0.35)} className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
             {tools.map((tool, i) => {
@@ -180,7 +194,7 @@ export function S3SlideDivider({
         )}
       </div>
 
-      {/* Navigation cue with animated arrow */}
+      {/* Navigation cue */}
       <motion.div
         {...m(0.5)}
         className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase"

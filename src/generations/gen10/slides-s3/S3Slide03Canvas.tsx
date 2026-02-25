@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Palette, Layout, Wand2, Sparkles, ExternalLink, ChevronRight, Type, Image as ImageIcon } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -41,10 +41,13 @@ export function S3Slide03Canvas() {
         <S3Atmosphere isExporting={isExporting} particleCount={8} primaryHue={280} secondaryHue={200} tertiaryHue={320} showAurora />
       </div>
 
+      {/* Editorial serif anchor */}
+      <div className="absolute bottom-[-8%] left-[-3%] z-[1]">
+        <span style={s3SerifAnchor('Cv', 280, 0.025)}>Cv</span>
+      </div>
+
       <div className="relative z-10 max-w-5xl mx-auto w-full">
-        {/* Header row: text left, mockup right */}
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-10 mb-8">
-          {/* Left: title + stats */}
           <div className="flex-1 min-w-0 text-left">
             <motion.div {...m(0)} className="mb-4">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border" style={{ borderColor: accent.border, background: accent.bg }}>
@@ -54,7 +57,7 @@ export function S3Slide03Canvas() {
             </motion.div>
 
             <motion.h1 {...me(0.06)} className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-black tracking-tight mb-2 leading-[1.05]">
-              <a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity">Canva</a>
+              <a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" style={{ fontFamily: S3_SERIF, fontStyle: 'italic' }}>Canva</a>
               <span
                 style={{
                   background: `linear-gradient(135deg, hsl(${ACCENT_HUE} 70% 65%), hsl(200 60% 70%))`,
@@ -80,7 +83,7 @@ export function S3Slide03Canvas() {
               Presentaciones, posts, videos y más — sin ser diseñador
             </motion.p>
 
-            {/* Stats */}
+            {/* Stats — serif metrics */}
             <motion.div
               {...m(0.2)}
               className="inline-flex items-center gap-6 px-5 py-3 rounded-xl border"
@@ -88,7 +91,7 @@ export function S3Slide03Canvas() {
             >
               {STATS.map((s, i) => (
                 <div key={i} className="text-center">
-                  <p className="text-xl font-black tabular-nums" style={{ color: accent.text }}>{s.stat}</p>
+                  <p style={{ fontFamily: S3_SERIF, fontSize: '22px', fontWeight: 900, fontStyle: 'italic', color: accent.text, lineHeight: 1 }}>{s.stat}</p>
                   <p className="text-[10px] text-white/40 uppercase tracking-wider mt-0.5">{s.desc}</p>
                 </div>
               ))}
@@ -109,11 +112,10 @@ export function S3Slide03Canvas() {
             </motion.div>
           </div>
 
-          {/* Right: Interactive Canva mockup with toolbar simulation */}
+          {/* Right: Canva mockup */}
           <motion.div {...me(0.15)} className="relative flex-shrink-0 w-full lg:w-[48%] max-w-[520px] hidden sm:block">
             <div className="absolute -inset-12 rounded-full blur-[120px] opacity-40"
               style={{ background: `radial-gradient(circle, hsl(${ACCENT_HUE} 60% 50% / 0.3), transparent 70%)` }} />
-
             <div className="relative p-[1.5px] rounded-2xl overflow-hidden"
               style={{ background: `linear-gradient(145deg, hsl(${ACCENT_HUE} 70% 60% / 0.4), hsl(200 50% 50% / 0.2))` }}>
               <div className="rounded-[calc(1rem-1.5px)] overflow-hidden relative flex flex-col"
@@ -124,7 +126,6 @@ export function S3Slide03Canvas() {
                     animate={{ x: ['-150%', '250%'] }}
                     transition={{ duration: 3, repeat: Infinity, repeatDelay: 5, ease: 'linear' }} />
                 )}
-                {/* Browser chrome */}
                 <div className="relative px-3 py-2 border-b flex items-center gap-2" style={{ borderColor: `hsl(${ACCENT_HUE} 60% 50% / 0.1)` }}>
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full bg-red-500/50" />
@@ -136,10 +137,7 @@ export function S3Slide03Canvas() {
                     <ExternalLink className="w-3 h-3 text-white/25 hover:text-white/50 transition-colors" />
                   </a>
                 </div>
-
-                {/* Split view: Mini toolbar + Canvas area */}
                 <div className="flex" style={{ height: '280px' }}>
-                  {/* Left toolbar - interactive feel */}
                   <div className="w-[50px] border-r flex flex-col items-center py-3 gap-3 shrink-0"
                     style={{ borderColor: `hsl(${ACCENT_HUE} 40% 30% / 0.15)`, background: 'hsl(0 0% 6%)' }}>
                     {[Layout, Type, Wand2, Palette, ImageIcon].map((Icon, i) => (
@@ -158,16 +156,12 @@ export function S3Slide03Canvas() {
                       </motion.div>
                     ))}
                   </div>
-
-                  {/* Main canvas area with screenshot */}
                   <div className="flex-1 relative">
                     <OptimizedImage src={toolCanvaMockup} alt="Canva Design Platform" className="w-full h-full" style={{ filter: 'brightness(0.85) saturate(0.9)' }} />
                     <div className="absolute inset-0 pointer-events-none"
                       style={{ background: 'linear-gradient(180deg, transparent 50%, hsl(0 0% 4%) 100%)' }} />
                     <div className="absolute inset-0 pointer-events-none"
                       style={{ background: `linear-gradient(135deg, hsl(${ACCENT_HUE} 50% 30% / 0.15), transparent 60%)` }} />
-
-                    {/* Magic Studio indicator */}
                     {!isExporting && (
                       <motion.div
                         className="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 z-20"
@@ -206,7 +200,6 @@ export function S3Slide03Canvas() {
           ))}
         </motion.div>
 
-        {/* Tool link */}
         <motion.div {...m(0.55)} className="text-center">
           <div className="inline-flex items-center gap-2 text-xs text-white/40">
             <Sparkles className="w-3.5 h-3.5 text-purple-400/50" />

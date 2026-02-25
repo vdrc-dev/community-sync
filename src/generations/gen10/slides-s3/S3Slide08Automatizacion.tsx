@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Repeat, Presentation, FileSpreadsheet, ArrowRight, ArrowDown, Clock, Sparkles, Mail, Zap, Terminal, Check } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
-import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText } from './theme';
+import { S3_THEME, S3_ACCENT, S3_ROOT_CLASS, S3_CONTENT_PADDING, S3_EASE, s3Motion, s3MotionEpic, s3GradientText, S3_SERIF, s3SerifAnchor } from './theme';
 import { S3Atmosphere } from './S3Atmosphere';
 import { S3Footer } from './S3Footer';
 
@@ -49,9 +49,13 @@ export function S3Slide08Automatizacion() {
             <Repeat className="w-3.5 h-3.5" style={{ color: S3_ACCENT.violet.text }} />
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: S3_ACCENT.violet.text }}>Automatización</span>
           </div>
+          {/* Editorial serif anchor */}
+          <div className="absolute top-[-10%] right-[-4%] z-[0] pointer-events-none select-none">
+            <span style={s3SerifAnchor('Au', 263, 0.02)}>Au</span>
+          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-1">
             Del Manual al{' '}
-            <span style={s3GradientText('hsl(263 70% 72%)', 'hsl(185 70% 60%)', 263)}>Automático</span>
+            <span style={{ ...s3GradientText('hsl(263 70% 72%)', 'hsl(185 70% 60%)', 263), fontFamily: S3_SERIF, fontStyle: 'italic' }}>Automático</span>
           </h1>
           <motion.div
             className="h-[2px] rounded-full mx-auto mt-1.5 max-w-[100px] origin-center"

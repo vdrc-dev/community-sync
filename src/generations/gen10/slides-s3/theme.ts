@@ -94,3 +94,36 @@ export const s3Shimmer = (isExporting: boolean, delay = 0) =>
 export const s3AccentLine = (hue1: number, hue2: number) => ({
   background: `linear-gradient(90deg, transparent, hsl(${hue1} 80% 60% / 0.6), hsl(${hue2} 70% 58% / 0.6), transparent)`,
 });
+
+/** ── Editorial / Magazine Design System ── */
+export const S3_SERIF = "'Georgia', 'Times New Roman', serif";
+
+/** Giant serif masthead anchor — positioned absolutely behind content */
+export const s3SerifAnchor = (text: string, hue: number, opacity = 0.04) => ({
+  fontFamily: S3_SERIF,
+  fontSize: 'clamp(180px, 22vw, 320px)',
+  fontWeight: 900 as const,
+  lineHeight: 0.85,
+  color: `hsl(${hue} 60% 60% / ${opacity})`,
+  letterSpacing: '-0.04em',
+  userSelect: 'none' as const,
+  pointerEvents: 'none' as const,
+});
+
+/** Serif metric number style — for stats strips */
+export const s3SerifMetric = (hue: number) => ({
+  fontFamily: S3_SERIF,
+  fontWeight: 900 as const,
+  fontStyle: 'italic' as const,
+  color: `hsl(${hue} 70% 68%)`,
+  letterSpacing: '-0.03em',
+  lineHeight: 1,
+});
+
+/** Inverted editorial block style */
+export const s3InvertedBlock = (hue: number) => ({
+  background: `hsl(${hue} 65% 55%)`,
+  color: '#04030a',
+  padding: '12px 20px',
+  borderRadius: '12px',
+});
