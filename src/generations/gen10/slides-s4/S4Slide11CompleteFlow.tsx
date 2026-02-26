@@ -17,30 +17,37 @@ const STEPS = [
   {
     tool: 'Lovable', time: '~30 min', icon: Rocket, color: 'hsl(330 70% 60%)',
     action: 'Construye la app con IA',
-    detail: 'Pega tu diseño de Canvas o describe desde cero. Lovable genera React + Tailwind + Supabase automáticamente.',
+    detail: 'Pega tu diseño de Canvas o describe desde cero. Lovable genera React + Tailwind automáticamente. Usa Plan antes de lanzar — Lovable se "auto-promptea". 80% del tiempo trabaja con plan prendido.',
     output: 'App funcional con URL pública',
-    tips: ['Empieza siempre aquí', 'Backend con 1 click', 'Deploy instantáneo'],
+    tips: ['Usa botón Plan siempre', 'Visual Edits: más contexto', 'Empieza siempre aquí'],
   },
   {
     tool: 'Supabase', time: '~15 min', icon: Database, color: 'hsl(150 60% 50%)',
     action: 'Conecta datos reales',
-    detail: 'Crea tablas, activa RLS, configura auth. Tu Excel se convierte en un modelo relacional profesional.',
-    output: 'Base de datos PostgreSQL en la nube',
-    tips: ['RLS protege los datos', 'Auth por dominio', 'API automática'],
+    detail: 'Crea tablas, activa RLS, configura auth. Pídele: "Documenta tablas y columnas con lenguaje natural." Cualquier IA futura entenderá tu base sin que le expliques nada.',
+    output: 'Base de datos PostgreSQL documentada',
+    tips: ['RLS protege los datos', 'Documenta siempre las tablas', 'API automática'],
   },
   {
     tool: 'GitHub', time: '~5 min', icon: GitBranch, color: 'hsl(280 70% 60%)',
     action: 'Versiona tu código',
-    detail: 'Lovable sincroniza automáticamente. Tu código vive en la nube con historial completo.',
-    output: 'Repositorio con historial completo',
-    tips: ['Sincronización automática', 'Restaurar versiones', 'Colaboración'],
+    detail: 'Lovable sincroniza automáticamente. El código le pertenece a la empresa, no a la persona. Si alguien se va, el código queda. README genérico → pídele "Actualiza el README con lenguaje claro."',
+    output: 'Repositorio org con historial completo',
+    tips: ['Código de la empresa', 'README con IA', 'Restaurar versiones'],
   },
   {
-    tool: 'Cursor', time: 'Opcional', icon: Code2, color: 'hsl(185 70% 50%)',
+    tool: 'Vercel', time: '~10 min', icon: Code2, color: 'hsl(185 70% 50%)',
+    action: 'Deploy con dominio propio',
+    detail: 'La URL de Lovable es temporal. Conecta tu dominio real via Vercel. El flujo real de clase fue: Lovable → Supabase → GitHub → Vercel → madcharlies.cl. Deploy automático en cada commit.',
+    output: 'App en tu dominio propio · madcharlies.cl',
+    tips: ['Dominio real (ej: madcharlies.cl)', 'Deploy en cada commit', 'URL Lovable es temporal'],
+  },
+  {
+    tool: 'Cursor', time: 'Opcional', icon: Code2, color: 'hsl(38 80% 55%)',
     action: 'Ajustes de precisión',
-    detail: 'Solo si Lovable no alcanza. Edita el código con IA directamente en tu máquina.',
+    detail: 'Solo si Lovable no alcanza el 100%. Edita el código con IA directamente en tu máquina. "Better done than perfect. Láncense y rompan cosas. Lo peligroso es solo cuando ya lo usa todo el equipo." — Pablo',
     output: 'Código refinado al 100%',
-    tips: ['Solo el último 20%', 'Multi-archivo', 'Precisión quirúrgica'],
+    tips: ['Solo el último 20%', 'Multi-archivo', 'Better done than perfect'],
   },
 ];
 
@@ -52,7 +59,7 @@ export function S4Slide11CompleteFlow() {
   const m = (d: number) => isExporting ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: d * 1.06, duration: 0.75 } };
 
   // Calculate cumulative time
-  const times = [10, 40, 55, 60, 60];
+  const times = [10, 40, 55, 60, 70, 75];
   const progress = ((activeStep + 1) / STEPS.length) * 100;
 
   return (
@@ -70,7 +77,7 @@ export function S4Slide11CompleteFlow() {
         <motion.div {...m(0)} className="text-center mb-6">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-white/80">Aplicación</span>
           <h1 className="text-4xl 2xl:text-5xl font-black text-white tracking-tight mt-2">El Flujo Completo</h1>
-          <p className="text-white/75 text-sm mt-2">Haz clic en cada paso. De idea a app publicada en ~60 minutos.</p>
+          <p className="text-white/75 text-sm mt-2">Haz clic en cada paso. De idea a app con dominio propio en ~75 minutos.</p>
         </motion.div>
 
         {/* Progress bar */}
@@ -171,8 +178,9 @@ export function S4Slide11CompleteFlow() {
 
               {activeStep === STEPS.length - 1 && (
                 <div className="mt-4 p-3 rounded-lg border bg-emerald-500/[0.05] border-emerald-500/15 text-center">
-                  <p className="text-xs font-bold text-emerald-400">App publicada con flujo completo</p>
-                  <p className="text-[11px] text-white/70 mt-1">Tiempo estimado: 60-90 minutos totales</p>
+                  <p className="text-xs font-bold text-emerald-400">App en dominio propio — flujo completo</p>
+                  <p className="text-[11px] text-white/70 mt-1">Tiempo estimado: 75-90 minutos totales</p>
+                  <p className="text-[11px] text-white/50 mt-0.5 italic">"Better done than perfect." — Pablo</p>
                 </div>
               )}
             </div>

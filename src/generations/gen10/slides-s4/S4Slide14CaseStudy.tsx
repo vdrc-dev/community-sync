@@ -7,18 +7,18 @@ import { S4Footer } from './S4Footer';
 const CYN = 185; // Mad Charlies cyan hue
 
 const STATS = [
-  { label: 'Tablas', value: '8+', icon: Database, hue: CYN, sub: 'ventas · clientes · inventario' },
-  { label: 'Roles', value: 'Multi-rol', icon: Users, hue: CYN, sub: 'admin + equipo' },
-  { label: 'ROI', value: 'Calculado', icon: TrendingUp, hue: 38, sub: 'flujo caja en tiempo real' },
+  { label: 'Tablas', value: '5+', icon: Database, hue: CYN, sub: 'ingresos · gastos · canales' },
+  { label: 'Módulo', value: 'Finanzas', icon: Users, hue: CYN, sub: 'flujo de caja + reportes' },
+  { label: 'ROI', value: 'Calculado', icon: TrendingUp, hue: 38, sub: 'dashboard cada hora' },
   { label: 'Tiempo', value: '1 clase', icon: Clock, hue: CYN, sub: 'de Excel a app en vivo' },
 ];
 
 const FLOW = [
-  { step: 'Excel de ventas Mad Charlies', action: 'Diego envía el Google Sheets consolidado. Vicente modela las tablas relacionales.', tool: 'Google Sheets' },
-  { step: 'Prototipo visual', action: 'Lovable crea la interfaz con colores corporativos: negro + cyan Mad Charlies.', tool: 'Lovable' },
-  { step: 'Backend estructurado', action: 'Supabase almacena tablas de ventas, clientes y flujo de caja. RLS por rol.', tool: 'Supabase' },
-  { step: 'Organización y control', action: 'GitHub en org Mad Charlies. Todo el código versionado y compartido con el equipo.', tool: 'GitHub' },
-  { step: 'Portal de usuario', action: 'Login seguro. Solo el equipo Mad Charlies puede ver los datos de la empresa.', tool: 'Auth + RLS' },
+  { step: 'Excel de Diego → modelo relacional', action: 'Ventas con listas desplegables, conectado a tabla clientes y costeo. Vicente modela 5 tablas: ingresos, gastos, categorías, canales, proveedores.', tool: 'Google Sheets' },
+  { step: 'Módulo elegido: Finanzas y Reportes', action: 'No inventario — se eligió Finanzas para reemplazar el CFO. "Yo quería contratar un CFO remoto, huevón." — Diego. El ERP lo reemplaza.', tool: 'Lovable' },
+  { step: 'Backend con RLS', action: 'Supabase almacena las 5 tablas. RLS activado: cada rol solo ve sus datos. Claude cayó en clase → el flujo igual funcionó mostrando la importancia del backup.', tool: 'Supabase' },
+  { step: 'Código en la organización', action: 'GitHub org Mad Charlies. Todo versionado. "Si lo hacéis bien al principio, cuando la empresa sea gigante, no tenéis un equipo de 90 personas planillando." — Vicente', tool: 'GitHub' },
+  { step: 'Deploy con dominio real', action: 'Vercel conecta GitHub → madcharlies.cl. La URL de Lovable es temporal. El custom domain es la app real del equipo.', tool: 'Vercel' },
 ];
 
 export function S4Slide14CaseStudy() {
@@ -160,12 +160,21 @@ export function S4Slide14CaseStudy() {
         </div>
 
         {/* Bottom callout */}
-        <motion.div {...m(0.78)} className="mt-4 p-3.5 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03] flex items-center gap-3 max-w-4xl">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-          <p className="text-xs text-white/80 leading-relaxed">
-            <span className="text-emerald-400/80 font-black">Stack completo validado: </span>
-            GitHub (org) + Supabase (DB) + Lovable (frontend) + Vercel (deploy). El mismo flujo sirve para cualquier empresa del grupo.
-          </p>
+        <motion.div {...m(0.78)} className="mt-4 grid grid-cols-2 gap-3 max-w-4xl">
+          <div className="p-3.5 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03] flex items-start gap-3">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <p className="text-xs text-white/80 leading-relaxed">
+              <span className="text-emerald-400/80 font-black">Stack validado: </span>
+              GitHub org + Supabase + Lovable + Vercel → madcharlies.cl. El mismo flujo para cualquier empresa del grupo.
+            </p>
+          </div>
+          <div className="p-3.5 rounded-xl border border-cyan-500/15 bg-cyan-500/[0.03] flex items-start gap-3">
+            <Zap className="w-4 h-4 shrink-0 mt-0.5" style={{ color: `hsl(${CYN} 70% 60%)` }} />
+            <div>
+              <p className="text-[11px] font-black mb-1" style={{ color: `hsl(${CYN} 70% 60% / 0.8)` }}>Próximos pasos Mad Charlies</p>
+              <p className="text-[11px] text-white/70 leading-relaxed">Conectar Shopify API · Servicio de despacho API · Edge Functions para reportes automáticos</p>
+            </div>
+          </div>
         </motion.div>
       </div>
 

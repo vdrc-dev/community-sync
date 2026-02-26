@@ -53,6 +53,7 @@ export function S4Slide08DataModeling() {
             </div>
           </div>
           <p className="text-violet-400/60 text-sm ml-5 pl-1 font-medium italic">"Una categoría tiene muchos ingresos. Un ingreso solo puede tener una categoría. Así funciona." — Vicente · Caso Real Mad Charlies</p>
+          <p className="text-white/40 text-xs ml-5 pl-1 mt-1 italic">Diego Meza: "Limpié las ventas, costos y clientes con Claude y lo automaticé. El dashboard se actualiza cada hora."</p>
         </motion.div>
 
         {/* Toggle */}
@@ -106,19 +107,23 @@ export function S4Slide08DataModeling() {
                   </div>
                 ))}
               </div>
-              {/* Mockup excel */}
-              <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
-                <p className="text-xs font-black text-white/75 mb-4 uppercase tracking-widest">Vista Excel — 1 tabla monolítica</p>
-                <div className="space-y-1.5 font-mono">
-                  {EXCEL_ROWS.map((row, i) => (
-                    <div key={i} className={`p-2.5 rounded-lg border text-[11px] leading-relaxed ${row.dup ? 'border-red-500/15 bg-red-500/[0.04]' : 'border-white/[0.05] bg-white/[0.01]'}`}>
-                      <span className="text-white/80">{row.data}</span>
-                      {row.dup && <span className="text-red-400/60 ml-2 font-bold">← DUPLICADO</span>}
-                    </div>
-                  ))}
-                  <p className="mt-2 text-[11px] italic text-white/85">... 19,000+ filas mas con los mismos datos repetidos</p>
+                <div className="p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
+                  <p className="text-xs font-black text-white/75 mb-3 uppercase tracking-widest">Vista Excel — 1 tabla monolítica</p>
+                  <div className="space-y-1.5 font-mono">
+                    {EXCEL_ROWS.map((row, i) => (
+                      <div key={i} className={`p-2.5 rounded-lg border text-[11px] leading-relaxed ${row.dup ? 'border-red-500/15 bg-red-500/[0.04]' : 'border-white/[0.05] bg-white/[0.01]'}`}>
+                        <span className="text-white/80">{row.data}</span>
+                        {row.dup && <span className="text-red-400/60 ml-2 font-bold">← DUPLICADO</span>}
+                      </div>
+                    ))}
+                    <p className="mt-2 text-[11px] italic text-white/85">... 19,000+ filas mas con los mismos datos repetidos</p>
+                  </div>
+                  <div className="mt-3 p-3 rounded-xl border border-amber-500/20 bg-amber-500/[0.04]">
+                    <p className="text-[11px] font-black text-amber-300 mb-1">Pregunta de Pablo en clase:</p>
+                    <p className="text-[11px] text-white/75 leading-relaxed">¿Partes del Excel o de Lovable? → <span className="font-bold text-white/85">Depende:</span> Excel ordenado → limpia con Claude y sube. Excel caótico → modela desde Lovable y adapta el Excel.</p>
+                    <p className="text-[11px] text-red-400/80 mt-1.5 font-bold">⚠️ Lee siempre el SQL que propone Lovable antes de aprobar → puede borrar datos.</p>
+                  </div>
                 </div>
-              </div>
             </motion.div>
           ) : (
             <motion.div key="after"
@@ -147,32 +152,35 @@ export function S4Slide08DataModeling() {
               </div>
               {/* Tables */}
               <div className="space-y-3">
-                {MOCK_TABLES.map((t, i) => (
-                  <motion.div key={i}
-                    initial={isExporting ? {} : { opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] }}
-                    className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.025] relative overflow-hidden">
-                    <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-xl" style={{ background: t.color }} />
-                    <div className="ml-2 flex items-center gap-2 mb-2.5">
-                      <Table2 className="w-4 h-4" style={{ color: t.color }} />
-                      <span className="text-sm font-black text-white">{t.name}</span>
-                      <span className="text-[11px] text-white/70 ml-auto font-mono">{t.rows} rows</span>
-                    </div>
-                    <div className="ml-2 flex gap-1.5 flex-wrap">
-                      {t.cols.map((col, j) => (
-                        <span key={j} className="text-[11px] px-2 py-0.5 rounded-md border font-mono"
-                          style={{
-                            borderColor: col.includes('PK') ? 'hsl(38 80% 50% / 0.25)' : col.includes('FK') ? `hsl(${t.hue} 60% 50% / 0.25)` : 'hsl(0 0% 100% / 0.06)',
-                            background: col.includes('PK') ? 'hsl(38 80% 50% / 0.08)' : col.includes('FK') ? `hsl(${t.hue} 60% 45% / 0.08)` : 'hsl(0 0% 100% / 0.02)',
-                            color: col.includes('PK') ? 'hsl(38 80% 65%)' : col.includes('FK') ? `hsl(${t.hue} 55% 65%)` : 'hsl(0 0% 100% / 0.3)',
-                          }}>
-                          {col.includes('PK') && '🔑 '}{col.includes('FK') && '🔗 '}{col}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
+                  {MOCK_TABLES.map((t, i) => (
+                    <motion.div key={i}
+                      initial={isExporting ? {} : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] }}
+                      className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.025] relative overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-xl" style={{ background: t.color }} />
+                      <div className="ml-2 flex items-center gap-2 mb-2">
+                        <Table2 className="w-4 h-4" style={{ color: t.color }} />
+                        <span className="text-sm font-black text-white">{t.name}</span>
+                        <span className="text-[11px] text-white/70 ml-auto font-mono">{t.rows} rows</span>
+                      </div>
+                      <div className="ml-2 flex gap-1.5 flex-wrap mb-2">
+                        {t.cols.map((col, j) => (
+                          <span key={j} className="text-[11px] px-2 py-0.5 rounded-md border font-mono"
+                            style={{
+                              borderColor: col.includes('PK') ? 'hsl(38 80% 50% / 0.25)' : col.includes('FK') ? `hsl(${t.hue} 60% 50% / 0.25)` : 'hsl(0 0% 100% / 0.06)',
+                              background: col.includes('PK') ? 'hsl(38 80% 50% / 0.08)' : col.includes('FK') ? `hsl(${t.hue} 60% 45% / 0.08)` : 'hsl(0 0% 100% / 0.02)',
+                              color: col.includes('PK') ? 'hsl(38 80% 65%)' : col.includes('FK') ? `hsl(${t.hue} 55% 65%)` : 'hsl(0 0% 100% / 0.3)',
+                            }}>
+                            {col.includes('PK') && '🔑 '}{col.includes('FK') && '🔗 '}{col}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="ml-2 text-[10px] italic text-white/40 leading-relaxed border-t border-white/[0.04] pt-1.5">
+                        💬 IA: "{t.comment}"
+                      </div>
+                    </motion.div>
+                  ))}
               </div>
             </motion.div>
           )}

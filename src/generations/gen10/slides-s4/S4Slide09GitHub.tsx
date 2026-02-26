@@ -12,9 +12,10 @@ const VERSIONS = [
 ];
 
 const SETUP_STEPS = [
-  { num: 1, title: 'Crear Organización GitHub', desc: 'Ícono ↗ → Organizations → New Org → Free → Business or Institution. Ponle el nombre de tu empresa. NUNCA trabajes desde tu perfil personal.', icon: Building2, color: 'hsl(280 70% 60%)', hue: 280 },
-  { num: 2, title: 'Invitar equipo como Owner', desc: 'People → tres puntitos → Change Role → Owner. Invita al instructor (vicente@vdrc.cl). Ojo: con plan Pro, todos ven TODOS los proyectos de la org.', icon: UserPlus, color: 'hsl(185 70% 50%)', hue: 185 },
-  { num: 3, title: 'Conectar a Lovable', desc: 'En Lovable → Settings → Connectors → GitHub. Sincroniza automático cada cambio. Así Cursor, Claude Code u otro dev puede entrar después sin depender de Lovable.', icon: Cloud, color: 'hsl(152 68% 50%)', hue: 152 },
+  { num: 1, title: 'Crear Organización GitHub', desc: 'Ícono ↗ → Organizations → New Org → Free → Business or Institution. Ponle el nombre de tu empresa. NUNCA trabajes desde tu perfil personal: el código le pertenece a la empresa, no a la persona.', icon: Building2, color: 'hsl(280 70% 60%)', hue: 280 },
+  { num: 2, title: 'Invitar equipo como Owner', desc: 'People → tres puntitos → Change Role → Owner. Invita al instructor (vicente@vdrc.cl). ⚠️ Plan Pro: todos ven TODOS los proyectos de la org. No invites al analista junior si no quieres que vea sueldos.', icon: UserPlus, color: 'hsl(185 70% 50%)', hue: 185 },
+  { num: 3, title: 'Conectar a Lovable', desc: 'En Lovable → Settings → Connectors → GitHub. Sincroniza automático cada cambio. Así Cursor, Cowork o Claude Code pueden entrar después sin depender de Lovable.', icon: Cloud, color: 'hsl(152 68% 50%)', hue: 152 },
+  { num: 4, title: 'Documentar el repositorio', desc: 'README genérico de Lovable → pídele: "Actualiza el README con lenguaje claro y útil." Y en Supabase: "Documenta las tablas y columnas con lenguaje natural." Cualquier IA futura entenderá tu código.', icon: GitCommit, color: 'hsl(38 90% 55%)', hue: 38 },
 ];
 
 const TABS = [
@@ -143,13 +144,22 @@ export function S4Slide09GitHub() {
                 </div>
               </motion.div>
 
-              {/* Instructor note */}
-              <motion.div {...m(0.5)} className="col-span-5 p-3.5 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-start gap-3">
-                <GitBranch className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-xs text-white/85 leading-relaxed">
-                  <span className="text-amber-400/90 font-black">Buena práctica: </span>
-                  Siempre crea una organización empresarial, nunca trabajes desde tu perfil personal. Así el código pertenece a la empresa, no a la persona. Si alguien se va, el código queda.
-                </p>
+              {/* Two flows */}
+              <motion.div {...m(0.5)} className="col-span-5 grid grid-cols-2 gap-3">
+                <div className="p-3.5 rounded-xl border border-violet-500/20 bg-violet-500/[0.04] flex items-start gap-2.5">
+                  <GitBranch className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[11px] font-black text-violet-300 mb-1">Setup (una sola vez)</p>
+                    <p className="text-[11px] text-white/75 font-mono">GitHub Org → Lovable → Supabase → GitHub connect → Documentar</p>
+                  </div>
+                </div>
+                <div className="p-3.5 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-start gap-2.5">
+                  <GitBranch className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[11px] font-black text-amber-300 mb-1">Flujo recurrente (cada proyecto nuevo)</p>
+                    <p className="text-[11px] text-white/75 font-mono">Lovable prompt → conectar Supabase → deploy Vercel</p>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           ) : (
