@@ -196,8 +196,21 @@ export function S4Slide07Supabase() {
                     </motion.div>
                   ))}
 
-                  <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-center gap-2">
-                    <span className="text-[11px] text-white/70">⚠️ <span className="text-red-400 font-black">Trampa de Lovable Cloud:</span> Lovable te ofrece habilitar su propia base de datos automáticamente — es una mala maña que te deja "amarrado". Ve a Settings → Connectors → deshabilita Lovable Cloud → conecta Supabase manual. Así el código es tuyo.</span>
+                  <div className="p-3.5 rounded-xl border border-red-500/25 bg-red-500/[0.06] flex items-start gap-2.5">
+                    <span className="text-red-400 text-base shrink-0 mt-0.5">⚠️</span>
+                    <div>
+                      <p className="text-[11px] font-black text-red-400 mb-1.5">Lovable Cloud Trap — La Maldición</p>
+                      <p className="text-[11px] text-white/80 leading-relaxed italic mb-2">"Es una maldición. Mucha gente termina haciendo todo el backend en Lovable. Le pongo 'never allow' pero igual lo mete." — Vicente</p>
+                      <p className="text-[11px] text-white/70 leading-relaxed">Solución: Settings → Connectors → <span className="text-red-400 font-black">deshabilita Lovable Cloud</span> → conecta tu propio Supabase. Así tus datos y tu código son tuyos.</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl border border-violet-500/20 bg-violet-500/[0.04] flex items-start gap-2.5 mt-2">
+                    <span className="text-violet-400 text-sm shrink-0 mt-0.5">🔌</span>
+                    <div>
+                      <p className="text-[11px] font-black text-violet-300 mb-1">Edge Functions para APIs externas</p>
+                      <p className="text-[11px] text-white/70 leading-relaxed">Para conectar Shopify, Book, APIs externas → usa <span className="font-black text-violet-300">Edge Functions en Supabase</span>. Son funciones serverless que corren en el backend, no en el navegador.</p>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -206,11 +219,11 @@ export function S4Slide07Supabase() {
         </div>
 
         {/* Callout */}
-        <motion.div {...m(0.65)} className="mt-4 p-3.5 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03] flex items-center gap-3 max-w-4xl">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <motion.div {...m(0.65)} className="mt-4 p-3.5 rounded-xl border border-amber-500/15 bg-amber-500/[0.03] flex items-start gap-3 max-w-4xl">
+          <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <p className="text-xs text-white/85 leading-relaxed">
-          <span className="text-emerald-400/80 font-black">Plan Pro $20 USD/mes — </span>
-            AI Assistant con GPT-5 incluido. Si invitas a alguien, ve TODOS los proyectos de la org. Plan Enterprise ($600/mes) permite permisos granulares por proyecto. Cowork de Claude tiene conector nativo a Supabase para carga masiva de datos desde Excel.
+            <span className="text-amber-400/80 font-black">⚠️ Permisos en Lovable: </span>
+            Plan Pro $20 USD/mes → todos en la org ven <span className="text-amber-300 font-bold">TODOS los proyectos</span>. No invites a un analista junior si no quieres que vea sueldos. Plan Enterprise ($600/mes) permite permisos granulares por proyecto. "Uno de los grandes problemas con Excel es que al final la data queda difícil de navegar. Con Supabase, cualquier IA se conecta y te da respuestas." — Vicente
           </p>
         </motion.div>
       </div>

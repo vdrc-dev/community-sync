@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Code2, Terminal, Wrench, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Code2, Terminal, Wrench, CheckCircle2, Layers } from 'lucide-react';
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 
@@ -22,6 +22,23 @@ const TOOLS_COMPARE = [
     useWhen: 'Cuando Lovable no logra el cambio específico que necesitas',
   },
   {
+    name: 'Cowork',
+    role: 'Claude para Windows — Multi-agente',
+    icon: Layers,
+    color: 'hsl(38 90% 55%)',
+    hue: 38,
+    percent: 10,
+    tag: 'Multi-agente',
+    features: [
+      'Lanza varios agentes en paralelo',
+      'Uno mira el Excel, otro mira Supabase',
+      'Multitarea, multicarpeta nativo',
+      'Conector nativo a Supabase incluido',
+    ],
+    quote: 'Cowork puede lanzar varios agentes en paralelo — por eso chupa tantos créditos. Para cargar Excel masivo, es la mejor opción.',
+    useWhen: 'Para carga masiva de datos o cuando necesitas múltiples tareas simultáneas',
+  },
+  {
     name: 'Claude Code',
     role: 'El Agente Autónomo de Terminal',
     icon: Terminal,
@@ -33,10 +50,10 @@ const TOOLS_COMPARE = [
       'Ejecuta comandos del sistema',
       'Instala paquetes, mueve archivos, prueba',
       'Autonomía total: él opera la máquina',
-      'Contexto de proyecto masivo (200K tokens)',
+      'Mejor que Cowork para +1M de filas',
     ],
-    quote: 'Es un empleado al que le das órdenes por chat y él opera la línea de comandos por ti.',
-    useWhen: 'Para refactoring masivo, migración de código, o tareas de DevOps',
+    quote: 'Para carga masiva, Cowork tiene límites de MCP. Claude Code es mejor para un millón de filas.',
+    useWhen: 'Refactoring masivo, migraciones de código o cargas de datos a gran escala',
   },
 ];
 
@@ -68,21 +85,26 @@ export function S4Slide10CursorClaude() {
         </motion.div>
 
         {/* 80/20 visual rule */}
-        <motion.div {...m(0.1)} className="flex items-center gap-4 mb-7 max-w-3xl">
+        <motion.div {...m(0.1)} className="flex items-center gap-4 mb-6 max-w-3xl">
           <div className="flex-1 h-8 rounded-xl overflow-hidden flex">
             <div className="flex items-center justify-center gap-2 bg-rose-500/15 border border-rose-500/20" style={{ width: '80%' }}>
               <span className="text-sm font-black text-rose-400">80%</span>
               <span className="text-xs text-rose-400/70">Lovable</span>
             </div>
-            <div className="flex items-center justify-center gap-2 bg-cyan-500/15 border border-cyan-500/20" style={{ width: '20%' }}>
-              <span className="text-sm font-black text-cyan-400">20%</span>
+            <div className="flex items-center justify-center gap-1 bg-cyan-500/15 border border-cyan-500/20" style={{ width: '15%' }}>
+              <span className="text-xs font-black text-amber-400">10</span>
+            </div>
+            <div className="flex items-center justify-center bg-violet-500/15 border border-violet-500/20" style={{ width: '5%' }}>
+              <span className="text-[10px] font-black text-violet-400">5</span>
             </div>
           </div>
-          <div className="text-xs text-white/75 font-medium italic">La Regla de Oro</div>
+          <div className="text-[11px] text-white/70 font-medium">
+            <span className="text-rose-400 font-black">80%</span> Lovable · <span className="text-amber-400 font-black">10%</span> Cowork · <span className="text-violet-400 font-black">5%</span> Claude Code
+          </div>
         </motion.div>
 
-        {/* Side-by-side */}
-        <div className="grid grid-cols-2 gap-5">
+        {/* Side-by-side: 3 tools */}
+        <div className="grid grid-cols-3 gap-4">
           {TOOLS_COMPARE.map((tool, i) => {
             const Icon = tool.icon;
             return (
