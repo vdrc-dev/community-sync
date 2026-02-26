@@ -12,9 +12,9 @@ const VERSIONS = [
 ];
 
 const SETUP_STEPS = [
-  { num: 1, title: 'Crear Organización', desc: 'Profile → Organizations → New Org → Free → Business. Nunca trabajes desde tu perfil personal.', icon: Building2, color: 'hsl(280 70% 60%)', hue: 280 },
-  { num: 2, title: 'Invitar al equipo', desc: 'People → Invite → ponle rol Owner al instructor. Así todos comparten los repositorios de la org.', icon: UserPlus, color: 'hsl(185 70% 50%)', hue: 185 },
-  { num: 3, title: 'Conectar a Lovable', desc: 'Cada proyecto nuevo se sincroniza automático. Cero Git manual. Es el Google Drive del código.', icon: Cloud, color: 'hsl(152 68% 50%)', hue: 152 },
+  { num: 1, title: 'Crear Organización GitHub', desc: 'Ícono ↗ → Organizations → New Org → Free → Business or Institution. Ponle el nombre de tu empresa. NUNCA trabajes desde tu perfil personal.', icon: Building2, color: 'hsl(280 70% 60%)', hue: 280 },
+  { num: 2, title: 'Invitar equipo como Owner', desc: 'People → tres puntitos → Change Role → Owner. Invita al instructor (vicente@vdrc.cl). Ojo: con plan Pro, todos ven TODOS los proyectos de la org.', icon: UserPlus, color: 'hsl(185 70% 50%)', hue: 185 },
+  { num: 3, title: 'Conectar a Lovable', desc: 'En Lovable → Settings → Connectors → GitHub. Sincroniza automático cada cambio. Así Cursor, Claude Code u otro dev puede entrar después sin depender de Lovable.', icon: Cloud, color: 'hsl(152 68% 50%)', hue: 152 },
 ];
 
 const TABS = [
@@ -109,12 +109,12 @@ export function S4Slide09GitHub() {
                 style={{ background: 'hsl(280 30% 5% / 0.6)', boxShadow: '0 0 40px hsl(280 60% 40% / 0.07) inset' }}>
                 <div className="px-4 py-3 border-b border-white/[0.06] bg-white/[0.02] flex items-center gap-2">
                   <Building2 className="w-3.5 h-3.5 text-violet-400/70" />
-                  <span className="text-xs font-black text-violet-400/80 font-mono">MasCharlies · Org</span>
+                  <span className="text-xs font-black text-violet-400/80 font-mono">Mad Charlies · Org</span>
                 </div>
                 <div className="p-4 space-y-3">
                   {/* Org node */}
                   <div className="p-3 rounded-xl border border-violet-500/25 bg-violet-500/[0.06] text-center">
-                    <p className="text-xs font-black text-violet-300">🏢 MasCharlies</p>
+                    <p className="text-xs font-black text-violet-300">🍺 Mad Charlies</p>
                     <p className="text-[11px] text-white/60 mt-0.5">Organización GitHub</p>
                   </div>
                   <div className="flex gap-2">
@@ -132,7 +132,7 @@ export function S4Slide09GitHub() {
                   {/* Projects */}
                   <div className="space-y-1.5">
                     <p className="text-[10px] font-black uppercase tracking-wider text-white/40 px-1">Repositorios</p>
-                    {['erp-mascharlies', 'landing-web', 'dashboard-ventas'].map((r, i) => (
+                    {['erp-madcharlies', 'landing-web', 'dashboard-ventas'].map((r, i) => (
                       <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/[0.04] bg-white/[0.015]">
                         <GitCommit className="w-3 h-3 text-violet-400/50" />
                         <span className="text-[11px] text-white/70 font-mono">{r}</span>

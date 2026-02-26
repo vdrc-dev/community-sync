@@ -20,9 +20,9 @@ const MOCK_TABLE = [
 ];
 
 const AI_TIPS = [
-  { q: '¿Cómo agrego un usuario como Owner?', hint: 'Navega a Settings → Team → Invite member...', color: 'hsl(150 60% 50%)', hue: 150 },
-  { q: '¿Cómo creo una tabla con RLS?', hint: 'En Table Editor → New table → activa RLS al crear.', color: 'hsl(185 70% 50%)', hue: 185 },
-  { q: '¿Qué son las Edge Functions?', hint: 'Funciones serverless que corren cerca del usuario...', color: 'hsl(280 70% 60%)', hue: 280 },
+  { q: '¿Cómo agrego a Vicente Donoso como owner?', hint: 'Settings → Team → Invite → pon vicente@vdrc.cl → rol Admin u Owner.', color: 'hsl(150 60% 50%)', hue: 150 },
+  { q: '¿Cómo creo una tabla en español con RLS?', hint: 'Table Editor → New table → nombre en español → activa RLS. Siempre en español.', color: 'hsl(185 70% 50%)', hue: 185 },
+  { q: '¿Qué es FK y PK en una tabla?', hint: 'PK = ID único de cada fila. FK = relación con el PK de otra tabla. Como Excel pero real.', color: 'hsl(280 70% 60%)', hue: 280 },
 ];
 
 const TABS = [
@@ -83,7 +83,7 @@ export function S4Slide07Supabase() {
               <Settings className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <p className="text-[11px] font-black text-amber-400/90 mb-1">Actívalo en clase</p>
-                <p className="text-[11px] text-white/80 leading-relaxed">Org Settings → Data Privacy → activa <span className="text-amber-400 font-bold">Schema Log</span> y <span className="text-amber-400 font-bold">Database Data</span>. Sin esto, el AI Assistant no funciona.</p>
+                <p className="text-[11px] text-white/80 leading-relaxed">Con <span className="text-amber-400 font-bold">Schema Log</span> y <span className="text-amber-400 font-bold">Database Data</span> activados, el AI Assistant dentro de Supabase usa <strong>GPT-5</strong> para leer tu base y responder en lenguaje natural. Org Settings → Data Privacy → activa ambas opciones.</p>
               </div>
             </motion.div>
           </div>
@@ -115,7 +115,7 @@ export function S4Slide07Supabase() {
               <div className="ml-auto flex items-center gap-2">
                 <motion.div className="w-2 h-2 rounded-full bg-emerald-500"
                   {...(isExporting ? {} : { animate: { opacity: [1, 0.4, 1] }, transition: { duration: 2, repeat: Infinity } })} />
-                <span className="text-[11px] text-white/75 font-mono">MasCharlies</span>
+                <span className="text-[11px] text-white/75 font-mono">Mad Charlies</span>
               </div>
             </div>
 
@@ -174,8 +174,8 @@ export function S4Slide07Supabase() {
                   <div className="flex items-start gap-3 p-3.5 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.04]">
                     <Bot className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-xs font-black text-emerald-300 mb-1">AI Assistant · Incluido en plan Pro</p>
-                      <p className="text-[11px] text-white/80 leading-relaxed">Con Schema Log activado, GPT-4o puede leer tu base de datos y responder preguntas en lenguaje natural. Así aprendió Vicente a usar Supabase.</p>
+                      <p className="text-xs font-black text-emerald-300 mb-1">AI Assistant · GPT-5 incluido en plan Pro</p>
+                      <p className="text-[11px] text-white/80 leading-relaxed">Con Schema Log activado, el AI de Supabase usa GPT-5 para leer tu base y responder preguntas. Así aprendió Vicente a usar Supabase: "¿Cómo creo una API Key?" y el asistente te navega.</p>
                     </div>
                   </div>
 
@@ -197,7 +197,7 @@ export function S4Slide07Supabase() {
                   ))}
 
                   <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-center gap-2">
-                    <span className="text-[11px] text-white/70">💡 <span className="text-amber-400 font-black">Pro tip:</span> El agente de Claude en Chrome puede navegar el dashboard de Supabase y hacer las configuraciones por ti.</span>
+                    <span className="text-[11px] text-white/70">⚠️ <span className="text-red-400 font-black">Trampa de Lovable Cloud:</span> Lovable te ofrece habilitar su propia base de datos automáticamente — es una mala maña que te deja "amarrado". Ve a Settings → Connectors → deshabilita Lovable Cloud → conecta Supabase manual. Así el código es tuyo.</span>
                   </div>
                 </motion.div>
               )}
@@ -209,8 +209,8 @@ export function S4Slide07Supabase() {
         <motion.div {...m(0.65)} className="mt-4 p-3.5 rounded-xl border border-emerald-500/15 bg-emerald-500/[0.03] flex items-center gap-3 max-w-4xl">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <p className="text-xs text-white/85 leading-relaxed">
-            <span className="text-emerald-400/80 font-black">Plan Pro $20 USD/mes — </span>
-            AI Assistant incluido, múltiples proyectos, invitar equipo. Si invitas a alguien, tiene acceso a todos los proyectos de la org. Ojo con eso.
+          <span className="text-emerald-400/80 font-black">Plan Pro $20 USD/mes — </span>
+            AI Assistant con GPT-5 incluido. Si invitas a alguien, ve TODOS los proyectos de la org. Plan Enterprise ($600/mes) permite permisos granulares por proyecto. Cowork de Claude tiene conector nativo a Supabase para carga masiva de datos desde Excel.
           </p>
         </motion.div>
       </div>
