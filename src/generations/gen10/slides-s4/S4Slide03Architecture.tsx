@@ -154,8 +154,10 @@ export function S4Slide03Architecture() {
         <motion.div {...m(0.5)} className="mt-5 p-4 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-start gap-3 max-w-4xl">
           <Monitor className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <span className="text-amber-400/90 font-black text-xs">Nota del Instructor: </span>
-            <span className="text-xs leading-relaxed text-white/90">Un buen Back-End (Supabase) con tablas y reglas de negocio bien modeladas es más importante que el Front-End. El front se puede reconstruir en minutos si el backend está bien hecho.</span>
+            <span className="text-amber-400/90 font-black text-xs">Analogía de clase — Vicente: </span>
+            <span className="text-xs leading-relaxed text-white/90">
+              <span className="text-violet-300 font-bold">GitHub</span> es el Google Drive del código. <span className="text-emerald-300 font-bold">Supabase</span> es el Excel por detrás. <span className="text-cyan-300 font-bold">Lovable</span> es como el Power BI encima. Una vez que lo entiendas, el frontend da igual — lo importante es que el código esté en GitHub y el backend en Supabase.
+            </span>
           </div>
         </motion.div>
       </div>
