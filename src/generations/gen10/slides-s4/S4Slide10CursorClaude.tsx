@@ -64,7 +64,7 @@ export function S4Slide10CursorClaude() {
               <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">Cursor + Claude Code</h1>
             </div>
           </div>
-          <p className="text-cyan-400/60 text-sm ml-5 pl-1 font-medium">El bisturí para el último 20%. Para cuando Lovable no alcanza la precisión que necesitas.</p>
+          <p className="text-cyan-400/60 text-sm ml-5 pl-1 font-medium italic">"Lovable es andar en bicicleta con rueditas de apoyo: no te vas a caer. Claude Code es una mountain bike." — Vicente · Gen 10 S4</p>
         </motion.div>
 
         {/* 80/20 visual rule */}
@@ -138,8 +138,8 @@ export function S4Slide10CursorClaude() {
         <motion.div {...m(0.55)} className="mt-5 p-4 rounded-xl border border-amber-500/20 bg-amber-500/[0.04] flex items-center gap-4 max-w-4xl mx-auto">
           <Wrench className="w-5 h-5 text-amber-400 shrink-0" />
           <p className="text-xs text-white/70 leading-relaxed">
-            <span className="text-amber-400/90 font-black">Regla de Oro: </span>
-            "Empieza SIEMPRE con Lovable. Solo baja al código (Cursor/Claude Code) para cerrar ese último 20% de precisión." — Vicente Donoso R.
+            <span className="text-amber-400/90 font-black">Regla de Oro · Clase 4: </span>
+            "Empieza SIEMPRE con Lovable. Una vez que sabes conectarte vía GitHub y Supabase, da lo mismo la herramienta de código — ocupas la que sea más barata y mejor. Lo importante es que el código esté en GitHub y el backend en Supabase." — Vicente Donoso R.
           </p>
         </motion.div>
       </div>

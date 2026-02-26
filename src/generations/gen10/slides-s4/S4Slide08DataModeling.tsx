@@ -4,24 +4,28 @@ import { FileSpreadsheet, Database, Table2, Key, Link2, AlertTriangle, CheckCirc
 import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 
+// Caso real Mad Charlies — Diego Meza Stange, clase 4 Gen 10
 const EXCEL_ROWS = [
-  { data: 'Colegio A | Antofagasta | Norte | Básico | 2024 | 85 | Dir: Juan Pérez | Dir Email: juan@col.cl', dup: true },
-  { data: 'Colegio A | Antofagasta | Norte | Básico | 2024 | 92 | Dir: Juan Pérez | Dir Email: juan@col.cl', dup: true },
-  { data: 'Colegio B | Santiago | Centro | Medio | 2024 | 67 | Dir: Ana López | Dir Email: ana@col.cl', dup: false },
+  { data: 'Venta | 2026-02-10 | Bar Las Condes | Lager 500cc | $4.800 | Canal: bar | Proveedor: MadCh | Categoría: directa', dup: true },
+  { data: 'Venta | 2026-02-10 | Bar Las Condes | Lager 500cc | $4.800 | Canal: bar | Proveedor: MadCh | Categoría: directa', dup: true },
+  { data: 'Venta | 2026-02-11 | Tienda Online | IPA 330cc | $3.500 | Canal: online | Proveedor: MadCh | Categoría: retail', dup: false },
 ];
 
+// Tablas reales creadas en clase con el Excel de Diego
 const MOCK_TABLES = [
-  { name: 'colegios', rows: '847', color: 'hsl(150 60% 50%)', hue: 150, cols: ['id (PK)', 'nombre', 'región_id (FK)', 'tipo', 'director_id (FK)'] },
-  { name: 'regiones', rows: '16', color: 'hsl(185 70% 50%)', hue: 185, cols: ['id (PK)', 'nombre', 'código'] },
-  { name: 'evaluaciones', rows: '19,234', color: 'hsl(280 70% 60%)', hue: 280, cols: ['id (PK)', 'colegio_id (FK)', 'fecha', 'puntaje', 'tipo_eval'] },
+  { name: 'ingresos', rows: '~', color: 'hsl(150 60% 50%)', hue: 150, cols: ['id (PK)', 'monto', 'fecha', 'descripción', 'canal_id (FK)', 'categoría_id (FK)'], comment: 'Registro de ingresos. Cada fila = una venta o entrada de dinero.' },
+  { name: 'gastos', rows: '~', color: 'hsl(185 70% 50%)', hue: 185, cols: ['id (PK)', 'monto', 'fecha', 'descripción', 'proveedor_id (FK)', 'categoría_id (FK)'], comment: 'Gastos operacionales de la cervecería.' },
+  { name: 'categorías', rows: '~', color: 'hsl(280 70% 60%)', hue: 280, cols: ['id (PK)', 'nombre', 'tipo'], comment: 'Catálogo de categorías. Una categoría tiene muchos ingresos/gastos.' },
+  { name: 'canales', rows: '~', color: 'hsl(38 90% 55%)', hue: 38, cols: ['id (PK)', 'nombre'], comment: 'Tienda online, bar, distribuidores, eventos.' },
+  { name: 'proveedores', rows: '~', color: 'hsl(330 70% 60%)', hue: 330, cols: ['id (PK)', 'nombre', 'contacto'], comment: 'Proveedores de insumos y materias primas.' },
 ];
 
 const RELATIONAL_BENEFITS = [
-  'Tablas con llaves primarias (PK) únicas',
-  'Relaciones Foreign Key (FK) entre tablas',
-  'Integridad referencial automática',
-  'Sin duplicados: los datos de Juan se escriben 1 sola vez',
-  'Escalable a millones de registros sin degradarse',
+  'Tablas en español con lógica en español (buena práctica)',
+  'Relaciones FK: categoría_id une gastos ↔ categorías',
+  'Sin duplicados: canal "Bar" se escribe 1 sola vez',
+  'RLS: el analista solo ve sus filas, no las del CEO',
+  'Escalable: Shopify, APIs externas se conectan directo',
 ];
 
 export function S4Slide08DataModeling() {
@@ -45,10 +49,10 @@ export function S4Slide08DataModeling() {
             <div className="w-1 h-8 rounded-full bg-violet-500" style={{ boxShadow: '0 0 12px hsl(280 60% 55% / 0.6)' }} />
             <div>
               <span className="text-xs font-black tracking-[0.25em] uppercase text-white/80">Stack · Modelado de Datos</span>
-              <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">De Excel a Modelo Relacional</h1>
+          <h1 className="text-5xl 2xl:text-6xl font-black text-white tracking-tight leading-tight">De Excel a Modelo Relacional</h1>
             </div>
           </div>
-          <p className="text-violet-400/60 text-sm ml-5 pl-1 font-medium">Tu Excel tiene 19,000 filas con datos redundantes. Supabase las convierte en poder estructurado.</p>
+          <p className="text-violet-400/60 text-sm ml-5 pl-1 font-medium italic">"Una categoría tiene muchos ingresos. Un ingreso solo puede tener una categoría. Así funciona." — Vicente · Caso Real Mad Charlies</p>
         </motion.div>
 
         {/* Toggle */}
@@ -91,11 +95,11 @@ export function S4Slide08DataModeling() {
                     <FileSpreadsheet className="w-6 h-6 text-red-400" />
                   </div>
                   <div>
-                    <p className="text-lg font-black text-white">Excel Tradicional</p>
-                    <p className="text-xs text-red-400/60">Una sola tabla monolítica</p>
+                 <p className="text-lg font-black text-white">Google Sheets de Diego</p>
+                    <p className="text-xs text-red-400/60">Una sola tabla monolítica · ventas Mad Charlies</p>
                   </div>
                 </div>
-                {['Datos duplicados en cada fila (Director, Región, etc)', 'Sin relaciones entre entidades distintas', 'Datos inconsistentes si alguien escribe diferente', 'No escala sin degradarse a partir de 10,000 filas'].map((p, i) => (
+                {['Canal "bar" repetido en cada fila de venta (datos duplicados)', 'Categoría escrita diferente cada vez → inconsistencias', 'Sin relaciones: no se puede saber cuánto vendió cada canal', 'No escala: agregar Shopify o API externa es imposible'].map((p, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-red-500/12 bg-red-500/[0.02] mb-2">
                     <AlertTriangle className="w-3.5 h-3.5 text-red-400/70 shrink-0 mt-0.5" />
                     <span className="text-xs leading-relaxed text-white/85">{p}</span>
@@ -130,8 +134,8 @@ export function S4Slide08DataModeling() {
                     <Database className="w-6 h-6 text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-lg font-black text-white">Modelo Relacional</p>
-                    <p className="text-xs text-emerald-400/60">3 tablas interconectadas</p>
+                 <p className="text-lg font-black text-white">ERP Mad Charlies · Supabase</p>
+                    <p className="text-xs text-emerald-400/60">5 tablas relacionales · construido en clase</p>
                   </div>
                 </div>
                 {RELATIONAL_BENEFITS.map((b, i) => (
