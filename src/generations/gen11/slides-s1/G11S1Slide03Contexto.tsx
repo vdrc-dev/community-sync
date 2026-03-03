@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Brain, DollarSign, AlertTriangle } from 'lucide-react';
 import { G11Shell, useG11Motion, G11GreenLine, G11BrainDecor } from './Shell';
 import { G11, VDRC_GREEN } from './theme';
+import contextoHero from '@/assets/gen11-contexto-hero.jpg';
 
 const STATS = [
   { label: 'Herramientas IA nuevas', value: '+200', sub: 'cada semana', icon: TrendingUp, accent: G11.emerald },
@@ -55,21 +56,28 @@ export function G11S1Slide03Contexto() {
         </motion.div>
       </div>
 
-      {/* Right brain visual */}
-      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[44%] overflow-hidden">
-        <div className="absolute inset-y-0 left-0 w-24 z-10"
-          style={{ background: 'linear-gradient(90deg, #181c1b, transparent)' }} />
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 70% 80% at 60% 50%, rgba(61,153,112,0.10), transparent 70%)'
-        }} />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.85, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <G11BrainDecor className="w-[88%] h-[88%]" />
-        </motion.div>
+      {/* Right — hero image */}
+      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[46%] overflow-hidden">
+        {/* Left fade */}
+        <div className="absolute inset-y-0 left-0 w-36 z-10"
+          style={{ background: 'linear-gradient(90deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Top fade */}
+        <div className="absolute inset-x-0 top-0 h-20 z-10"
+          style={{ background: 'linear-gradient(180deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-20 z-10"
+          style={{ background: 'linear-gradient(0deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Green overlay tint */}
+        <div className="absolute inset-0 z-[5]"
+          style={{ background: 'rgba(24,28,27,0.35)' }} />
+        <motion.img
+          src={contextoHero}
+          alt=""
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
       </div>
     </G11Shell>
   );
