@@ -41,10 +41,10 @@ export function G11S1Slide01Cover() {
         {/* Main headline */}
         <div className="flex-1 flex flex-col justify-center py-6">
           <motion.div {...m(0.1)}>
-            <h1 className="text-[4.8rem] sm:text-[7.2rem] font-black text-white tracking-tight leading-[0.9] mb-2">
+            <h1 className="text-[3.8rem] sm:text-[5.6rem] font-black text-white tracking-tight leading-[0.92] mb-2">
               Higiene <span style={{ color: VDRC_GREEN, fontStyle: 'italic' }}>Digital.</span>
             </h1>
-            <h1 className="text-[4.8rem] sm:text-[7.2rem] font-black text-white tracking-tight leading-[0.9] mb-8">
+            <h1 className="text-[3.8rem] sm:text-[5.6rem] font-black text-white tracking-tight leading-[0.92] mb-8">
               Productividad<br />desde los<br />Cimientos
             </h1>
           </motion.div>
@@ -69,7 +69,7 @@ export function G11S1Slide01Cover() {
       </div>
 
       {/* RIGHT — stats panel */}
-      <div className="hidden sm:flex absolute right-0 top-0 bottom-0 w-[38%] items-center justify-center pr-16">
+      <div className="hidden sm:flex absolute right-0 top-0 bottom-0 w-[40%] items-center justify-center pr-20">
         <motion.div
           {...m(0.15)}
           className="w-full max-w-[320px] rounded-2xl border p-8 flex flex-col gap-6"
