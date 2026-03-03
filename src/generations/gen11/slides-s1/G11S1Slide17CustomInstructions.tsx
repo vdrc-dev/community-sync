@@ -1,52 +1,41 @@
 /**
- * Slide 17 — IA Personalizada: Instrucciones Personalizadas
- * ChatGPT Custom Instructions
+ * Slide 17 — IA Personalizada: Memoria & Personalización en Claude
+ * Migración de ChatGPT → Claude como sistema central
  */
 import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 import { G11Shell, useG11Motion, G11GreenLine } from './Shell';
 import { G11, VDRC_GREEN } from './theme';
 
-const SECTIONS = [
+const MIGRATION_STEPS = [
   {
-    icon: '👤', title: '¿Quién eres?',
-    desc: 'Profesión, área de trabajo, contexto y preferencias.',
-    example: '"Soy arquitecto en Chile, prefiero respuestas directas con ejemplos prácticos"',
+    step: '01',
+    title: 'Exportar memoria de ChatGPT',
+    desc: 'Settings → Data Controls → Export data → descarga el ZIP → abre memory.json',
+    icon: '📦',
+    accent: G11.rose,
   },
   {
-    icon: '🎯', title: '¿Cómo responder?',
-    desc: 'Idioma, tono (formal/cercano), formato (listas/prosa), estructura.',
-    example: '"Chile, formato europeo (1.234,56), fechas DD/MM/AAAA, monedas CLP/UF"',
-  },
-  {
-    icon: '🧠', title: 'Memoria',
-    desc: 'ChatGPT recuerda lo que le dices entre conversaciones. Úsalo a tu favor.',
-    example: '"Recuerda siempre que prefiero bullets sobre párrafos"',
-  },
-];
-
-const EXAMPLES = [
-  {
-    profile: 'Marketing Digital',
-    config: 'Respuestas prácticas con métricas claras (CTR, ROI). Tono profesional y cercano.',
-    accent: G11.blue,
-  },
-  {
-    profile: 'Docente',
-    config: 'Lenguaje pedagógico con fuentes confiables. Cuadros comparativos y ejemplos históricos.',
+    step: '02',
+    title: 'Resumir con Claude',
+    desc: 'Pégale el memory.json y pídele: "Resume esto en un bloque de contexto conciso para usar como mi perfil"',
+    icon: '🤖',
     accent: G11.amber,
   },
   {
-    profile: 'Emprendedor',
-    config: 'Ideas accionables, frameworks (Lean Canvas, SWOT). Directo y estratégico.',
+    step: '03',
+    title: 'Configurar perfil en Claude',
+    desc: 'Claude → Settings → Profile → Personal Preferences → pega el resumen',
+    icon: '⚙️',
     accent: G11.purple,
   },
 ];
 
-const TOOLS = [
-  { tool: 'ChatGPT', where: 'Configuración → Custom Instructions' },
-  { tool: 'Claude', where: 'Configuración → Estilo de respuesta' },
-  { tool: 'Gemini', where: 'Gems → Crear Gem personal' },
+const CLAUDE_PREFS = [
+  { label: 'Idioma & formato', example: '"Español, bullets, sin introducción genérica, máx 400 palabras"' },
+  { label: 'Rol & contexto', example: '"Soy arquitecto en Santiago, proyectos residenciales medianos"' },
+  { label: 'Anti-patrones', example: '"No repitas lo que dije, no uses frases como \'claro que sí\'"' },
+  { label: 'Proyectos activos', example: '"Actualmente trabajando en licitación municipalidad Lo Barnechea"' },
 ];
 
 export function G11S1Slide17CustomInstructions() {
@@ -60,76 +49,81 @@ export function G11S1Slide17CustomInstructions() {
 
       <div className="relative z-10 w-full flex flex-col justify-center px-12 sm:px-20 py-8">
 
-        <motion.div {...m(0)} className="mb-6">
+        <motion.div {...m(0)} className="mb-5">
           <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: G11.purple.text }}>
             Módulo 05 — Bonus IA Personalizada
           </p>
-          <div className="flex items-end gap-4 flex-wrap">
-            <h2 className="text-4xl sm:text-5xl font-black text-white uppercase leading-none">Instrucciones</h2>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase leading-none" style={{ color: VDRC_GREEN }}>Personalizadas</h2>
+          <div className="flex items-end gap-3 flex-wrap">
+            <h2 className="text-4xl sm:text-5xl font-black text-white uppercase leading-none">De ChatGPT</h2>
+            <h2 className="text-4xl sm:text-5xl font-black uppercase leading-none" style={{ color: VDRC_GREEN }}>a Claude</h2>
           </div>
-          <G11GreenLine className="max-w-[240px] mt-4 mb-3" />
-          <p className="text-white/35 text-sm">ChatGPT responde mejor si le dices quién eres y cómo te gusta recibir la info.</p>
+          <G11GreenLine className="max-w-[240px] mt-3 mb-2" />
+          <p className="text-white/35 text-sm">Tu memoria no se pierde — se transfiere. Claude es el nuevo centro de operaciones.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-          {/* Left: 3 config sections */}
-          <div className="lg:col-span-5 space-y-3">
-            {SECTIONS.map((s, i) => (
-              <motion.div key={s.title} {...m(0.1 + i * 0.07)}
-                className="p-4 rounded-xl border"
-                style={{ borderColor: G11.purple.border, background: `linear-gradient(135deg, ${G11.purple.bg}, rgba(0,0,0,0.3))` }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-base">{s.icon}</span>
-                  <h4 className="text-white font-black text-sm">{s.title}</h4>
+          {/* Left: Migration steps */}
+          <div className="lg:col-span-6 space-y-2.5">
+            <p className="text-[9px] font-black tracking-widest uppercase mb-2" style={{ color: G11.amber.text }}>🔄 Cómo migrar tu memoria</p>
+            {MIGRATION_STEPS.map((s, i) => (
+              <motion.div key={s.step} {...m(0.08 + i * 0.08)}
+                className="p-3.5 rounded-xl border flex gap-3"
+                style={{ borderColor: s.accent.border, background: `linear-gradient(135deg, ${s.accent.bg}, rgba(0,0,0,0.3))` }}>
+                <div className="flex-shrink-0 flex flex-col items-center gap-1">
+                  <span className="text-xl">{s.icon}</span>
+                  <span className="text-[9px] font-black" style={{ color: s.accent.text }}>{s.step}</span>
                 </div>
-                <p className="text-white/40 text-xs leading-relaxed mb-2">{s.desc}</p>
-                <p className="text-white/25 text-[10px] italic leading-relaxed">{s.example}</p>
+                <div>
+                  <h4 className="text-white font-black text-xs mb-1">{s.title}</h4>
+                  <p className="text-white/40 text-[10px] leading-relaxed">{s.desc}</p>
+                </div>
               </motion.div>
             ))}
+            <motion.div {...m(0.32)} className="flex items-center gap-2 px-3 py-2 rounded-lg"
+              style={{ background: 'rgba(61,153,112,0.08)', border: '1px solid rgba(61,153,112,0.2)' }}>
+              <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" style={{ color: VDRC_GREEN }} />
+              <p className="text-white/50 text-[10px] italic">Tip: pídele a Claude que resuma tu memory.json en un bloque de máx. 300 palabras antes de pegarlo.</p>
+            </motion.div>
           </div>
 
-          {/* Right: examples + tools */}
-          <div className="lg:col-span-7 space-y-3">
-
-            {/* Profile examples */}
-            <motion.div {...m(0.28)} className="p-4 rounded-xl border"
-              style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
-              <p className="text-[9px] font-black tracking-widest uppercase text-white/30 mb-3">Ejemplos de Configuración</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {EXAMPLES.map((ex, i) => (
-                  <motion.div key={ex.profile} {...m(0.32 + i * 0.06)}
-                    className="p-3 rounded-xl border"
-                    style={{ borderColor: ex.accent.border, background: `linear-gradient(135deg, ${ex.accent.bg}, rgba(0,0,0,0.3))` }}>
-                    <p className="text-[10px] font-black tracking-widest uppercase mb-2" style={{ color: ex.accent.text }}>
-                      {ex.profile}
-                    </p>
-                    <p className="text-white/40 text-[10px] leading-relaxed">{ex.config}</p>
+          {/* Right: Claude preferences + tip */}
+          <div className="lg:col-span-6 space-y-3">
+            <motion.div {...m(0.35)} className="p-4 rounded-xl border"
+              style={{ borderColor: G11.purple.border, background: `linear-gradient(135deg, ${G11.purple.bg}, rgba(0,0,0,0.3))` }}>
+              <p className="text-[9px] font-black tracking-widest uppercase mb-3" style={{ color: G11.purple.text }}>⚙️ Claude → Personal Preferences</p>
+              <div className="space-y-2.5">
+                {CLAUDE_PREFS.map((p, i) => (
+                  <motion.div key={p.label} {...m(0.38 + i * 0.05)} className="flex flex-col gap-0.5">
+                    <span className="text-[9px] font-black tracking-wider uppercase text-white/50">{p.label}</span>
+                    <span className="text-white/30 text-[10px] italic leading-snug">{p.example}</span>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Where to use */}
-            <motion.div {...m(0.45)} className="p-4 rounded-xl border"
+            <motion.div {...m(0.55)} className="p-4 rounded-xl border"
               style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
-              <p className="text-[9px] font-black tracking-widest uppercase text-white/30 mb-3">📌 Dónde configurarlo</p>
-              <ul className="space-y-2.5">
-                {TOOLS.map(t => (
+              <p className="text-[9px] font-black tracking-widest uppercase text-white/30 mb-3">📌 Dónde configurar en cada herramienta</p>
+              <ul className="space-y-2">
+                {[
+                  { tool: 'Claude', where: 'Settings → Profile → Personal Preferences', main: true },
+                  { tool: 'ChatGPT', where: 'Settings → Custom Instructions' },
+                  { tool: 'Gemini', where: 'Gems → Crear Gem personal' },
+                ].map(t => (
                   <li key={t.tool} className="flex items-center gap-2.5">
-                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: G11.purple.text }} />
-                    <span className="text-white/70 text-xs font-black">{t.tool}:</span>
+                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: t.main ? VDRC_GREEN : G11.purple.text }} />
+                    <span className="text-xs font-black" style={{ color: t.main ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.55)' }}>{t.tool}:</span>
                     <span className="text-white/35 text-xs">{t.where}</span>
                   </li>
                 ))}
               </ul>
             </motion.div>
 
-            <motion.div {...m(0.55)} className="px-4 py-3 rounded-xl border"
+            <motion.div {...m(0.65)} className="px-4 py-3 rounded-xl border"
               style={{ borderColor: G11.purple.border, background: G11.purple.bg }}>
               <p className="text-white/40 text-xs italic">
-                💡 Revisa tus instrucciones después de una semana de uso para identificar brechas y refinar.
+                💡 Claude no tiene "memoria automática" como ChatGPT — pero sus Personal Preferences son más potentes porque tú controlas exactamente qué recuerda.
               </p>
             </motion.div>
           </div>
