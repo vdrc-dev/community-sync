@@ -97,18 +97,26 @@ export function G11S1Slide04Bio() {
       </div>
 
       {/* RIGHT — Vicente photo */}
-      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[46%] overflow-hidden">
-        <div className="absolute inset-y-0 left-0 w-32 z-10"
-          style={{ background: 'linear-gradient(90deg, #181c1b, transparent)' }} />
-        <div className="absolute inset-0 z-10"
-          style={{ background: 'linear-gradient(180deg, #181c1b 0%, transparent 15%, transparent 75%, #181c1b 100%)' }} />
+      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[50%] overflow-hidden">
+        {/* Left fade */}
+        <div className="absolute inset-y-0 left-0 w-40 z-10"
+          style={{ background: 'linear-gradient(90deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Top fade */}
+        <div className="absolute inset-x-0 top-0 h-32 z-10"
+          style={{ background: 'linear-gradient(180deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-32 z-10"
+          style={{ background: 'linear-gradient(0deg, #181c1b 0%, transparent 100%)' }} />
+        {/* Right fade */}
+        <div className="absolute inset-y-0 right-0 w-16 z-10"
+          style={{ background: 'linear-gradient(270deg, #181c1b 0%, transparent 100%)' }} />
         <motion.img
           src={vicentePhoto}
           alt="Vicente Donoso"
           initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 w-full h-full object-cover object-top"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
       </div>
     </G11Shell>
