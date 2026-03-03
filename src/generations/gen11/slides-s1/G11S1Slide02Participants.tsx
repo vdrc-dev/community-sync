@@ -44,21 +44,19 @@ export function G11S1Slide02Participants() {
           className="w-full h-full object-cover"
           style={{ opacity: 0.18 }}
         />
-        {/* fade gradient over the left edge of the image */}
         <div className="absolute inset-y-0 left-0 w-32"
           style={{ background: 'linear-gradient(90deg, #181c1b, transparent)' }} />
-        {/* radial green glow behind the image */}
         <div className="absolute inset-0"
           style={{ background: 'radial-gradient(ellipse 80% 70% at 60% 50%, rgba(61,153,112,0.12), transparent 75%)' }} />
       </div>
 
-      {/* Main layout */}
-      <div className="relative z-10 w-full flex gap-10 px-12 sm:px-20 py-8 items-start justify-between">
+      {/* Main layout — centrado verticalmente */}
+      <div className="relative z-10 w-full h-full flex gap-8 pl-12 sm:pl-20 pr-6 sm:pr-10 py-10 items-center justify-between">
 
         {/* LEFT: title block */}
-        <div className="flex-shrink-0 w-[260px] flex flex-col justify-start pt-2">
-          <motion.div {...m(0)}>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-5"
+        <div className="flex-shrink-0 w-[200px] flex flex-col justify-center gap-4">
+          <motion.div {...m(0)} className="flex flex-col gap-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border self-start"
               style={{ background: G11.emerald.bg, borderColor: G11.emerald.border }}>
               <Users className="w-3 h-3" style={{ color: G11.emerald.text }} />
               <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: G11.emerald.text }}>
@@ -66,13 +64,13 @@ export function G11S1Slide02Participants() {
               </span>
             </div>
 
-            <h1 className="text-5xl font-black text-white uppercase leading-none tracking-tight">
-              PARTI<span style={{ color: VDRC_GREEN }}>CIP</span>ANTES
+            <h1 className="text-3xl font-black text-white uppercase leading-none tracking-tight">
+              PARTI<span style={{ color: VDRC_GREEN }}>CI</span>PANTES
             </h1>
 
-            <G11GreenLine className="my-5 max-w-[120px]" />
+            <G11GreenLine className="max-w-[100px]" />
 
-            <p className="text-white/35 text-xs leading-relaxed max-w-[200px]">
+            <p className="text-white/35 text-[11px] leading-relaxed">
               13 profesionales.<br />
               Una misión: dominar<br />
               la IA con intención.
@@ -80,17 +78,17 @@ export function G11S1Slide02Participants() {
           </motion.div>
 
           {/* Count badge */}
-          <motion.div {...m(0.15)} className="mt-6">
-            <div className="inline-flex flex-col items-center px-5 py-3 rounded-2xl border"
+          <motion.div {...m(0.15)}>
+            <div className="inline-flex flex-col items-center px-4 py-2.5 rounded-2xl border"
               style={{ borderColor: VDRC_GREEN_DIM, background: 'rgba(61,153,112,0.06)' }}>
-              <span className="text-4xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>13</span>
+              <span className="text-3xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>13</span>
               <span className="text-[9px] font-bold tracking-widest uppercase text-white/40 mt-0.5">Participantes</span>
             </div>
           </motion.div>
         </div>
 
         {/* RIGHT: participant grid */}
-        <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <div className="flex-1 grid grid-cols-3 gap-2 content-center">
           {PARTICIPANTS.map((p, i) => {
             const accent = ACCENTS[i];
             const initials = `${p.nombre[0]}${p.apellido[0]}`;
