@@ -88,7 +88,7 @@ export function G11S1Slide02Participants() {
         </div>
 
         {/* RIGHT: participant grid — fills full height */}
-        <div className="flex-1 grid grid-cols-3 gap-3" style={{ gridTemplateRows: 'repeat(4, 1fr) auto' }}>
+        <div className="flex-1 grid grid-cols-3 gap-4" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
           {PARTICIPANTS.map((p, i) => {
             const accent = ACCENTS[i];
             const initials = `${p.nombre[0]}${p.apellido[0]}`;
@@ -96,21 +96,23 @@ export function G11S1Slide02Participants() {
               <motion.div
                 key={`${p.nombre}-${p.apellido}`}
                 {...m(0.05 + i * 0.04)}
-                className="relative overflow-hidden rounded-2xl border flex items-center gap-4 px-4"
+                className="relative overflow-hidden rounded-2xl border flex items-center gap-4 px-5"
                 style={{
                   borderColor: accent.border,
                   background: `linear-gradient(135deg, ${accent.bg} 0%, rgba(0,0,0,0.3) 100%)`,
                 }}
               >
                 {/* Number watermark */}
-                <div className="absolute right-3 bottom-1 text-5xl font-black pointer-events-none select-none leading-none"
+                <div className="absolute right-3 bottom-1 text-6xl font-black pointer-events-none select-none leading-none"
                   style={{ color: accent.text, opacity: 0.07 }}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
 
                 {/* Avatar initials */}
-                <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 font-black text-sm"
+                <div className="w-13 h-13 rounded-xl border flex items-center justify-center flex-shrink-0 font-black text-base"
                   style={{
+                    width: '3.25rem',
+                    height: '3.25rem',
                     borderColor: accent.border,
                     background: 'rgba(0,0,0,0.4)',
                     color: accent.text,
@@ -120,13 +122,13 @@ export function G11S1Slide02Participants() {
 
                 {/* Name */}
                 <div className="min-w-0 flex-1">
-                  <div className="text-white font-bold text-sm leading-tight truncate">{p.nombre}</div>
-                  <div className="text-white/45 text-xs leading-tight truncate">{p.apellido}</div>
+                  <div className="text-white font-bold text-base leading-tight truncate">{p.nombre}</div>
+                  <div className="text-white/45 text-sm leading-tight truncate">{p.apellido}</div>
                 </div>
 
                 {/* Accent dot */}
-                <div className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ background: accent.dot, boxShadow: `0 0 8px ${accent.glow}` }} />
+                <div className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  style={{ background: accent.dot, boxShadow: `0 0 10px ${accent.glow}` }} />
               </motion.div>
             );
           })}
