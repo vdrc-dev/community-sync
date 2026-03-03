@@ -13,8 +13,8 @@ const MANUAL_SECTIONS = [
 ];
 
 const TOOLS_PLACEMENT = [
+  { tool: 'Claude', where: 'Configuración → Profile → Personal Preferences' },
   { tool: 'ChatGPT', where: 'Configuración → Custom Instructions' },
-  { tool: 'Claude', where: 'Configuración → Estilo de respuesta' },
   { tool: 'Gemini', where: 'Gems → Crear Gem personal' },
 ];
 
