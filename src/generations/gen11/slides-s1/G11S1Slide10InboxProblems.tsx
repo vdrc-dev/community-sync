@@ -9,14 +9,14 @@ import { G11, VDRC_GREEN } from './theme';
 
 const BEFORE = [
   'Bandeja desbordada, correos sin leer, ansiedad cada vez que abres el mail.',
-  'Todo mezclado: trabajo, personal, suscripciones... un caos sin fin.',
-  'Correos importantes enterrados bajo newsletters que nunca pediste.',
+  'Todo mezclado: trabajo, personal, suscripciones... un caos.',
+  'Contraseñas duplicadas: riesgo de seguridad y tiempo perdido.',
 ];
 
 const AFTER = [
   'Bandeja en cero, cada correo en su lugar. Tranquilidad real.',
   'Perfiles separados: trabajo y personal nunca se cruzan.',
-  'Gestor de contraseñas: acceso seguro e inmediato a todo.',
+  'Gestor de contraseñas: acceso seguro e inmediato.',
 ];
 
 export function G11S1Slide10InboxProblems() {

@@ -7,10 +7,10 @@ import { G11Shell, useG11Motion, G11GreenLine, G11BrainDecor } from './Shell';
 import { G11, VDRC_GREEN, VDRC_GREEN_DIM } from './theme';
 
 const TASKS = [
-  { icon: Mail, text: 'Inbox Zero por 3 días (y mantenerlo)', accent: G11.blue },
+  { icon: Mail, text: 'Mantener Inbox Zero por 3 días', accent: G11.blue },
   { icon: Globe, text: 'Configurar perfiles de navegador (Personal / Trabajo)', accent: G11.amber },
-  { icon: Shield, text: 'Instalar Bitwarden + migrar 5 contraseñas', accent: G11.emerald },
-  { icon: Bot, text: 'Configurar Custom Instructions en ChatGPT / Claude', accent: G11.purple },
+  { icon: Shield, text: 'Instalar Bitwarden + migrar al menos 5 contraseñas', accent: G11.emerald },
+  { icon: Bot, text: 'Configurar instrucciones personalizadas en ChatGPT o Claude', accent: G11.purple },
 ];
 
 export function G11S1Slide18Closing() {

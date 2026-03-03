@@ -53,7 +53,7 @@ export function G11S1Slide07HowWeWork() {
           </h2>
           <G11GreenLine className="max-w-[220px] mb-4" />
           <p className="text-white/35 text-sm">
-            Esto es un taller: prueben, erren, vuelvan a probar.
+            Esto es un taller: prueben, erren, vuelvan a probar. <span className="text-white/20">La tecnología cambia, el método permanece.</span>
           </p>
         </motion.div>
 

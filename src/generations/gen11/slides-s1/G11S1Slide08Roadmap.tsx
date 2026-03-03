@@ -15,20 +15,20 @@ const SESSIONS = [
   },
   {
     num: 'S2', label: 'SEM 2', title: 'IA Intensiva',
-    desc: 'Productividad con IA: ChatGPT, NotebookLM, Gemini, Perplexity.',
+    desc: 'ChatGPT, Claude, Gemini, Perplexity, NotebookLM.',
     tools: ['ChatGPT', 'Claude', 'Gemini', 'Perplexity'],
     icon: Brain, accent: G11.blue,
   },
   {
-    num: 'S3', label: 'SEM 3', title: 'Presentaciones Inteligentes',
-    desc: 'Gamma, Napkin, Canva, Krea.',
+    num: 'S3', label: 'SEM 3', title: 'UI con Claude',
+    desc: 'Presentaciones inteligentes: Gamma, Napkin, Canva, Krea.',
     tools: ['Gamma', 'Napkin', 'Canva', 'Krea'],
     icon: Presentation, accent: G11.purple,
   },
   {
     num: 'S4', label: 'SEM 4', title: 'Vibe Coding',
-    desc: 'Automatización: Zapier, Lovable y más.',
-    tools: ['Cursor', 'Lovable', 'Supabase', 'GitHub'],
+    desc: 'Automatización y apps: Cursor, Lovable, Supabase.',
+    tools: ['Cursor', 'Lovable', 'Supabase', 'Vercel'],
     icon: Code2, accent: G11.amber,
   },
 ];
