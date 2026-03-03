@@ -169,27 +169,50 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   // ============================================
   // Gen 11 - Semana 1
   // ============================================
+  // Cover + Agenda
   'G11S1Slide01Cover': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide01Cover').then(m => ({ default: m.G11S1Slide01Cover }))),
   'G11S1Slide02Participants': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Participants').then(m => ({ default: m.G11S1Slide02Participants }))),
   'G11S1Slide02Agenda': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Agenda').then(m => ({ default: m.G11S1Slide02Agenda }))),
+  // Módulo 01: Contexto y Fundamentos
   'G11S1Slide03Contexto': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide03Contexto').then(m => ({ default: m.G11S1Slide03Contexto }))),
-  'G11S1Slide04PodcastRef': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04PodcastRef').then(m => ({ default: m.G11S1Slide04PodcastRef }))),
-  'G11S1Slide04Roadmap': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04Roadmap').then(m => ({ default: m.G11S1Slide04Roadmap }))),
-  'G11S1Slide05InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide05InboxZeroDivider').then(m => ({ default: m.G11S1Slide05InboxZeroDivider }))),
-  'G11S1Slide06InboxZeroMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06InboxZeroMethod').then(m => ({ default: m.G11S1Slide06InboxZeroMethod }))),
-  'G11S1Slide07InboxZeroFilters': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide07InboxZeroFilters').then(m => ({ default: m.G11S1Slide07InboxZeroFilters }))),
-  'G11S1Slide08BrowsersDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide08BrowsersDivider').then(m => ({ default: m.G11S1Slide08BrowsersDivider }))),
-  'G11S1Slide09BrowserProfiles': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide09BrowserProfiles').then(m => ({ default: m.G11S1Slide09BrowserProfiles }))),
-  'G11S1Slide10Extensions': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide10Extensions').then(m => ({ default: m.G11S1Slide10Extensions }))),
-  'G11S1Slide11SecurityDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11SecurityDivider').then(m => ({ default: m.G11S1Slide11SecurityDivider }))),
-  'G11S1Slide12Bitwarden': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide12Bitwarden').then(m => ({ default: m.G11S1Slide12Bitwarden }))),
-  'G11S1Slide13ContextDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13ContextDivider').then(m => ({ default: m.G11S1Slide13ContextDivider }))),
-  'G11S1Slide14ContextMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide14ContextMethod').then(m => ({ default: m.G11S1Slide14ContextMethod }))),
-  'G11S1Slide15Closing': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide15Closing').then(m => ({ default: m.G11S1Slide15Closing }))),
-  'G11S1SlideMission': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideMission').then(m => ({ default: m.G11S1SlideMission }))),
-  'G11S1SlideHowWeWork': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideHowWeWork').then(m => ({ default: m.G11S1SlideHowWeWork }))),
-  'G11S1SlideSharpenStory': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideSharpenStory').then(m => ({ default: m.G11S1SlideSharpenStory }))),
-  'G11S1SlideSharpenPhilosophy': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideSharpenPhilosophy').then(m => ({ default: m.G11S1SlideSharpenPhilosophy }))),
+  'G11S1Slide04Bio': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04Bio').then(m => ({ default: m.G11S1Slide04Bio }))),
+  'G11S1Slide05Mission': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide05Mission').then(m => ({ default: m.G11S1Slide05Mission }))),
+  'G11S1Slide06SharpenSaw': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06SharpenSaw').then(m => ({ default: m.G11S1Slide06SharpenSaw }))),
+  'G11S1Slide07HowWeWork': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide07HowWeWork').then(m => ({ default: m.G11S1Slide07HowWeWork }))),
+  'G11S1Slide08Roadmap': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide08Roadmap').then(m => ({ default: m.G11S1Slide08Roadmap }))),
+  // Módulo 02: Inbox Zero
+  'G11S1Slide09InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide09InboxZeroDivider').then(m => ({ default: m.G11S1Slide09InboxZeroDivider }))),
+  'G11S1Slide10InboxProblems': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide10InboxProblems').then(m => ({ default: m.G11S1Slide10InboxProblems }))),
+  'G11S1Slide11InboxMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11InboxMethod').then(m => ({ default: m.G11S1Slide11InboxMethod }))),
+  // Módulo 03: Navegadores
+  'G11S1Slide12BrowsersDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide12BrowsersDivider').then(m => ({ default: m.G11S1Slide12BrowsersDivider }))),
+  'G11S1Slide13BrowserProfiles': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13BrowserProfiles').then(m => ({ default: m.G11S1Slide13BrowserProfiles }))),
+  // Módulo 04: Contraseñas
+  'G11S1Slide14SecurityDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide14SecurityDivider').then(m => ({ default: m.G11S1Slide14SecurityDivider }))),
+  'G11S1Slide15Bitwarden': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide15Bitwarden').then(m => ({ default: m.G11S1Slide15Bitwarden }))),
+  // Módulo 05: Bonus IA Personalizada
+  'G11S1Slide16BonusDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide16BonusDivider').then(m => ({ default: m.G11S1Slide16BonusDivider }))),
+  'G11S1Slide17CustomInstructions': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide17CustomInstructions').then(m => ({ default: m.G11S1Slide17CustomInstructions }))),
+  // Cierre
+  'G11S1Slide18Closing': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide18Closing').then(m => ({ default: m.G11S1Slide18Closing }))),
+  // Legacy aliases (keep for DB entries that still reference old names)
+  'G11S1Slide04PodcastRef': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04Bio').then(m => ({ default: m.G11S1Slide04Bio }))),
+  'G11S1Slide04Roadmap': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide08Roadmap').then(m => ({ default: m.G11S1Slide08Roadmap }))),
+  'G11S1Slide05InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide09InboxZeroDivider').then(m => ({ default: m.G11S1Slide09InboxZeroDivider }))),
+  'G11S1Slide06InboxZeroMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11InboxMethod').then(m => ({ default: m.G11S1Slide11InboxMethod }))),
+  'G11S1Slide08BrowsersDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide12BrowsersDivider').then(m => ({ default: m.G11S1Slide12BrowsersDivider }))),
+  'G11S1Slide09BrowserProfiles': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13BrowserProfiles').then(m => ({ default: m.G11S1Slide13BrowserProfiles }))),
+  'G11S1Slide11SecurityDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide14SecurityDivider').then(m => ({ default: m.G11S1Slide14SecurityDivider }))),
+  'G11S1Slide12Bitwarden': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide15Bitwarden').then(m => ({ default: m.G11S1Slide15Bitwarden }))),
+  'G11S1Slide13ContextDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide16BonusDivider').then(m => ({ default: m.G11S1Slide16BonusDivider }))),
+  'G11S1Slide14ContextMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide17CustomInstructions').then(m => ({ default: m.G11S1Slide17CustomInstructions }))),
+  'G11S1Slide15Closing': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide18Closing').then(m => ({ default: m.G11S1Slide18Closing }))),
+  'G11S1SlideMission': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide05Mission').then(m => ({ default: m.G11S1Slide05Mission }))),
+  'G11S1SlideHowWeWork': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide07HowWeWork').then(m => ({ default: m.G11S1Slide07HowWeWork }))),
+  'G11S1SlideSharpenStory': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06SharpenSaw').then(m => ({ default: m.G11S1Slide06SharpenSaw }))),
+  'G11S1SlideSharpenPhilosophy': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06SharpenSaw').then(m => ({ default: m.G11S1Slide06SharpenSaw }))),
+  'G11S1Slide07InboxZeroFilters': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11InboxMethod').then(m => ({ default: m.G11S1Slide11InboxMethod }))),
+  'G11S1Slide10Extensions': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13BrowserProfiles').then(m => ({ default: m.G11S1Slide13BrowserProfiles }))),
 };
 
 /**
