@@ -5,9 +5,10 @@
  */
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, Building2, GraduationCap, Briefcase, Users } from 'lucide-react';
-import { G11Shell, useG11Motion, G11GreenLine, G11BrainDecor } from './Shell';
+import { G11Shell, useG11Motion, G11GreenLine } from './Shell';
 import { G11, VDRC_GREEN, VDRC_GREEN_DIM } from './theme';
 import logoVdrc from '@/assets/logo-vdrc.png';
+import vicentePhoto from '@/assets/vicente-donoso.png';
 
 const BIO = [
   { icon: GraduationCap, label: 'Arquitecto', detail: 'Universidad Austral de Chile (UACH)' },
@@ -95,18 +96,20 @@ export function G11S1Slide04Bio() {
         </motion.div>
       </div>
 
-      {/* RIGHT — brain visual */}
-      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[50%] overflow-hidden">
-        <div className="absolute inset-y-0 left-0 w-28 z-10"
+      {/* RIGHT — Vicente photo */}
+      <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-[46%] overflow-hidden">
+        <div className="absolute inset-y-0 left-0 w-32 z-10"
           style={{ background: 'linear-gradient(90deg, #181c1b, transparent)' }} />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 0.75, scale: 1 }}
+        <div className="absolute inset-0 z-10"
+          style={{ background: 'linear-gradient(180deg, #181c1b 0%, transparent 15%, transparent 75%, #181c1b 100%)' }} />
+        <motion.img
+          src={vicentePhoto}
+          alt="Vicente Donoso"
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <G11BrainDecor className="w-[90%] h-[90%]" />
-        </motion.div>
+          className="absolute inset-0 w-full h-full object-cover object-top"
+        />
       </div>
     </G11Shell>
   );
