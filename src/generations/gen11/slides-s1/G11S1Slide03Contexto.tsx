@@ -17,11 +17,18 @@ export function G11S1Slide03Contexto() {
       <div className="absolute left-0 top-0 bottom-0 w-1.5 z-20" style={{ background: VDRC_GREEN }} />
 
       {/* Left content */}
-      <div className="relative z-10 flex flex-col justify-center w-full sm:w-[58%] px-12 sm:px-20 py-12">
-        <motion.div {...m(0)} className="mb-8">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color: VDRC_GREEN }}>El Momento que Vivimos</p>
-          <h2 className="text-5xl sm:text-7xl font-black text-white tracking-tight uppercase leading-none">La IA no</h2>
-          <h2 className="text-5xl sm:text-7xl font-black tracking-tight uppercase leading-none mb-5" style={{ color: VDRC_GREEN }}>espera</h2>
+      <div className="relative z-10 flex flex-col justify-center w-full sm:w-[56%] px-12 sm:px-20 py-12">
+        <motion.div {...m(0)} className="mb-7">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-4 self-start"
+            style={{ background: G11.emerald.bg, borderColor: G11.emerald.border }}>
+            <div className="w-1 h-1 rounded-full" style={{ background: VDRC_GREEN }} />
+            <p className="text-[10px] font-black tracking-[0.2em] uppercase" style={{ color: VDRC_GREEN }}>El Momento que Vivimos</p>
+          </div>
+          <h2 className="text-5xl sm:text-[4.8rem] font-black text-white tracking-[-0.02em] uppercase leading-none">La IA no</h2>
+          <h2 className="text-5xl sm:text-[4.8rem] font-black tracking-[-0.02em] uppercase leading-none mb-4" style={{
+            color: VDRC_GREEN,
+            textShadow: '0 0 60px rgba(61,153,112,0.4)',
+          }}>espera</h2>
           <G11GreenLine className="max-w-sm mb-4" />
           <p className="text-white/50 text-sm max-w-md leading-relaxed">
             El problema no es acceso a herramientas — es no tener los cimientos digitales para usarlas bien.
@@ -35,9 +42,13 @@ export function G11S1Slide03Contexto() {
             return (
               <motion.div key={stat.label} {...m(0.15 + i * 0.1)}
                 className="p-4 rounded-xl border text-center relative overflow-hidden"
-                style={{ borderColor: stat.accent.border, background: `linear-gradient(135deg, ${stat.accent.bg}, rgba(0,0,0,0.3))` }}>
+                style={{
+                  borderColor: stat.accent.border,
+                  background: `linear-gradient(135deg, ${stat.accent.bg}, rgba(0,0,0,0.45))`,
+                  boxShadow: `0 4px 24px ${stat.accent.glow}`,
+                }}>
                 <Icon className="w-4 h-4 mx-auto mb-2" style={{ color: stat.accent.text }} />
-                <div className="text-3xl sm:text-4xl font-black mb-1 leading-none" style={{ color: stat.accent.text }}>{stat.value}</div>
+                <div className="text-3xl sm:text-4xl font-black mb-1 leading-none" style={{ color: stat.accent.text, textShadow: `0 0 20px ${stat.accent.glow}` }}>{stat.value}</div>
                 <div className="text-white/55 text-[10px] leading-tight">{stat.label}</div>
                 <div className="text-white/25 text-[9px] mt-1 font-mono">{stat.sub}</div>
               </motion.div>
@@ -47,7 +58,7 @@ export function G11S1Slide03Contexto() {
 
         {/* Warning */}
         <motion.div {...m(0.5)} className="p-4 rounded-xl border flex items-start gap-3 max-w-xl"
-          style={{ borderColor: G11.rose.border, background: `linear-gradient(135deg, ${G11.rose.bg}, rgba(0,0,0,0.3))` }}>
+          style={{ borderColor: G11.rose.border, background: `linear-gradient(135deg, ${G11.rose.bg}, rgba(0,0,0,0.4))`, boxShadow: `0 0 30px rgba(251,113,133,0.08)` }}>
           <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: G11.rose.text }} />
           <div>
             <h4 className="text-white font-black text-sm mb-0.5">Sin cimientos = Caos digital</h4>

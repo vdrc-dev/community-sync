@@ -28,11 +28,18 @@ export function useG11Motion() {
 const G11Background = memo(function G11Background() {
   return (
     <>
+      {/* Subtle grid */}
       <div className="absolute inset-0" style={{
         opacity: G11_THEME.grid.opacity,
         backgroundImage: `linear-gradient(${G11_THEME.grid.lineColor} 1px, transparent 1px), linear-gradient(90deg, ${G11_THEME.grid.lineColor} 1px, transparent 1px)`,
         backgroundSize: `${G11_THEME.grid.size} ${G11_THEME.grid.size}`,
       }} />
+      {/* Corner vignette */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 120% 120% at 50% 50%, transparent 45%, rgba(0,0,0,0.55) 100%)',
+      }} />
+      {/* Top ambient glow */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(61,153,112,0.35) 40%, rgba(61,153,112,0.35) 60%, transparent 100%)' }} />
     </>
   );
 });
@@ -42,11 +49,14 @@ function G11Footer({ label }: { label: string }) {
   const slideNum = useSlideNumber();
   return (
     <div className="absolute bottom-0 left-0 right-0 z-20">
-      <div className="h-px mx-8 sm:mx-16" style={{ background: `linear-gradient(90deg, transparent, ${VDRC_GREEN_DIM}, transparent)` }} />
-      <div className="flex items-center justify-between px-8 sm:px-14 py-3">
-        <span className="text-[10px] font-semibold tracking-widest text-white/35 uppercase">{label}</span>
-        <span className="text-[11px] font-bold tabular-nums tracking-wider text-white/50">
-          {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${slideNum.total}` : ''}
+      <div className="h-px mx-8 sm:mx-16" style={{ background: `linear-gradient(90deg, transparent, ${VDRC_GREEN_DIM}, rgba(61,153,112,0.6), ${VDRC_GREEN_DIM}, transparent)` }} />
+      <div className="flex items-center justify-between px-8 sm:px-14 py-3.5">
+        <div className="flex items-center gap-3">
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: VDRC_GREEN }} />
+          <span className="text-[10px] font-bold tracking-[0.22em] text-white/30 uppercase">{label}</span>
+        </div>
+        <span className="text-[11px] font-black tabular-nums tracking-wider" style={{ color: VDRC_GREEN }}>
+          {slideNum ? `${String(slideNum.current).padStart(2, '0')} / ${String(slideNum.total).padStart(2, '0')}` : ''}
         </span>
       </div>
     </div>
