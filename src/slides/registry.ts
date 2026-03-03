@@ -165,6 +165,25 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   'tpl02:Slide20Manus': lazyWithPreload(() => import('@/templates/clase-02-ia-productividad/slides/Slide20Manus').then(m => ({ default: m.Slide20Manus }))),
   'tpl02:Slide21Operator': lazyWithPreload(() => import('@/templates/clase-02-ia-productividad/slides/Slide21Operator').then(m => ({ default: m.Slide21Operator }))),
   'tpl02:Slide22Director': lazyWithPreload(() => import('@/templates/clase-02-ia-productividad/slides/Slide22Director').then(m => ({ default: m.Slide22Director }))),
+
+  // ============================================
+  // Gen 11 - Semana 1
+  // ============================================
+  'G11S1Slide01Cover': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide01Cover').then(m => ({ default: m.G11S1Slide01Cover }))),
+  'G11S1Slide02Agenda': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Agenda').then(m => ({ default: m.G11S1Slide02Agenda }))),
+  'G11S1Slide03Contexto': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide03Contexto').then(m => ({ default: m.G11S1Slide03Contexto }))),
+  'G11S1Slide04Roadmap': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04Roadmap').then(m => ({ default: m.G11S1Slide04Roadmap }))),
+  'G11S1Slide05InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide05InboxZeroDivider').then(m => ({ default: m.G11S1Slide05InboxZeroDivider }))),
+  'G11S1Slide06InboxZeroMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06InboxZeroMethod').then(m => ({ default: m.G11S1Slide06InboxZeroMethod }))),
+  'G11S1Slide07InboxZeroFilters': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide07InboxZeroFilters').then(m => ({ default: m.G11S1Slide07InboxZeroFilters }))),
+  'G11S1Slide08BrowsersDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide08BrowsersDivider').then(m => ({ default: m.G11S1Slide08BrowsersDivider }))),
+  'G11S1Slide09BrowserProfiles': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide09BrowserProfiles').then(m => ({ default: m.G11S1Slide09BrowserProfiles }))),
+  'G11S1Slide10Extensions': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide10Extensions').then(m => ({ default: m.G11S1Slide10Extensions }))),
+  'G11S1Slide11SecurityDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11SecurityDivider').then(m => ({ default: m.G11S1Slide11SecurityDivider }))),
+  'G11S1Slide12Bitwarden': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide12Bitwarden').then(m => ({ default: m.G11S1Slide12Bitwarden }))),
+  'G11S1Slide13ContextDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13ContextDivider').then(m => ({ default: m.G11S1Slide13ContextDivider }))),
+  'G11S1Slide14ContextMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide14ContextMethod').then(m => ({ default: m.G11S1Slide14ContextMethod }))),
+  'G11S1Slide15Closing': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide15Closing').then(m => ({ default: m.G11S1Slide15Closing }))),
 };
 
 /**
