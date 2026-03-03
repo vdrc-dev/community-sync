@@ -87,8 +87,8 @@ export function G11S1Slide02Participants() {
           </motion.div>
         </div>
 
-        {/* RIGHT: participant grid — fills full height, 4 full rows + last item spans full width */}
-        <div className="flex-1 grid grid-cols-3 gap-4" style={{ gridTemplateRows: 'repeat(4, 1fr) 1fr' }}>
+        {/* RIGHT: participant grid — 4 full rows + last item centered */}
+        <div className="flex-1 grid grid-cols-6 gap-4" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
           {PARTICIPANTS.map((p, i) => {
             const accent = ACCENTS[i];
             const initials = `${p.nombre[0]}${p.apellido[0]}`;
@@ -101,7 +101,7 @@ export function G11S1Slide02Participants() {
                 style={{
                   borderColor: accent.border,
                   background: `linear-gradient(135deg, ${accent.bg} 0%, rgba(0,0,0,0.3) 100%)`,
-                  ...(isLast ? { gridColumn: '1 / -1' } : {}),
+                  gridColumn: isLast ? '3 / 5' : `span 2`,
                 }}
               >
                 {/* Number watermark */}
