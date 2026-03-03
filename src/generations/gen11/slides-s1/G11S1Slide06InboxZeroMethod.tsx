@@ -1,62 +1,60 @@
 import { motion } from 'framer-motion';
 import { Trash2, Forward, CheckCircle, Archive, Clock, Inbox } from 'lucide-react';
-import { G11Shell, useG11Motion } from './Shell';
-import { G11 } from './theme';
+import { G11Shell, useG11Motion, G11GreenLine } from './Shell';
+import { G11, VDRC_GREEN } from './theme';
 
 const ACTIONS = [
-  { icon: Trash2, label: 'ELIMINAR', desc: '¿Spam? ¿No te importa? → Borrar', time: '1s', color: G11.rose },
-  { icon: Forward, label: 'DELEGAR', desc: '¿Es para otro? → Reenviar', time: '30s', color: G11.blue },
-  { icon: CheckCircle, label: 'ACTUAR', desc: '¿< 2 minutos? → Hazlo ya', time: '2min', color: G11.emerald },
-  { icon: Archive, label: 'ARCHIVAR', desc: '¿Referencia futura? → Archivar', time: '1s', color: G11.amber },
-  { icon: Clock, label: 'DIFERIR', desc: '¿Requiere tiempo? → Calendar', time: '10s', color: G11.purple },
+  { icon: Trash2, label: 'ELIMINAR', desc: '¿Spam? ¿No te importa? → Borrar inmediatamente', time: '1s', color: G11.rose },
+  { icon: Forward, label: 'DELEGAR', desc: '¿Es para otra persona? → Reenviar + archivar', time: '30s', color: G11.blue },
+  { icon: CheckCircle, label: 'ACTUAR', desc: '¿Toma < 2 minutos? → Hazlo ahora mismo', time: '2min', color: G11.emerald },
+  { icon: Archive, label: 'ARCHIVAR', desc: '¿Es referencia futura? → Archivar con etiqueta', time: '1s', color: G11.amber },
+  { icon: Clock, label: 'DIFERIR', desc: '¿Requiere tiempo? → Bloquear en calendario', time: '10s', color: G11.purple },
 ];
 
 export function G11S1Slide06InboxZeroMethod() {
   const m = useG11Motion();
   return (
-    <G11Shell className="flex items-center justify-center"
-      radials={<div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_30%,_rgba(59,130,246,0.12),_transparent_70%)]" />}>
-      <div className="relative z-10 w-full max-w-5xl px-6 sm:px-12">
-        <motion.div {...m(0)} className="mb-6 sm:mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Inbox className="w-5 h-5" style={{ color: G11.blue.text }} />
-            <span className="text-xs font-bold tracking-widest uppercase" style={{ color: G11.blue.text }}>Módulo 01</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">Las 5 Decisiones</h2>
-          <p className="text-white/40 mt-2 text-sm">Cada email que llega pasa por UNA de estas 5 puertas. Sin excepciones.</p>
+    <G11Shell className="flex items-stretch">
+      <div className="absolute left-0 top-0 bottom-0 w-1.5 z-20" style={{ background: VDRC_GREEN }} />
+
+      <div className="relative z-10 w-full flex flex-col justify-center px-12 sm:px-16 py-10">
+        <motion.div {...m(0)} className="mb-7">
+          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: G11.blue.text }}>Módulo 01 — Inbox Zero</p>
+          <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight uppercase leading-none mb-2">Las 5</h2>
+          <h2 className="text-4xl sm:text-6xl font-black tracking-tight uppercase leading-none mb-4" style={{ color: VDRC_GREEN }}>Decisiones</h2>
+          <G11GreenLine className="max-w-xs mb-3" />
+          <p className="text-white/40 text-sm">Cada email que llega pasa por UNA de estas puertas. Sin excepciones.</p>
         </motion.div>
 
-        {/* Flow: Inbox → 5 Actions */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-3">
-          {/* Inbox Box */}
-          <motion.div {...m(0.1)} className="flex-shrink-0 w-full sm:w-32 p-4 rounded-xl border text-center" style={{ borderColor: 'hsl(0 0% 100% / 0.1)', background: 'hsl(0 0% 100% / 0.02)' }}>
-            <Inbox className="w-8 h-8 mx-auto mb-2 text-white/60" />
-            <span className="text-white/70 text-sm font-bold">INBOX</span>
-            <div className="text-white/30 text-[10px] mt-1">Cada email</div>
+        {/* Inbox → Arrows */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          {/* Inbox */}
+          <motion.div {...m(0.1)} className="flex-shrink-0 flex sm:flex-col items-center gap-3 p-4 rounded-xl border text-center"
+            style={{ borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
+            <Inbox className="w-8 h-8 text-white/50" />
+            <div>
+              <div className="text-white/70 text-sm font-bold">INBOX</div>
+              <div className="text-white/30 text-[10px] mt-0.5">Cada email</div>
+            </div>
           </motion.div>
 
-          {/* Arrow */}
-          <motion.div {...m(0.15)} className="text-white/20 text-2xl hidden sm:block">→</motion.div>
+          <motion.div {...m(0.12)} className="text-white/25 text-2xl hidden sm:block">→</motion.div>
 
           {/* 5 Actions */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-3">
+          <div className="flex-1 grid grid-cols-2 sm:grid-cols-5 gap-3">
             {ACTIONS.map((action, i) => {
               const Icon = action.icon;
               return (
-                <motion.div key={action.label} {...m(0.2 + i * 0.08)}
-                  className="relative p-4 rounded-xl border backdrop-blur-sm"
+                <motion.div key={action.label} {...m(0.18 + i * 0.07)}
+                  className="p-4 rounded-xl border"
                   style={{ borderColor: action.color.border, background: action.color.bg }}>
-                  <div className="flex sm:flex-col items-center sm:items-center gap-3 sm:gap-2 sm:text-center">
-                    <div className="w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0"
-                      style={{ borderColor: action.color.border, background: action.color.bg }}>
-                      <Icon className="w-5 h-5" style={{ color: action.color.text }} />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold text-xs">{action.label}</h4>
-                      <p className="text-white/40 text-[10px] leading-snug mt-0.5">{action.desc}</p>
-                      <span className="text-[9px] font-mono mt-1 block" style={{ color: action.color.text }}>{action.time}</span>
-                    </div>
+                  <div className="w-9 h-9 rounded-lg border flex items-center justify-center mb-3"
+                    style={{ borderColor: action.color.border, background: 'rgba(0,0,0,0.25)' }}>
+                    <Icon className="w-4 h-4" style={{ color: action.color.text }} />
                   </div>
+                  <h4 className="text-white font-bold text-xs mb-1">{action.label}</h4>
+                  <p className="text-white/40 text-[10px] leading-snug mb-2">{action.desc}</p>
+                  <span className="text-[9px] font-mono font-bold" style={{ color: action.color.text }}>{action.time}</span>
                 </motion.div>
               );
             })}
@@ -64,12 +62,12 @@ export function G11S1Slide06InboxZeroMethod() {
         </div>
 
         {/* Tips */}
-        <motion.div {...m(0.7)} className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="px-4 py-3 rounded-xl border bg-white/[0.02]" style={{ borderColor: 'hsl(0 0% 100% / 0.06)' }}>
-            <span className="text-white/70 text-xs">💡 <strong>Gmail:</strong> Usa "Enviar y Archivar" — botón azul con ícono de carpeta</span>
+        <motion.div {...m(0.65)} className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="px-4 py-3 rounded-xl border" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+            <span className="text-white/65 text-xs">💡 <strong>Gmail:</strong> Activa "Enviar y Archivar" en Configuración → General</span>
           </div>
-          <div className="px-4 py-3 rounded-xl border bg-white/[0.02]" style={{ borderColor: 'hsl(0 0% 100% / 0.06)' }}>
-            <span className="text-white/70 text-xs">💡 <strong>Outlook:</strong> "Mover a carpeta" + reglas automáticas por remitente</span>
+          <div className="px-4 py-3 rounded-xl border" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+            <span className="text-white/65 text-xs">💡 <strong>Outlook:</strong> "Mover a carpeta" + reglas automáticas por remitente</span>
           </div>
         </motion.div>
       </div>
