@@ -10,9 +10,8 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { 
-  Search, Calendar, ChevronRight, Loader2, GraduationCap, BookOpen, 
-  Users, Sparkles, Rocket, ExternalLink, Clock, Presentation, 
-  Play, ArrowRight, FolderOpen
+  Search, Calendar, ChevronRight, GraduationCap, BookOpen, 
+  Users, Sparkles, ExternalLink, Presentation, FolderOpen
 } from 'lucide-react';
 
 // Module color map for presentation badges
@@ -176,58 +175,6 @@ export default function Generations() {
           />
         ) : (
           <div className="space-y-6">
-            {/* Gen 11 Coming Soon Banner */}
-            {!searchQuery && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <a
-                  href="https://vdrc.cl/talleres"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block relative rounded-2xl overflow-hidden"
-                >
-                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40 opacity-50 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                  
-                  <div className="glass glass-specular relative p-6 sm:p-8 rounded-2xl border border-accent/20 group-hover:border-accent/50 transition-all duration-300 overflow-hidden">
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px]" />
-                    
-                    <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                      <div className="flex items-start gap-5">
-                        <motion.div
-                          animate={{ scale: [1, 1.08, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                          className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/30 flex items-center justify-center shrink-0"
-                        >
-                          <Rocket className="w-8 h-8 text-accent" />
-                        </motion.div>
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <Badge className="bg-accent/10 text-accent border-accent/30 font-mono text-xs">
-                              <Clock className="w-3 h-3 mr-1" />
-                              PRÓXIMAMENTE
-                            </Badge>
-                          </div>
-                          <h3 className="text-2xl font-mono font-bold group-hover:text-accent transition-colors">
-                            Generación <span className="text-gradient">11</span>
-                          </h3>
-                          <p className="text-sm text-muted-foreground mt-2 max-w-lg">
-                            El Taller de Productividad Digital con IA vuelve el <span className="text-accent font-semibold">3 de marzo 2026</span>.
-                            Higiene Digital, Productividad con IA, Presentaciones Automatizadas y Apps y Webs con IA.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 text-accent font-mono font-semibold group-hover:gap-3 transition-all shrink-0">
-                        INSCRÍBETE
-                        <ExternalLink className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </motion.div>
-            )}
-
             {/* Generations — reverse order so newest is first */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {[...filteredGenerations!].reverse().map((gen, index) => {
