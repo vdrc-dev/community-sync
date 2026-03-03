@@ -172,6 +172,7 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   'G11S1Slide01Cover': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide01Cover').then(m => ({ default: m.G11S1Slide01Cover }))),
   'G11S1Slide02Agenda': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Agenda').then(m => ({ default: m.G11S1Slide02Agenda }))),
   'G11S1Slide03Contexto': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide03Contexto').then(m => ({ default: m.G11S1Slide03Contexto }))),
+  'G11S1Slide04PodcastRef': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04PodcastRef').then(m => ({ default: m.G11S1Slide04PodcastRef }))),
   'G11S1Slide04Roadmap': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04Roadmap').then(m => ({ default: m.G11S1Slide04Roadmap }))),
   'G11S1Slide05InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide05InboxZeroDivider').then(m => ({ default: m.G11S1Slide05InboxZeroDivider }))),
   'G11S1Slide06InboxZeroMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide06InboxZeroMethod').then(m => ({ default: m.G11S1Slide06InboxZeroMethod }))),
