@@ -6,8 +6,8 @@ import { useGeneration } from '@/contexts/GenerationContext';
 
 const STATS = [
   { label: 'MÓDULOS', value: '5' },
-  { label: 'SLIDES', value: '23' },
-  { label: 'HERRAMIENTAS', value: '+10' },
+  { label: 'SLIDES', value: '18' },
+  { label: 'HERRAMIENTAS', value: '+5' },
 ];
 
 export function G11S1Slide01Cover() {
