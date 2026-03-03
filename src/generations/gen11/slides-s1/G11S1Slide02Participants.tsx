@@ -53,10 +53,10 @@ export function G11S1Slide02Participants() {
       </div>
 
       {/* Main layout */}
-      <div className="relative z-10 w-full flex gap-10 px-12 sm:px-20 py-10 items-center justify-between">
+      <div className="relative z-10 w-full flex gap-10 px-12 sm:px-20 py-8 items-start justify-between">
 
         {/* LEFT: title block */}
-        <div className="flex-shrink-0 w-[260px] flex flex-col justify-center">
+        <div className="flex-shrink-0 w-[260px] flex flex-col justify-start pt-2">
           <motion.div {...m(0)}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-5"
               style={{ background: G11.emerald.bg, borderColor: G11.emerald.border }}>
