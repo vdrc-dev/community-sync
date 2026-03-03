@@ -32,7 +32,7 @@ export function G11S1Slide02Participants() {
   const m = useG11Motion();
 
   return (
-    <G11Shell className="flex items-stretch">
+    <G11Shell className="!min-h-0 h-full">
       {/* Left green accent bar */}
       <div className="absolute left-0 top-0 bottom-0 w-1.5 z-20" style={{ background: VDRC_GREEN }} />
 
@@ -50,8 +50,8 @@ export function G11S1Slide02Participants() {
           style={{ background: 'radial-gradient(ellipse 80% 70% at 60% 50%, rgba(61,153,112,0.12), transparent 75%)' }} />
       </div>
 
-      {/* Main layout — centrado verticalmente */}
-      <div className="relative z-10 w-full h-full flex gap-8 pl-12 sm:pl-20 pr-6 sm:pr-10 py-10 items-center justify-between">
+      {/* Main layout — centrado verticalmente con absolute */}
+      <div className="absolute inset-x-0 z-10 flex gap-8 pl-12 sm:pl-20 pr-6 sm:pr-10 items-center justify-between" style={{ top: '50%', transform: 'translateY(-50%)' }}>
 
         {/* LEFT: title block */}
         <div className="flex-shrink-0 w-[200px] flex flex-col justify-center gap-4">
