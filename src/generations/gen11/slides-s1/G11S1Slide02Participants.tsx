@@ -64,10 +64,8 @@ export function G11S1Slide02Participants() {
               </span>
             </div>
 
-            <h1 className="text-6xl sm:text-7xl font-black text-white uppercase leading-none tracking-tight">
-              Part<br />
-              <span style={{ color: VDRC_GREEN }}>icip</span><br />
-              antes
+            <h1 className="text-5xl font-black text-white uppercase leading-none tracking-tight">
+              PARTI<span style={{ color: VDRC_GREEN }}>CIP</span>ANTES
             </h1>
 
             <G11GreenLine className="my-5 max-w-[120px]" />
