@@ -87,11 +87,12 @@ export function G11S1Slide02Participants() {
           </motion.div>
         </div>
 
-        {/* RIGHT: participant grid — fills full height */}
-        <div className="flex-1 grid grid-cols-3 gap-4" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
+        {/* RIGHT: participant grid — fills full height, 4 full rows + last item spans full width */}
+        <div className="flex-1 grid grid-cols-3 gap-4" style={{ gridTemplateRows: 'repeat(4, 1fr) 1fr' }}>
           {PARTICIPANTS.map((p, i) => {
             const accent = ACCENTS[i];
             const initials = `${p.nombre[0]}${p.apellido[0]}`;
+            const isLast = i === PARTICIPANTS.length - 1;
             return (
               <motion.div
                 key={`${p.nombre}-${p.apellido}`}
@@ -100,16 +101,17 @@ export function G11S1Slide02Participants() {
                 style={{
                   borderColor: accent.border,
                   background: `linear-gradient(135deg, ${accent.bg} 0%, rgba(0,0,0,0.3) 100%)`,
+                  ...(isLast ? { gridColumn: '1 / -1' } : {}),
                 }}
               >
                 {/* Number watermark */}
-                <div className="absolute right-3 bottom-1 text-6xl font-black pointer-events-none select-none leading-none"
+                <div className="absolute right-4 bottom-1 text-6xl font-black pointer-events-none select-none leading-none"
                   style={{ color: accent.text, opacity: 0.07 }}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
 
                 {/* Avatar initials */}
-                <div className="w-13 h-13 rounded-xl border flex items-center justify-center flex-shrink-0 font-black text-base"
+                <div className="rounded-xl border flex items-center justify-center flex-shrink-0 font-black text-base"
                   style={{
                     width: '3.25rem',
                     height: '3.25rem',
