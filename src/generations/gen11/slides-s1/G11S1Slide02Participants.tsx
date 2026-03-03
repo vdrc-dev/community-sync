@@ -50,12 +50,12 @@ export function G11S1Slide02Participants() {
           style={{ background: 'radial-gradient(ellipse 80% 70% at 60% 50%, rgba(61,153,112,0.12), transparent 75%)' }} />
       </div>
 
-      {/* Main layout — centrado verticalmente con absolute */}
-      <div className="absolute inset-x-0 z-10 flex gap-8 pl-12 sm:pl-20 pr-6 sm:pr-10 items-center justify-between" style={{ top: '50%', transform: 'translateY(-50%)' }}>
+      {/* Main layout — ocupa todo el alto disponible */}
+      <div className="absolute inset-0 z-10 flex gap-10 pl-12 sm:pl-20 pr-8 sm:pr-12 pt-12 pb-14 items-stretch">
 
         {/* LEFT: title block */}
-        <div className="flex-shrink-0 w-[200px] flex flex-col justify-center gap-4">
-          <motion.div {...m(0)} className="flex flex-col gap-3">
+        <div className="flex-shrink-0 w-[220px] flex flex-col justify-center gap-6">
+          <motion.div {...m(0)} className="flex flex-col gap-4">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border self-start"
               style={{ background: G11.emerald.bg, borderColor: G11.emerald.border }}>
               <Users className="w-3 h-3" style={{ color: G11.emerald.text }} />
@@ -64,13 +64,13 @@ export function G11S1Slide02Participants() {
               </span>
             </div>
 
-            <h1 className="text-3xl font-black text-white uppercase leading-none tracking-tight">
+            <h1 className="text-4xl font-black text-white uppercase leading-none tracking-tight">
               PARTI<span style={{ color: VDRC_GREEN }}>CI</span>PANTES
             </h1>
 
-            <G11GreenLine className="max-w-[100px]" />
+            <G11GreenLine className="max-w-[110px]" />
 
-            <p className="text-white/35 text-[11px] leading-relaxed">
+            <p className="text-white/35 text-xs leading-relaxed">
               13 profesionales.<br />
               Una misión: dominar<br />
               la IA con intención.
@@ -79,54 +79,54 @@ export function G11S1Slide02Participants() {
 
           {/* Count badge */}
           <motion.div {...m(0.15)}>
-            <div className="inline-flex flex-col items-center px-4 py-2.5 rounded-2xl border"
+            <div className="inline-flex flex-col items-center px-5 py-4 rounded-2xl border"
               style={{ borderColor: VDRC_GREEN_DIM, background: 'rgba(61,153,112,0.06)' }}>
-              <span className="text-3xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>13</span>
-              <span className="text-[9px] font-bold tracking-widest uppercase text-white/40 mt-0.5">Participantes</span>
+              <span className="text-5xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>13</span>
+              <span className="text-[9px] font-bold tracking-widest uppercase text-white/40 mt-1">Participantes</span>
             </div>
           </motion.div>
         </div>
 
-        {/* RIGHT: participant grid */}
-        <div className="flex-1 grid grid-cols-3 gap-2 content-center">
+        {/* RIGHT: participant grid — fills full height */}
+        <div className="flex-1 grid grid-cols-3 gap-3" style={{ gridTemplateRows: 'repeat(4, 1fr) auto' }}>
           {PARTICIPANTS.map((p, i) => {
             const accent = ACCENTS[i];
             const initials = `${p.nombre[0]}${p.apellido[0]}`;
             return (
               <motion.div
                 key={`${p.nombre}-${p.apellido}`}
-                {...m(0.05 + i * 0.05)}
-                className="relative overflow-hidden rounded-xl border flex items-center gap-3 px-3.5 py-3"
+                {...m(0.05 + i * 0.04)}
+                className="relative overflow-hidden rounded-2xl border flex items-center gap-4 px-4"
                 style={{
                   borderColor: accent.border,
-                  background: `linear-gradient(135deg, ${accent.bg} 0%, rgba(0,0,0,0.25) 100%)`,
+                  background: `linear-gradient(135deg, ${accent.bg} 0%, rgba(0,0,0,0.3) 100%)`,
                 }}
               >
                 {/* Number watermark */}
-                <div className="absolute right-2 bottom-1 text-4xl font-black pointer-events-none select-none leading-none"
+                <div className="absolute right-3 bottom-1 text-5xl font-black pointer-events-none select-none leading-none"
                   style={{ color: accent.text, opacity: 0.07 }}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
 
                 {/* Avatar initials */}
-                <div className="w-9 h-9 rounded-lg border flex items-center justify-center flex-shrink-0 font-black text-sm"
+                <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 font-black text-sm"
                   style={{
                     borderColor: accent.border,
-                    background: 'rgba(0,0,0,0.35)',
+                    background: 'rgba(0,0,0,0.4)',
                     color: accent.text,
                   }}>
                   {initials}
                 </div>
 
                 {/* Name */}
-                <div className="min-w-0">
-                  <div className="text-white font-bold text-xs leading-tight truncate">{p.nombre}</div>
-                  <div className="text-white/45 text-[10px] leading-tight truncate">{p.apellido}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-white font-bold text-sm leading-tight truncate">{p.nombre}</div>
+                  <div className="text-white/45 text-xs leading-tight truncate">{p.apellido}</div>
                 </div>
 
                 {/* Accent dot */}
-                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 ml-auto"
-                  style={{ background: accent.dot, boxShadow: `0 0 6px ${accent.glow}` }} />
+                <div className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: accent.dot, boxShadow: `0 0 8px ${accent.glow}` }} />
               </motion.div>
             );
           })}
