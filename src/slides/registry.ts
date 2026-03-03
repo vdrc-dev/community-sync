@@ -170,6 +170,7 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   // Gen 11 - Semana 1
   // ============================================
   'G11S1Slide01Cover': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide01Cover').then(m => ({ default: m.G11S1Slide01Cover }))),
+  'G11S1Slide02Participants': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Participants').then(m => ({ default: m.G11S1Slide02Participants }))),
   'G11S1Slide02Agenda': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide02Agenda').then(m => ({ default: m.G11S1Slide02Agenda }))),
   'G11S1Slide03Contexto': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide03Contexto').then(m => ({ default: m.G11S1Slide03Contexto }))),
   'G11S1Slide04PodcastRef': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide04PodcastRef').then(m => ({ default: m.G11S1Slide04PodcastRef }))),
