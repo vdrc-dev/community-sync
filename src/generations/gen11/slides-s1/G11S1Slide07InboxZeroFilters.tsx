@@ -21,11 +21,11 @@ export function G11S1Slide07InboxZeroFilters() {
     <G11Shell className="flex items-stretch">
       <div className="absolute left-0 top-0 bottom-0 w-1.5 z-20" style={{ background: VDRC_GREEN }} />
 
-      <div className="relative z-10 w-full flex flex-col justify-center px-12 sm:px-16 py-10">
+      <div className="relative z-10 w-full flex flex-col justify-center px-12 sm:px-20 py-10">
         <motion.div {...m(0)} className="mb-6">
-          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: G11.blue.text }}>Módulo 01 — Inbox Zero</p>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-none mb-2">Filtros y Etiquetas</h2>
-          <h2 className="text-3xl sm:text-5xl font-black tracking-tight uppercase leading-none mb-4" style={{ color: VDRC_GREEN }}>Inteligentes</h2>
+          <p className="text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: G11.blue.text }}>Módulo 01 — Inbox Zero</p>
+          <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight uppercase leading-none">Filtros y Etiquetas</h2>
+          <h2 className="text-4xl sm:text-5xl font-black tracking-tight uppercase leading-none mb-4" style={{ color: VDRC_GREEN }}>Inteligentes</h2>
           <G11GreenLine className="max-w-xs mb-2" />
           <p className="text-white/40 text-sm">Configura una vez, funciona para siempre</p>
         </motion.div>
@@ -35,17 +35,19 @@ export function G11S1Slide07InboxZeroFilters() {
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {FILTERS.map((f, i) => (
               <motion.div key={f.label} {...m(0.1 + i * 0.07)}
-                className="p-4 rounded-xl border"
-                style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+                className="p-4 rounded-xl border relative overflow-hidden"
+                style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
                 <div className="flex items-start gap-3">
                   <span className="text-xl flex-shrink-0">{f.emoji}</span>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-bold text-sm mb-1">{f.label}</h4>
-                    <p className="text-white/40 text-xs mb-2"><strong className="text-white/55">Regla:</strong> {f.rule}</p>
-                    <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg"
+                    <h4 className="text-white font-black text-sm mb-1">{f.label}</h4>
+                    <p className="text-white/40 text-xs mb-2.5">
+                      <strong className="text-white/55">Regla:</strong> {f.rule}
+                    </p>
+                    <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg w-fit"
                       style={{ background: G11.blue.bg, border: `1px solid ${G11.blue.border}` }}>
                       <Zap className="w-3 h-3" style={{ color: G11.blue.text }} />
-                      <span className="text-[10px]" style={{ color: G11.blue.text }}>{f.action}</span>
+                      <span className="text-[10px] font-bold" style={{ color: G11.blue.text }}>{f.action}</span>
                     </div>
                   </div>
                 </div>
@@ -58,12 +60,12 @@ export function G11S1Slide07InboxZeroFilters() {
             {BEFORE_AFTER.map((col, i) => (
               <motion.div key={col.label} {...m(0.45 + i * 0.1)}
                 className="p-4 rounded-xl border"
-                style={{ borderColor: col.color.border, background: col.color.bg }}>
+                style={{ borderColor: col.color.border, background: `linear-gradient(135deg, ${col.color.bg}, rgba(0,0,0,0.3))` }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-lg">{col.emoji}</span>
-                  <span className="font-bold text-sm" style={{ color: col.color.text }}>{col.label}</span>
+                  <span className="text-xl">{col.emoji}</span>
+                  <span className="font-black text-sm tracking-wide" style={{ color: col.color.text }}>{col.label}</span>
                 </div>
-                <ul className="space-y-1.5">
+                <ul className="space-y-2">
                   {col.items.map(item => (
                     <li key={item} className="flex items-center gap-2 text-xs text-white/55">
                       <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: col.color.dot }} />

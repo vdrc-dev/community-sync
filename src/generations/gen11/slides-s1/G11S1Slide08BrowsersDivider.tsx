@@ -7,7 +7,7 @@ export function G11S1Slide08BrowsersDivider() {
     <G11SectionDivider
       moduleNumber="02"
       title="Navegadores"
-      subtitle="Separar contextos = Separar distracciones"
+      subtitle="Separar contextos = Separar distracciones. 3 perfiles, 3 vidas."
       icon={Chrome}
       accent={G11.amber}
     />

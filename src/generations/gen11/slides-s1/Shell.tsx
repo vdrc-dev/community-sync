@@ -8,6 +8,7 @@ import { useExportContext } from '@/contexts/ExportContext';
 import { useSlideNumber } from '@/contexts/SlideNumberContext';
 import { G11_THEME, G11_EASE, G11, VDRC_GREEN, VDRC_GREEN_DIM } from './theme';
 import type { LucideIcon } from 'lucide-react';
+import brainCircuit from '@/assets/gen11-brain-circuit.png';
 
 /* ── Motion helper ─────────────────────────── */
 export function useG11Motion() {
@@ -71,39 +72,16 @@ export function G11Shell({ children, footerLabel = 'HIGIENE DIGITAL · GEN 11', 
   );
 }
 
-/* ── Decorative brain/circuit SVG ────────── */
+/* ── Decorative brain/circuit IMAGE ─────── */
 export function G11BrainDecor({ className = '' }: { className?: string }) {
   return (
     <div className={`pointer-events-none select-none ${className}`}>
-      <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-20">
-        {/* Simplified brain circuit illustration */}
-        <ellipse cx="250" cy="230" rx="155" ry="175" stroke={VDRC_GREEN} strokeWidth="1.5" strokeDasharray="6 4" />
-        <ellipse cx="250" cy="230" rx="110" ry="130" stroke={VDRC_GREEN} strokeWidth="1" strokeDasharray="4 6" />
-        {/* Circuit lines horizontal */}
-        <line x1="95" y1="160" x2="160" y2="160" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        <line x1="340" y1="160" x2="405" y2="160" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        <line x1="80" y1="230" x2="140" y2="230" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        <line x1="360" y1="230" x2="420" y2="230" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        <line x1="95" y1="300" x2="160" y2="300" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        <line x1="340" y1="300" x2="405" y2="300" stroke={VDRC_GREEN} strokeWidth="1.2" />
-        {/* Vertical connectors */}
-        <line x1="160" y1="120" x2="160" y2="380" stroke={VDRC_GREEN} strokeWidth="0.8" strokeDasharray="3 5" />
-        <line x1="340" y1="120" x2="340" y2="380" stroke={VDRC_GREEN} strokeWidth="0.8" strokeDasharray="3 5" />
-        <line x1="250" y1="55" x2="250" y2="405" stroke={VDRC_GREEN} strokeWidth="0.8" strokeDasharray="3 5" />
-        {/* Nodes */}
-        {[
-          [160,160],[340,160],[80,230],[420,230],[160,300],[340,300],
-          [250,55],[250,405],[95,160],[405,160],[250,180],[250,280],
-          [200,200],[300,200],[200,260],[300,260],
-        ].map(([cx,cy], i) => (
-          <circle key={i} cx={cx} cy={cy} r="4" fill={VDRC_GREEN} opacity="0.7" />
-        ))}
-        {/* Inner details */}
-        <path d="M200 200 Q250 170 300 200 Q330 230 300 260 Q250 290 200 260 Q170 230 200 200Z"
-          stroke={VDRC_GREEN} strokeWidth="1" fill="none" opacity="0.5" />
-        <circle cx="250" cy="230" r="18" stroke={VDRC_GREEN} strokeWidth="1.5" fill={VDRC_GREEN} fillOpacity="0.08" />
-        <circle cx="250" cy="230" r="6" fill={VDRC_GREEN} opacity="0.6" />
-      </svg>
+      <img
+        src={brainCircuit}
+        alt=""
+        className="w-full h-full object-contain"
+        style={{ filter: 'drop-shadow(0 0 40px rgba(61,153,112,0.5)) drop-shadow(0 0 80px rgba(61,153,112,0.25))' }}
+      />
     </div>
   );
 }
