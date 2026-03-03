@@ -1,5 +1,6 @@
 import { Suspense, Component, ReactNode, useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
 import { GenerationProvider, useGeneration } from '@/contexts/GenerationContext';
 import { PresentationLayout } from '@/components/presentation/PresentationLayout';
@@ -106,7 +107,10 @@ function PresentationContent() {
     availableWeeks,
   }), [config.generation, currentWeek, totalWeeks, availableWeeks]);
 
-  const backUrl = `/generations/GEN-${String(config.generation).padStart(3, '0')}`;
+  const { user } = useAuth();
+  const backUrl = user
+    ? `/generations/GEN-${String(config.generation).padStart(3, '0')}`
+    : '/';
 
   // Early return AFTER all hooks
   if (isLoading) {
