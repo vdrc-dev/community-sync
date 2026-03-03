@@ -86,7 +86,11 @@ export function G11S1Slide05Mission() {
             return (
               <motion.div key={p.verb} {...m(0.08 + i * 0.08)}
                 className="p-6 rounded-2xl border relative overflow-hidden"
-                style={{ borderColor: p.accent.border, background: `linear-gradient(145deg, ${p.accent.bg}, rgba(0,0,0,0.3))` }}>
+                style={{
+                  borderColor: p.accent.border,
+                  background: `linear-gradient(145deg, ${p.accent.bg}, rgba(0,0,0,0.4))`,
+                  boxShadow: `0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)`,
+                }}>
                 {/* Watermark */}
                 <div className="absolute -right-3 -bottom-4 text-8xl font-black leading-none select-none pointer-events-none"
                   style={{ color: p.accent.text, opacity: 0.05 }}>

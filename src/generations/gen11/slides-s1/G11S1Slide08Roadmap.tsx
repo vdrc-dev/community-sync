@@ -82,9 +82,11 @@ export function G11S1Slide08Roadmap() {
                 style={{
                   borderColor: s.active ? VDRC_GREEN : s.accent.border,
                   background: s.active
-                    ? `linear-gradient(145deg, rgba(61,153,112,0.14), rgba(0,0,0,0.35))`
-                    : `linear-gradient(145deg, ${s.accent.bg}, rgba(0,0,0,0.3))`,
-                  boxShadow: s.active ? `0 0 40px rgba(61,153,112,0.12)` : undefined,
+                    ? `linear-gradient(145deg, rgba(61,153,112,0.16), rgba(0,0,0,0.45))`
+                    : `linear-gradient(145deg, ${s.accent.bg}, rgba(0,0,0,0.4))`,
+                  boxShadow: s.active
+                    ? `0 0 40px rgba(61,153,112,0.15), 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(61,153,112,0.15)`
+                    : `0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)`,
                 }}>
 
                 {/* Session label */}

@@ -63,7 +63,11 @@ export function G11S1Slide07HowWeWork() {
             return (
               <motion.div key={p.num} {...m(0.1 + i * 0.08)}
                 className="p-5 rounded-2xl border relative overflow-hidden flex flex-col"
-                style={{ borderColor: p.accent.border, background: `linear-gradient(160deg, ${p.accent.bg}, rgba(0,0,0,0.3))` }}>
+                style={{
+                  borderColor: p.accent.border,
+                  background: `linear-gradient(160deg, ${p.accent.bg}, rgba(0,0,0,0.45))`,
+                  boxShadow: `0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)`,
+                }}>
                 <div className="absolute -right-2 -bottom-3 text-7xl font-black leading-none select-none pointer-events-none"
                   style={{ color: p.accent.text, opacity: 0.05 }}>{p.num}</div>
 

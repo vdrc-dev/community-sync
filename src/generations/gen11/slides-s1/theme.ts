@@ -5,15 +5,15 @@
  */
 
 export const G11_THEME = {
-  background: '#181c1b',
-  backgroundAlt: '#1f2421',
+  background: '#0f1410',
+  backgroundAlt: '#161c18',
   grid: {
-    size: '56px',
-    opacity: 0.018,
-    lineColor: 'rgba(61,153,112,0.10)',
+    size: '64px',
+    opacity: 0.025,
+    lineColor: 'rgba(61,153,112,0.14)',
   },
   noise: {
-    opacity: 0.012,
+    opacity: 0.015,
     svg: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
   },
 } as const;
