@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { HelpCircle, Timer, Cpu, Zap } from 'lucide-react';
 import { G11Shell, useG11Motion, G11GreenLine } from './Shell';
 import { G11, VDRC_GREEN } from './theme';
+import missionHero from '@/assets/gen11-mission-hero.jpg';
 
 const PILLARS = [
   {
@@ -35,9 +36,23 @@ export function G11S1Slide05Mission() {
   return (
     <G11Shell className="flex items-stretch">
       <div className="absolute left-0 top-0 bottom-0 w-1.5 z-20" style={{ background: VDRC_GREEN }} />
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 70% at 20% 50%, rgba(61,153,112,0.05), transparent 70%)'
-      }} />
+
+      {/* Background image */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.img
+          src={missionHero}
+          alt=""
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 0.35, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0" style={{ background: 'rgba(24,28,27,0.55)' }} />
+        {/* Left fade for content readability */}
+        <div className="absolute inset-y-0 left-0 w-[55%]"
+          style={{ background: 'linear-gradient(90deg, #181c1b 40%, transparent 100%)' }} />
+      </div>
 
       <div className="relative z-10 w-full flex gap-10 px-12 sm:px-20 py-10 items-center">
 
