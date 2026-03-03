@@ -186,6 +186,10 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   'G11S1Slide13ContextDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide13ContextDivider').then(m => ({ default: m.G11S1Slide13ContextDivider }))),
   'G11S1Slide14ContextMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide14ContextMethod').then(m => ({ default: m.G11S1Slide14ContextMethod }))),
   'G11S1Slide15Closing': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide15Closing').then(m => ({ default: m.G11S1Slide15Closing }))),
+  'G11S1SlideMission': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideMission').then(m => ({ default: m.G11S1SlideMission }))),
+  'G11S1SlideHowWeWork': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideHowWeWork').then(m => ({ default: m.G11S1SlideHowWeWork }))),
+  'G11S1SlideSharpenStory': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideSharpenStory').then(m => ({ default: m.G11S1SlideSharpenStory }))),
+  'G11S1SlideSharpenPhilosophy': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1SlideSharpenPhilosophy').then(m => ({ default: m.G11S1SlideSharpenPhilosophy }))),
 };
 
 /**
