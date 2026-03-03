@@ -7,14 +7,14 @@ import browserImg from '@/assets/gen11-browser-icon.png';
 const PROFILES = [
   {
     browser: 'Chrome', icon: Chrome, context: 'Personal', contextIcon: User, accent: G11.blue,
-    uses: ['Gmail personal', 'YouTube', 'Redes sociales', 'Banking'],
+    uses: ['Redes sociales', 'Banco', 'Compras', 'Streaming'],
     extensions: ['Bitwarden', 'uBlock Origin'],
     emoji: '🏠',
   },
   {
-    browser: 'Edge / Chrome', icon: Globe, context: 'Trabajo', contextIcon: Briefcase, accent: G11.emerald,
-    uses: ['Email corporativo', 'Drive / OneDrive', 'Slack / Teams', 'Tools de trabajo'],
-    extensions: ['Bitwarden', 'Granola', 'Grammarly'],
+    browser: 'Edge para trabajo', icon: Globe, context: 'Trabajo', contextIcon: Briefcase, accent: G11.emerald,
+    uses: ['Correo corporativo', 'ERP', 'Documentos de empresa', 'Slack / Teams'],
+    extensions: ['Bitwarden', 'Grammarly'],
     emoji: '💼',
   },
   {
@@ -105,10 +105,16 @@ export function G11S1Slide09BrowserProfiles() {
           })}
         </div>
 
-        <motion.div {...m(0.55)} className="mt-5 max-w-xl">
-          <div className="px-4 py-3 rounded-xl border" style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
+        <motion.div {...m(0.55)} className="mt-5 max-w-xl flex flex-col sm:flex-row gap-3">
+          <div className="flex-1 px-4 py-3 rounded-xl border" style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
             <span className="text-white/55 text-xs">
-              💡 <strong className="text-white/80">Pro tip:</strong> Chrome → click avatar → "Agregar perfil" → nómbralo con el contexto
+              💡 <strong className="text-white/80">Pasos:</strong> (1) Crear perfil → (2) Asignar color → (3) Anclar accesos → (4) Instalar extensiones por perfil
+            </span>
+          </div>
+          <div className="px-4 py-3 rounded-xl border" style={{ borderColor: G11.emerald.border, background: G11.emerald.bg }}>
+            <span className="text-white/55 text-xs">
+              Sin choques de cuentas.<br />
+              <span style={{ color: G11.emerald.text }} className="font-bold">Mayor privacidad.</span>
             </span>
           </div>
         </motion.div>

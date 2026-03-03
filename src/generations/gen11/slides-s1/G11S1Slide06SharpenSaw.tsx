@@ -109,12 +109,16 @@ export function G11S1Slide06SharpenSaw() {
           })}
         </div>
 
-        {/* Bottom insight */}
-        <motion.div {...m(0.55)} className="mt-6 flex items-center gap-3">
-          <div className="h-px w-8" style={{ background: VDRC_GREEN }} />
-          <p className="text-white/30 text-xs italic">
-            Afilar la sierra no es ocio. Es la inversión más estratégica: invertir en ti mismo.
-          </p>
+        {/* Insight + pasos */}
+        <motion.div {...m(0.55)} className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex items-center gap-3">
+            <div className="h-px w-8" style={{ background: VDRC_GREEN }} />
+            <p className="text-white/30 text-xs italic">
+              Afilar la sierra no es ocio. Es la inversión más estratégica: invertir en ti mismo.
+            </p>
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-white/10" />
+          <p className="text-white/20 text-[10px] italic">— Stephen Covey, Los 7 Hábitos de la Gente Altamente Efectiva</p>
         </motion.div>
       </div>
     </G11Shell>

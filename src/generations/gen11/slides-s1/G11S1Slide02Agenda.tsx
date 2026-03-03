@@ -6,23 +6,28 @@ import { G11, VDRC_GREEN } from './theme';
 const MODULES = [
   {
     num: '01', title: 'Contexto y Fundamentos',
-    desc: 'Quién soy, misión, afilar la sierra y metodología',
+    desc: 'Quién soy, misión, afilar la sierra y cómo funcionará este taller.',
     icon: Bot, accent: G11.emerald, time: '15 min',
   },
   {
     num: '02', title: 'Inbox Zero',
-    desc: 'Libera tu bandeja de entrada y tu mente',
+    desc: 'Libera tu bandeja de entrada y tu mente.',
     icon: Mail, accent: G11.blue, time: '20 min',
   },
   {
     num: '03', title: 'Navegadores y Perfiles',
-    desc: 'Separa tu vida digital en espacios definidos',
-    icon: Globe, accent: G11.amber, time: '15 min',
+    desc: 'Separa tu vida digital en espacios definidos.',
+    icon: Globe, accent: G11.amber, time: '20 min',
   },
   {
     num: '04', title: 'Contraseñas y Seguridad',
-    desc: 'Protege tu identidad digital con Bitwarden',
+    desc: 'Protege tu identidad digital con Bitwarden.',
     icon: Shield, accent: G11.purple, time: '15 min',
+  },
+  {
+    num: '05', title: 'Bonus: IA Personalizada',
+    desc: 'Un adelanto de S2. Personaliza tu IA para que trabaje como tú piensas.',
+    icon: Bot, accent: G11.rose, time: '10 min',
   },
 ];
 
@@ -64,7 +69,7 @@ export function G11S1Slide02Agenda() {
         </div>
 
         {/* Right: module cards */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
           {MODULES.map((mod, i) => {
             const Icon = mod.icon;
             return (

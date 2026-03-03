@@ -183,6 +183,7 @@ export const SLIDE_REGISTRY: Record<string, ComponentType> = {
   // Módulo 02: Inbox Zero
   'G11S1Slide09InboxZeroDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide09InboxZeroDivider').then(m => ({ default: m.G11S1Slide09InboxZeroDivider }))),
   'G11S1Slide10InboxProblems': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide10InboxProblems').then(m => ({ default: m.G11S1Slide10InboxProblems }))),
+  'G11S1Slide10bBenefits': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide10bBenefits').then(m => ({ default: m.G11S1Slide10bBenefits }))),
   'G11S1Slide11InboxMethod': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide11InboxMethod').then(m => ({ default: m.G11S1Slide11InboxMethod }))),
   // Módulo 03: Navegadores
   'G11S1Slide12BrowsersDivider': lazyWithPreload(() => import('@/generations/gen11/slides-s1/G11S1Slide12BrowsersDivider').then(m => ({ default: m.G11S1Slide12BrowsersDivider }))),
