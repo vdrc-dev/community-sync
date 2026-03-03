@@ -17,6 +17,7 @@ const PARTICIPANTS = [
   { nombre: 'Agustín', apellido: 'Dittborn' },
   { nombre: 'Francisca', apellido: 'Campino' },
   { nombre: 'Eduardo', apellido: 'Gomien' },
+  { nombre: 'Cesar', apellido: 'Kattan' },
 ];
 
 // Assign a cycling accent color per participant
@@ -24,6 +25,7 @@ const ACCENTS = [
   G11.emerald, G11.cyan, G11.blue, G11.purple,
   G11.amber, G11.rose, G11.orange, G11.emerald,
   G11.cyan, G11.blue, G11.purple, G11.amber,
+  G11.rose,
 ];
 
 export function G11S1Slide02Participants() {
@@ -71,7 +73,7 @@ export function G11S1Slide02Participants() {
             <G11GreenLine className="my-5 max-w-[120px]" />
 
             <p className="text-white/35 text-xs leading-relaxed max-w-[200px]">
-              12 profesionales.<br />
+              13 profesionales.<br />
               Una misión: dominar<br />
               la IA con intención.
             </p>
@@ -81,7 +83,7 @@ export function G11S1Slide02Participants() {
           <motion.div {...m(0.15)} className="mt-6">
             <div className="inline-flex flex-col items-center px-5 py-3 rounded-2xl border"
               style={{ borderColor: VDRC_GREEN_DIM, background: 'rgba(61,153,112,0.06)' }}>
-              <span className="text-4xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>12</span>
+              <span className="text-4xl font-black tabular-nums" style={{ color: VDRC_GREEN }}>13</span>
               <span className="text-[9px] font-bold tracking-widest uppercase text-white/40 mt-0.5">Participantes</span>
             </div>
           </motion.div>
