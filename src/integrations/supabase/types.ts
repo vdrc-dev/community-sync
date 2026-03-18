@@ -432,6 +432,7 @@ export type Database = {
           generation_id: string
           id: string
           is_published: boolean | null
+          notes_content: string | null
           recording_url: string | null
           resources_url: string | null
           slides_url: string | null
@@ -447,6 +448,7 @@ export type Database = {
           generation_id: string
           id?: string
           is_published?: boolean | null
+          notes_content?: string | null
           recording_url?: string | null
           resources_url?: string | null
           slides_url?: string | null
@@ -462,6 +464,7 @@ export type Database = {
           generation_id?: string
           id?: string
           is_published?: boolean | null
+          notes_content?: string | null
           recording_url?: string | null
           resources_url?: string | null
           slides_url?: string | null
@@ -776,6 +779,7 @@ export type Database = {
           bio: string | null
           created_at: string
           full_name: string | null
+          generation_code: string | null
           id: string
           updated_at: string
           user_id: string
@@ -787,6 +791,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           full_name?: string | null
+          generation_code?: string | null
           id?: string
           updated_at?: string
           user_id: string
@@ -798,6 +803,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           full_name?: string | null
+          generation_code?: string | null
           id?: string
           updated_at?: string
           user_id?: string
@@ -1314,6 +1320,7 @@ export type Database = {
           rating: number | null
           slug: string
           sort_order: number | null
+          source: string | null
           updated_at: string
           url: string | null
           use_cases: string[] | null
@@ -1334,6 +1341,7 @@ export type Database = {
           rating?: number | null
           slug: string
           sort_order?: number | null
+          source?: string | null
           updated_at?: string
           url?: string | null
           use_cases?: string[] | null
@@ -1354,6 +1362,7 @@ export type Database = {
           rating?: number | null
           slug?: string
           sort_order?: number | null
+          source?: string | null
           updated_at?: string
           url?: string | null
           use_cases?: string[] | null
