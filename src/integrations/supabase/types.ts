@@ -52,45 +52,116 @@ export type Database = {
       }
       automation_workflows: {
         Row: {
+          category: string | null
           created_at: string
           description: string | null
+          difficulty: string | null
+          estimated_time_minutes: number | null
+          icon_emoji: string | null
           id: string
           is_active: boolean | null
           last_run_at: string | null
           name: string
           run_count: number | null
           steps: Json | null
+          tags: string[] | null
+          title: string | null
+          tools_used: string[] | null
           trigger_type: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
           description?: string | null
+          difficulty?: string | null
+          estimated_time_minutes?: number | null
+          icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
           last_run_at?: string | null
           name: string
           run_count?: number | null
           steps?: Json | null
+          tags?: string[] | null
+          title?: string | null
+          tools_used?: string[] | null
           trigger_type?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          category?: string | null
           created_at?: string
           description?: string | null
+          difficulty?: string | null
+          estimated_time_minutes?: number | null
+          icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
           last_run_at?: string | null
           name?: string
           run_count?: number | null
           steps?: Json | null
+          tags?: string[] | null
+          title?: string | null
+          tools_used?: string[] | null
           trigger_type?: string | null
           updated_at?: string
           user_id?: string
         }
         Relationships: []
+      }
+      calendar_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_time: string | null
+          event_date: string
+          event_type: string | null
+          generation_id: string | null
+          id: string
+          is_published: boolean | null
+          location_url: string | null
+          start_time: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_time?: string | null
+          event_date: string
+          event_type?: string | null
+          generation_id?: string | null
+          id?: string
+          is_published?: boolean | null
+          location_url?: string | null
+          start_time?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_time?: string | null
+          event_date?: string
+          event_type?: string | null
+          generation_id?: string | null
+          id?: string
+          is_published?: boolean | null
+          location_url?: string | null
+          start_time?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "generations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       chat_channel_members: {
         Row: {
@@ -1582,6 +1653,44 @@ export type Database = {
           },
         ]
       }
+      user_workflow_progress: {
+        Row: {
+          completed_at: string | null
+          completed_steps: number[] | null
+          id: string
+          notes: string | null
+          started_at: string
+          user_id: string
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_steps?: number[] | null
+          id?: string
+          notes?: string | null
+          started_at?: string
+          user_id: string
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_steps?: number[] | null
+          id?: string
+          notes?: string | null
+          started_at?: string
+          user_id?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_workflow_progress_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "automation_workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       weekly_challenges: {
         Row: {
           badge_reward: string | null
@@ -1803,6 +1912,7 @@ export type Database = {
         Args: { _prompt_id: string }
         Returns: undefined
       }
+      is_email_allowed: { Args: { _email: string }; Returns: boolean }
       track_activity: {
         Args: {
           p_resource_id: string
