@@ -97,7 +97,8 @@ export function PromptPlayground() {
     if (!user || !prompt.trim()) return;
 
     try {
-      const { error } = await supabase.from('prompt_library').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('prompt_library') as any).insert({
         title: prompt.slice(0, 50) + (prompt.length > 50 ? '...' : ''),
         prompt_text: prompt,
         description: `Prompt probado con ${AVAILABLE_MODELS.find(m => m.id === selectedModel)?.name}`,

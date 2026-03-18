@@ -93,7 +93,8 @@ export function PromptGenerator() {
     if (!user || !result?.prompt) return;
 
     try {
-      const { error } = await supabase.from('prompt_library').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('prompt_library') as any).insert({
         title: objective.slice(0, 50) + (objective.length > 50 ? '...' : ''),
         prompt_text: result.prompt,
         description: result.explanation,
