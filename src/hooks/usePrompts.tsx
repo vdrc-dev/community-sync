@@ -183,10 +183,17 @@ export function usePrompts(category?: string, toolId?: string) {
       const { error } = await supabase
         .from('prompt_library')
         .insert({
-          ...data,
+          prompt: data.prompt_text || data.title,
+          title: data.title,
+          prompt_text: data.prompt_text,
+          description: data.description,
+          tool_id: data.tool_id,
+          category: data.category,
+          tags: data.tags,
+          user_id: user.id,
           created_by: user.id,
           is_public: data.is_public ?? false,
-        });
+        } as Parameters<typeof supabase.from<'prompt_library'>>[0] extends never ? never : any);
       
       if (error) throw error;
     },

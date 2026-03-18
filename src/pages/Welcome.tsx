@@ -49,7 +49,7 @@ export default function Welcome() {
   useEffect(() => {
     if (!emailParam) return;
     setEmailStatus('checking');
-    supabase.rpc('is_email_allowed', { check_email: emailParam }).then(({ data }) => {
+    supabase.rpc('is_email_allowed', { _email: emailParam }).then(({ data }) => {
       setEmailStatus(data ? 'allowed' : 'denied');
     });
   }, [emailParam]);
