@@ -57,7 +57,8 @@ const moreCategories = [
   },
 ];
 
-export function BottomNavigation() {
+import React from 'react';
+export const BottomNavigation = React.forwardRef<HTMLElement>((_, ref) => {
   const location = useLocation();
   const { user } = useAuth();
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -79,7 +80,7 @@ export function BottomNavigation() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-bottom">
+    <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-bottom">
       <div className="glass-strong border-t border-white/[0.06] shadow-[0_-4px_24px_rgba(0,0,0,0.15)]">
         <div className="flex items-center justify-around h-14 px-1">
           {navItems.map((item) => {
@@ -201,4 +202,5 @@ export function BottomNavigation() {
       </div>
     </nav>
   );
-}
+});
+BottomNavigation.displayName = 'BottomNavigation';
