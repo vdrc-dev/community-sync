@@ -60,11 +60,16 @@ export type Database = {
           icon_emoji: string | null
           id: string
           is_active: boolean | null
+          is_featured: boolean | null
+          is_published: boolean | null
           last_run_at: string | null
+          mermaid_diagram: string | null
           name: string
           run_count: number | null
           steps: Json | null
           tags: string[] | null
+          time_saved_per_use_minutes: number | null
+          time_to_setup_minutes: number | null
           title: string | null
           tools_used: string[] | null
           trigger_type: string | null
@@ -80,11 +85,16 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
           last_run_at?: string | null
+          mermaid_diagram?: string | null
           name: string
           run_count?: number | null
           steps?: Json | null
           tags?: string[] | null
+          time_saved_per_use_minutes?: number | null
+          time_to_setup_minutes?: number | null
           title?: string | null
           tools_used?: string[] | null
           trigger_type?: string | null
@@ -100,11 +110,16 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
+          is_featured?: boolean | null
+          is_published?: boolean | null
           last_run_at?: string | null
+          mermaid_diagram?: string | null
           name?: string
           run_count?: number | null
           steps?: Json | null
           tags?: string[] | null
+          time_saved_per_use_minutes?: number | null
+          time_to_setup_minutes?: number | null
           title?: string | null
           tools_used?: string[] | null
           trigger_type?: string | null
@@ -117,39 +132,48 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          duration_minutes: number | null
           end_time: string | null
           event_date: string
           event_type: string | null
           generation_id: string | null
           id: string
           is_published: boolean | null
+          location: string | null
           location_url: string | null
+          meeting_url: string | null
           start_time: string | null
           title: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          duration_minutes?: number | null
           end_time?: string | null
           event_date: string
           event_type?: string | null
           generation_id?: string | null
           id?: string
           is_published?: boolean | null
+          location?: string | null
           location_url?: string | null
+          meeting_url?: string | null
           start_time?: string | null
           title: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          duration_minutes?: number | null
           end_time?: string | null
           event_date?: string
           event_type?: string | null
           generation_id?: string | null
           id?: string
           is_published?: boolean | null
+          location?: string | null
           location_url?: string | null
+          meeting_url?: string | null
           start_time?: string | null
           title?: string
         }
@@ -365,17 +389,52 @@ export type Database = {
           },
         ]
       }
+      class_tools: {
+        Row: {
+          class_id: string
+          id: string
+          tool_id: string
+        }
+        Insert: {
+          class_id: string
+          id?: string
+          tool_id: string
+        }
+        Update: {
+          class_id?: string
+          id?: string
+          tool_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_tools_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_tools_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       classes: {
         Row: {
           class_date: string | null
           class_number: number
           created_at: string
           description: string | null
+          drive_folder_url: string | null
           generation_id: string
           id: string
           is_published: boolean | null
           recording_url: string | null
           resources_url: string | null
+          slides_url: string | null
           title: string
           updated_at: string
         }
@@ -384,11 +443,13 @@ export type Database = {
           class_number: number
           created_at?: string
           description?: string | null
+          drive_folder_url?: string | null
           generation_id: string
           id?: string
           is_published?: boolean | null
           recording_url?: string | null
           resources_url?: string | null
+          slides_url?: string | null
           title: string
           updated_at?: string
         }
@@ -397,11 +458,13 @@ export type Database = {
           class_number?: number
           created_at?: string
           description?: string | null
+          drive_folder_url?: string | null
           generation_id?: string
           id?: string
           is_published?: boolean | null
           recording_url?: string | null
           resources_url?: string | null
+          slides_url?: string | null
           title?: string
           updated_at?: string
         }
@@ -411,6 +474,95 @@ export type Database = {
             columns: ["generation_id"]
             isOneToOne: false
             referencedRelation: "generations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon_emoji: string | null
+          id: string
+          name: string
+          post_count: number | null
+          slug: string
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          name: string
+          post_count?: number | null
+          slug: string
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon_emoji?: string | null
+          id?: string
+          name?: string
+          post_count?: number | null
+          slug?: string
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
+      forum_posts: {
+        Row: {
+          author_id: string
+          category_id: string | null
+          content: string
+          created_at: string
+          id: string
+          is_locked: boolean | null
+          is_pinned: boolean | null
+          likes_count: number | null
+          replies_count: number | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          views_count: number | null
+        }
+        Insert: {
+          author_id: string
+          category_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          is_locked?: boolean | null
+          is_pinned?: boolean | null
+          likes_count?: number | null
+          replies_count?: number | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Update: {
+          author_id?: string
+          category_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_locked?: boolean | null
+          is_pinned?: boolean | null
+          likes_count?: number | null
+          replies_count?: number | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_posts_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "forum_categories"
             referencedColumns: ["id"]
           },
         ]
