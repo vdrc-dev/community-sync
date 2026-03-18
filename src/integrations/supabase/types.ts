@@ -92,39 +92,89 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_channel_members: {
+        Row: {
+          channel_id: string
+          id: string
+          joined_at: string
+          last_read_at: string | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          channel_id: string
+          id?: string
+          joined_at?: string
+          last_read_at?: string | null
+          role?: string
+          user_id: string
+        }
+        Update: {
+          channel_id?: string
+          id?: string
+          joined_at?: string
+          last_read_at?: string | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_channel_members_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "chat_channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_channels: {
         Row: {
+          channel_type: string
           created_at: string
+          created_by: string | null
           description: string | null
           icon_emoji: string | null
           id: string
+          is_archived: boolean | null
           is_default: boolean | null
           is_private: boolean | null
+          last_message_at: string | null
           name: string
           slug: string
           sort_order: number | null
+          space_id: string | null
         }
         Insert: {
+          channel_type?: string
           created_at?: string
+          created_by?: string | null
           description?: string | null
           icon_emoji?: string | null
           id?: string
+          is_archived?: boolean | null
           is_default?: boolean | null
           is_private?: boolean | null
+          last_message_at?: string | null
           name: string
           slug: string
           sort_order?: number | null
+          space_id?: string | null
         }
         Update: {
+          channel_type?: string
           created_at?: string
+          created_by?: string | null
           description?: string | null
           icon_emoji?: string | null
           id?: string
+          is_archived?: boolean | null
           is_default?: boolean | null
           is_private?: boolean | null
+          last_message_at?: string | null
           name?: string
           slug?: string
           sort_order?: number | null
+          space_id?: string | null
         }
         Relationships: []
       }
@@ -137,8 +187,10 @@ export type Database = {
           id: string
           is_deleted: boolean | null
           is_edited: boolean | null
+          message_type: string | null
           reactions: Json | null
           reply_to_id: string | null
+          sender_id: string | null
           type: string | null
           updated_at: string
         }
@@ -150,8 +202,10 @@ export type Database = {
           id?: string
           is_deleted?: boolean | null
           is_edited?: boolean | null
+          message_type?: string | null
           reactions?: Json | null
           reply_to_id?: string | null
+          sender_id?: string | null
           type?: string | null
           updated_at?: string
         }
@@ -163,8 +217,10 @@ export type Database = {
           id?: string
           is_deleted?: boolean | null
           is_edited?: boolean | null
+          message_type?: string | null
           reactions?: Json | null
           reply_to_id?: string | null
+          sender_id?: string | null
           type?: string | null
           updated_at?: string
         }
@@ -499,10 +555,12 @@ export type Database = {
         Row: {
           category: string | null
           created_at: string
+          created_by: string | null
           description: string | null
           id: string
           is_public: boolean | null
           prompt: string
+          prompt_text: string | null
           tags: string[] | null
           title: string
           updated_at: string
@@ -512,10 +570,12 @@ export type Database = {
         Insert: {
           category?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_public?: boolean | null
           prompt: string
+          prompt_text?: string | null
           tags?: string[] | null
           title: string
           updated_at?: string
@@ -525,10 +585,12 @@ export type Database = {
         Update: {
           category?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_public?: boolean | null
           prompt?: string
+          prompt_text?: string | null
           tags?: string[] | null
           title?: string
           updated_at?: string
@@ -750,6 +812,7 @@ export type Database = {
       }
       tools: {
         Row: {
+          best_for: string | null
           category: string | null
           cons: string[] | null
           created_at: string
@@ -766,8 +829,10 @@ export type Database = {
           sort_order: number | null
           updated_at: string
           url: string | null
+          use_cases: string[] | null
         }
         Insert: {
+          best_for?: string | null
           category?: string | null
           cons?: string[] | null
           created_at?: string
@@ -784,8 +849,10 @@ export type Database = {
           sort_order?: number | null
           updated_at?: string
           url?: string | null
+          use_cases?: string[] | null
         }
         Update: {
+          best_for?: string | null
           category?: string | null
           cons?: string[] | null
           created_at?: string
@@ -802,6 +869,7 @@ export type Database = {
           sort_order?: number | null
           updated_at?: string
           url?: string | null
+          use_cases?: string[] | null
         }
         Relationships: []
       }
@@ -843,12 +911,15 @@ export type Database = {
           category: string | null
           created_at: string
           frequency: string | null
+          frequency_per_week: number | null
+          hourly_rate: number | null
           id: string
           is_active: boolean | null
           notes: string | null
           task_name: string
           time_after_minutes: number | null
           time_before_minutes: number | null
+          tool_used: string | null
           tools_used: string[] | null
           updated_at: string
           user_id: string
@@ -857,12 +928,15 @@ export type Database = {
           category?: string | null
           created_at?: string
           frequency?: string | null
+          frequency_per_week?: number | null
+          hourly_rate?: number | null
           id?: string
           is_active?: boolean | null
           notes?: string | null
           task_name: string
           time_after_minutes?: number | null
           time_before_minutes?: number | null
+          tool_used?: string | null
           tools_used?: string[] | null
           updated_at?: string
           user_id: string
@@ -871,12 +945,15 @@ export type Database = {
           category?: string | null
           created_at?: string
           frequency?: string | null
+          frequency_per_week?: number | null
+          hourly_rate?: number | null
           id?: string
           is_active?: boolean | null
           notes?: string | null
           task_name?: string
           time_after_minutes?: number | null
           time_before_minutes?: number | null
+          tool_used?: string | null
           tools_used?: string[] | null
           updated_at?: string
           user_id?: string
@@ -918,6 +995,7 @@ export type Database = {
           challenge_id: string
           completed_at: string | null
           created_at: string
+          current_count: number | null
           id: string
           status: string | null
           submission: string | null
@@ -927,6 +1005,7 @@ export type Database = {
           challenge_id: string
           completed_at?: string | null
           created_at?: string
+          current_count?: number | null
           id?: string
           status?: string | null
           submission?: string | null
@@ -936,6 +1015,7 @@ export type Database = {
           challenge_id?: string
           completed_at?: string | null
           created_at?: string
+          current_count?: number | null
           id?: string
           status?: string | null
           submission?: string | null
@@ -1052,33 +1132,54 @@ export type Database = {
       }
       weekly_challenges: {
         Row: {
+          badge_reward: string | null
           challenge: string
+          challenge_type: string | null
           created_at: string
           description: string | null
+          end_date: string | null
+          icon_emoji: string | null
           id: string
           is_active: boolean | null
+          points_reward: number | null
+          start_date: string | null
+          target_count: number | null
           title: string
           week_number: number | null
           xp_reward: number | null
           year: number | null
         }
         Insert: {
+          badge_reward?: string | null
           challenge: string
+          challenge_type?: string | null
           created_at?: string
           description?: string | null
+          end_date?: string | null
+          icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
+          points_reward?: number | null
+          start_date?: string | null
+          target_count?: number | null
           title: string
           week_number?: number | null
           xp_reward?: number | null
           year?: number | null
         }
         Update: {
+          badge_reward?: string | null
           challenge?: string
+          challenge_type?: string | null
           created_at?: string
           description?: string | null
+          end_date?: string | null
+          icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
+          points_reward?: number | null
+          start_date?: string | null
+          target_count?: number | null
           title?: string
           week_number?: number | null
           xp_reward?: number | null
@@ -1182,9 +1283,13 @@ export type Database = {
       calculate_user_roi: {
         Args: { p_user_id: string }
         Returns: {
-          monthly_hours_saved: number
-          total_minutes_saved: number
-          weekly_hours_saved: number
+          monthly_minutes_saved: number
+          monthly_value_saved: number
+          total_automations: number
+          weekly_minutes_saved: number
+          weekly_value_saved: number
+          yearly_minutes_saved: number
+          yearly_value_saved: number
         }[]
       }
       has_role: {
@@ -1193,6 +1298,16 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_challenge_progress: {
+        Args: { _challenge_type: string; _user_id: string }
+        Returns: {
+          challenge_id: string
+          completed: boolean
+          current: number
+          target: number
+          title: string
+        }[]
       }
       track_activity: {
         Args: {
