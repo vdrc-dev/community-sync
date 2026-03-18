@@ -276,14 +276,15 @@ export function useChat(channelId?: string) {
   // Send message
   const sendMessage = useMutation({
     mutationFn: async ({ content, replyToId }: { content: string; replyToId?: string }) => {
-      const { data, error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
         .from('chat_messages')
         .insert({
           author_id: user!.id,
           channel_id: channelId!,
           content,
           reply_to_id: replyToId || null,
-        } as Parameters<ReturnType<typeof supabase.from<'chat_messages', typeof supabase>>['insert']>[0])
+        })
         .select()
         .single();
       if (error) throw error;
