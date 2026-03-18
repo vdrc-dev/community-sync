@@ -171,4 +171,5 @@ export const Footer = React.forwardRef<HTMLElement>((_, ref) => {
       </div>
     </footer>
   );
-}
+});
+Footer.displayName = 'Footer';
