@@ -61,8 +61,7 @@ export function useAutomations() {
     queryKey: ['roi-summary', user?.id],
     queryFn: async () => {
       if (!user) return null;
-      const { data, error } = await supabase
-        .rpc('calculate_user_roi', { _user_id: user.id });
+      const { data, error } = await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>)('calculate_user_roi', { p_user_id: user.id }) as { data: unknown; error: unknown };
       
       if (error) throw error;
       return data as unknown as ROISummary;

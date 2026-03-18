@@ -140,7 +140,7 @@ export type Database = {
           is_private: boolean | null
           last_message_at: string | null
           name: string
-          slug: string
+          slug: string | null
           sort_order: number | null
           space_id: string | null
         }
@@ -156,7 +156,7 @@ export type Database = {
           is_private?: boolean | null
           last_message_at?: string | null
           name: string
-          slug: string
+          slug?: string | null
           sort_order?: number | null
           space_id?: string | null
         }
@@ -172,7 +172,7 @@ export type Database = {
           is_private?: boolean | null
           last_message_at?: string | null
           name?: string
-          slug?: string
+          slug?: string | null
           sort_order?: number | null
           space_id?: string | null
         }
@@ -182,7 +182,6 @@ export type Database = {
         Row: {
           author_id: string
           channel_id: string
-          channel_id_ref: string | null
           content: string
           created_at: string
           id: string
@@ -198,7 +197,6 @@ export type Database = {
         Insert: {
           author_id: string
           channel_id: string
-          channel_id_ref?: string | null
           content: string
           created_at?: string
           id?: string
@@ -214,7 +212,6 @@ export type Database = {
         Update: {
           author_id?: string
           channel_id?: string
-          channel_id_ref?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -589,50 +586,67 @@ export type Database = {
       prompt_library: {
         Row: {
           category: string | null
+          copy_count: number | null
           created_at: string
           created_by: string | null
           description: string | null
           id: string
+          is_featured: boolean | null
           is_public: boolean | null
           prompt: string
           prompt_text: string | null
           tags: string[] | null
           title: string
+          tool_id: string | null
           updated_at: string
           use_count: number | null
           user_id: string | null
         }
         Insert: {
           category?: string | null
+          copy_count?: number | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           id?: string
+          is_featured?: boolean | null
           is_public?: boolean | null
           prompt: string
           prompt_text?: string | null
           tags?: string[] | null
           title: string
+          tool_id?: string | null
           updated_at?: string
           use_count?: number | null
           user_id?: string | null
         }
         Update: {
           category?: string | null
+          copy_count?: number | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           id?: string
+          is_featured?: boolean | null
           is_public?: boolean | null
           prompt?: string
           prompt_text?: string | null
           tags?: string[] | null
           title?: string
+          tool_id?: string | null
           updated_at?: string
           use_count?: number | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "prompt_library_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       quick_notes: {
         Row: {
@@ -1210,6 +1224,41 @@ export type Database = {
           },
         ]
       }
+      user_notes: {
+        Row: {
+          class_id: string | null
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          class_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          class_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notes_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_points: {
         Row: {
           id: string
@@ -1279,6 +1328,35 @@ export type Database = {
         }
         Relationships: []
       }
+      user_progress: {
+        Row: {
+          class_id: string | null
+          completed_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          class_id?: string | null
+          completed_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          class_id?: string | null
+          completed_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1299,6 +1377,35 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      user_saved_prompts: {
+        Row: {
+          created_at: string
+          id: string
+          prompt_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          prompt_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          prompt_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_saved_prompts_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_library"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_streaks: {
         Row: {
@@ -1525,6 +1632,10 @@ export type Database = {
           target: number
           title: string
         }[]
+      }
+      increment_prompt_copy: {
+        Args: { _prompt_id: string }
+        Returns: undefined
       }
       track_activity: {
         Args: {
