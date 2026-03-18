@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.1"
+    PostgrestVersion: "14.4"
   }
   public: {
     Tables: {
@@ -18,146 +18,113 @@ export type Database = {
         Row: {
           created_at: string
           email: string
-          full_name: string
+          full_name: string | null
           id: string
           message: string | null
           reviewed_at: string | null
           reviewed_by: string | null
-          status: string
+          status: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           email: string
-          full_name: string
+          full_name?: string | null
           id?: string
           message?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
-          status?: string
+          status?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           email?: string
-          full_name?: string
+          full_name?: string | null
           id?: string
           message?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
-          status?: string
-        }
-        Relationships: []
-      }
-      activity_log: {
-        Row: {
-          action: string
-          created_at: string
-          id: string
-          points_earned: number | null
-          resource_id: string | null
-          resource_type: string | null
-          user_id: string
-        }
-        Insert: {
-          action: string
-          created_at?: string
-          id?: string
-          points_earned?: number | null
-          resource_id?: string | null
-          resource_type?: string | null
-          user_id: string
-        }
-        Update: {
-          action?: string
-          created_at?: string
-          id?: string
-          points_earned?: number | null
-          resource_id?: string | null
-          resource_type?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      allowed_emails: {
-        Row: {
-          added_by: string | null
-          created_at: string
-          email: string
-          generation_code: string | null
-          id: string
-        }
-        Insert: {
-          added_by?: string | null
-          created_at?: string
-          email: string
-          generation_code?: string | null
-          id?: string
-        }
-        Update: {
-          added_by?: string | null
-          created_at?: string
-          email?: string
-          generation_code?: string | null
-          id?: string
+          status?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
       automation_workflows: {
         Row: {
           category: string | null
-          created_at: string | null
-          created_by: string | null
+          created_at: string
           description: string | null
           difficulty: string | null
+          estimated_time_minutes: number | null
           icon_emoji: string | null
           id: string
+          is_active: boolean | null
           is_featured: boolean | null
           is_published: boolean | null
+          last_run_at: string | null
           mermaid_diagram: string | null
-          steps: Json
+          name: string
+          run_count: number | null
+          steps: Json | null
           tags: string[] | null
           time_saved_per_use_minutes: number | null
           time_to_setup_minutes: number | null
-          title: string
+          title: string | null
           tools_used: string[] | null
-          updated_at: string | null
+          trigger_type: string | null
+          updated_at: string
+          user_id: string
         }
         Insert: {
           category?: string | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           description?: string | null
           difficulty?: string | null
+          estimated_time_minutes?: number | null
           icon_emoji?: string | null
           id?: string
+          is_active?: boolean | null
           is_featured?: boolean | null
           is_published?: boolean | null
+          last_run_at?: string | null
           mermaid_diagram?: string | null
-          steps?: Json
+          name: string
+          run_count?: number | null
+          steps?: Json | null
           tags?: string[] | null
           time_saved_per_use_minutes?: number | null
           time_to_setup_minutes?: number | null
-          title: string
+          title?: string | null
           tools_used?: string[] | null
-          updated_at?: string | null
+          trigger_type?: string | null
+          updated_at?: string
+          user_id: string
         }
         Update: {
           category?: string | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           description?: string | null
           difficulty?: string | null
+          estimated_time_minutes?: number | null
           icon_emoji?: string | null
           id?: string
+          is_active?: boolean | null
           is_featured?: boolean | null
           is_published?: boolean | null
+          last_run_at?: string | null
           mermaid_diagram?: string | null
-          steps?: Json
+          name?: string
+          run_count?: number | null
+          steps?: Json | null
           tags?: string[] | null
           time_saved_per_use_minutes?: number | null
           time_to_setup_minutes?: number | null
-          title?: string
+          title?: string | null
           tools_used?: string[] | null
-          updated_at?: string | null
+          trigger_type?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -166,36 +133,48 @@ export type Database = {
           created_at: string
           description: string | null
           duration_minutes: number | null
+          end_time: string | null
           event_date: string
+          event_type: string | null
           generation_id: string | null
           id: string
-          is_public: boolean | null
+          is_published: boolean | null
           location: string | null
+          location_url: string | null
           meeting_url: string | null
+          start_time: string | null
           title: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           duration_minutes?: number | null
+          end_time?: string | null
           event_date: string
+          event_type?: string | null
           generation_id?: string | null
           id?: string
-          is_public?: boolean | null
+          is_published?: boolean | null
           location?: string | null
+          location_url?: string | null
           meeting_url?: string | null
+          start_time?: string | null
           title: string
         }
         Update: {
           created_at?: string
           description?: string | null
           duration_minutes?: number | null
+          end_time?: string | null
           event_date?: string
+          event_type?: string | null
           generation_id?: string | null
           id?: string
-          is_public?: boolean | null
+          is_published?: boolean | null
           location?: string | null
+          location_url?: string | null
           meeting_url?: string | null
+          start_time?: string | null
           title?: string
         }
         Relationships: [
@@ -214,8 +193,7 @@ export type Database = {
           id: string
           joined_at: string
           last_read_at: string | null
-          notifications_enabled: boolean | null
-          role: string | null
+          role: string
           user_id: string
         }
         Insert: {
@@ -223,8 +201,7 @@ export type Database = {
           id?: string
           joined_at?: string
           last_read_at?: string | null
-          notifications_enabled?: boolean | null
-          role?: string | null
+          role?: string
           user_id: string
         }
         Update: {
@@ -232,8 +209,7 @@ export type Database = {
           id?: string
           joined_at?: string
           last_read_at?: string | null
-          notifications_enabled?: boolean | null
-          role?: string | null
+          role?: string
           user_id?: string
         }
         Relationships: [
@@ -255,10 +231,13 @@ export type Database = {
           icon_emoji: string | null
           id: string
           is_archived: boolean | null
+          is_default: boolean | null
+          is_private: boolean | null
           last_message_at: string | null
-          name: string | null
+          name: string
+          slug: string | null
+          sort_order: number | null
           space_id: string | null
-          updated_at: string
         }
         Insert: {
           channel_type?: string
@@ -268,10 +247,13 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_archived?: boolean | null
+          is_default?: boolean | null
+          is_private?: boolean | null
           last_message_at?: string | null
-          name?: string | null
+          name: string
+          slug?: string | null
+          sort_order?: number | null
           space_id?: string | null
-          updated_at?: string
         }
         Update: {
           channel_type?: string
@@ -281,23 +263,19 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_archived?: boolean | null
+          is_default?: boolean | null
+          is_private?: boolean | null
           last_message_at?: string | null
-          name?: string | null
+          name?: string
+          slug?: string | null
+          sort_order?: number | null
           space_id?: string | null
-          updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "chat_channels_space_id_fkey"
-            columns: ["space_id"]
-            isOneToOne: false
-            referencedRelation: "spaces"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       chat_messages: {
         Row: {
+          author_id: string
           channel_id: string
           content: string
           created_at: string
@@ -305,11 +283,14 @@ export type Database = {
           is_deleted: boolean | null
           is_edited: boolean | null
           message_type: string | null
+          reactions: Json | null
           reply_to_id: string | null
-          sender_id: string
+          sender_id: string | null
+          type: string | null
           updated_at: string
         }
         Insert: {
+          author_id: string
           channel_id: string
           content: string
           created_at?: string
@@ -317,11 +298,14 @@ export type Database = {
           is_deleted?: boolean | null
           is_edited?: boolean | null
           message_type?: string | null
+          reactions?: Json | null
           reply_to_id?: string | null
-          sender_id: string
+          sender_id?: string | null
+          type?: string | null
           updated_at?: string
         }
         Update: {
+          author_id?: string
           channel_id?: string
           content?: string
           created_at?: string
@@ -329,8 +313,10 @@ export type Database = {
           is_deleted?: boolean | null
           is_edited?: boolean | null
           message_type?: string | null
+          reactions?: Json | null
           reply_to_id?: string | null
-          sender_id?: string
+          sender_id?: string | null
+          type?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -352,52 +338,46 @@ export type Database = {
       }
       class_presentations: {
         Row: {
-          assigned_to: string | null
           class_id: string
-          created_at: string | null
-          created_by: string | null
+          created_at: string
           duration_estimate: number | null
           id: string
           key_points: string[] | null
+          notes: string | null
           outline: string | null
           resources_needed: string[] | null
-          review_notes: string | null
-          slides: Json | null
+          slide_template: string | null
           status: string
-          talking_points: Json | null
-          updated_at: string | null
+          talking_points: string[] | null
+          updated_at: string
         }
         Insert: {
-          assigned_to?: string | null
           class_id: string
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           duration_estimate?: number | null
           id?: string
           key_points?: string[] | null
+          notes?: string | null
           outline?: string | null
           resources_needed?: string[] | null
-          review_notes?: string | null
-          slides?: Json | null
+          slide_template?: string | null
           status?: string
-          talking_points?: Json | null
-          updated_at?: string | null
+          talking_points?: string[] | null
+          updated_at?: string
         }
         Update: {
-          assigned_to?: string | null
           class_id?: string
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           duration_estimate?: number | null
           id?: string
           key_points?: string[] | null
+          notes?: string | null
           outline?: string | null
           resources_needed?: string[] | null
-          review_notes?: string | null
-          slides?: Json | null
+          slide_template?: string | null
           status?: string
-          talking_points?: Json | null
-          updated_at?: string | null
+          talking_points?: string[] | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -413,19 +393,16 @@ export type Database = {
         Row: {
           class_id: string
           id: string
-          notes: string | null
           tool_id: string
         }
         Insert: {
           class_id: string
           id?: string
-          notes?: string | null
           tool_id: string
         }
         Update: {
           class_id?: string
           id?: string
-          notes?: string | null
           tool_id?: string
         }
         Relationships: [
@@ -453,12 +430,14 @@ export type Database = {
           description: string | null
           drive_folder_url: string | null
           generation_id: string
-          granola_transcript: string | null
           id: string
+          is_published: boolean | null
           notes_content: string | null
           recording_url: string | null
+          resources_url: string | null
           slides_url: string | null
           title: string
+          updated_at: string
         }
         Insert: {
           class_date?: string | null
@@ -467,12 +446,14 @@ export type Database = {
           description?: string | null
           drive_folder_url?: string | null
           generation_id: string
-          granola_transcript?: string | null
           id?: string
+          is_published?: boolean | null
           notes_content?: string | null
           recording_url?: string | null
+          resources_url?: string | null
           slides_url?: string | null
           title: string
+          updated_at?: string
         }
         Update: {
           class_date?: string | null
@@ -481,12 +462,14 @@ export type Database = {
           description?: string | null
           drive_folder_url?: string | null
           generation_id?: string
-          granola_transcript?: string | null
           id?: string
+          is_published?: boolean | null
           notes_content?: string | null
           recording_url?: string | null
+          resources_url?: string | null
           slides_url?: string | null
           title?: string
+          updated_at?: string
         }
         Relationships: [
           {
@@ -498,30 +481,6 @@ export type Database = {
           },
         ]
       }
-      event_rsvps: {
-        Row: {
-          created_at: string
-          event_id: string
-          id: string
-          status: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          event_id: string
-          id?: string
-          status?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          event_id?: string
-          id?: string
-          status?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       forum_categories: {
         Row: {
           created_at: string
@@ -529,6 +488,7 @@ export type Database = {
           icon_emoji: string | null
           id: string
           name: string
+          post_count: number | null
           slug: string
           sort_order: number | null
         }
@@ -538,6 +498,7 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           name: string
+          post_count?: number | null
           slug: string
           sort_order?: number | null
         }
@@ -547,89 +508,54 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           name?: string
+          post_count?: number | null
           slug?: string
           sort_order?: number | null
         }
         Relationships: []
       }
-      forum_comments: {
-        Row: {
-          author_id: string
-          content: string
-          created_at: string
-          id: string
-          parent_comment_id: string | null
-          post_id: string
-          updated_at: string
-        }
-        Insert: {
-          author_id: string
-          content: string
-          created_at?: string
-          id?: string
-          parent_comment_id?: string | null
-          post_id: string
-          updated_at?: string
-        }
-        Update: {
-          author_id?: string
-          content?: string
-          created_at?: string
-          id?: string
-          parent_comment_id?: string | null
-          post_id?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "forum_comments_parent_comment_id_fkey"
-            columns: ["parent_comment_id"]
-            isOneToOne: false
-            referencedRelation: "forum_comments"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "forum_comments_post_id_fkey"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "forum_posts"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       forum_posts: {
         Row: {
           author_id: string
-          category_id: string
+          category_id: string | null
           content: string
           created_at: string
           id: string
           is_locked: boolean | null
           is_pinned: boolean | null
+          likes_count: number | null
+          replies_count: number | null
+          tags: string[] | null
           title: string
           updated_at: string
           views_count: number | null
         }
         Insert: {
           author_id: string
-          category_id: string
+          category_id?: string | null
           content: string
           created_at?: string
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
+          likes_count?: number | null
+          replies_count?: number | null
+          tags?: string[] | null
           title: string
           updated_at?: string
           views_count?: number | null
         }
         Update: {
           author_id?: string
-          category_id?: string
+          category_id?: string | null
           content?: string
           created_at?: string
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
+          likes_count?: number | null
+          replies_count?: number | null
+          tags?: string[] | null
           title?: string
           updated_at?: string
           views_count?: number | null
@@ -646,30 +572,24 @@ export type Database = {
       }
       generation_weeks: {
         Row: {
-          created_at: string
-          drive_url: string | null
           generation_id: number
           id: string
-          name: string
-          stack: string[]
+          name: string | null
+          stack: string[] | null
           week: number
         }
         Insert: {
-          created_at?: string
-          drive_url?: string | null
           generation_id: number
           id?: string
-          name: string
-          stack?: string[]
+          name?: string | null
+          stack?: string[] | null
           week: number
         }
         Update: {
-          created_at?: string
-          drive_url?: string | null
           generation_id?: number
           id?: string
-          name?: string
-          stack?: string[]
+          name?: string | null
+          stack?: string[] | null
           week?: number
         }
         Relationships: [
@@ -685,7 +605,6 @@ export type Database = {
       generations: {
         Row: {
           code: string
-          cover_image_url: string | null
           created_at: string
           description: string | null
           end_date: string | null
@@ -693,10 +612,10 @@ export type Database = {
           is_active: boolean | null
           name: string
           start_date: string | null
+          updated_at: string
         }
         Insert: {
           code: string
-          cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
@@ -704,10 +623,10 @@ export type Database = {
           is_active?: boolean | null
           name: string
           start_date?: string | null
+          updated_at?: string
         }
         Update: {
           code?: string
-          cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
@@ -715,6 +634,7 @@ export type Database = {
           is_active?: boolean | null
           name?: string
           start_date?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -723,31 +643,97 @@ export type Database = {
           accepted_at: string | null
           created_at: string
           email: string
-          full_name: string | null
+          expires_at: string | null
           id: string
           invited_by: string | null
-          role: Database["public"]["Enums"]["app_role"]
-          status: string
+          role: string | null
+          status: string | null
+          token: string
         }
         Insert: {
           accepted_at?: string | null
           created_at?: string
           email: string
-          full_name?: string | null
+          expires_at?: string | null
           id?: string
           invited_by?: string | null
-          role?: Database["public"]["Enums"]["app_role"]
-          status?: string
+          role?: string | null
+          status?: string | null
+          token?: string
         }
         Update: {
           accepted_at?: string | null
           created_at?: string
           email?: string
-          full_name?: string | null
+          expires_at?: string | null
           id?: string
           invited_by?: string | null
-          role?: Database["public"]["Enums"]["app_role"]
-          status?: string
+          role?: string | null
+          status?: string | null
+          token?: string
+        }
+        Relationships: []
+      }
+      leaderboard_scores: {
+        Row: {
+          badges: string[] | null
+          id: string
+          level: number | null
+          rank: number | null
+          updated_at: string
+          user_id: string
+          xp_total: number | null
+        }
+        Insert: {
+          badges?: string[] | null
+          id?: string
+          level?: number | null
+          rank?: number | null
+          updated_at?: string
+          user_id: string
+          xp_total?: number | null
+        }
+        Update: {
+          badges?: string[] | null
+          id?: string
+          level?: number | null
+          rank?: number | null
+          updated_at?: string
+          user_id?: string
+          xp_total?: number | null
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          is_pinned: boolean | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -755,9 +741,10 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          is_read: boolean
+          is_read: boolean | null
           link: string | null
           message: string | null
+          metadata: Json | null
           title: string
           type: string
           user_id: string
@@ -765,9 +752,10 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
-          is_read?: boolean
+          is_read?: boolean | null
           link?: string | null
           message?: string | null
+          metadata?: Json | null
           title: string
           type: string
           user_id: string
@@ -775,9 +763,10 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
-          is_read?: boolean
+          is_read?: boolean | null
           link?: string | null
           message?: string | null
+          metadata?: Json | null
           title?: string
           type?: string
           user_id?: string
@@ -787,30 +776,39 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string
           full_name: string | null
           generation_code: string | null
           id: string
           updated_at: string
           user_id: string
+          username: string | null
+          website: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           full_name?: string | null
           generation_code?: string | null
           id?: string
           updated_at?: string
           user_id: string
+          username?: string | null
+          website?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           full_name?: string | null
           generation_code?: string | null
           id?: string
           updated_at?: string
           user_id?: string
+          username?: string | null
+          website?: string | null
         }
         Relationships: []
       }
@@ -824,10 +822,14 @@ export type Database = {
           id: string
           is_featured: boolean | null
           is_public: boolean | null
-          prompt_text: string
+          prompt: string
+          prompt_text: string | null
           tags: string[] | null
           title: string
           tool_id: string | null
+          updated_at: string
+          use_count: number | null
+          user_id: string | null
         }
         Insert: {
           category?: string | null
@@ -838,10 +840,14 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_public?: boolean | null
-          prompt_text: string
+          prompt: string
+          prompt_text?: string | null
           tags?: string[] | null
           title: string
           tool_id?: string | null
+          updated_at?: string
+          use_count?: number | null
+          user_id?: string | null
         }
         Update: {
           category?: string | null
@@ -852,10 +858,14 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_public?: boolean | null
-          prompt_text?: string
+          prompt?: string
+          prompt_text?: string | null
           tags?: string[] | null
           title?: string
           tool_id?: string | null
+          updated_at?: string
+          use_count?: number | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -869,6 +879,7 @@ export type Database = {
       }
       quick_notes: {
         Row: {
+          color: string | null
           content: string
           context_id: string | null
           context_type: string | null
@@ -881,6 +892,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          color?: string | null
           content: string
           context_id?: string | null
           context_type?: string | null
@@ -893,6 +905,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          color?: string | null
           content?: string
           context_id?: string | null
           context_type?: string | null
@@ -908,17 +921,20 @@ export type Database = {
       }
       sections: {
         Row: {
-          display_order: number
+          created_at: string
+          display_order: number | null
           id: string
           title: string
         }
         Insert: {
-          display_order?: number
-          id: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
           title: string
         }
         Update: {
-          display_order?: number
+          created_at?: string
+          display_order?: number | null
           id?: string
           title?: string
         }
@@ -927,45 +943,42 @@ export type Database = {
       slide_generations: {
         Row: {
           created_at: string
-          date: string
+          date: string | null
           generation_number: number
           id: number
-          instructor: string
-          is_active: boolean
-          module: string
+          instructor: string | null
+          is_active: boolean | null
+          module: string | null
           name: string
-          stack: string[]
-          total_weeks: number
-          updated_at: string
-          week: number
+          stack: string[] | null
+          total_weeks: number | null
+          week: number | null
         }
         Insert: {
           created_at?: string
-          date: string
+          date?: string | null
           generation_number: number
           id?: number
-          instructor?: string
-          is_active?: boolean
-          module: string
+          instructor?: string | null
+          is_active?: boolean | null
+          module?: string | null
           name: string
-          stack?: string[]
-          total_weeks?: number
-          updated_at?: string
-          week: number
+          stack?: string[] | null
+          total_weeks?: number | null
+          week?: number | null
         }
         Update: {
           created_at?: string
-          date?: string
+          date?: string | null
           generation_number?: number
           id?: number
-          instructor?: string
-          is_active?: boolean
-          module?: string
+          instructor?: string | null
+          is_active?: boolean | null
+          module?: string | null
           name?: string
-          stack?: string[]
-          total_weeks?: number
-          updated_at?: string
-          week?: number
+          stack?: string[] | null
+          total_weeks?: number | null
+          week?: number | null
         }
         Relationships: []
       }
@@ -976,13 +989,13 @@ export type Database = {
           created_at: string
           generation_id: number
           id: string
-          section_id: string
-          section_number: number
+          section_id: string | null
+          section_number: number | null
           slide_number: number
           storyline: string | null
-          title: string
+          title: string | null
           updated_at: string
-          week: number
+          week: number | null
         }
         Insert: {
           component_name: string
@@ -990,13 +1003,13 @@ export type Database = {
           created_at?: string
           generation_id: number
           id?: string
-          section_id: string
-          section_number: number
+          section_id?: string | null
+          section_number?: number | null
           slide_number: number
           storyline?: string | null
-          title: string
+          title?: string | null
           updated_at?: string
-          week?: number
+          week?: number | null
         }
         Update: {
           component_name?: string
@@ -1004,13 +1017,13 @@ export type Database = {
           created_at?: string
           generation_id?: number
           id?: string
-          section_id?: string
-          section_number?: number
+          section_id?: string | null
+          section_number?: number | null
           slide_number?: number
           storyline?: string | null
-          title?: string
+          title?: string | null
           updated_at?: string
-          week?: number
+          week?: number | null
         }
         Relationships: [
           {
@@ -1029,28 +1042,73 @@ export type Database = {
           },
         ]
       }
+      space_comments: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          id: string
+          likes_count: number | null
+          parent_comment_id: string | null
+          post_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "space_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "space_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "space_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       space_members: {
         Row: {
           id: string
-          joined_at: string | null
-          notifications_enabled: boolean | null
-          role: string | null
+          joined_at: string
+          role: string
           space_id: string
           user_id: string
         }
         Insert: {
           id?: string
-          joined_at?: string | null
-          notifications_enabled?: boolean | null
-          role?: string | null
+          joined_at?: string
+          role?: string
           space_id: string
           user_id: string
         }
         Update: {
           id?: string
-          joined_at?: string | null
-          notifications_enabled?: boolean | null
-          role?: string | null
+          joined_at?: string
+          role?: string
           space_id?: string
           user_id?: string
         }
@@ -1068,32 +1126,32 @@ export type Database = {
         Row: {
           author_id: string
           content: string
-          created_at: string | null
+          created_at: string
           id: string
           likes_count: number | null
           parent_comment_id: string | null
           post_id: string
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           author_id: string
           content: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           likes_count?: number | null
           parent_comment_id?: string | null
           post_id: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           author_id?: string
           content?: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           likes_count?: number | null
           parent_comment_id?: string | null
           post_id?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -1114,34 +1172,24 @@ export type Database = {
       }
       space_post_likes: {
         Row: {
-          comment_id: string | null
-          created_at: string | null
+          created_at: string
           id: string
-          post_id: string | null
+          post_id: string
           user_id: string
         }
         Insert: {
-          comment_id?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: string
-          post_id?: string | null
+          post_id: string
           user_id: string
         }
         Update: {
-          comment_id?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: string
-          post_id?: string | null
+          post_id?: string
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "space_post_likes_comment_id_fkey"
-            columns: ["comment_id"]
-            isOneToOne: false
-            referencedRelation: "space_post_comments"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "space_post_likes_post_id_fkey"
             columns: ["post_id"]
@@ -1156,43 +1204,43 @@ export type Database = {
           author_id: string
           comments_count: number | null
           content: string
-          created_at: string | null
+          created_at: string
           id: string
           is_locked: boolean | null
           is_pinned: boolean | null
           likes_count: number | null
-          post_type: string | null
+          post_type: string
           space_id: string
           title: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           author_id: string
           comments_count?: number | null
           content: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
           likes_count?: number | null
-          post_type?: string | null
+          post_type?: string
           space_id: string
           title?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           author_id?: string
           comments_count?: number | null
           content?: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
           likes_count?: number | null
-          post_type?: string | null
+          post_type?: string
           space_id?: string
           title?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -1207,8 +1255,7 @@ export type Database = {
       spaces: {
         Row: {
           cover_image_url: string | null
-          created_at: string | null
-          created_by: string | null
+          created_at: string
           description: string | null
           icon_emoji: string | null
           id: string
@@ -1220,12 +1267,11 @@ export type Database = {
           slug: string
           sort_order: number | null
           space_type: string
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           cover_image_url?: string | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           description?: string | null
           icon_emoji?: string | null
           id?: string
@@ -1237,12 +1283,11 @@ export type Database = {
           slug: string
           sort_order?: number | null
           space_type?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           cover_image_url?: string | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           description?: string | null
           icon_emoji?: string | null
           id?: string
@@ -1254,41 +1299,9 @@ export type Database = {
           slug?: string
           sort_order?: number | null
           space_type?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
-      }
-      tool_votes: {
-        Row: {
-          created_at: string | null
-          id: string
-          tool_id: string | null
-          use_case: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          tool_id?: string | null
-          use_case: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          tool_id?: string | null
-          use_case?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tool_votes_tool_id_fkey"
-            columns: ["tool_id"]
-            isOneToOne: false
-            referencedRelation: "tools"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       tools: {
         Row: {
@@ -1300,10 +1313,15 @@ export type Database = {
           icon_emoji: string | null
           id: string
           is_featured: boolean | null
+          is_published: boolean | null
           name: string
           pricing: string | null
           pros: string[] | null
+          rating: number | null
+          slug: string
+          sort_order: number | null
           source: string | null
+          updated_at: string
           url: string | null
           use_cases: string[] | null
         }
@@ -1316,10 +1334,15 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_featured?: boolean | null
+          is_published?: boolean | null
           name: string
           pricing?: string | null
           pros?: string[] | null
+          rating?: number | null
+          slug: string
+          sort_order?: number | null
           source?: string | null
+          updated_at?: string
           url?: string | null
           use_cases?: string[] | null
         }
@@ -1332,10 +1355,15 @@ export type Database = {
           icon_emoji?: string | null
           id?: string
           is_featured?: boolean | null
+          is_published?: boolean | null
           name?: string
           pricing?: string | null
           pros?: string[] | null
+          rating?: number | null
+          slug?: string
+          sort_order?: number | null
           source?: string | null
+          updated_at?: string
           url?: string | null
           use_cases?: string[] | null
         }
@@ -1343,6 +1371,7 @@ export type Database = {
       }
       user_activity_resume: {
         Row: {
+          created_at: string
           id: string
           last_accessed_at: string
           resource_id: string
@@ -1352,6 +1381,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          created_at?: string
           id?: string
           last_accessed_at?: string
           resource_id: string
@@ -1361,6 +1391,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          created_at?: string
           id?: string
           last_accessed_at?: string
           resource_id?: string
@@ -1374,41 +1405,53 @@ export type Database = {
       user_automations: {
         Row: {
           category: string | null
-          created_at: string | null
-          frequency_per_week: number
+          created_at: string
+          frequency: string | null
+          frequency_per_week: number | null
           hourly_rate: number | null
           id: string
+          is_active: boolean | null
+          notes: string | null
           task_name: string
-          time_after_minutes: number
-          time_before_minutes: number
+          time_after_minutes: number | null
+          time_before_minutes: number | null
           tool_used: string | null
-          updated_at: string | null
+          tools_used: string[] | null
+          updated_at: string
           user_id: string
         }
         Insert: {
           category?: string | null
-          created_at?: string | null
-          frequency_per_week: number
+          created_at?: string
+          frequency?: string | null
+          frequency_per_week?: number | null
           hourly_rate?: number | null
           id?: string
+          is_active?: boolean | null
+          notes?: string | null
           task_name: string
-          time_after_minutes: number
-          time_before_minutes: number
+          time_after_minutes?: number | null
+          time_before_minutes?: number | null
           tool_used?: string | null
-          updated_at?: string | null
+          tools_used?: string[] | null
+          updated_at?: string
           user_id: string
         }
         Update: {
           category?: string | null
-          created_at?: string | null
-          frequency_per_week?: number
+          created_at?: string
+          frequency?: string | null
+          frequency_per_week?: number | null
           hourly_rate?: number | null
           id?: string
+          is_active?: boolean | null
+          notes?: string | null
           task_name?: string
-          time_after_minutes?: number
-          time_before_minutes?: number
+          time_after_minutes?: number | null
+          time_before_minutes?: number | null
           tool_used?: string | null
-          updated_at?: string | null
+          tools_used?: string[] | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -1469,24 +1512,30 @@ export type Database = {
           challenge_id: string
           completed_at: string | null
           created_at: string
-          current_count: number
+          current_count: number | null
           id: string
+          status: string | null
+          submission: string | null
           user_id: string
         }
         Insert: {
           challenge_id: string
           completed_at?: string | null
           created_at?: string
-          current_count?: number
+          current_count?: number | null
           id?: string
+          status?: string | null
+          submission?: string | null
           user_id: string
         }
         Update: {
           challenge_id?: string
           completed_at?: string | null
           created_at?: string
-          current_count?: number
+          current_count?: number | null
           id?: string
+          status?: string | null
+          submission?: string | null
           user_id?: string
         }
         Relationships: [
@@ -1499,33 +1548,9 @@ export type Database = {
           },
         ]
       }
-      user_favorites: {
-        Row: {
-          created_at: string
-          id: string
-          resource_id: string
-          resource_type: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          resource_id: string
-          resource_type: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          resource_id?: string
-          resource_type?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       user_notes: {
         Row: {
-          class_id: string
+          class_id: string | null
           content: string
           created_at: string
           id: string
@@ -1533,7 +1558,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          class_id: string
+          class_id?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -1541,7 +1566,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          class_id?: string
+          class_id?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -1560,26 +1585,23 @@ export type Database = {
       }
       user_points: {
         Row: {
-          created_at: string
           id: string
-          level: number
-          points: number
+          level: number | null
+          points: number | null
           updated_at: string
           user_id: string
         }
         Insert: {
-          created_at?: string
           id?: string
-          level?: number
-          points?: number
+          level?: number | null
+          points?: number | null
           updated_at?: string
           user_id: string
         }
         Update: {
-          created_at?: string
           id?: string
-          level?: number
-          points?: number
+          level?: number | null
+          points?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -1587,34 +1609,43 @@ export type Database = {
       }
       user_preferences: {
         Row: {
-          ambient_sound: string | null
           created_at: string
-          dashboard_layout: Json | null
           discovered_easter_eggs: string[] | null
           id: string
-          sound_enabled: boolean | null
+          keyboard_shortcuts: boolean | null
+          language: string | null
+          notifications_enabled: boolean | null
+          onboarding_completed: boolean | null
+          onboarding_step: number | null
+          preferences: Json | null
           theme: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
-          ambient_sound?: string | null
           created_at?: string
-          dashboard_layout?: Json | null
           discovered_easter_eggs?: string[] | null
           id?: string
-          sound_enabled?: boolean | null
+          keyboard_shortcuts?: boolean | null
+          language?: string | null
+          notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
+          onboarding_step?: number | null
+          preferences?: Json | null
           theme?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
-          ambient_sound?: string | null
           created_at?: string
-          dashboard_layout?: Json | null
           discovered_easter_eggs?: string[] | null
           id?: string
-          sound_enabled?: boolean | null
+          keyboard_shortcuts?: boolean | null
+          language?: string | null
+          notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
+          onboarding_step?: number | null
+          preferences?: Json | null
           theme?: string | null
           updated_at?: string
           user_id?: string
@@ -1623,37 +1654,48 @@ export type Database = {
       }
       user_progress: {
         Row: {
-          class_id: string
+          class_id: string | null
           completed_at: string
           id: string
           user_id: string
         }
         Insert: {
-          class_id: string
+          class_id?: string | null
           completed_at?: string
           id?: string
           user_id: string
         }
         Update: {
-          class_id?: string
+          class_id?: string | null
           completed_at?: string
           id?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
+          created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
+          created_at?: string
           id?: string
-          role?: Database["public"]["Enums"]["app_role"]
+          role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
+          created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
@@ -1692,34 +1734,40 @@ export type Database = {
       user_streaks: {
         Row: {
           created_at: string
-          current_streak: number
+          current_streak: number | null
           id: string
-          last_activity_date: string
-          longest_streak: number
-          multiplier: number
-          streak_freezes: number
+          last_activity_at: string | null
+          last_activity_date: string | null
+          longest_streak: number | null
+          multiplier: number | null
+          streak_freezes: number | null
+          total_days: number | null
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
-          current_streak?: number
+          current_streak?: number | null
           id?: string
-          last_activity_date?: string
-          longest_streak?: number
-          multiplier?: number
-          streak_freezes?: number
+          last_activity_at?: string | null
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          multiplier?: number | null
+          streak_freezes?: number | null
+          total_days?: number | null
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
-          current_streak?: number
+          current_streak?: number | null
           id?: string
-          last_activity_date?: string
-          longest_streak?: number
-          multiplier?: number
-          streak_freezes?: number
+          last_activity_at?: string | null
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          multiplier?: number | null
+          streak_freezes?: number | null
+          total_days?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -1727,33 +1775,33 @@ export type Database = {
       }
       user_tool_logs: {
         Row: {
-          first_tried_at: string | null
+          first_tried_at: string
           id: string
           notes: string | null
           rating: number | null
           status: string
-          tool_id: string | null
-          updated_at: string | null
+          tool_id: string
+          updated_at: string
           user_id: string
         }
         Insert: {
-          first_tried_at?: string | null
-          id?: string
-          notes?: string | null
-          rating?: number | null
-          status: string
-          tool_id?: string | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          first_tried_at?: string | null
+          first_tried_at?: string
           id?: string
           notes?: string | null
           rating?: number | null
           status?: string
-          tool_id?: string | null
-          updated_at?: string | null
+          tool_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          first_tried_at?: string
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          status?: string
+          tool_id?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
@@ -1772,7 +1820,7 @@ export type Database = {
           completed_steps: number[] | null
           id: string
           notes: string | null
-          started_at: string | null
+          started_at: string
           user_id: string
           workflow_id: string
         }
@@ -1781,7 +1829,7 @@ export type Database = {
           completed_steps?: number[] | null
           id?: string
           notes?: string | null
-          started_at?: string | null
+          started_at?: string
           user_id: string
           workflow_id: string
         }
@@ -1790,7 +1838,7 @@ export type Database = {
           completed_steps?: number[] | null
           id?: string
           notes?: string | null
-          started_at?: string | null
+          started_at?: string
           user_id?: string
           workflow_id?: string
         }
@@ -1807,83 +1855,110 @@ export type Database = {
       weekly_challenges: {
         Row: {
           badge_reward: string | null
-          challenge_type: string
+          challenge: string
+          challenge_type: string | null
           created_at: string
           description: string | null
-          end_date: string
+          end_date: string | null
           icon_emoji: string | null
           id: string
           is_active: boolean | null
-          points_reward: number
-          start_date: string
-          target_count: number
+          points_reward: number | null
+          start_date: string | null
+          target_count: number | null
           title: string
+          week_number: number | null
+          xp_reward: number | null
+          year: number | null
         }
         Insert: {
           badge_reward?: string | null
-          challenge_type: string
+          challenge: string
+          challenge_type?: string | null
           created_at?: string
           description?: string | null
-          end_date: string
+          end_date?: string | null
           icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
-          points_reward?: number
-          start_date: string
-          target_count?: number
+          points_reward?: number | null
+          start_date?: string | null
+          target_count?: number | null
           title: string
+          week_number?: number | null
+          xp_reward?: number | null
+          year?: number | null
         }
         Update: {
           badge_reward?: string | null
-          challenge_type?: string
+          challenge?: string
+          challenge_type?: string | null
           created_at?: string
           description?: string | null
-          end_date?: string
+          end_date?: string | null
           icon_emoji?: string | null
           id?: string
           is_active?: boolean | null
-          points_reward?: number
-          start_date?: string
-          target_count?: number
+          points_reward?: number | null
+          start_date?: string | null
+          target_count?: number | null
           title?: string
+          week_number?: number | null
+          xp_reward?: number | null
+          year?: number | null
         }
         Relationships: []
       }
       workflow_executions: {
         Row: {
-          ai_response: string
-          created_at: string | null
+          ai_response: string | null
+          completed_at: string | null
+          created_at: string
           execution_time_ms: number | null
           id: string
-          model_used: string
-          prompt_used: string
-          step_number: number
+          logs: Json | null
+          model_used: string | null
+          prompt_used: string | null
+          result: Json | null
+          started_at: string
+          status: string | null
+          step_number: number | null
           tokens_used: number | null
           user_id: string
           variables: Json | null
           workflow_id: string
         }
         Insert: {
-          ai_response: string
-          created_at?: string | null
+          ai_response?: string | null
+          completed_at?: string | null
+          created_at?: string
           execution_time_ms?: number | null
           id?: string
-          model_used?: string
-          prompt_used: string
-          step_number: number
+          logs?: Json | null
+          model_used?: string | null
+          prompt_used?: string | null
+          result?: Json | null
+          started_at?: string
+          status?: string | null
+          step_number?: number | null
           tokens_used?: number | null
           user_id: string
           variables?: Json | null
           workflow_id: string
         }
         Update: {
-          ai_response?: string
-          created_at?: string | null
+          ai_response?: string | null
+          completed_at?: string | null
+          created_at?: string
           execution_time_ms?: number | null
           id?: string
-          model_used?: string
-          prompt_used?: string
-          step_number?: number
+          logs?: Json | null
+          model_used?: string | null
+          prompt_used?: string | null
+          result?: Json | null
+          started_at?: string
+          status?: string | null
+          step_number?: number | null
           tokens_used?: number | null
           user_id?: string
           variables?: Json | null
@@ -1894,14 +1969,61 @@ export type Database = {
             foreignKeyName: "workflow_executions_workflow_id_fkey"
             columns: ["workflow_id"]
             isOneToOne: false
-            referencedRelation: "automation_workflows"
+            referencedRelation: "workflows"
             referencedColumns: ["id"]
           },
         ]
       }
+      workflows: {
+        Row: {
+          created_at: string
+          definition: Json | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          last_run_at: string | null
+          name: string
+          run_count: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          definition?: Json | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          name: string
+          run_count?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          definition?: Json | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          name?: string
+          run_count?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       add_user_points: {
@@ -1918,20 +2040,17 @@ export type Database = {
         Args: { _badge_type: string; _user_id: string }
         Returns: boolean
       }
-      calculate_user_roi: { Args: { _user_id: string }; Returns: Json }
-      check_invitation_status: {
-        Args: { check_email: string }
-        Returns: boolean
-      }
-      create_notification: {
-        Args: {
-          _link?: string
-          _message?: string
-          _title: string
-          _type: string
-          _user_id: string
-        }
-        Returns: string
+      calculate_user_roi: {
+        Args: { p_user_id: string }
+        Returns: {
+          monthly_minutes_saved: number
+          monthly_value_saved: number
+          total_automations: number
+          weekly_minutes_saved: number
+          weekly_value_saved: number
+          yearly_minutes_saved: number
+          yearly_value_saved: number
+        }[]
       }
       has_role: {
         Args: {
@@ -1942,35 +2061,33 @@ export type Database = {
       }
       increment_challenge_progress: {
         Args: { _challenge_type: string; _user_id: string }
-        Returns: Json
+        Returns: {
+          challenge_id: string
+          completed: boolean
+          current: number
+          target: number
+          title: string
+        }[]
       }
       increment_prompt_copy: {
         Args: { _prompt_id: string }
         Returns: undefined
       }
-      is_chat_channel_member: {
-        Args: { _channel_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_email_allowed: { Args: { check_email: string }; Returns: boolean }
-      submit_access_request: {
-        Args: { req_email: string; req_full_name: string; req_message?: string }
-        Returns: Json
-      }
+      is_email_allowed: { Args: { _email: string }; Returns: boolean }
       track_activity: {
         Args: {
-          _resource_id: string
-          _resource_meta?: Json
-          _resource_title: string
-          _resource_type: string
-          _user_id: string
+          p_resource_id: string
+          p_resource_meta?: Json
+          p_resource_title?: string
+          p_resource_type: string
+          p_user_id: string
         }
         Returns: undefined
       }
       update_user_streak: { Args: { _user_id: string }; Returns: Json }
     }
     Enums: {
-      app_role: "admin" | "participant"
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2098,7 +2215,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "participant"],
+      app_role: ["admin", "moderator", "user"],
     },
   },
 } as const

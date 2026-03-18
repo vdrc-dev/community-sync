@@ -52,12 +52,12 @@ export function useActivityResume() {
     }) => {
       if (!user?.id) return;
       
-      await supabase.rpc('track_activity', {
-        _user_id: user.id,
-        _resource_type: resourceType,
-        _resource_id: resourceId,
-        _resource_title: resourceTitle,
-        _resource_meta: (resourceMeta || {}) as unknown as Record<string, never>,
+      await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<unknown>)('track_activity', {
+        p_user_id: user.id,
+        p_resource_type: resourceType,
+        p_resource_id: resourceId,
+        p_resource_title: resourceTitle,
+        p_resource_meta: (resourceMeta || {}) as unknown,
       });
     },
     onSuccess: () => {

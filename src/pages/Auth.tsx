@@ -66,7 +66,7 @@ export default function Auth() {
     }
     setEmailStatus('checking');
     emailCheckTimer.current = setTimeout(async () => {
-      const { data } = await supabase.rpc('is_email_allowed', { check_email: emailVal });
+      const { data } = await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown }>)('is_email_allowed', { check_email: emailVal });
       setEmailStatus(data ? 'allowed' : 'denied');
     }, 400);
   }, []);
@@ -86,7 +86,7 @@ export default function Auth() {
   const isForgotValid = emailSchema.safeParse(email).success;
 
   const checkEmailAllowed = async (emailToCheck: string): Promise<boolean> => {
-    const { data, error } = await supabase.rpc('is_email_allowed', { check_email: emailToCheck });
+    const { data, error } = await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>)('is_email_allowed', { check_email: emailToCheck });
     if (error) {
       console.error('Error checking email whitelist:', error);
       return false;
