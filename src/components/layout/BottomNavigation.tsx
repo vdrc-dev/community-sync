@@ -202,4 +202,5 @@ export const BottomNavigation = React.forwardRef<HTMLElement>((_, ref) => {
       </div>
     </nav>
   );
-}
+});
+BottomNavigation.displayName = 'BottomNavigation';
