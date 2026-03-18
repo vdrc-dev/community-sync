@@ -652,24 +652,39 @@ export type Database = {
         Row: {
           color: string | null
           content: string
+          context_id: string | null
+          context_type: string | null
+          context_url: string | null
           created_at: string
           id: string
+          is_processed: boolean | null
+          tags: string[] | null
           updated_at: string
           user_id: string
         }
         Insert: {
           color?: string | null
           content: string
+          context_id?: string | null
+          context_type?: string | null
+          context_url?: string | null
           created_at?: string
           id?: string
+          is_processed?: boolean | null
+          tags?: string[] | null
           updated_at?: string
           user_id: string
         }
         Update: {
           color?: string | null
           content?: string
+          context_id?: string | null
+          context_type?: string | null
+          context_url?: string | null
           created_at?: string
           id?: string
+          is_processed?: boolean | null
+          tags?: string[] | null
           updated_at?: string
           user_id?: string
         }
@@ -874,6 +889,83 @@ export type Database = {
             columns: ["space_id"]
             isOneToOne: false
             referencedRelation: "spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      space_post_comments: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          id: string
+          likes_count: number | null
+          parent_comment_id: string | null
+          post_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          parent_comment_id?: string | null
+          post_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_post_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "space_post_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "space_post_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "space_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      space_post_likes: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "space_post_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "space_posts"
             referencedColumns: ["id"]
           },
         ]
@@ -1413,7 +1505,10 @@ export type Database = {
           current_streak: number | null
           id: string
           last_activity_at: string | null
+          last_activity_date: string | null
           longest_streak: number | null
+          multiplier: number | null
+          streak_freezes: number | null
           total_days: number | null
           updated_at: string
           user_id: string
@@ -1423,7 +1518,10 @@ export type Database = {
           current_streak?: number | null
           id?: string
           last_activity_at?: string | null
+          last_activity_date?: string | null
           longest_streak?: number | null
+          multiplier?: number | null
+          streak_freezes?: number | null
           total_days?: number | null
           updated_at?: string
           user_id: string
@@ -1433,12 +1531,56 @@ export type Database = {
           current_streak?: number | null
           id?: string
           last_activity_at?: string | null
+          last_activity_date?: string | null
           longest_streak?: number | null
+          multiplier?: number | null
+          streak_freezes?: number | null
           total_days?: number | null
           updated_at?: string
           user_id?: string
         }
         Relationships: []
+      }
+      user_tool_logs: {
+        Row: {
+          first_tried_at: string
+          id: string
+          notes: string | null
+          rating: number | null
+          status: string
+          tool_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          first_tried_at?: string
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          status?: string
+          tool_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          first_tried_at?: string
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          status?: string
+          tool_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_tool_logs_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       weekly_challenges: {
         Row: {
@@ -1499,33 +1641,57 @@ export type Database = {
       }
       workflow_executions: {
         Row: {
+          ai_response: string | null
           completed_at: string | null
+          created_at: string
+          execution_time_ms: number | null
           id: string
           logs: Json | null
+          model_used: string | null
+          prompt_used: string | null
           result: Json | null
           started_at: string
           status: string | null
+          step_number: number | null
+          tokens_used: number | null
           user_id: string
+          variables: Json | null
           workflow_id: string
         }
         Insert: {
+          ai_response?: string | null
           completed_at?: string | null
+          created_at?: string
+          execution_time_ms?: number | null
           id?: string
           logs?: Json | null
+          model_used?: string | null
+          prompt_used?: string | null
           result?: Json | null
           started_at?: string
           status?: string | null
+          step_number?: number | null
+          tokens_used?: number | null
           user_id: string
+          variables?: Json | null
           workflow_id: string
         }
         Update: {
+          ai_response?: string | null
           completed_at?: string | null
+          created_at?: string
+          execution_time_ms?: number | null
           id?: string
           logs?: Json | null
+          model_used?: string | null
+          prompt_used?: string | null
           result?: Json | null
           started_at?: string
           status?: string | null
+          step_number?: number | null
+          tokens_used?: number | null
           user_id?: string
+          variables?: Json | null
           workflow_id?: string
         }
         Relationships: [
@@ -1647,6 +1813,7 @@ export type Database = {
         }
         Returns: undefined
       }
+      update_user_streak: { Args: { _user_id: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
