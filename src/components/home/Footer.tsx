@@ -33,7 +33,7 @@ export const Footer = React.forwardRef<HTMLElement>((_, ref) => {
   };
 
   return (
-    <footer className="relative overflow-hidden">
+    <footer ref={ref} className="relative overflow-hidden">
       {/* Top holographic border */}
       <div className="absolute top-0 left-0 right-0 h-px"
         style={{ background: 'linear-gradient(90deg, transparent, hsl(152 70% 55% / 0.2), hsl(263 60% 55% / 0.15), hsl(340 60% 55% / 0.12), hsl(45 80% 55% / 0.08), transparent)' }}
