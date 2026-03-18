@@ -25,7 +25,9 @@ const footerLinks = {
 
 const COLUMN_HUES = [160, 263, 340];
 
-export function Footer() {
+import React from 'react';
+
+export const Footer = React.forwardRef<HTMLElement>((_, ref) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
