@@ -182,6 +182,7 @@ export type Database = {
         Row: {
           author_id: string
           channel_id: string
+          channel_id_ref: string | null
           content: string
           created_at: string
           id: string
@@ -197,6 +198,7 @@ export type Database = {
         Insert: {
           author_id: string
           channel_id: string
+          channel_id_ref?: string | null
           content: string
           created_at?: string
           id?: string
@@ -212,6 +214,7 @@ export type Database = {
         Update: {
           author_id?: string
           channel_id?: string
+          channel_id_ref?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -340,6 +343,38 @@ export type Database = {
             columns: ["generation_id"]
             isOneToOne: false
             referencedRelation: "generations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generation_weeks: {
+        Row: {
+          generation_id: number
+          id: string
+          name: string | null
+          stack: string[] | null
+          week: number
+        }
+        Insert: {
+          generation_id: number
+          id?: string
+          name?: string | null
+          stack?: string[] | null
+          week: number
+        }
+        Update: {
+          generation_id?: number
+          id?: string
+          name?: string | null
+          stack?: string[] | null
+          week?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generation_weeks_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "slide_generations"
             referencedColumns: ["id"]
           },
         ]
@@ -625,6 +660,129 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      sections: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      slide_generations: {
+        Row: {
+          created_at: string
+          date: string | null
+          generation_number: number
+          id: number
+          instructor: string | null
+          is_active: boolean | null
+          module: string | null
+          name: string
+          stack: string[] | null
+          total_weeks: number | null
+          week: number | null
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          generation_number: number
+          id?: number
+          instructor?: string | null
+          is_active?: boolean | null
+          module?: string | null
+          name: string
+          stack?: string[] | null
+          total_weeks?: number | null
+          week?: number | null
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          generation_number?: number
+          id?: number
+          instructor?: string | null
+          is_active?: boolean | null
+          module?: string | null
+          name?: string
+          stack?: string[] | null
+          total_weeks?: number | null
+          week?: number | null
+        }
+        Relationships: []
+      }
+      slides: {
+        Row: {
+          component_name: string
+          content: Json | null
+          created_at: string
+          generation_id: number
+          id: string
+          section_id: string | null
+          section_number: number | null
+          slide_number: number
+          storyline: string | null
+          title: string | null
+          updated_at: string
+          week: number | null
+        }
+        Insert: {
+          component_name: string
+          content?: Json | null
+          created_at?: string
+          generation_id: number
+          id?: string
+          section_id?: string | null
+          section_number?: number | null
+          slide_number: number
+          storyline?: string | null
+          title?: string | null
+          updated_at?: string
+          week?: number | null
+        }
+        Update: {
+          component_name?: string
+          content?: Json | null
+          created_at?: string
+          generation_id?: number
+          id?: string
+          section_id?: string | null
+          section_number?: number | null
+          slide_number?: number
+          storyline?: string | null
+          title?: string | null
+          updated_at?: string
+          week?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slides_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "slide_generations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "slides_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       space_comments: {
         Row: {
@@ -960,6 +1118,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_badges: {
+        Row: {
+          badge_type: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_type: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_type?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_bookmarks: {
         Row: {
           created_at: string
@@ -1030,6 +1209,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_points: {
+        Row: {
+          id: string
+          level: number | null
+          points: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          level?: number | null
+          points?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          level?: number | null
+          points?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_preferences: {
         Row: {
@@ -1280,6 +1483,20 @@ export type Database = {
       }
     }
     Functions: {
+      add_user_points: {
+        Args: {
+          _action: string
+          _points: number
+          _resource_id?: string
+          _resource_type?: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      award_badge: {
+        Args: { _badge_type: string; _user_id: string }
+        Returns: boolean
+      }
       calculate_user_roi: {
         Args: { p_user_id: string }
         Returns: {
