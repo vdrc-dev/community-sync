@@ -40,9 +40,9 @@ export default function CalendarPage() {
         `)
         .order('event_date', { ascending: true });
       
-      // If not logged in, only show public events
+      // If not logged in, only show published events
       if (!user) {
-        query = query.eq('is_public', true);
+        query = query.eq('is_published', true);
       }
       
       const { data, error } = await query;

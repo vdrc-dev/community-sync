@@ -180,10 +180,18 @@ export function usePrompts(category?: string, toolId?: string) {
     }) => {
       if (!user?.id) throw new Error('Not authenticated');
       
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from('prompt_library')
         .insert({
-          ...data,
+          prompt: data.prompt_text || data.title,
+          title: data.title,
+          prompt_text: data.prompt_text,
+          description: data.description,
+          tool_id: data.tool_id,
+          category: data.category,
+          tags: data.tags,
+          user_id: user.id,
           created_by: user.id,
           is_public: data.is_public ?? false,
         });
