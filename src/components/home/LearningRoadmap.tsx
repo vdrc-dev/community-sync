@@ -76,7 +76,7 @@ export function LearningRoadmap() {
             Tu camino hacia la <span className="text-gradient-live">productividad digital</span>
           </h2>
           <p className="text-muted-foreground/60 max-w-2xl text-base sm:text-lg mt-3 font-light">
-            4 módulos progresivos — cada uno construye sobre el anterior
+            4 módulos progresivos — cada uno construye sobre el anterior. Currículo V3 (desde Gen 007), actualizado cada generación.
           </p>
           <div className="mt-8 max-w-xs">
             <div className="separator-diamond"><span /></div>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Globe, Users, BookOpen, Zap } from 'lucide-react';
+import { ExternalLink, Globe, Users, BookOpen, Zap, FolderOpen, Building2 } from 'lucide-react';
 
 const ecosystemNodes = [
   {
@@ -17,24 +17,35 @@ const ecosystemNodes = [
     id: 'community',
     label: 'Comunidad',
     title: 'Portal Comunidad',
-    description: '19 workflows interactivos, +35 herramientas, diccionario digital, guias de personalizacion e instalacion, y recursos de las 11 generaciones.',
+    description: '19 workflows interactivos, +35 herramientas, diccionario digital, guías de personalización e instalación, y recursos de las 11 generaciones.',
     href: '/',
     icon: Users,
     hue: 174,
     serifAnchor: 'C',
-    badges: ['19 Workflows', '+35 Herramientas', 'Guias'],
+    badges: ['19 Workflows', '+35 Herramientas', 'Guías'],
     isCurrent: true,
   },
   {
     id: 'talleres',
     label: 'Talleres',
-    title: 'Sitio de Talleres',
-    description: 'Inscripciones, programa detallado de los 4 módulos, preguntas frecuentes y testimonios de participantes de las 11 generaciones.',
+    title: 'Talleres & Cursos',
+    description: '11 generaciones abiertas + 5 programas In-Company (BTG Pactual, Epysa, Manuia, Grupo Amoble, SCM). Programa detallado, FAQ y testimonios.',
     href: 'https://vdrc.cl/talleres',
     icon: BookOpen,
     hue: 263,
     serifAnchor: 'T',
-    badges: ['Inscripciones', 'Programa', 'Gen 11'],
+    badges: ['Gen 11', 'In-Company', '5 Empresas'],
+  },
+  {
+    id: 'materials',
+    label: 'Materiales',
+    title: 'Repositorio de Materiales',
+    description: 'Presentaciones base, slides por generación, guías de instalación, y recursos de cada sesión. Acceso directo al Google Drive del programa.',
+    href: 'https://drive.google.com/drive/folders/1f9E7O0O6y6oFiX7YTUYnyz6z9QTbV3VD?usp=sharing',
+    icon: FolderOpen,
+    hue: 45,
+    serifAnchor: 'M',
+    badges: ['11 Generaciones', 'Slides', 'PDFs'],
   },
 ];
 
@@ -81,7 +92,7 @@ export function EcosystemSection() {
             <span className="text-gradient-live">conectado</span>
           </h2>
           <p className="text-muted-foreground/60 max-w-2xl text-base sm:text-lg mt-3 font-light">
-            Dos plataformas sincronizadas — el sitio principal para inscripciones y este portal para aprender, practicar y conectar
+            Cuatro plataformas sincronizadas — inscripciones, comunidad, talleres corporativos y materiales de las 11 generaciones
           </p>
           <div className="mt-6 max-w-xs">
             <div className="separator-diamond"><span /></div>
@@ -89,7 +100,7 @@ export function EcosystemSection() {
         </motion.div>
 
         {/* Ecosystem Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-0 items-stretch max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 items-stretch max-w-6xl mx-auto">
           {ecosystemNodes.map((node, index) => (
             <>
               <motion.a
@@ -195,9 +206,7 @@ export function EcosystemSection() {
                 </div>
               </motion.a>
 
-              {index < ecosystemNodes.length - 1 && (
-                <ConnectionLine key={`line-${index}`} hue1={ecosystemNodes[index].hue} hue2={ecosystemNodes[index + 1].hue} />
-              )}
+              {/* Connection lines removed for 4-column grid layout */}
             </>
           ))}
         </div>

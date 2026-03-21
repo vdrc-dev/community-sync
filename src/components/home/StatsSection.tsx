@@ -62,12 +62,14 @@ export function StatsSection() {
   const dynamic = useDynamicStats();
 
   const stats = [
-    { numericValue: 11, suffix: '', label: 'Generaciones', icon: Award, description: 'Desde abril 2025 — Gen 001 a Gen 011', hue: 160 },
+    { numericValue: 11, suffix: '', label: 'Generaciones', icon: Award, description: 'Desde abril 2025 — Gen 001 a Gen 011, una cada mes', hue: 160 },
     { numericValue: 44, suffix: '+', label: 'Clases', icon: BookOpen, description: '4 sesiones por generacion con grabacion y transcripcion', hue: 263 },
     { numericValue: dynamic.tools, suffix: '+', label: 'Herramientas', icon: Wrench, description: 'ChatGPT, Claude, Cursor, Lovable, Supabase, Gamma y mas', hue: 200 },
     { numericValue: dynamic.workflows, suffix: '+', label: 'Workflows', icon: Workflow, description: 'PRD, CROP, chunking, metaprompts, vibe coding', hue: 45 },
-    { numericValue: 150, suffix: '+', label: 'Participantes', icon: Users, description: 'Retail, inmobiliario, finanzas, energia, cannabis, educacion', hue: 340 },
-    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: '300 paginas en 20, 7 planillas en 0 — caso real', hue: 120 },
+    { numericValue: 150, suffix: '+', label: 'Participantes', icon: Users, description: 'Retail, inmobiliario, finanzas, energia, educacion, enologia', hue: 340 },
+    { numericValue: 5, suffix: '', label: 'In-Company', icon: Rocket, description: 'BTG Pactual, Epysa, Manuia, Grupo Amoble, SCM', hue: 174 },
+    { numericValue: 3, suffix: '', label: 'Versiones', icon: TrendingUp, description: 'V1 Airtable → V2 IA avanzada → V3 Vibe Coding', hue: 120 },
+    { numericValue: 5000, suffix: '+', label: 'Horas Ahorradas', icon: TrendingUp, description: '300 paginas en 20, 7 planillas en 0 — caso real', hue: 50 },
   ];
 
   return (
@@ -98,7 +100,7 @@ export function StatsSection() {
         </motion.div>
 
         {/* Stats grid — dramatic cinematic editorial cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-5 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-5 max-w-6xl mx-auto">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

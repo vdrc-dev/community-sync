@@ -9,16 +9,20 @@ const footerLinks = {
     { label: 'Workflows', href: '/workflows' },
     { label: 'Diccionario Digital', href: '/dictionary' },
     { label: 'Lab IA', href: '/playground' },
+    { label: 'Prompts', href: '/prompts' },
   ],
   guias: [
     { label: 'Personalizacion IA', href: '/personalizacion-ia' },
     { label: 'Guia de Instalacion', href: '/guia-instalacion' },
     { label: 'Comunidad', href: '/community' },
     { label: 'Calendario', href: '/calendar' },
+    { label: 'Calculadora ROI', href: '/roi-calculator' },
   ],
   ecosistema: [
     { label: 'vdrc.cl', href: 'https://vdrc.cl', external: true },
     { label: 'Gen 11 — Inscribete', href: 'https://vdrc.cl/talleres', external: true },
+    { label: 'In-Company', href: 'mailto:contacto@vdrc.cl?subject=Consulta%20In-Company', external: true },
+    { label: 'Materiales (Drive)', href: 'https://drive.google.com/drive/folders/1f9E7O0O6y6oFiX7YTUYnyz6z9QTbV3VD?usp=sharing', external: true },
     { label: 'Contacto', href: 'mailto:contacto@vdrc.cl', external: true },
   ],
 };
@@ -62,7 +66,7 @@ export const Footer = React.forwardRef<HTMLElement>((_, ref) => {
             </Link>
 
             <p className="text-muted-foreground/50 text-sm leading-relaxed max-w-sm font-light">
-              11 generaciones. +150 participantes. Tu hub para dominar la productividad digital con IA.
+              11 generaciones. 5 programas In-Company. +150 profesionales. Tu hub para dominar la productividad digital con IA.
             </p>
 
             <div className="flex items-center gap-3 pt-2">

@@ -3,18 +3,20 @@ import { motion } from 'framer-motion';
 import {
   BookOpen, Calendar, Wrench, ChevronRight, Workflow,
   Sparkles, MessageSquare, Library,
-  Layers, Download
+  Layers, Download, Building2, Calculator
 } from 'lucide-react';
 
 const features = [
   { icon: Workflow, title: 'Workflows Interactivos', description: '19 guias paso a paso con prompts listos para ejecutar. CROP, metaprompting, Inbox Zero, PRD, vibe coding — flujos probados en vivo con casos reales.', href: '/workflows', featured: true, hue: 160 },
   { icon: MessageSquare, title: 'Comunidad Activa', description: 'Arquitectos, enologos, retail, family offices, pasteleros, fundaciones educativas, consultoras de energia — 150+ profesionales de 20+ industrias aprendiendo juntos.', href: '/community', hue: 200 },
-  { icon: BookOpen, title: 'Clases por Generacion', description: 'Grabaciones, slides y transcripciones de +44 sesiones. Cada generacion es distinta — el contenido se actualiza cada semana.', href: '/generations', hue: 263 },
+  { icon: BookOpen, title: 'Clases por Generacion', description: 'Grabaciones, slides y transcripciones de +44 sesiones. Cada generacion es distinta — el contenido se actualiza cada semana. 3 versiones del curriculo.', href: '/generations', hue: 263 },
   { icon: Wrench, title: 'Stack de +35 Herramientas', description: 'ChatGPT para estrategia, Claude para Excel, Perplexity reemplazando Google, Cursor como profesor particular, Gamma para slides.', href: '/tools', hue: 45 },
   { icon: Library, title: 'Diccionario Digital', description: '73+ terminos y conceptos explicados. Desde CROP hasta MCP, de Vibe Coding a RAG — todo el vocabulario del taller en un glosario vivo.', href: '/dictionary', hue: 195 },
   { icon: Layers, title: 'Personalizacion IA', description: 'Las 5 capas para convertir ChatGPT en un asistente que te conoce: Custom Instructions, Memory, Projects, GPTs y API.', href: '/personalizacion-ia', hue: 340 },
   { icon: Download, title: 'Guia de Instalacion', description: '18 herramientas con instrucciones paso a paso: GitHub, Supabase, Lovable, Vercel, ChatGPT, Claude, Cursor, Gamma y mas.', href: '/guia-instalacion', hue: 280 },
+  { icon: Calculator, title: 'Calculadora ROI', description: 'Mide cuanto tiempo y dinero ahorras con IA. Registra tus automatizaciones y visualiza el impacto real en tu productividad.', href: '/roi-calculator', hue: 120 },
   { icon: Calendar, title: 'Calendario de Sesiones', description: 'Gen 11 arranca el 3 de marzo 2026. Cada martes a las 19h Chile. Inscripciones abiertas.', href: '/calendar', hue: 185 },
+  { icon: Building2, title: 'Talleres In-Company', description: 'Programas corporativos a medida para empresas. BTG Pactual, Epysa, Manuia, Grupo Amoble y SCM ya confiaron en VDRC.', href: 'mailto:contacto@vdrc.cl?subject=Consulta%20In-Company', hue: 174 },
 ];
 
 export function FeaturesGrid() {
@@ -38,7 +40,7 @@ export function FeaturesGrid() {
             <span className="text-gradient-live">dominar la IA</span>
           </h2>
           <p className="text-muted-foreground/70 max-w-2xl text-base sm:text-lg mt-3 sm:mt-4 font-light leading-relaxed">
-            Desde la higiene digital hasta crear ERPs con IA — un ecosistema forjado en 11 generaciones de casos reales
+            Desde la higiene digital hasta crear ERPs con IA — un ecosistema forjado en 11 generaciones, 5 programas corporativos y 3 versiones del currículo
           </p>
           {/* Accent line with diamond */}
           <div className="mt-8 max-w-xs">
@@ -47,7 +49,7 @@ export function FeaturesGrid() {
         </motion.div>
 
         {/* Bento grid — asymmetric, cinematic */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 max-w-7xl mx-auto auto-rows-fr">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-5 max-w-7xl mx-auto auto-rows-fr">
           {features.map((feature, index) => {
             const isLarge = feature.featured;
             const isAccent = index === 3 || index === 5;

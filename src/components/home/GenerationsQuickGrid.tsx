@@ -14,7 +14,7 @@ export function GenerationsQuickGrid() {
         .from('generations')
         .select('id, code, name, start_date, is_active')
         .order('code', { ascending: false })
-        .limit(10);
+        .limit(11);
       if (error) throw error;
       return data;
     },
@@ -38,14 +38,14 @@ export function GenerationsQuickGrid() {
         >
           <div>
             <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-primary/50">
-              /// 10_GENERACIONES
+              /// 11_GENERACIONES
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display tracking-tight mt-3">
               Cada generación,{' '}
               <span className="text-gradient-live">una comunidad</span>
             </h2>
             <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 font-light">
-              +150 profesionales en 11 generaciones. Explora los recursos, presentaciones y compañeros de cada una.
+              +150 profesionales en 11 generaciones desde abril 2025. Explora los recursos, presentaciones y compañeros de cada una.
             </p>
             <div className="mt-6 max-w-xs">
               <div className="separator-diamond"><span /></div>

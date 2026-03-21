@@ -78,7 +78,7 @@ export function TestimonialsSection() {
             Frases que <span className="text-gradient-live">cambian cabezas</span>
           </h2>
           <p className="text-muted-foreground/60 max-w-xl text-base sm:text-lg mt-3 sm:mt-4 font-light leading-relaxed">
-            Extractos reales de sesiones con generaciones 8, 9 y 10 — sin filtro, directo del taller
+            Extractos reales de sesiones con generaciones 2 a 11 — sin filtro, directo del taller. Ingenieros, enólogos, arquitectos, consultores y más.
           </p>
           <div className="mt-8 max-w-xs">
             <div className="separator-diamond"><span /></div>

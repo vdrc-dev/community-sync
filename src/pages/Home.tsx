@@ -19,6 +19,9 @@ import { Gen11Banner } from '@/components/home/Gen11Banner';
 import { GenerationsQuickGrid } from '@/components/home/GenerationsQuickGrid';
 import { CommunityPreview } from '@/components/home/CommunityPreview';
 import { LearningRoadmap } from '@/components/home/LearningRoadmap';
+import { InCompanySection } from '@/components/home/InCompanySection';
+import { CurriculumEvolution } from '@/components/home/CurriculumEvolution';
+import { VibeCodingFreeClass } from '@/components/home/VibeCodingFreeClass';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Wrench, Workflow, BookOpen, Sparkles, Library, Users, ArrowRight, Lightbulb, GraduationCap, Target, Zap, Layers, Download } from 'lucide-react';
@@ -195,6 +198,11 @@ export default function Home() {
 
       <div className="divider-epic mx-auto max-w-5xl" />
 
+      {/* ━━━ EVOLUCIÓN CURRICULAR ━━━ V1 → V2 → V3 */}
+      <CurriculumEvolution />
+
+      <div className="divider-epic mx-auto max-w-5xl" />
+
       {/* ━━━ FEATURES ━━━ Qué ofrece la plataforma */}
       <FeaturesGrid />
 
@@ -208,6 +216,14 @@ export default function Home() {
 
       {/* ━━━ STATS ━━━ Impacto en números */}
       <StatsSection />
+
+      <div className="divider-epic mx-auto max-w-5xl" />
+
+      {/* ━━━ IN-COMPANY ━━━ Talleres corporativos */}
+      <InCompanySection />
+
+      {/* ━━━ CLASE GRATUITA ━━━ Vibe Coding */}
+      <VibeCodingFreeClass />
 
       <div className="divider-epic mx-auto max-w-5xl" />
 
