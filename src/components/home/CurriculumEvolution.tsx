@@ -134,7 +134,7 @@ export function CurriculumEvolution() {
                       >
                         {v.version}
                       </span>
-                      {v.isCurrent && (
+                      {'isCurrent' in v && v.isCurrent && (
                         <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono"
                           style={{ background: `hsl(${v.hue} 70% 55% / 0.1)`, border: `1px solid hsl(${v.hue} 70% 55% / 0.3)`, color: `hsl(${v.hue} 70% 55%)` }}
                         >
